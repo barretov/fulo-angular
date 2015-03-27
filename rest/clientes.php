@@ -30,14 +30,27 @@ $app->post("/clientes/:id", function ($id) {
                 )
         );
     } else {
-        $sql = "INSERT INTO pessoa (ds_nome,ds_email) VALUES (?,?)";
-        $stmt = DB::prepare($sql);
-        $stmt->execute(array(
+
+        $pessoa = "INSERT INTO pessoa (ds_nome,ds_email) VALUES (?,?)";
+        $stmt = DB::prepare($pessoa);
+
+        $teste = $stmt->execute(array(
             $data->ds_nome,
-            $data->ds_email
+            $data->ds_email,
+                )
+        );
+
+        # preciso recuperar id de pessoa para cadastrar usuario.
+        $usuario = "INSERT INTO usuario (sq_usuario, sq_perfil) VALUES (?,?)";
+        $stmt = DB::prepare($usuario);
+
+        $stmt->execute(array(
+            $data->sq_perfil,
                 )
         );
     }
+
+
 
     formatJson($data);
 });

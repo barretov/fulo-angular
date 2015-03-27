@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+CAUTION: Do not modify this file unless you know what you are doing.
+         Unexpected results may occur if the code is changed deliberately.
+-->
+<dbmodel>
+<database name="fulo" encoding="UTF8">
+</database>
+
+<table name="pessoa" oids="true">
+	<schema name="public"/>
+	<position x="40" y="200"/>
+	<column name="sq_pessoa" not-null="true">
+		<type name="serial" spatial-type="POINT" variation="0"/>
+	</column>
+	<column name="ds_nome" not-null="true">
+		<type name="varchar" length="50" spatial-type="POINT" variation="0"/>
+	</column>
+	<column name="ds_email" not-null="true">
+		<type name="varchar" length="50" spatial-type="POINT" variation="0"/>
+	</column>
+	<constraint name="pk_pessoa" type="pk-constr" factor="10" table="public.pessoa">
+		<columns names="sq_pessoa" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="usuario" oids="false">
+	<schema name="public"/>
+	<position x="440" y="200"/>
+	<column name="sq_usuario" not-null="true">
+		<type name="serial" spatial-type="POINT" variation="0"/>
+	</column>
+	<column name="sq_perfil" not-null="true">
+		<type name="serial" spatial-type="POINT" variation="0"/>
+	</column>
+	<constraint name="pk_usuario" type="pk-constr" factor="10" table="public.usuario">
+		<columns names="sq_usuario" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="perfil" oids="false">
+	<schema name="public"/>
+	<position x="800" y="200"/>
+	<column name="sq_perfil" not-null="true">
+		<type name="serial" spatial-type="POINT" variation="0"/>
+	</column>
+	<column name="ds_perfil" not-null="true">
+		<type name="varchar" length="50" spatial-type="POINT" variation="0"/>
+	</column>
+	<constraint name="pk_perfil" type="pk-constr" factor="10" table="public.perfil">
+		<columns names="sq_perfil" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<constraint name="fk_usuario_pessoa" type="fk-constr"	 comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="public.pessoa" table="public.usuario">
+	<columns names="sq_usuario" ref-type="src-columns"/>
+	<columns names="sq_pessoa" ref-type="dst-columns"/>
+</constraint>
+<relationship name="rel_usuario_pessoa"
+	 type="relfk"
+	 src-required="false" dst-required="false"
+	 src-table="public.usuario"
+	 dst-table="public.pessoa"/>
+
+<constraint name="fk_usuario_perfil" type="fk-constr"	 comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="public.perfil" table="public.usuario">
+	<columns names="sq_perfil" ref-type="src-columns"/>
+	<columns names="sq_perfil" ref-type="dst-columns"/>
+</constraint>
+<relationship name="rel_usuario_perfil"
+	 type="relfk"
+	 src-required="false" dst-required="false"
+	 src-table="public.usuario"
+	 dst-table="public.perfil"/>
+
+</dbmodel>

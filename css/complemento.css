@@ -70,3 +70,8 @@ body {
     display: block;
 }
 /*imagem para o dropdown menu*/
+
+/* Ajusta helpblock */
+.help-block-input {
+    margin-top: 7px;
+}
