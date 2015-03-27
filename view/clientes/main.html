@@ -1,0 +1,25 @@
+<h2>Clientes</h2>
+<div  ng-init="loadAll()">
+
+    <div>
+        <a href="#/clientes/new" class="pull-right ">Novo</a>
+    </div>
+    <table id="tableData" class="table table-hover table-striped table-responsive">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>E-mail</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="row in rows| startFrom: currentPage * pageSize| limitTo: pageSize">
+                <td class="hidden">{{row.sq_pessoa}}</td>
+                <td><a href='#/clientes/{{row.sq_pessoa}}'>{{row.ds_nome}}</a></td>
+                <td>{{row.ds_email}}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <button class="btn btn-primary" ng-click="currentPage = currentPage - 1" ng-disabled="currentPage == 0" >&larr; Voltar</button>
+    <button class="btn btn-primary pull-right" ng-click="currentPage = currentPage + 1" ng-disabled="currentPage >= rows.length / pageSize - 1">Avançar &rarr;</button>
+</div>

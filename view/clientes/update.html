@@ -1,0 +1,47 @@
+<legend>Pessoa</legend>
+
+<div ng-init="loadRow()">
+
+    <form name="form" class="form-horizontal" ng-show="row != null">
+
+        <input name="sq_pessoa" type="hidden" ng-model="row.sq_pessoa" ng-disabled="row.isUpdate" />
+
+        <div class="form-group">
+            <label class="col-sm-1 control-label">Nome</label>
+
+            <div class="col-sm-4">
+                <input class="form-control" placeholder="Nome e sobrenome" name="ds_nome" required type="text" ng-model="row.ds_nome"/>
+            </div>
+
+            <div class="help-block">
+                <span class="text-danger" ng-show="form.ds_nome.$dirty && form.ds_nome.$invalid"><i class="glyphicon glyphicon-remove-sign"></i> Campo obrigatório</span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-1 control-label">Email</label>
+
+            <div class="col-sm-4">
+                <input class="form-control" placeholder="E-mail" name="ds_email" type="email" ng-model="row.ds_email" required/>
+            </div>
+
+            <div class="help-block">
+                <span class="text-danger" ng-show="form.ds_email.$dirty && form.ds_email.$invalid"><i class="glyphicon glyphicon-remove-sign"></i>
+                    <span ng-show="form.ds_email.$error.required">Campo obrigatório</span>
+                    <span ng-show="form.ds_email.$error.email">Email inválido</span>
+                </span>
+            </div>
+
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-1 col-sm-11">
+                <button type="submit" class="btn btn-primary" ng-click="save()" ng-Disabled="form.$invalid">Salvar</button>
+                <a class="btn btn-default" href="#/clientes">Voltar</a>
+                <button class="btn btn-danger" ng-click="del()">Apagar</button>
+            </div>
+
+    </form>
+
+
+</div>
