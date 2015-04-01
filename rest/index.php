@@ -2,13 +2,13 @@
 
 session_start();
 
-require 'config.php';
-require 'DB.php';
+require_once 'config.php';
+require_once './Conexao.php';
 
 require 'Slim/Slim.php';
 \Slim\Slim::registerAutoloader();
 $app = new \Slim\Slim(array(
-    'debug' => false
+    'debug' => true
         ));
 
 $app->contentType("application/json");

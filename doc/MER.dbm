@@ -7,9 +7,9 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <database name="fulo" encoding="UTF8">
 </database>
 
-<table name="pessoa" oids="true">
+<table name="pessoa" oids="false">
 	<schema name="public"/>
-	<position x="40" y="200"/>
+	<position x="49" y="200"/>
 	<column name="sq_pessoa" not-null="true">
 		<type name="serial" spatial-type="POINT" variation="0"/>
 	</column>
@@ -26,12 +26,12 @@ CAUTION: Do not modify this file unless you know what you are doing.
 
 <table name="usuario" oids="false">
 	<schema name="public"/>
-	<position x="440" y="200"/>
+	<position x="440" y="196"/>
 	<column name="sq_usuario" not-null="true">
-		<type name="serial" spatial-type="POINT" variation="0"/>
+		<type name="integer" spatial-type="POINT" variation="0"/>
 	</column>
 	<column name="sq_perfil" not-null="true">
-		<type name="serial" spatial-type="POINT" variation="0"/>
+		<type name="integer" spatial-type="POINT" variation="0"/>
 	</column>
 	<constraint name="pk_usuario" type="pk-constr" factor="10" table="public.usuario">
 		<columns names="sq_usuario" ref-type="src-columns"/>
@@ -40,7 +40,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 
 <table name="perfil" oids="false">
 	<schema name="public"/>
-	<position x="800" y="200"/>
+	<position x="802" y="200"/>
 	<column name="sq_perfil" not-null="true">
 		<type name="serial" spatial-type="POINT" variation="0"/>
 	</column>

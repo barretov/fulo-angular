@@ -10,7 +10,7 @@ $app.controller('clientesController', function ($scope, $http, $routeParams, $lo
 
     //Pagination
     $scope.currentPage = 0;
-    $scope.pageSize = 15;
+    $scope.pageSize = 10;
 
     $scope.numberOfPages = function () {
         return Math.ceil($scope.rows.length / $scope.pageSize);
