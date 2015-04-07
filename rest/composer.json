@@ -1,0 +1,11 @@
+{
+    "autoload": {
+        "psr-0": {
+            "fulo": "application/",
+            "config": "application/"
+        }
+    },
+    "require": {
+        "slim/slim": "2.*"
+    }
+}

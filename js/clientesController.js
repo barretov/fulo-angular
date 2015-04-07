@@ -1,16 +1,8 @@
-
-
-//function clientesController($scope,$http,$routeParams,$location)
 $app.controller('clientesController', function ($scope, $http, $routeParams, $location) {
-    //lista de clientes
-    $scope.rows = null;
-
-    //um cliente
-    $scope.row = null;
 
     //Pagination
     $scope.currentPage = 0;
-    $scope.pageSize = 10;
+    $scope.pageSize = 5;
 
     $scope.numberOfPages = function () {
         return Math.ceil($scope.rows.length / $scope.pageSize);
@@ -25,8 +17,11 @@ $app.controller('clientesController', function ($scope, $http, $routeParams, $lo
     }
 
     $scope.loadRow = function () {
+
         if ($routeParams.id != null) {
+
             $scope.showLoader();
+
             $http.get($scope.server("/clientes/" + $routeParams.id)).success(function (data) {
                 $scope.row = data;
                 $scope.row.isUpdate = true;
@@ -45,21 +40,24 @@ $app.controller('clientesController', function ($scope, $http, $routeParams, $lo
     $scope.save = function () {
         $scope.showLoader();
         $http.post($scope.server("/clientes/" + $routeParams.id), $scope.row).success(function (data) {
-            alert("Salvo com sucesso");
             $scope.row.isUpdate = true;
             $scope.hideLoader();
+            $location.path("/clientes");
         });
     }
 
-    $scope.del = function () {
-        if (confirm("Deseja excluir " + $scope.row.sq_pessoa + "?")) {
-            $http.delete($scope.server("/clientes/" + $routeParams.id)).success(function (s) {
-                $scope.hideLoader();
-                alert("Excluído com sucesso");
-                $location.path("/clientes");
-            });
-        }
+    $scope.del = function ($sq_pessoa) {
 
+        $http.delete($scope.server("/clientes/" + $sq_pessoa)).success(function ($result) {
+
+            if ($result) {
+                $('#' + $sq_pessoa).addClass('hidden');
+            }
+        });
+    }
+
+    $scope.fireModal = function ($row) {
+        $scope.pessoa = $row;
     }
 
 });

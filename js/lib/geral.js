@@ -61,7 +61,6 @@ var Geral = {
 
         $('#back-to-top').tooltip('hide');
     }
-
 }
 
 $(document).ready(function () {
