@@ -3,6 +3,9 @@
 
 <div ng-init="loadRow()">
 
+    <!--Apresentação-->
+    <h1><span class="text-primary" ng-bind="row.ds_nome"></span></h1>
+
     <form name="form" class="form-horizontal" ng-show="row != null">
 
         <!--sq_pessoa hidden-->
@@ -11,7 +14,10 @@
 
         <!--campo nome-->
         <div class="form-group">
-            <label class="col-sm-2 control-label">Nome</label>
+
+            <label class="col-sm-2 control-label">
+                <i class="glyphicon glyphicon-user"></i> Nome
+            </label>
 
             <div class="col-xs-12 col-sm-6 col-md-6">
                 <input class="form-control" placeholder="Nome e sobrenome" name="ds_nome" required type="text" ng-model="row.ds_nome"/>
@@ -26,17 +32,23 @@
 
         <!--campo email-->
         <div class="form-group">
-            <label class="col-sm-2 control-label">Email</label>
+
+            <label class="col-sm-2 control-label">
+                <i class="glyphicon glyphicon-envelope"></i> Email
+            </label>
 
             <div class="col-xs-12 col-sm-6 col-md-6">
-                <input class="form-control" placeholder="E-mail" name="ds_email" type="email" ng-model="row.ds_email" required/>
+                <input class="form-control text-lowercase" placeholder="E-mail" name="ds_email" type="email" ng-model="row.ds_email" required/>
             </div>
 
             <div class="help-block-input col-xs-12 col-sm-4 col-md-4">
-                <span class="text-danger" ng-show="form.ds_email.$dirty && form.ds_email.$invalid"><i class="glyphicon glyphicon-remove-sign"></i>
+
+                <span class="text-danger" ng-show="form.ds_email.$dirty && form.ds_email.$invalid">
+                    <i class="glyphicon glyphicon-remove-sign"></i>
                     <span ng-show="form.ds_email.$error.required">Campo obrigatório</span>
                     <span ng-show="form.ds_email.$error.email">Email inválido</span>
                 </span>
+
             </div>
 
         </div>
@@ -45,7 +57,7 @@
         <!--campo perfil-->
         <div class="form-group">
 
-            <label class="col-sm-2 control-label">Perfil</label>
+            <label class="col-sm-2 control-label"><i class="glyphicon glyphicon-flag"></i> Perfil</label>
 
             <div class="col-sm-10 radio">
 
@@ -61,10 +73,18 @@
         </div>
         <!--campo perfil-->
 
+        <!--botões-->
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-primary" ng-click="save()" ng-Disabled="form.$invalid">Salvar</button>
-                <a class="btn btn-default" href="#/clientes">Voltar</a>
+
+                <button type="submit" class="btn btn-primary btn-sm" ng-click="save()" ng-Disabled="form.$invalid">Salvar 
+                    <i class="glyphicon glyphicon-save"></i>
+                </button>
+
+                <a class="btn btn-default btn-sm" href="#/clientes">Voltar
+                    <i class="glyphicon glyphicon-remove"></i>
+                </a>
+
             </div>
         </div>
 

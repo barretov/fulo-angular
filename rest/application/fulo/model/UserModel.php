@@ -1,58 +1,73 @@
 <?php
 
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright (C) 2014
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 namespace fulo\model;
 
+/**
+ * Set a better name for data base connection.
+ */
 use config\Conexao as getConn;
 
 /**
- * Descrição da classe
- * @name usuario_model
+ * Class of model for users
+ * @name UserModel
  * @author Victor Eduardo Barreto
- * @date Apr 3, 2015
+ * @date Apr 8, 2015
  * @version 1.0
  */
 class UserModel
 {
 
+    /**
+     * Method for add user
+     * @name addUser
+     * @author Victor Eduardo Barreto
+     * @param array $data Data for user
+     * @return bool Result of procedure
+     * @date Apr 8, 2015
+     * @version 1.0
+     */
     public function addUser ($data)
     {
 
         try {
 
-            # get connection.
             $conn = getConn::getConnect();
 
-            # init transaction.
             $conn->beginTransaction();
 
-            # define the query to add a user.
-            $pessoa = "INSERT INTO pessoa (ds_nome,ds_email) VALUES (?,?)";
+            $pessoa = "INSERT INTO fulo.pessoa (ds_nome,ds_email) VALUES (?,?)";
 
-            # prepare.
             $stmt = $conn->prepare($pessoa);
 
-            # exec.
             $stmt->execute(array(
                 $data->ds_nome,
                 $data->ds_email,
             ));
 
             # get the sequence of pessoa to insert in the user.
-            $sq_usuario = $conn->lastInsertId('pessoa_sq_pessoa_seq');
+            $sq_usuario = $conn->lastInsertId('fulo.pessoa_sq_pessoa_seq');
 
-            # prepare to inser usuario.
-            $usuario = "INSERT INTO usuario (sq_usuario, sq_perfil) VALUES (?,?)";
+            $usuario = "INSERT INTO fulo.usuario (sq_usuario, sq_perfil) VALUES (?,?)";
 
-            # prepare.
             $stmt = $conn->prepare($usuario);
 
-            # exec.
             $stmt->execute(array(
                 $sq_usuario,
                 $data->sq_perfil,
@@ -62,22 +77,31 @@ class UserModel
         } catch (Exception $ex) {
 
             $conn->rollback();
+
             return false;
         }
     }
 
+    /**
+     * Method for update user
+     * @name upUser
+     * @author Victor Eduardo Barreto
+     * @param array $data Data for user
+     * @return bool Result of procedure
+     * @date Apr 8, 2015
+     * @version 1.0
+     */
     public function upUser ($data)
     {
         try {
 
-            # get connection.
             $conn = getConn::getConnect();
 
-            # init transaction.
             $conn->beginTransaction();
 
-            $pessoa = "UPDATE pessoa SET ds_nome = ?,ds_email = ? WHERE sq_pessoa = ?";
-            $usuario = "UPDATE usuario SET sq_perfil = ? WHERE sq_usuario = ?";
+            # set queryes for update in tables of person and user.
+            $pessoa = "UPDATE fulo.pessoa SET ds_nome = ?,ds_email = ? WHERE sq_pessoa = ?";
+            $usuario = "UPDATE fulo.usuario SET sq_perfil = ? WHERE sq_usuario = ?";
 
             $stmtPessoa = $conn->prepare($pessoa);
             $stmtUsuario = $conn->prepare($usuario);
@@ -97,18 +121,26 @@ class UserModel
         } catch (Exception $ex) {
 
             $conn->rollback();
+
             return false;
         }
     }
 
+    /**
+     * Method for get users
+     * @name getUser
+     * @author Victor Eduardo Barreto
+     * @return array Data of users
+     * @date Apr 8, 2015
+     * @version 1.0
+     */
     public function getUsers ()
     {
         try {
 
-            # get connection.
             $conn = getConn::getConnect();
 
-            $sql = "SELECT * FROM pessoa JOIN usuario on pessoa.sq_pessoa = usuario.sq_usuario";
+            $sql = "SELECT * FROM fulo.pessoa JOIN fulo.usuario on pessoa.sq_pessoa = usuario.sq_usuario";
 
             $stmt = $conn->prepare($sql);
 
@@ -116,18 +148,27 @@ class UserModel
 
             return $stmt->fetchAll();
         } catch (Exception $ex) {
+
             return false;
         }
     }
 
+    /**
+     * Method for get user
+     * @name getUser
+     * @author Victor Eduardo Barreto
+     * @param int $sq_pessoa Identifier of user
+     * @return array Data of user selected
+     * @date Apr 8, 2015
+     * @version 1.0
+     */
     public function getUser ($sq_pessoa)
     {
         try {
 
-            # get connection.
             $conn = getConn::getConnect();
 
-            $sql = "SELECT * FROM pessoa JOIN usuario on pessoa.sq_pessoa = usuario.sq_usuario WHERE sq_pessoa = ?";
+            $sql = "SELECT * FROM fulo.pessoa JOIN fulo.usuario on pessoa.sq_pessoa = usuario.sq_usuario WHERE sq_pessoa = ?";
 
             $stmt = $conn->prepare($sql);
 
@@ -137,22 +178,29 @@ class UserModel
 
             return $stmt->fetch();
         } catch (Exception $ex) {
+
             return false;
         }
     }
 
+    /**
+     * Method for del user
+     * @name delUser
+     * @author Victor Eduardo Barreto
+     * @param int $sq_pessoa Identifier of user
+     * @return bool Result of procedure
+     * @date Apr 8, 2015
+     * @version 1.0
+     */
     public function delUser ($sq_pessoa)
     {
         try {
 
-            # get connection.
             $conn = getConn::getConnect();
 
-            # init transaction.
             $conn->beginTransaction();
 
-            # set query to del a user.
-            $sql = "DELETE FROM pessoa WHERE sq_pessoa = ?";
+            $sql = "DELETE FROM fulo.pessoa WHERE sq_pessoa = ?";
 
             $stmt = $conn->prepare($sql);
 

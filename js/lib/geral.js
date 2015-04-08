@@ -32,6 +32,7 @@ var Geral = {
      */
     geral: function () {
         Geral.voltarTopo();
+        Geral.niceScroll();
     },
     /**
      * Método responsável pelo funcionamento do botão de voltar ao topo da página.
@@ -60,6 +61,23 @@ var Geral = {
         });
 
         $('#back-to-top').tooltip('hide');
+    },
+    /**
+     * Método responsável por mudar a barra de rolagem da pagina.
+     * @name niceScroll
+     * @author Victor Eduardo Barreto
+     * @date Apr 4, 2015
+     * @version 1.0
+     */
+    niceScroll: function () {
+
+        // inicia o scroll em toda a pagina.
+        $("html").niceScroll({
+            cursorcolor: "#424242",
+            cursorwidth: "7px",
+            hwacceleration: true,
+        });
+
     }
 }
 

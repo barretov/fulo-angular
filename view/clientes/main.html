@@ -1,11 +1,6 @@
-
 <div ng-init="loadAll()">
 
     <legend>Usuários</legend>
-
-    <!--botao novo-->
-    <a class="btn btn-primary" href="#/clientes/new">Novo <i class="glyphicon glyphicon-plus"></i></a>
-    <!--botao novo-->
 
     <!--listagem-->
     <table id="tableData" class="table table-hover table-striped table-responsive">
@@ -13,13 +8,11 @@
         <thead>
 
             <tr>
-                <th>
-                    <i class="glyphicon glyphicon-user"></i> Nome
-                </th>
+                <th>Nome</th>
 
-                <th>
-                    <i class="glyphicon glyphicon-envelope"></i> E-mail
-                </th>
+                <th>E-mail</th>
+
+                <th>Perfil</th>
             </tr>
 
         </thead>
@@ -29,17 +22,20 @@
             <tr ng-repeat="row in rows| startFrom: currentPage * pageSize| limitTo: pageSize" id="{{row.sq_pessoa}}">
 
                 <!--name-->
-                <td><a href='#/clientes/{{row.sq_pessoa}}'>{{row.ds_nome}}</a>
-                    <span class="label label-primary pull-right" ng-show="row.sq_perfil === 1">AD</span>
-                    <span class="label label-default pull-right" ng-show="row.sq_perfil === 2">CL</span>
-                </td>
+                <td><a href='#/clientes/{{row.sq_pessoa}}'>{{row.ds_nome}}</a></td>
 
                 <!--email-->
                 <td>{{row.ds_email}}</td>
 
+                <!--perfil-->
+                <td>
+                    <span class="label label-primary" ng-show="row.sq_perfil === 1">AD</span>
+                    <span class="label label-default" ng-show="row.sq_perfil === 2">CL</span>
+                </td>
+
                 <!--button del-->
                 <td>
-                    <button class="btn btn-danger btn-sm" ng-click="fireModal(row)" data-toggle="modal" data-target="#modalExcluir">
+                    <button class="btn btn-danger btn-xs" ng-click="fireModal(row)" data-toggle="modal" data-target="#modalExcluir">
                         <i class="glyphicon glyphicon-remove"></i>
                     </button>
                 </td>
@@ -51,12 +47,16 @@
     </table>
     <!--listagem-->
 
+    <!--botao novo-->
+    <a class="btn btn-primary btn-sm" href="#/clientes/new">Novo <i class="glyphicon glyphicon-plus"></i></a>
+    <!--botao novo-->
+
     <!--paginação-->
-    <button class="btn btn-default" ng-click="currentPage = currentPage - 1" ng-disabled="currentPage == 0" >
+    <button class="btn btn-default btn-sm" ng-click="currentPage = currentPage - 1" ng-disabled="currentPage == 0" >
         <i class="text-info glyphicon glyphicon-arrow-left"></i>
     </button>
 
-    <button class="btn btn-default pull-right" ng-click="currentPage = currentPage + 1" ng-disabled="currentPage >= rows.length / pageSize - 1">
+    <button class="btn btn-default btn-sm" ng-click="currentPage = currentPage + 1" ng-disabled="currentPage >= rows.length / pageSize - 1">
         <i class="text-info glyphicon glyphicon-arrow-right"></i>
     </button>
     <!--paginação-->
@@ -89,11 +89,11 @@
 
             <!--rodape-->
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">
+                <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">
                     Não <i class="glyphicon glyphicon-remove"></i>
                 </button>
 
-                <button id="confirma-exclusao" type="button" ng-click="del(pessoa.sq_pessoa)" class="btn btn-danger" data-dismiss="modal">
+                <button ng-click="del(pessoa.sq_pessoa)" class="btn btn-danger btn-sm" data-dismiss="modal">
                     Sim <i class="glyphicon glyphicon-ok"></i>
                 </button>
             </div>
