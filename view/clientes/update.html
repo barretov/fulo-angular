@@ -4,7 +4,8 @@
 <div ng-init="loadRow()">
 
     <!--Apresentação-->
-    <h1><span class="text-primary" ng-bind="row.ds_nome"></span></h1>
+    <h1><span class="text-primary hidden-xs" ng-bind="row.ds_nome"></span></h1>
+    <h2><span class="text-primary hidden-sm hidden-md hidden-lg" ng-bind="row.ds_nome"></span></h2>
 
     <form name="form" class="form-horizontal" ng-show="row != null">
 

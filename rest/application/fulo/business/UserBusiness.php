@@ -31,7 +31,7 @@ class UserBusiness
 {
 
     /**
-     * Method for instantiate model of user
+     * Method to retuen a instance model of user
      * @name userModel
      * @author Victor Eduardo Barreto
      * @package fulo\business
@@ -41,11 +41,17 @@ class UserBusiness
      */
     private function userModel ()
     {
-        return new \fulo\model\UserModel();
+        try {
+
+            return new \fulo\model\UserModel();
+        } catch (Exception $ex) {
+
+            throw new $ex;
+        }
     }
 
     /**
-     * Method for add user
+     * Method for business to add user
      * @name addUser
      * @author Victor Eduardo Barreto
      * @package fulo\business
@@ -59,23 +65,58 @@ class UserBusiness
 
         try {
 
-            # verify if is update or add.
-            if ($data->isUpdate) {
+            # verify if e-mail already exists.
+            if ($this->verifyEmailExists($data->ds_email)) {
 
-                # send to the model of user for update and return for controller.
-                return $this->userModel()->upUser($data);
-            } else {
-
-                # send to the model of user for add and return for controller.
-                return $this->userModel()->addUser($data);
+                return "email-already";
             }
+
+            # send to the model of user for add and return for controller.
+            return $this->userModel()->addUser($data);
         } catch (Exception $ex) {
-            throw new Exception($ex, null, null);
+
+            throw new $ex;
         }
     }
 
     /**
-     * Method for get users
+     * Method for business to up user
+     * @name upUser
+     * @author Victor Eduardo Barreto
+     * @package fulo\business
+     * @param array $data Data for user
+     * @return bool Result of procedure
+     * @date Apr 8, 2015
+     * @version 1.0
+     */
+    public function upUser ($data)
+    {
+
+        try {
+
+            # verify if e-mail already exists.
+            if ($this->verifyEmailExists($data->ds_email)) {
+
+                # get current email in the base.
+                $currentEmail = $this->userModel()->getUserByIdenty($data->sq_pessoa);
+
+                # if don't change email, do the update.
+                if ($data->ds_email != $currentEmail['ds_email']) {
+
+                    return "email-already";
+                }
+            }
+
+            # send to the model of user for update and return for controller.
+            return $this->userModel()->upUser($data);
+        } catch (Exception $ex) {
+
+            throw new $ex;
+        }
+    }
+
+    /**
+     * Method for business to get users data
      * @name getUser
      * @author Victor Eduardo Barreto
      * @package fulo\business
@@ -90,12 +131,13 @@ class UserBusiness
 
             return $this->userModel()->getUsers();
         } catch (Exception $ex) {
-            throw new Exception($ex, null, null);
+
+            throw new $ex;
         }
     }
 
     /**
-     * Method for get user
+     * Method for business to get user data
      * @name getUser
      * @author Victor Eduardo Barreto
      * @package fulo\business
@@ -108,14 +150,15 @@ class UserBusiness
     {
         try {
 
-            return $this->userModel()->getUser($sq_pessoa);
+            return $this->userModel()->getUserByIdenty($sq_pessoa);
         } catch (Exception $ex) {
-            throw new Exception($ex, null, null);
+
+            throw new $ex;
         }
     }
 
     /**
-     * Method for del user
+     * Method for business to del user
      * @name delUser
      * @author Victor Eduardo Barreto
      * @package fulo\business
@@ -130,7 +173,38 @@ class UserBusiness
 
             return $this->userModel()->delUser($sq_pessoa);
         } catch (Exception $ex) {
-            throw new Exception($ex, null, null);
+
+            throw new $ex;
+        }
+    }
+
+    /**
+     * Method for verify if email already existis
+     * @name verifyEmailExists
+     * @author Victor Eduardo Barreto
+     * @package fulo\business
+     * @param string $ds_email Email of user
+     * @return bool Result of procedure
+     * @date Apr 12, 2015
+     * @version 1.0
+     */
+    public function verifyEmailExists ($ds_email)
+    {
+
+        try {
+
+            # get user data.
+            $UserData = $this->userModel()->gerDataByEmail($ds_email);
+
+            # compare the email.
+            if ($UserData['ds_email'] === $ds_email) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception $ex) {
+
+            throw new $ex;
         }
     }
 

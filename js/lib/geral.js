@@ -78,7 +78,19 @@ var Geral = {
             hwacceleration: true,
         });
 
-    }
+    },
+    /**
+     * Método responsável por mudar a barra de rolagem da pagina.
+     * @name niceScroll
+     * @author Victor Eduardo Barreto
+     * @date Apr 4, 2015
+     * @version 1.0
+     */
+//    flashMessage: function ($tipo, $mensagem) {
+//        
+//        $('#flashmessage').
+//    }
+
 }
 
 $(document).ready(function () {

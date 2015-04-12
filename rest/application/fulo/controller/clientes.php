@@ -32,9 +32,15 @@ use \fulo\business\UserBusiness as UserBusiness;
  */
 $app->get("/clientes", function () {
 
-    $business = new UserBusiness();
+    try {
 
-    formatJson($business->getUsers());
+        $business = new UserBusiness();
+
+        formatJson($business->getUsers());
+    } catch (Exception $ex) {
+
+        throw new $ex;
+    }
 });
 
 /**
@@ -48,9 +54,15 @@ $app->get("/clientes", function () {
  */
 $app->get("/clientes/:id", function ($sq_pessoa) {
 
-    $business = new UserBusiness();
+    try {
 
-    formatJson($business->getUser($sq_pessoa));
+        $business = new UserBusiness();
+
+        formatJson($business->getUser($sq_pessoa));
+    } catch (Exception $ex) {
+
+        throw new $ex;
+    }
 });
 
 /**
@@ -64,11 +76,26 @@ $app->get("/clientes/:id", function ($sq_pessoa) {
  */
 $app->post("/clientes/:id", function () {
 
-    $business = new UserBusiness();
+    try {
 
-    $result = $business->addUser(json_decode(\Slim\Slim::getInstance()->request()->getBody()));
+        $business = new UserBusiness();
 
-    formatJson($result);
+        $data = json_decode(\Slim\Slim::getInstance()->request()->getBody());
+
+        # verify if is update.
+        if ($data->isUpdate) {
+
+            $result = $business->upUser($data);
+        } else {
+
+            $result = $business->addUser($data);
+        }
+
+        formatJson($result);
+    } catch (Exception $ex) {
+
+        throw new $ex;
+    }
 });
 
 /**
@@ -82,7 +109,13 @@ $app->post("/clientes/:id", function () {
  */
 $app->delete("/clientes/:id", function ($sq_pessoa) {
 
-    $business = new UserBusiness();
+    try {
 
-    formatJson($business->delUser($sq_pessoa));
+        $business = new UserBusiness();
+
+        formatJson($business->delUser($sq_pessoa));
+    } catch (Exception $ex) {
+
+        throw new $ex;
+    }
 });

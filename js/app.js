@@ -68,13 +68,65 @@ $app.run(['$rootScope', function ($rootScope) {
             $rootScope.showLoaderFlag = false;
         }
 
-        //Método que retorna a URL completa de acesso ao servidor. 
-        // Evita usar concatenação
-        $rootScope.server = function (url) {
-            return SERVER_URL + url;
+        /**
+         * Method for compose the flashmessages
+         * @name showFlashmessage
+         * @author Victor Eduardo Barreto
+         * @param {string} $type Type of message
+         * @param {string} $message Message to show
+         * @date Apr 4, 2015
+         * @version 1.0
+         * Type of messages to send in the variable:
+         * alert-success, alert-danger, alert-info, alert-warninfg
+         */
+        $rootScope.showFlashmessage = function ($type, $message) {
+
+            switch ($type) {
+
+                case "alert-success":
+                    $rootScope.flashType = $type;
+                    $rootScope.flashMsg = $message;
+                    $rootScope.glyphicon = "glyphicon-ok-sign";
+                    break;
+
+                case "alert-danger":
+                    $rootScope.flashType = $type;
+                    $rootScope.flashMsg = $message;
+                    $rootScope.glyphicon = "glyphicon-remove-sign";
+                    break;
+
+                case "alert-info":
+                    $rootScope.flashType = $type;
+                    $rootScope.flashMsg = $message;
+                    $rootScope.glyphicon = "glyphicon-info-sign";
+                    break;
+
+                case "alert-warning":
+                    $rootScope.flashType = $type;
+                    $rootScope.flashMsg = $message;
+                    $rootScope.glyphicon = "glyphicon-warning-sign";
+                    break;
+            }
+
+            $('#flashmessage').fadeIn().delay(1500).fadeOut('slow');
+
+        }
+
+        /**
+         * Method for compose the URL of server REST.
+         * @name server
+         * @author Victor Eduardo Barreto
+         * @param {string} $url URL to complete address
+         * @return {string} Complete address of server.
+         * @date Apr 4, 2015
+         * @version 1.0
+         */
+        $rootScope.server = function ($url) {
+            return SERVER_URL + $url;
         }
 
     }]);
+
 
 //We already have a limitTo filter built-in to angular,
 //let's make a startFrom filter

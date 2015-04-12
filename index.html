@@ -233,9 +233,22 @@
                     <!--linha-->
                     <div class="row">
 
-                        <div class="col-sm-12">
+                        <!--flashmessage-->
+                        <div id="flashmessage" class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="display: none">
 
+                            <div  class="alert {{flashType}} fade in" role="alert">
+                                <i class="glyphicon {{glyphicon}}"></i>
+                                {{flashMsg}}
+                            </div>
+
+                        </div>
+                        <!--flashmessage-->
+
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+                            <!--conteudo-->
                             <div ng-view></div>
+                            <!--conteudo-->
 
                         </div>
 

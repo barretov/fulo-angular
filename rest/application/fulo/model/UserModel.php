@@ -78,7 +78,7 @@ class UserModel
 
             $conn->rollback();
 
-            return false;
+            throw new $ex;
         }
     }
 
@@ -122,7 +122,7 @@ class UserModel
 
             $conn->rollback();
 
-            return false;
+            throw new $ex;
         }
     }
 
@@ -149,20 +149,20 @@ class UserModel
             return $stmt->fetchAll();
         } catch (Exception $ex) {
 
-            return false;
+            throw new $ex;
         }
     }
 
     /**
-     * Method for get user
-     * @name getUser
+     * Method for get user by Identy
+     * @name getUserByIdenty
      * @author Victor Eduardo Barreto
      * @param int $sq_pessoa Identifier of user
      * @return array Data of user selected
      * @date Apr 8, 2015
      * @version 1.0
      */
-    public function getUser ($sq_pessoa)
+    public function getUserByIdenty ($sq_pessoa)
     {
         try {
 
@@ -179,7 +179,7 @@ class UserModel
             return $stmt->fetch();
         } catch (Exception $ex) {
 
-            return false;
+            throw new $ex;
         }
     }
 
@@ -213,7 +213,39 @@ class UserModel
 
             $conn->rollBack();
 
-            return false;
+            throw new $ex;
+        }
+    }
+
+    /**
+     * Method for get all data of user by email
+     * @name gerDataByEmail
+     * @author Victor Eduardo Barreto
+     * @package fulo\model
+     * @param string $ds_email Email of user
+     * @return array Data of user
+     * @date Apr 12, 2015
+     * @version 1.0
+     */
+    public function gerDataByEmail ($ds_email)
+    {
+
+        try {
+
+            $conn = getConn::getConnect();
+
+            $sql = "SELECT * FROM fulo.pessoa JOIN fulo.usuario on pessoa.sq_pessoa = usuario.sq_usuario WHERE ds_email = ?";
+
+            $stmt = $conn->prepare($sql);
+
+            $stmt->execute(array(
+                $ds_email
+            ));
+
+            return $stmt->fetch();
+        } catch (Exception $ex) {
+
+            throw new $ex;
         }
     }
 

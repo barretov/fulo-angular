@@ -99,13 +99,27 @@ $app.controller('clientesController', function ($scope, $http, $routeParams, $lo
 
         $scope.showLoader();
 
-        $http.post($scope.server("/clientes/" + $routeParams.id), $scope.row).success(function (data) {
+        $http.post($scope.server("/clientes/" + $routeParams.id), $scope.row).success(function ($data) {
 
-            $scope.row.isUpdate = true;
+            // verify if email already exists.
+            if ($data === "email-already") {
 
-            $scope.hideLoader();
+                $scope.hideLoader();
 
-            $location.path("/clientes");
+                $scope.showFlashmessage('alert-warning', 'Este email já está cadastrado.');
+
+            } else {
+
+                $scope.row.isUpdate = true;
+
+                $scope.hideLoader();
+
+                $location.path("/clientes");
+
+                $scope.showFlashmessage("alert-success", "Processo realizado com sucesso.");
+            }
+
+
         });
     }
 
@@ -114,7 +128,7 @@ $app.controller('clientesController', function ($scope, $http, $routeParams, $lo
      * @name del
      * @author Victor Eduardo Barreto
      * @param {int} $sq_pessoa Identifier of person
-     * @date Apr 3, 2015
+     * @date Apr 12, 2015
      * @version 1.0
      */
     $scope.del = function ($sq_pessoa) {
@@ -125,6 +139,7 @@ $app.controller('clientesController', function ($scope, $http, $routeParams, $lo
 
                 // if result is true, remove the row in the screen.
                 $('#' + $sq_pessoa).fadeOut('slow');
+                $scope.showFlashmessage("alert-success", "Processo realizado com sucesso.");
             }
         });
     }
@@ -134,7 +149,7 @@ $app.controller('clientesController', function ($scope, $http, $routeParams, $lo
      * @name fireModal
      * @author Victor Eduardo Barreto
      * @param {array} $row Data of user
-     * @date Apr 3, 2015
+     * @date Apr 12, 2015
      * @version 1.0
      */
     $scope.fireModal = function ($row) {
