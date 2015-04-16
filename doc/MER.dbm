@@ -17,7 +17,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="pessoa" oids="false">
 	<schema name="fulo"/>
 	<comment>dados de pessoas</comment>
-	<position x="40" y="40"/>
+	<position x="60" y="20"/>
 	<column name="sq_pessoa" not-null="true">
 		<type name="serial" spatial-type="POINT" variation="0"/>
 		<comment>identificador da pessoa</comment>
@@ -35,10 +35,10 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</constraint>
 </table>
 
-<table name="usuario" oids="false">
+<table name="usuario" oids="true">
 	<schema name="fulo"/>
 	<comment>dados de usuários</comment>
-	<position x="40" y="220"/>
+	<position x="54" y="196"/>
 	<column name="sq_usuario" not-null="true">
 		<type name="integer" spatial-type="POINT" variation="0"/>
 		<comment>identificador do usuário</comment>
@@ -46,6 +46,10 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="sq_perfil" not-null="true">
 		<type name="integer" spatial-type="POINT" variation="0"/>
 		<comment>identificador do perfil</comment>
+	</column>
+	<column name="ds_senha" not-null="true">
+		<type name="varchar" length="40" spatial-type="POINT" variation="0"/>
+		<comment>senha de acesso do usuário</comment>
 	</column>
 	<constraint name="pk_usuario" type="pk-constr" factor="10" table="fulo.usuario">
 		<columns names="sq_usuario" ref-type="src-columns"/>
@@ -55,7 +59,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="perfil" oids="false">
 	<schema name="dominio"/>
 	<comment>dados de perfis</comment>
-	<position x="40" y="420"/>
+	<position x="67" y="366"/>
 	<column name="sq_perfil" not-null="true">
 		<type name="serial" spatial-type="POINT" variation="0"/>
 		<comment>identificador do perfil</comment>

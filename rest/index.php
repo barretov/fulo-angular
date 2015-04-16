@@ -25,5 +25,6 @@ include_once './application/config/config.php';
 
 # include de controllers.
 include_once './application/fulo/controller/clientes.php';
+include_once './application/fulo/controller/login.php';
 
 $app->run();

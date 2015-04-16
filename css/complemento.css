@@ -81,7 +81,18 @@ body {
     color: gray;
 }
 
-/*ajuste flashmessages*/
-/*#flashmessage {
+/*texto branco*/
+.text-white {
+    color: whitesmoke;
+}
+
+/*ajuste flashmessage*/
+#flashmessage {
     display: none;
-}*/
+    z-index: 9999;
+}
+
+/*ajuste modal login*/
+#modalLogin {
+    padding-top: 60px;
+}

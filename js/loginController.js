@@ -16,29 +16,37 @@
  */
 
 /**
- * Controller of clients
- * @name clientesController
+ * Controller for login and logff in the system
+ * @name loginController
  * @author Victor Eduardo Barreto
- * @date Apr 3, 2015
+ * @date Apr 14, 2015
  * @version 1.0
  */
-$app.controller('clientesController', function ($scope, $http, $routeParams, $location) {
+$app.controller('loginController', function ($scope, $http, $routeParams, $location) {
 
     /**
-     * variables for pagination.
-     */
-    $scope.currentPage = 0;
-    $scope.pageSize = 5;
-
-    /**
-     * Method for control the pagination
-     * @name numberOfPages
+     * Method for login
+     * @name login
      * @author Victor Eduardo Barreto
-     * @date Apr 3, 2015
+     * @date Apr 12, 2015
      * @version 1.0
      */
-    $scope.numberOfPages = function () {
-        return Math.ceil($scope.rows.length / $scope.pageSize);
+    $scope.login = function () {
+
+        $http.post($scope.server("/login"), $scope.row).success(function ($return) {
+
+            console.log($return);
+
+            if ($return) {
+
+                $scope.showFlashmessage("alert-success", "Processo realizado com sucesso.");
+                $('#modalLogin').modal('hide');
+            } else {
+
+                $scope.showFlashmessage("alert-danger", "Dados incorretos.");
+            }
+
+        });
     }
 
     /**
@@ -88,49 +96,7 @@ $app.controller('clientesController', function ($scope, $http, $routeParams, $lo
         }
     }
 
-    /**
-     * Method for save user
-     * @name save
-     * @author Victor Eduardo Barreto
-     * @date Apr 3, 2015
-     * @version 1.0
-     */
-    $scope.save = function () {
 
-        $scope.showLoader();
-
-        // validate passwords
-        if ($scope.row.ds_senha === $scope.row.re_senha) {
-
-            $http.post($scope.server("/clientes/" + $routeParams.id), $scope.row).success(function ($data) {
-
-                console.log($data);
-
-                // verify if email already exists.
-                if ($data === "email-already") {
-
-                    $scope.hideLoader();
-
-                    $scope.showFlashmessage('alert-warning', 'Este email já está cadastrado.');
-
-                } else {
-
-                    $scope.row.isUpdate = true;
-
-                    $scope.hideLoader();
-
-                    $location.path("/clientes");
-
-                    $scope.showFlashmessage("alert-success", "Processo realizado com sucesso.");
-                }
-            });
-
-        } else {
-            $scope.showFlashmessage("alert-warning", "A senha não confere.");
-        }
-
-
-    }
 
     /**
      * Method for delete user

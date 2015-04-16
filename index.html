@@ -196,7 +196,7 @@
                                 <!--login-->
                                 <li>
                                     <a href="#/" data-toggle="modal" data-target="#modalLogin">
-                                        <strong>Login </strong>
+                                        <strong>Entrar </strong>
                                         <i class="glyphicon glyphicon-log-in text-primary"></i>
                                     </a>
                                 </li>
@@ -230,11 +230,12 @@
                 <!--conteudo-->
                 <div class="container-fluid">
 
+
                     <!--linha-->
                     <div class="row">
 
                         <!--flashmessage-->
-                        <div id="flashmessage" class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="display: none">
+                        <div id="flashmessage" class="navbar-fixed-top">
 
                             <div  class="alert {{flashType}} fade in" role="alert">
                                 <i class="glyphicon {{glyphicon}}"></i>
@@ -322,103 +323,92 @@
 
         <!--Controllers-->
         <script src="js/clientesController.js"></script>
-        <script src="js/funcionariosController.js"></script>
+        <script src="js/loginController.js"></script>
         <!--Controllers-->
         <!--carga de scripts-->
 
     </body>
 
-</html>
+    <!--modal login-->
+    <div id="modalLogin" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
 
-<!--modal login-->
-<div class="modal fade" id="modalLogin" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+        <div ng-controller="loginController">
 
-    <!--tamanho e alinhamento-->
-    <div class="col-sm-3 col-sm-offset-4">
+            <!--tamanho e alinhamento-->
+            <div class="col-xs-12 col-sm-5 col-md-4 col-lg-4 col-sm-offset-4">
 
-        <legend>Login
-            <i class="glyphicon glyphicon-log-in text-info"></i>
-            <a class="close pull-right text-info glyphicon" data-dismiss="modal">x</a>
+                <legend class="text-white">Entrar
 
-        </legend>
+                    <i class="glyphicon glyphicon-log-in text-white"></i>
+                    <a class="close pull-right text-white glyphicon glyphicon-remove-circle" data-dismiss="modal"></a>
 
-        <!--formulario-->
-        <form class="form-horizontal" id="login">
-
-            <!--campo email-->
-            <div class="form-group">
-                <div id="div-email" class="col-sm-12">
-                    <input type="text" id="campo-email" class="form-control text-lowercase" placeholder="usuario@email.com"/>
-                    <message class="text-danger" for="campo-email"/>
-
-                    <!--mensagem de erro-->
-                    <span class="help-block hidden text-white" id="helpblock-email">O campo deve ser preenchido</span>
-                </div>
-            </div>
-            <!--fim campo email-->
-
-            <!--campo senha-->
-            <div class="form-group">
-                <div id="div-senha" class="col-sm-12">
-                    <input type="password" id="campo-senha" class="form-control" placeholder="Senha"/>
-                    <message class="text-danger" for="campo-senha"/>
-                    <span class="help-block hidden text-white" id="helpblock-senha">O campo deve ser preenchido</span>
-                </div>
-            </div>
-            <!--fim campo senha-->
-
-            <!--botao submit-->
-            <div class="form-group">
-                <div class="col-sm-12">
-
-                    <button id="entrar" class="btn btn-primary"> Entrar
-                        <i class="glyphicon glyphicon-log-in"></i>
-                    </button>
-
-                </div>
-            </div>
-            <!--fim botao submit-->
-
-        </form>
-        <!--fim formulario-->
-
-    </div>
-</div>
-<!--fim tamanho e alinhamento-->
-<!--modal login-->
-
-<!--modal logoff-->
-<div class="modal fade" id="modalLogoff" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-
-    <div class="modal-dialog">
-
-        <div class="modal-content">
-
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">x</span></button>
-                <h4 class="modal-title" id="myModalLabel">Logoff</h4>
-            </div>
-
-            <div class="modal-body">
-                <span>Deseja fazer logoff?</span>
-            </div>
-
-            <div class="modal-footer">
+                </legend>
 
                 <!--formulario-->
-                <form class="form-horizontal">
+                <form name="form" class="form-horizontal" id="login">
 
-                    <!--botões-->
+                    <!--campo email-->
+                    <div class="form-group">
+
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <input type="email"
+                                   name="ds_email"
+                                   class="form-control
+                                   text-lowercase"
+                                   placeholder="usuario@email.com"
+                                   ng-model="row.ds_email"
+                                   maxlength="50"
+                                   ng-maxlength="50"
+                                   required/>
+                        </div>
+
+                        <div id="div-email" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <span class="text-white" ng-show="form.ds_email.$dirty && form.ds_email.$invalid">
+                                <i class="glyphicon glyphicon-remove-sign"></i>
+                                <span ng-show="form.ds_email.$error.required">Campo obrigatório</span>
+                                <span ng-show="form.ds_email.$error.email">Email inválido</span>
+                                <span ng-show="form.ds_email.$error.maxlength">Máximo de cinquenta caracteres</span>
+                            </span>
+                        </div>
+
+                    </div>
+                    <!--fim campo email-->
+
+                    <!--campo senha-->
+                    <div class="form-group">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <input class="form-control"
+                                   placeholder="Senha"
+                                   name="ds_senha"
+                                   type="password"
+                                   maxlength="20"
+                                   ng-maxlength="20"
+                                   ng-model="row.ds_senha"
+                                   required/>
+                        </div>
+
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <span class="text-white" ng-show="form.ds_senha.$dirty && form.ds_senha.$invalid">
+                                <i class="glyphicon glyphicon-remove-sign"></i>
+                                <span ng-show="form.ds_senha.$error.required">Campo obrigatório</span>
+                                <span ng-show="form.ds_senha.$error.maxlength">Máximo de vinte caracteres</span>
+                            </span>
+                        </div>
+
+                    </div>
+                    <!--fim campo senha-->
+
+                    <!--botao submit-->
                     <div class="form-group">
                         <div class="col-sm-12">
 
-                            <button class="btn btn-danger">Sim <i class="glyphicon glyphicon-ok"></i></button>
-
-                            <button class="btn btn-default" data-dismiss="modal">Não <i class="glyphicon glyphicon-remove"></i></button>
+                            <button id="entrar" class="btn btn-primary" ng-click="login()" ng-Disabled="form.$invalid">Entrar
+                                <i class="glyphicon glyphicon-log-in"></i>
+                            </button>
 
                         </div>
                     </div>
-                    <!--botões-->
+                    <!--fim botao submit-->
 
                 </form>
                 <!--fim formulario-->
@@ -428,6 +418,52 @@
         </div>
 
     </div>
+    <!--fim tamanho e alinhamento-->
+    <!--modal login-->
 
-</div>
-<!--modal logoff-->
+    <!--modal logoff-->
+    <div class="modal fade" id="modalLogoff" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+        <div class="modal-dialog">
+
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">x</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Logoff</h4>
+                </div>
+
+                <div class="modal-body">
+                    <span>Deseja fazer logoff?</span>
+                </div>
+
+                <div class="modal-footer">
+
+                    <!--formulario-->
+                    <form class="form-horizontal">
+
+                        <!--botões-->
+                        <div class="form-group">
+                            <div class="col-sm-12">
+
+                                <button class="btn btn-danger">Sim <i class="glyphicon glyphicon-ok"></i></button>
+
+                                <button class="btn btn-default" data-dismiss="modal">Não <i class="glyphicon glyphicon-remove"></i></button>
+
+                            </div>
+                        </div>
+                        <!--botões-->
+
+                    </form>
+                    <!--fim formulario-->
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    <!--modal logoff-->
+
+</html>

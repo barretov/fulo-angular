@@ -43,6 +43,23 @@ $app->get("/clientes", function () {
     }
 });
 
+$app->get("/data", function () {
+
+    echo"eaew";
+
+    return '{dasd}';
+
+    try {
+
+        $business = new UserBusiness();
+
+        formatJson($business->getUsers());
+    } catch (Exception $ex) {
+
+        throw new $ex;
+    }
+});
+
 /**
  * Method for get user
  * @name get

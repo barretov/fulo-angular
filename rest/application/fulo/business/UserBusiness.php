@@ -27,7 +27,7 @@ namespace fulo\business;
  * @date Apr 8, 2015
  * @version 1.0
  */
-class UserBusiness
+class UserBusiness extends MasterBusiness
 {
 
     /**
@@ -60,7 +60,7 @@ class UserBusiness
      * @date Apr 8, 2015
      * @version 1.0
      */
-    public function addUser ($data)
+    public function addUser (& $data)
     {
 
         try {
@@ -71,6 +71,14 @@ class UserBusiness
                 return "email-already";
             }
 
+            # remove special char and spaces.
+            $this->removeSpecialChar($data);
+
+            #cript password.
+            $data->ds_senha = crypt($data->ds_senha);
+
+            # usado para copara a senha criptgrafada.
+//            if(crypt($senhadigitada,$senhaguardada)) == $senhaguardada)
             # send to the model of user for add and return for controller.
             return $this->userModel()->addUser($data);
         } catch (Exception $ex) {
@@ -89,7 +97,7 @@ class UserBusiness
      * @date Apr 8, 2015
      * @version 1.0
      */
-    public function upUser ($data)
+    public function upUser (& $data)
     {
 
         try {
@@ -106,6 +114,9 @@ class UserBusiness
                     return "email-already";
                 }
             }
+
+            # remove special char and spaces.
+            $this->removeSpecialChar($data);
 
             # send to the model of user for update and return for controller.
             return $this->userModel()->upUser($data);
@@ -146,7 +157,7 @@ class UserBusiness
      * @date Apr 8, 2015
      * @version 1.0
      */
-    public function getUser ($sq_pessoa)
+    public function getUser (& $sq_pessoa)
     {
         try {
 
@@ -167,7 +178,7 @@ class UserBusiness
      * @date Apr 8, 2015
      * @version 1.0
      */
-    public function delUser ($sq_pessoa)
+    public function delUser (& $sq_pessoa)
     {
         try {
 
@@ -194,12 +205,14 @@ class UserBusiness
         try {
 
             # get user data.
-            $UserData = $this->userModel()->gerDataByEmail($ds_email);
+            $UserData = $this->userModel()->getDataByEmail($ds_email);
 
             # compare the email.
             if ($UserData['ds_email'] === $ds_email) {
+
                 return true;
             } else {
+
                 return false;
             }
         } catch (Exception $ex) {

@@ -25,14 +25,30 @@ namespace fulo\model;
 use config\Conexao as getConn;
 
 /**
- * Class of model for users
- * @name UserModel
+ * Class of model for login
+ * @name LoginModel
  * @author Victor Eduardo Barreto
- * @date Apr 8, 2015
+ * @date Apr 14, 2015
  * @version 1.0
  */
-class UserModel
+class LoginModel
 {
+
+    private $_conn;
+
+    /**
+     * Method constructor of login model
+     * @name __construct
+     * @author Victor Eduardo Barreto
+     * @package fulo\model
+     * @return bool Result of procedure
+     * @date Apr 14, 2015
+     * @version 1.0
+     */
+    public function __construct ()
+    {
+        $this->_conn = getConn::getConnect();
+    }
 
     /**
      * Method for add user
@@ -48,7 +64,8 @@ class UserModel
 
         try {
 
-            $conn = getConn::getConnect();
+            $this->_conn->
+                    $conn = getConn::getConnect();
 
             $conn->beginTransaction();
 
