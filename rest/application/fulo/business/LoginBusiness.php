@@ -36,7 +36,7 @@ class LoginBusiness extends MasterBusiness
      * Variable to access login model
      * @var object Model of login
      */
-    private $_modelLogin;
+//    private $_modelLogin;
 
     /**
      * Method constructor of login business
@@ -49,7 +49,7 @@ class LoginBusiness extends MasterBusiness
      */
     public function __construct ()
     {
-        $this->_modelLogin = new \fulo\model\LoginModel();
+//        $this->_modelLogin = new \fulo\model\LoginModel();
     }
 
     /**
@@ -73,11 +73,21 @@ class LoginBusiness extends MasterBusiness
             # model of user.
             $modelUser = new UserModel();
 
+            # get user data.
             $dataUser = $modelUser->getDataByEmail($data->ds_email);
 
+            # compare user and pass to login in the system.
             if ($dataUser['ds_email'] === $data->ds_email && crypt($data->ds_senha, $dataUser['ds_senha']) === $dataUser['ds_senha']) {
 
-                # salva dados na sessção.
+                # save data of user in session.
+                $_SESSION['user'] = array(
+                    'sq_pessoa' => $dataUser['sq_pessoa'],
+                    'ds_nome' => $dataUser['ds_nome'],
+                    'ds_email' => $dataUser['ds_email'],
+                    'sq_perfil' => $dataUser['sq_perfil'],
+                    'no_ip' => $_SERVER['REMOTE_ADDR']
+                );
+
                 return true;
             }
 

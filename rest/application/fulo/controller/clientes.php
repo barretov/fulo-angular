@@ -24,7 +24,7 @@ use \fulo\business\UserBusiness as UserBusiness;
 
 /**
  * Method for get users
- * @name get
+ * @name get | clientes
  * @author Victor Eduardo Barreto
  * @return json Data of users
  * @date Apr 3, 2015
@@ -43,26 +43,9 @@ $app->get("/clientes", function () {
     }
 });
 
-$app->get("/data", function () {
-
-    echo"eaew";
-
-    return '{dasd}';
-
-    try {
-
-        $business = new UserBusiness();
-
-        formatJson($business->getUsers());
-    } catch (Exception $ex) {
-
-        throw new $ex;
-    }
-});
-
 /**
  * Method for get user
- * @name get
+ * @name get | clientes
  * @author Victor Eduardo Barreto
  * @param int $sq_pessoa Identifier of user
  * @return json Data of user selected
@@ -84,7 +67,7 @@ $app->get("/clientes/:id", function ($sq_pessoa) {
 
 /**
  * Method for save or update user
- * @name post
+ * @name post | clientes
  * @author Victor Eduardo Barreto
  * @param json Data of user
  * @return bool Result of procedure
@@ -117,7 +100,7 @@ $app->post("/clientes/:id", function () {
 
 /**
  * Method for save or update user
- * @name delete
+ * @name delete | clientes
  * @author Victor Eduardo Barreto
  * @param int $sq_pessoa Identifier of user
  * @return bool Result of procedure

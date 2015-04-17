@@ -23,12 +23,12 @@
 use \fulo\business\LoginBusiness as LoginBusiness;
 
 /**
- * Method for save or update user
- * @name post
+ * Method login in the system
+ * @name post | login
  * @author Victor Eduardo Barreto
  * @param json Data of user
  * @return bool Result of procedure
- * @date Apr 3, 2015
+ * @date Apr 17, 2015
  * @version 1.0
  */
 $app->post("/login", function () {
@@ -42,6 +42,60 @@ $app->post("/login", function () {
         $result = $business->prepareLogin($data);
 
         formatJson($result);
+    } catch (Exception $ex) {
+
+        throw new $ex;
+    }
+});
+
+/**
+ * Method for logoff of system
+ * @name post Logoff
+ * @author Victor Eduardo Barreto
+ * @return bool Result of procedure
+ * @date Apr 17, 2015
+ * @version 1.0
+ */
+$app->post("/logoff", function () {
+
+    try {
+
+        # verify if current ip is the same wich did the login.
+        if ($_SESSION['user']['no_ip'] === $_SERVER['REMOTE_ADDR']) {
+
+            unset($_SESSION['user']);
+
+            formatJson(true);
+        } else {
+
+            formatJson(false);
+        }
+    } catch (Exception $ex) {
+
+        throw new $ex;
+    }
+});
+
+/**
+ * Method for get session data
+ * @name get | session
+ * @author Victor Eduardo Barreto
+ * @return json Data of users
+ * @date Apr 3, 2015
+ * @version 1.0
+ */
+$app->get("/session", function () {
+
+    try {
+
+        # verify if current ip is the same wich did the login.
+        if (@$_SESSION['user']['no_ip'] === $_SERVER['REMOTE_ADDR']) {
+
+            formatJson($_SESSION['user']);
+        } else {
+
+            formatJson(false);
+        }
     } catch (Exception $ex) {
 
         throw new $ex;

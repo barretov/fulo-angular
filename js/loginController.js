@@ -25,7 +25,7 @@
 $app.controller('loginController', function ($scope, $http, $routeParams, $location) {
 
     /**
-     * Method for login
+     * Method for login in the system
      * @name login
      * @author Victor Eduardo Barreto
      * @date Apr 12, 2015
@@ -35,102 +35,65 @@ $app.controller('loginController', function ($scope, $http, $routeParams, $locat
 
         $http.post($scope.server("/login"), $scope.row).success(function ($return) {
 
-            console.log($return);
+            if ($return) {
+
+                $scope.showFlashmessage("alert-success", "Processo realizado com sucesso.");
+                $('#ds_senha').val('');
+                $('#modalLogin').modal('hide');
+
+            } else {
+
+                $scope.showFlashmessage("alert-danger", "Dados incorretos.");
+                $('#ds_senha').val('');
+
+            }
+
+        });
+    }
+
+    /**
+     * System of a down xD
+     * @name logoff
+     * @author Victor Eduardo Barreto
+     * @date Apr 17, 2015
+     * @version 1.0
+     */
+    $scope.logoff = function () {
+
+        $http.post($scope.server("/logoff")).success(function ($return) {
 
             if ($return) {
 
                 $scope.showFlashmessage("alert-success", "Processo realizado com sucesso.");
-                $('#modalLogin').modal('hide');
+                $('#modalLogoff').modal('hide');
+
             } else {
 
-                $scope.showFlashmessage("alert-danger", "Dados incorretos.");
+                $scope.showFlashmessage("alert-danger", "Problemas encontrados.");
             }
 
         });
     }
 
     /**
-     * Method for load all users
-     * @name loadAll
+     * Method for get session user data
+     * @name session
      * @author Victor Eduardo Barreto
-     * @date Apr 3, 2015
+     * @date Apr 17, 2015
      * @version 1.0
      */
-    $scope.loadAll = function () {
+    $scope.session = function () {
 
-        $scope.showLoader();
+        $http.get($scope.server("/session")).success(function ($return) {
 
-        $http.get($scope.server("/clientes")).success(function (data) {
+            console.log($return);
 
-            $scope.rows = data;
-            $scope.hideLoader();
-        });
-    }
+            if ($return) {
 
-    /**
-     * Method for load one user
-     * @name loadRow
-     * @author Victor Eduardo Barreto
-     * @date Apr 3, 2015
-     * @version 1.0
-     */
-    $scope.loadRow = function () {
-
-        if ($routeParams.id != null) {
-
-            $scope.showLoader();
-
-            $http.get($scope.server("/clientes/" + $routeParams.id)).success(function (data) {
-
-                $scope.row = data;
-                $scope.row.isUpdate = true;
-                $scope.hideLoader();
-            });
-        }
-        else
-        {
-            $scope.row = {}
-            $scope.row.sq_pessoa = null;
-            $scope.row.isUpdate = false;
-            $scope.hideLoader();
-        }
-    }
-
-
-
-    /**
-     * Method for delete user
-     * @name del
-     * @author Victor Eduardo Barreto
-     * @param {int} $sq_pessoa Identifier of person
-     * @date Apr 12, 2015
-     * @version 1.0
-     */
-    $scope.del = function ($sq_pessoa) {
-
-        $http.delete($scope.server("/clientes/" + $sq_pessoa)).success(function ($result) {
-
-            if ($result) {
-
-                // if result is true, remove the row in the screen.
-                $('#' + $sq_pessoa).fadeOut('slow');
-                $scope.showFlashmessage("alert-success", "Processo realizado com sucesso.");
+                $scope.user = $return;
             }
+
         });
-    }
-
-    /**
-     * Method for tranfer data for exclusion modal
-     * @name fireModal
-     * @author Victor Eduardo Barreto
-     * @param {array} $row Data of user
-     * @date Apr 12, 2015
-     * @version 1.0
-     */
-    $scope.fireModal = function ($row) {
-
-        // set the variable pessoa in the scope.
-        $scope.pessoa = $row;
     }
 
 });
