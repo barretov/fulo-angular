@@ -9,9 +9,9 @@ $app.config(['$routeProvider', '$httpProvider', function ($routeProvider, $httpP
         //Configura o route provider
         $routeProvider.
                 when('/', {templateUrl: 'view/main.html'}).
-                when('/clientes', {templateUrl: 'view/clientes/main.html', controller: 'clientesController'}).
-                when('/clientes/new', {templateUrl: 'view/clientes/update.html', controller: 'clientesController'}).
-                when('/clientes/:id', {templateUrl: 'view/clientes/update.html', controller: 'clientesController'}).
+                when('/user', {templateUrl: 'view/user/main.html', controller: 'userController'}).
+                when('/user/new', {templateUrl: 'view/user/update.html', controller: 'userController'}).
+                when('/user/:id', {templateUrl: 'view/user/update.html', controller: 'userController'}).
                 when('/funcionarios', {templateUrl: 'view/funcionarios/main.html', controller: 'funcionariosController'}).
                 otherwise({redirectTo: '/'});
 

@@ -17,12 +17,12 @@
 
 /**
  * Controller of clients
- * @name clientesController
+ * @name userController
  * @author Victor Eduardo Barreto
  * @date Apr 3, 2015
  * @version 1.0
  */
-$app.controller('clientesController', function ($scope, $http, $routeParams, $location) {
+$app.controller('userController', function ($scope, $http, $routeParams, $location) {
 
     /**
      * variables for pagination.
@@ -52,7 +52,7 @@ $app.controller('clientesController', function ($scope, $http, $routeParams, $lo
 
         $scope.showLoader();
 
-        $http.get($scope.server("/clientes")).success(function (data) {
+        $http.get($scope.server("/user")).success(function (data) {
 
             $scope.rows = data;
             $scope.hideLoader();
@@ -72,9 +72,11 @@ $app.controller('clientesController', function ($scope, $http, $routeParams, $lo
 
             $scope.showLoader();
 
-            $http.get($scope.server("/clientes/" + $routeParams.id)).success(function (data) {
+            $http.get($scope.server("/user/" + $routeParams.id)).success(function ($data) {
 
-                $scope.row = data;
+                console.log($data);
+
+                $scope.row = $data;
                 $scope.row.isUpdate = true;
                 $scope.hideLoader();
             });
@@ -102,7 +104,7 @@ $app.controller('clientesController', function ($scope, $http, $routeParams, $lo
         // validate passwords
         if ($scope.row.ds_senha === $scope.row.re_senha) {
 
-            $http.post($scope.server("/clientes/" + $routeParams.id), $scope.row).success(function ($data) {
+            $http.post($scope.server("/user/" + $routeParams.id), $scope.row).success(function ($data) {
 
                 console.log($data);
 
@@ -119,7 +121,7 @@ $app.controller('clientesController', function ($scope, $http, $routeParams, $lo
 
                     $scope.hideLoader();
 
-                    $location.path("/clientes");
+                    $location.path("/user");
 
                     $scope.showFlashmessage("alert-success", "Processo realizado com sucesso.");
                 }
@@ -142,7 +144,7 @@ $app.controller('clientesController', function ($scope, $http, $routeParams, $lo
      */
     $scope.del = function ($sq_pessoa) {
 
-        $http.delete($scope.server("/clientes/" + $sq_pessoa)).success(function ($result) {
+        $http.delete($scope.server("/user/" + $sq_pessoa)).success(function ($result) {
 
             if ($result) {
 

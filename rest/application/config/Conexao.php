@@ -16,8 +16,11 @@ abstract class Conexao
 
         try {
 
-            $PDO = new PDO("pgsql:dbname=" . DB_NAME . ";host=" . DB_HOST, DB_USER, DB_PASSWORD);
-            $PDO->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            if (empty($PDO)) {
+
+                $PDO = new PDO("pgsql:dbname=" . DB_NAME . ";host=" . DB_HOST, DB_USER, DB_PASSWORD);
+                $PDO->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            }
 
             return $PDO;
 

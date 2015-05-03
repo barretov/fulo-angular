@@ -24,13 +24,13 @@ use \fulo\business\UserBusiness as UserBusiness;
 
 /**
  * Method for get users
- * @name get | clientes
+ * @name get | user
  * @author Victor Eduardo Barreto
  * @return json Data of users
  * @date Apr 3, 2015
  * @version 1.0
  */
-$app->get("/clientes", function () {
+$app->get("/user", function () {
 
     try {
 
@@ -45,14 +45,14 @@ $app->get("/clientes", function () {
 
 /**
  * Method for get user
- * @name get | clientes
+ * @name get | user
  * @author Victor Eduardo Barreto
  * @param int $sq_pessoa Identifier of user
  * @return json Data of user selected
  * @date Apr 3, 2015
  * @version 1.0
  */
-$app->get("/clientes/:id", function ($sq_pessoa) {
+$app->get("/user/:id", function ($sq_pessoa) {
 
     try {
 
@@ -67,14 +67,14 @@ $app->get("/clientes/:id", function ($sq_pessoa) {
 
 /**
  * Method for save or update user
- * @name post | clientes
+ * @name post | user
  * @author Victor Eduardo Barreto
  * @param json Data of user
  * @return bool Result of procedure
  * @date Apr 3, 2015
  * @version 1.0
  */
-$app->post("/clientes/:id", function () {
+$app->post("/user/:id", function () {
 
     try {
 
@@ -100,14 +100,14 @@ $app->post("/clientes/:id", function () {
 
 /**
  * Method for save or update user
- * @name delete | clientes
+ * @name delete | user
  * @author Victor Eduardo Barreto
  * @param int $sq_pessoa Identifier of user
  * @return bool Result of procedure
  * @date Apr 3, 2015
  * @version 1.0
  */
-$app->delete("/clientes/:id", function ($sq_pessoa) {
+$app->delete("/user/:id", function ($sq_pessoa) {
 
     try {
 

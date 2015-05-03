@@ -19,6 +19,8 @@
 
 namespace fulo\business;
 
+use fulo\model\UserModel as UserModel;
+
 /**
  * Class of business for users
  * @name UserBusiness
@@ -31,23 +33,23 @@ class UserBusiness extends MasterBusiness
 {
 
     /**
-     * Method to retuen a instance model of user
-     * @name userModel
+     * variable for instance of user model
+     * @var object
+     */
+    private $_userModel;
+
+    /**
+     * Method constructor of class
+     * @name __construct
      * @author Victor Eduardo Barreto
      * @package fulo\business
      * @return object Model of user
-     * @date Apr 8, 2015
+     * @date May 3, 2015
      * @version 1.0
      */
-    private function userModel ()
+    public function __construct ()
     {
-        try {
-
-            return new \fulo\model\UserModel();
-        } catch (Exception $ex) {
-
-            throw new $ex;
-        }
+        $this->_userModel = new UserModel();
     }
 
     /**
@@ -77,10 +79,8 @@ class UserBusiness extends MasterBusiness
             #cript password.
             $data->ds_senha = crypt($data->ds_senha);
 
-            # usado para copara a senha criptgrafada.
-//            if(crypt($senhadigitada,$senhaguardada)) == $senhaguardada)
             # send to the model of user for add and return for controller.
-            return $this->userModel()->addUser($data);
+            return $this->_userModel->addUser($data);
         } catch (Exception $ex) {
 
             throw new $ex;
@@ -106,7 +106,7 @@ class UserBusiness extends MasterBusiness
             if ($this->verifyEmailExists($data->ds_email)) {
 
                 # get current email in the base.
-                $currentEmail = $this->userModel()->getUserByIdenty($data->sq_pessoa);
+                $currentEmail = $this->_userModel()->getUserByIdenty($data->sq_pessoa);
 
                 # if don't change email, do the update.
                 if ($data->ds_email != $currentEmail['ds_email']) {
@@ -119,7 +119,7 @@ class UserBusiness extends MasterBusiness
             $this->removeSpecialChar($data);
 
             # send to the model of user for update and return for controller.
-            return $this->userModel()->upUser($data);
+            return $this->userModel->upUser($data);
         } catch (Exception $ex) {
 
             throw new $ex;
@@ -140,7 +140,9 @@ class UserBusiness extends MasterBusiness
 
         try {
 
-            return $this->userModel()->getUsers();
+            $this->isLoged();
+
+            return $this->_userModel->getUsers();
         } catch (Exception $ex) {
 
             throw new $ex;
@@ -161,7 +163,7 @@ class UserBusiness extends MasterBusiness
     {
         try {
 
-            return $this->userModel()->getUserByIdenty($sq_pessoa);
+            return $this->_userModel->getUserByIdenty($sq_pessoa);
         } catch (Exception $ex) {
 
             throw new $ex;
@@ -182,7 +184,7 @@ class UserBusiness extends MasterBusiness
     {
         try {
 
-            return $this->userModel()->delUser($sq_pessoa);
+            return $this->_userModel->delUser($sq_pessoa);
         } catch (Exception $ex) {
 
             throw new $ex;
@@ -205,7 +207,7 @@ class UserBusiness extends MasterBusiness
         try {
 
             # get user data.
-            $UserData = $this->userModel()->getDataByEmail($ds_email);
+            $UserData = $this->_userModel->getDataByEmail($ds_email);
 
             # compare the email.
             if ($UserData['ds_email'] === $ds_email) {

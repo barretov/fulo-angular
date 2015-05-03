@@ -68,4 +68,28 @@ abstract class MasterBusiness
         }
     }
 
+    /**
+     * Method for remove special char of data
+     * @name removeSpecialChar
+     * @author Victor Eduardo Barreto
+     * @param object or array or string $data Data to remove special char
+     * @return object or array or string Data without special char
+     * @date Apr 12, 2015
+     * @version 1.0
+     */
+    public function isLoged ()
+    {
+        try {
+
+            if ($_SESSION['user']) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception $ex) {
+
+            throw new $ex;
+        }
+    }
+
 }

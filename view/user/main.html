@@ -24,7 +24,7 @@
             <tr ng-repeat="row in rows| startFrom: currentPage * pageSize| limitTo: pageSize" id="{{row.sq_pessoa}}">
 
                 <!--name-->
-                <td><a href='#/clientes/{{row.sq_pessoa}}'>{{row.ds_nome}}</a></td>
+                <td><a href='#/user/{{row.sq_pessoa}}'>{{row.ds_nome}}</a></td>
 
                 <!--email-->
                 <td>{{row.ds_email}}</td>
@@ -50,7 +50,7 @@
     <!--listagem-->
 
     <!--botao novo-->
-    <a class="btn btn-primary btn-sm" href="#/clientes/new">Novo <i class="glyphicon glyphicon-plus"></i></a>
+    <a class="btn btn-primary btn-sm" href="#/user/new">Novo <i class="glyphicon glyphicon-plus"></i></a>
     <!--botao novo-->
 
     <!--paginação-->

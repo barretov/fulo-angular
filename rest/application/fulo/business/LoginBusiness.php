@@ -33,28 +33,8 @@ class LoginBusiness extends MasterBusiness
 {
 
     /**
-     * Variable to access login model
-     * @var object Model of login
-     */
-//    private $_modelLogin;
-
-    /**
-     * Method constructor of login business
-     * @name __construct
-     * @author Victor Eduardo Barreto
-     * @package fulo\business
-     * @return object Model of user
-     * @date Apr 14, 2015
-     * @version 1.0
-     */
-    public function __construct ()
-    {
-//        $this->_modelLogin = new \fulo\model\LoginModel();
-    }
-
-    /**
-     * Method for prepare data to login of user
-     * @name prepareLogin
+     * Method for log in the user
+     * @name doLogin
      * @author Victor Eduardo Barreto
      * @package fulo\business
      * @param array $data Data for user
@@ -62,7 +42,7 @@ class LoginBusiness extends MasterBusiness
      * @date Apr 14, 2015
      * @version 1.0
      */
-    public function prepareLogin (& $data)
+    public function doLogin (& $data)
     {
 
         try {

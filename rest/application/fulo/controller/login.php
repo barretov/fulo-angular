@@ -39,7 +39,7 @@ $app->post("/login", function () {
 
         $data = json_decode(\Slim\Slim::getInstance()->request()->getBody());
 
-        $result = $business->prepareLogin($data);
+        $result = $business->doLogin($data);
 
         formatJson($result);
     } catch (Exception $ex) {

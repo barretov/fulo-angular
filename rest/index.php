@@ -20,16 +20,12 @@ $app->error(function ( Exception $e = null) use ($app) {
     echo '{"error":{"text":"' . $e->getMessage() . '"}}';
 });
 
-function formatJson ($obj)
-{
-    echo json_encode($obj);
-}
-
 //Includes de configurações.
 include_once './application/config/config.php';
 
 # include de controllers.
-include_once './application/fulo/controller/clientes.php';
+include_once './application/fulo/controller/MasterController.php';
+include_once './application/fulo/controller/user.php';
 include_once './application/fulo/controller/login.php';
 
 $app->run();
