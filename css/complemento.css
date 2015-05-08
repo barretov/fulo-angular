@@ -96,3 +96,8 @@ body {
 #modalLogin {
     padding-top: 60px;
 }
+
+/*centraliza a label do radio inline*/
+.radio-center {
+    padding-top: 2px !important;
+}

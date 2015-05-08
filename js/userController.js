@@ -88,6 +88,7 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
             $scope.row.isUpdate = false;
             $scope.hideLoader();
         }
+
     }
 
     /**
@@ -130,8 +131,6 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
         } else {
             $scope.showFlashmessage("alert-warning", "A senha não confere.");
         }
-
-
     }
 
     /**

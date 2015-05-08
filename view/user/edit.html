@@ -1,7 +1,6 @@
-<legend ng-show="row.sq_pessoa != null">Edição de usuário</legend>
-<legend ng-show="row.sq_pessoa == null">Cadastro de usuário</legend>
+<legend>Editar usuário</legend>
 
-<div ng-init="loadRow()">
+<div ng-init="loadRowLoged(user.sq_pessoa)">
 
     <!--Apresentação-->
     <h1><span class="text-primary hidden-xs" ng-bind="row.ds_nome"></span></h1>

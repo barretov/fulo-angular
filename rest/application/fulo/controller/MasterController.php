@@ -17,8 +17,8 @@
  */
 
 /**
- * Descrição da classe
- * @name MasterController
+ * Format object to json
+ * @name formatJson
  * @author Victor Eduardo Barreto
  * @date May 3, 2015
  * @version 1.0

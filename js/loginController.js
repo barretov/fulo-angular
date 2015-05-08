@@ -86,8 +86,6 @@ $app.controller('loginController', function ($scope, $http, $routeParams, $locat
 
         $http.get($scope.server("/session")).success(function ($return) {
 
-            console.log($return);
-
             if ($return) {
 
                 $scope.user = $return;

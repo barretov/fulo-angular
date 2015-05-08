@@ -142,7 +142,7 @@ class UserBusiness extends MasterBusiness
 
             $this->isLoged();
 
-            return $this->_userModel->getUsers();
+            return $this->_userModel->getUsers($_SESSION['user']['sq_pessoa']);
         } catch (Exception $ex) {
 
             throw new $ex;

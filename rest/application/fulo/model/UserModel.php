@@ -52,7 +52,7 @@ class UserModel
 
             $conn->beginTransaction();
 
-            $stmt = $conn->prepare("INSERT INTO fulo.pessoa (ds_nome,ds_email) VALUES (?,?)");
+            $stmt = $conn->prepare("INSERT INTO fulo.pessoa (ds_nome, ds_email) VALUES (?,?)");
 
             $stmt->execute(array(
                 $data->ds_nome,
@@ -94,7 +94,7 @@ class UserModel
             $conn->beginTransaction();
 
             # set $stmt to update pessoa.
-            $stmt = $conn->prepare("UPDATE fulo.pessoa SET ds_nome = ?,ds_email = ? WHERE sq_pessoa = ?");
+            $stmt = $conn->prepare("UPDATE fulo.pessoa SET ds_nome = ?, ds_email = ? WHERE sq_pessoa = ?");
 
             $stmt->execute(array(
                 $data->ds_nome,
@@ -124,18 +124,21 @@ class UserModel
      * @name getUser
      * @author Victor Eduardo Barreto
      * @return array Data of users
+     * @param int Id of loged user
      * @date Apr 8, 2015
      * @version 1.0
      */
-    public function getUsers ()
+    public function getUsers ($sq_pessoa = null)
     {
         try {
 
             $conn = getConn::getConnect();
 
-            $sql = "SELECT * FROM fulo.pessoa JOIN fulo.usuario on pessoa.sq_pessoa = usuario.sq_usuario ORDER BY pessoa.ds_nome ASC";
-
-            $stmt = $conn->prepare($sql);
+            $stmt = $conn->prepare(
+                    "SELECT * FROM fulo.pessoa "
+                    . "JOIN fulo.usuario on pessoa.sq_pessoa = usuario.sq_usuario "
+                    . "and pessoa.sq_pessoa <> $sq_pessoa ORDER BY pessoa.ds_nome ASC"
+            );
 
             $stmt->execute();
 
@@ -161,9 +164,7 @@ class UserModel
 
             $conn = getConn::getConnect();
 
-            $sql = "SELECT * FROM fulo.pessoa JOIN fulo.usuario on pessoa.sq_pessoa = usuario.sq_usuario WHERE sq_pessoa = ?";
-
-            $stmt = $conn->prepare($sql);
+            $stmt = $conn->prepare("SELECT * FROM fulo.pessoa JOIN fulo.usuario on pessoa.sq_pessoa = usuario.sq_usuario WHERE sq_pessoa = ?");
 
             $stmt->execute(array(
                 $sq_pessoa
@@ -193,9 +194,7 @@ class UserModel
 
             $conn->beginTransaction();
 
-            $sql = "DELETE FROM fulo.pessoa WHERE sq_pessoa = ?";
-
-            $stmt = $conn->prepare($sql);
+            $stmt = $conn->prepare("DELETE FROM fulo.pessoa WHERE sq_pessoa = ?");
 
             $stmt->execute(array(
                 $sq_pessoa
@@ -227,9 +226,7 @@ class UserModel
 
             $conn = getConn::getConnect();
 
-            $sql = "SELECT * FROM fulo.pessoa JOIN fulo.usuario on pessoa.sq_pessoa = usuario.sq_usuario WHERE ds_email = ?";
-
-            $stmt = $conn->prepare($sql);
+            $stmt = $conn->prepare("SELECT * FROM fulo.pessoa JOIN fulo.usuario on pessoa.sq_pessoa = usuario.sq_usuario WHERE ds_email = ?");
 
             $stmt->execute(array(
                 $ds_email

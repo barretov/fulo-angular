@@ -12,6 +12,7 @@ $app.config(['$routeProvider', '$httpProvider', function ($routeProvider, $httpP
                 when('/user', {templateUrl: 'view/user/main.html', controller: 'userController'}).
                 when('/user/new', {templateUrl: 'view/user/update.html', controller: 'userController'}).
                 when('/user/:id', {templateUrl: 'view/user/update.html', controller: 'userController'}).
+                when('/user/edit', {templateUrl: 'view/user/edit.html', controller: 'userController'}).
                 when('/funcionarios', {templateUrl: 'view/funcionarios/main.html', controller: 'funcionariosController'}).
                 otherwise({redirectTo: '/'});
 

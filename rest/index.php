@@ -16,6 +16,7 @@ $app = new \Slim\Slim(array(
 
 $app->contentType("application/json");
 $app->response->headers->set('Access-Control-Allow-Origin', '*');
+
 $app->error(function ( Exception $e = null) use ($app) {
     echo '{"error":{"text":"' . $e->getMessage() . '"}}';
 });
