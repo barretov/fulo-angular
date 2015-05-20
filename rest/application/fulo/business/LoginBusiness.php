@@ -62,6 +62,7 @@ class LoginBusiness extends MasterBusiness
                 # save data of user in session.
                 $_SESSION['user'] = array(
                     'sq_pessoa' => $dataUser['sq_pessoa'],
+                    'sq_usuario' => $dataUser['sq_usuario'],
                     'ds_nome' => $dataUser['ds_nome'],
                     'ds_email' => $dataUser['ds_email'],
                     'sq_perfil' => $dataUser['sq_perfil'],

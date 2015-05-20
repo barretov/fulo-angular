@@ -28,7 +28,7 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
      * variables for pagination.
      */
     $scope.currentPage = 0;
-    $scope.pageSize = 5;
+    $scope.pageSize = 10;
 
     /**
      * Method for control the pagination
@@ -74,15 +74,13 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
 
             $http.get($scope.server("/user/" + $routeParams.id)).success(function ($data) {
 
-                console.log($data);
-
                 $scope.row = $data;
                 $scope.row.isUpdate = true;
                 $scope.hideLoader();
             });
-        }
-        else
-        {
+
+        } else {
+
             $scope.row = {}
             $scope.row.sq_pessoa = null;
             $scope.row.isUpdate = false;
@@ -103,11 +101,9 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
         $scope.showLoader();
 
         // validate passwords
-        if ($scope.row.ds_senha === $scope.row.re_senha) {
+        if ($scope.row.ds_re_senha === null || $scope.row.ds_senha === $scope.row.re_senha) {
 
             $http.post($scope.server("/user/" + $routeParams.id), $scope.row).success(function ($data) {
-
-                console.log($data);
 
                 // verify if email already exists.
                 if ($data === "email-already") {
@@ -131,6 +127,106 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
         } else {
             $scope.showFlashmessage("alert-warning", "A senha não confere.");
         }
+    }
+
+    /**
+     * Method for add user
+     * @name addUser
+     * @author Victor Eduardo Barreto
+     * @date May 13, 2015
+     * @version 1.0
+     */
+    $scope.addUser = function () {
+
+        $scope.showLoader();
+
+        // validate passwords
+        if ($scope.row.ds_re_senha === null || $scope.row.ds_senha === $scope.row.re_senha) {
+
+            $http.post($scope.server("/addUser/"), $scope.row).success(function ($data) {
+
+                // verify if email already exists.
+                if ($data === "email-already") {
+
+                    $scope.hideLoader();
+
+                    $scope.showFlashmessage('alert-warning', 'Este email já está cadastrado.');
+
+                } else {
+
+                    $scope.row.isUpdate = true;
+
+                    $scope.hideLoader();
+
+                    $location.path("/user");
+
+                    $scope.showFlashmessage("alert-success", "Processo realizado com sucesso.");
+                }
+            });
+
+        } else {
+            $scope.showFlashmessage("alert-warning", "A senha não confere.");
+        }
+    }
+
+    /**
+     * Method for update user data access
+     * @name updateDataAccess
+     * @author Victor Eduardo Barreto
+     * @date May 9, 2015
+     * @version 1.0
+     */
+    $scope.updateDataAccess = function () {
+
+        $scope.showLoader();
+
+        // validate passwords
+        if ($scope.user.ds_re_senha === null || $scope.user.ds_senha === $scope.user.re_senha) {
+
+            $http.post($scope.server("/userUpDataAccess/"), $scope.user).success(function ($data) {
+
+                $scope.hideLoader();
+
+                $location.path("/");
+
+                $scope.showFlashmessage("alert-success", "Processo realizado com sucesso.");
+            });
+
+        } else {
+            $scope.showFlashmessage("alert-warning", "A senha não confere.");
+        }
+    }
+
+    /**
+     * Method for update data user
+     * @name updateDataUser
+     * @author Victor Eduardo Barreto
+     * @date May 09, 2015
+     * @version 1.0
+     */
+    $scope.updateDataUser = function () {
+
+        $scope.showLoader();
+
+        $http.post($scope.server("/userUpData/"), $scope.row).success(function ($data) {
+
+            // verify if email already exists.
+            if ($data === "email-already") {
+
+                $scope.hideLoader();
+
+                $scope.showFlashmessage('alert-warning', 'Este email já está cadastrado.');
+
+            } else {
+
+                $scope.hideLoader();
+
+                $location.path("/user");
+
+                $scope.showFlashmessage("alert-success", "Processo realizado com sucesso.");
+            }
+        });
+
     }
 
     /**

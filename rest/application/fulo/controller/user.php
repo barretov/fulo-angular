@@ -99,6 +99,32 @@ $app->post("/user/:id", function () {
 });
 
 /**
+ * Method for add user
+ * @name addUser
+ * @author Victor Eduardo Barreto
+ * @param json Data of user
+ * @return bool Result of procedure
+ * @date May 13, 2015
+ * @version 1.0
+ */
+$app->post("/addUser/", function () {
+
+    try {
+
+        $business = new UserBusiness();
+
+        $data = json_decode(\Slim\Slim::getInstance()->request()->getBody());
+
+        $result = $business->addUser($data);
+
+        formatJson($result);
+    } catch (Exception $ex) {
+
+        throw new $ex;
+    }
+});
+
+/**
  * Method for save or update user
  * @name delete | user
  * @author Victor Eduardo Barreto
@@ -114,6 +140,58 @@ $app->delete("/user/:id", function ($sq_pessoa) {
         $business = new UserBusiness();
 
         formatJson($business->delUser($sq_pessoa));
+    } catch (Exception $ex) {
+
+        throw new $ex;
+    }
+});
+
+/**
+ * Method for update data user
+ * @name post | user
+ * @author Victor Eduardo Barreto
+ * @param json Data of user
+ * @return bool Result of procedure
+ * @date Apr 3, 2015
+ * @version 1.0
+ */
+$app->post("/userUpData/", function () {
+
+    try {
+
+        $business = new UserBusiness();
+
+        $data = json_decode(\Slim\Slim::getInstance()->request()->getBody());
+
+        $result = $business->upUser($data);
+
+        formatJson($result);
+    } catch (Exception $ex) {
+
+        throw new $ex;
+    }
+});
+
+/**
+ * Method for update user data access
+ * @name post | user
+ * @author Victor Eduardo Barreto
+ * @param json Data access of user
+ * @return bool Result of procedure
+ * @date May 19, 2015
+ * @version 1.0
+ */
+$app->post("/userUpDataAccess/", function () {
+
+    try {
+
+        $business = new UserBusiness();
+
+        $data = json_decode(\Slim\Slim::getInstance()->request()->getBody());
+
+        $result = $business->upDataAccesss($data);
+
+        formatJson($result);
     } catch (Exception $ex) {
 
         throw new $ex;

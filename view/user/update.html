@@ -1,5 +1,4 @@
 <legend ng-show="row.sq_pessoa != null">Edição de usuário</legend>
-<legend ng-show="row.sq_pessoa == null">Cadastro de usuário</legend>
 
 <div ng-init="loadRow()">
 
@@ -7,7 +6,7 @@
     <h1><span class="text-primary hidden-xs" ng-bind="row.ds_nome"></span></h1>
     <h2><span class="text-primary hidden-sm hidden-md hidden-lg" ng-bind="row.ds_nome"></span></h2>
 
-    <form name="form" class="form-horizontal" ng-show="row != null">
+    <form name="formPessoal" class="form-horizontal" ng-show="row != null">
 
         <!--sq_pessoa hidden-->
         <input name="sq_pessoa" type="hidden" ng-model="row.sq_pessoa" ng-disabled="row.isUpdate" />
@@ -29,10 +28,10 @@
             </div>
 
             <div class="help-block-input col-xs-12 col-sm-4 col-md-4">
-                <span class="text-danger" ng-show="form.ds_nome.$dirty && form.ds_nome.$invalid">
+                <span class="text-danger" ng-show="formPessoal.ds_nome.$dirty && formPessoal.ds_nome.$invalid">
                     <i class="glyphicon glyphicon-remove-sign"></i>
-                    <span ng-show="form.ds_nome.$error.required">Campo obrigatório</span>
-                    <span ng-show="form.ds_nome.$error.maxlength">Máximo de cinquenta caracteres</span>
+                    <span ng-show="formPessoal.ds_nome.$error.required">Campo obrigatório</span>
+                    <span ng-show="formPessoal.ds_nome.$error.maxlength">Máximo de cinquenta caracteres</span>
                 </span>
 
             </div>
@@ -57,78 +56,16 @@
 
             <div class="help-block-input col-xs-12 col-sm-4 col-md-4">
 
-                <span class="text-danger" ng-show="form.ds_email.$dirty && form.ds_email.$invalid">
+                <span class="text-danger" ng-show="formPessoal.ds_email.$dirty && formPessoal.ds_email.$invalid">
                     <i class="glyphicon glyphicon-remove-sign"></i>
-                    <span ng-show="form.ds_email.$error.required">Campo obrigatório</span>
-                    <span ng-show="form.ds_email.$error.email">Email inválido</span>
-                    <span ng-show="form.ds_email.$error.maxlength">Máximo de cinquenta caracteres</span>
+                    <span ng-show="formPessoal.ds_email.$error.required">Campo obrigatório</span>
+                    <span ng-show="formPessoal.ds_email.$error.email">Email inválido</span>
+                    <span ng-show="formPessoal.ds_email.$error.maxlength">Máximo de cinquenta caracteres</span>
                 </span>
 
             </div>
         </div>
         <!--campo email-->
-
-        <!--campo senha-->
-        <div class="form-group">
-            <label class="col-sm-2 control-label">Senha</label>
-
-
-            <div class="col-xs-12 col-sm-6 col-md-6">
-
-                <input class="form-control"
-                       placeholder="Senha"
-                       name="ds_senha"
-                       type="password"
-                       maxlength="20"
-                       ng-maxlength="20"
-                       ng-minlength="4"
-                       ng-model="row.ds_senha"
-                       required/>
-            </div>
-
-            <div class="help-block-input col-xs-12 col-sm-4 col-md-4">
-
-                <span class="text-danger" ng-show="form.ds_senha.$dirty && form.ds_senha.$invalid">
-                    <i class="glyphicon glyphicon-remove-sign"></i>
-                    <span ng-show="form.ds_senha.$error.required">Campo obrigatório</span>
-                    <span ng-show="form.ds_senha.$error.minlength">Mínimo de quatro caracteres</span>
-                    <span ng-show="form.ds_senha.$error.maxlength">Máximo de vinte caracteres</span>
-                </span>
-
-            </div>
-        </div>
-        <!--campo senha-->
-
-        <!--campo confirma senha-->
-        <div class="form-group">
-            <label class="col-sm-2 control-label">Repita a senha</label>
-
-
-            <div class="col-xs-12 col-sm-6 col-md-6">
-
-                <input class="form-control"
-                       placeholder="Repita a senha"
-                       name="re_senha"
-                       type="password"
-                       maxlength="20"
-                       ng-model="row.re_senha"
-                       ng-maxlength="20"
-                       ng-minlength="4"
-                       required/>
-            </div>
-
-            <div class="help-block-input col-xs-12 col-sm-4 col-md-4">
-
-                <span class="text-danger" ng-show="form.re_senha.$dirty && form.re_senha.$invalid">
-                    <i class="glyphicon glyphicon-remove-sign"></i>
-                    <span ng-show="form.re_senha.$error.required">Campo obrigatório</span>
-                    <span ng-show="form.re_senha.$error.minlength">Mínimo de quatro caracteres</span>
-                    <span ng-show="form.re_senha.$error.maxlength">Máximo de vinte caracteres</span>
-                </span>
-
-            </div>
-        </div>
-        <!--campo confirma senha-->
 
         <!--campo perfil-->
         <div class="form-group">
@@ -152,7 +89,7 @@
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
 
-                <button type="submit" class="btn btn-primary btn-sm" ng-click="save()" ng-Disabled="form.$invalid">Salvar
+                <button type="submit" class="btn btn-primary btn-sm" ng-click="updateDataUser()" ng-Disabled="formPessoal.$invalid">Salvar
                     <i class="glyphicon glyphicon-save"></i>
                 </button>
 

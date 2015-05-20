@@ -106,7 +106,7 @@ class UserBusiness extends MasterBusiness
             if ($this->verifyEmailExists($data->ds_email)) {
 
                 # get current email in the base.
-                $currentEmail = $this->_userModel()->getUserByIdenty($data->sq_pessoa);
+                $currentEmail = $this->_userModel->getUserByIdenty($data->sq_pessoa);
 
                 # if don't change email, do the update.
                 if ($data->ds_email != $currentEmail['ds_email']) {
@@ -119,7 +119,7 @@ class UserBusiness extends MasterBusiness
             $this->removeSpecialChar($data);
 
             # send to the model of user for update and return for controller.
-            return $this->userModel->upUser($data);
+            return $this->_userModel->upUser($data);
         } catch (Exception $ex) {
 
             throw new $ex;
@@ -217,6 +217,35 @@ class UserBusiness extends MasterBusiness
 
                 return false;
             }
+        } catch (Exception $ex) {
+
+            throw new $ex;
+        }
+    }
+
+    /**
+     * Method for business to update data access user
+     * @name upDataAccesss
+     * @author Victor Eduardo Barreto
+     * @package fulo\business
+     * @param array $data Data access for user
+     * @return bool Result of procedure
+     * @date May 19, 2015
+     * @version 1.0
+     */
+    public function upDataAccesss (& $data)
+    {
+
+        try {
+
+            # remove special char and spaces.
+            $this->removeSpecialChar($data);
+
+            #cript password.
+            $data->ds_senha = crypt($data->ds_senha);
+
+            # send to the model of user for update and return for controller.
+            return $this->_userModel->updateDataAccess($data);
         } catch (Exception $ex) {
 
             throw new $ex;

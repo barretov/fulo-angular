@@ -24,304 +24,292 @@
             <!--linha-->
             <div class="row">
 
-                <!--controller.-->
-                <div ng-controller="loginController">
-
-                    <!--get session user data.-->
-                    <div ng-init="session()">
-
-                        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-
-                            <!--nav container-->
-                            <div class="container-fluid">
-
-                                <!--botao de menu para mobile-->
-                                <div class="navbar-header">
-
-                                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-targset="#dropdown-thumbnail-preview" data-target=".navbar-collapse">
-                                        <span class="sr-only">Toggle navigation</span>
-                                        <span class="icon-bar"></span>
-                                        <span class="icon-bar"></span>
-                                        <span class="icon-bar"></span>
-                                    </button>
-                                    <!--fim botao de menu para mobile-->
-
-                                    <a class="navbar-brand hidden-xs" href="#/"><img src="img/fulo.png" /></a>
-                                    <a class="navbar-brand hidden-sm hidden-md hidden-lg" href="#/"><img src="img/fulo.png" /></a>
-
-                                </div>
-
-                                <!--colapso-->
-                                <div id="navbar" class="navbar-collapse collapse">
-
-                                    <!--botoes da esquerda-->
-                                    <ul class="nav navbar-nav">
-
-                                        <!--botoes navbar-->
-                                        <li class="active"><a href="#/"><i class="glyphicon glyphicon-home"></i> Home</a></li>
-
-                                        <!--menu dropdown-->
-                                        <li class="dropdown thumb-dropdown">
-
-                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-th"></i> Produtos<span class="caret"></span></a>
-
-                                            <ul class="dropdown-menu" role="menu">
-
-                                                <li class="dropdown-header">Casa</li>
-
-                                                <li>
-                                                    <a href="#">
-                                                        Acessórios para Cozinha
-                                                        <div class="thumbnail hidden-xs">
-                                                            <img class="img-responsive" src="img/dropdown_menu/acessoriocozinha.png" width="400" height="400"/>
-                                                        </div>
-                                                    </a>
-                                                </li>
-
-                                                <li>
-                                                    <a href="#">
-                                                        Almofadas
-                                                        <div class="thumbnail hidden-xs">
-                                                            <img class="img-responsive" src="img/dropdown_menu/almofadas.png" width="400" height="400"/>
-                                                        </div>
-                                                    </a>
-                                                </li>
-
-                                                <li>
-                                                    <a href="#">
-                                                        Bolsas
-                                                        <div class="thumbnail hidden-xs">
-                                                            <img class="img-responsive" src="img/dropdown_menu/bolsas.png" width="400" height="400"/>
-                                                        </div>
-                                                    </a>
-                                                </li>
-
-                                                <li class="divider"></li>
-                                                <li class="dropdown-header">Infatil</li>
-
-                                                <li>
-                                                    <a href="#">
-                                                        Cobreleitos
-                                                        <div class="thumbnail hidden-xs">
-                                                            <img class="img-responsive" src="img/dropdown_menu/cobreleitos.png" width="400" height="400"/>
-                                                        </div>
-                                                    </a>
-                                                </li>
-
-                                                <li>
-                                                    <a href="#">
-                                                        Kit Bebê
-                                                        <div class="thumbnail hidden-xs">
-                                                            <img class="img-responsive" src="img/dropdown_menu/kitbebe.png" width="400" height="400" />
-                                                        </div>
-                                                    </a>
-                                                </li>
-
-                                                <li>
-                                                    <a href="#">
-                                                        Mantos para Sofá
-                                                        <div class="thumbnail hidden-xs">
-                                                            <img class="img-responsive" src="img/dropdown_menu/mantossofa.png" width="400" height="400"/>
-                                                        </div>
-                                                    </a>
-                                                </li>
-
-                                                <li>
-                                                    <a href="#">
-                                                        Mimos
-                                                        <div class="thumbnail hidden-xs">
-                                                            <img class="img-responsive" src="img/dropdown_menu/mimos.png" width="400" height="400"/>
-                                                        </div>
-                                                    </a>
-                                                </li>
-
-                                                <li>
-                                                    <a href="#">
-                                                        Panôs
-                                                        <div class="thumbnail hidden-xs">
-                                                            <img class="img-responsive" src="img/dropdown_menu/panos.png" width="400" height="400"/>
-                                                        </div>
-                                                    </a>
-                                                </li>
-
-                                                <li>
-                                                    <a href="#">
-                                                        Peso de Porta
-                                                        <div class="thumbnail hidden-xs">
-                                                            <img class="img-responsive" src="img/dropdown_menu/pesoporta.png" width="400" height="400"/>
-                                                        </div>
-                                                    </a>
-                                                </li>
-
-                                                <li>
-                                                    <a href="#">
-                                                        Porta Trecos
-                                                        <div class="thumbnail hidden-xs">
-
-                                                            <img class="img-responsive"
-                                                                 src="img/dropdown_menu/portatrecos.png"
-                                                                 width="400"
-                                                                 height="400"/>
-
-                                                        </div>
-                                                    </a>
-                                                </li>
-
-                                            </ul>
-                                        </li>
-                                        <!--fim dropdown-->
-
-                                        <li><a href="#"><i class="glyphicon glyphicon-phone-alt"></i> Contato</a></li>
-
-                                        <!--dropdown institucional-->
-                                        <li class="dropdown thumb-dropdown">
-
-                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                                <i class="glyphicon glyphicon-road"></i> Institucional<span class="caret"></span>
-                                            </a>
-
-                                            <ul class="dropdown-menu" role="menu">
-
-                                                <li><a href="#">Como tudo começou</a></li>
-                                                <li><a href="#">Cuidados especiais</a></li>
-                                                <li><a href="#">História do patchwork</a></li>
-                                                <li><a href="#/user">Usuários</a></li>
-                                                <li><a href="#/funcionarios">Funcionários</a></li>
-                                                <li><a href="#/transportadoras">Transportadoras</a></li>
-
-                                            </ul>
-
-                                        </li>
-                                        <!--dropdown institucional-->
-
-                                        <!--identificação do usuário logado-->
-                                        <li>
-                                            <a href="#/user/edit">
-                                                <i class="glyphicon glyphicon-user" ng-show="user.ds_nome"></i>
-                                                <strong> {{user.ds_nome}}</strong>
-                                            </a>
-                                        </li>
-                                        <!--identificação do usuário logado-->
-
-                                        <!--fim botoes navbar-->
-                                    </ul>
-
-                                    <!--fim botoes da esquerda-->
-
-                                    <!--botoes da direita-->
-                                    <ul class="nav navbar-nav navbar-right">
-
-                                        <!--login-->
-                                        <li ng-show="!user.sq_pessoa">
-                                            <a href="#/" data-toggle="modal" data-target="#modalLogin">
-                                                <strong>Entrar </strong>
-                                                <i class="glyphicon glyphicon-log-in text-primary"></i>
-                                            </a>
-                                        </li>
-                                        <!--login-->
-
-                                        <!--logout-->
-                                        <li ng-show="user.sq_pessoa">
-                                            <a href="#/" data-toggle="modal" data-target="#modalLogoff">
-                                                <strong>Sair </strong>
-                                                <i class="glyphicon glyphicon-log-out text-danger"></i>
-                                            </a>
-                                        </li>
-                                        <!--logout-->
-
-                                    </ul>
-                                    <!--fim botoes da direita-->
-
-                                    <form class="navbar-form pull-right">
-                                        <img src="img/ajax-loader.gif" ng-show="showLoaderFlag" class="pull-right" />
-                                    </form>
-
-                                </div>
-                                <!--nav container-->
-
-                            </div>
-                            <!--colapso-->
-
-                        </nav>
-                        <!--navbar-->
-
-                        <!--conteudo-->
-                        <div class="container-fluid">
-
-                            <!--linha-->
-                            <div class="row">
-
-                                <!--flashmessage-->
-                                <div id="flashmessage" class="navbar-fixed-top">
-
-                                    <div  class="alert {{flashType}} fade in" role="alert">
-                                        <i class="glyphicon {{glyphicon}}"></i>
-                                        {{flashMsg}}
-                                    </div>
-
-                                </div>
-                                <!--flashmessage-->
-
-                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-
-                                    <!--conteudo-->
-                                    <div ng-view></div>
-                                    <!--conteudo-->
-
-                                </div>
-
-                                <!--rodape-->
-                                <legend><br /></legend>
-
-                                <!--primeiro bloco-->
-                                <div class="col-xs-12 col-md-6">
-
-                                    <!--bloco de endereco-->
-                                    <address>
-                                        <h3>Fulô Patchwork</h3>
-
-                                        <div class="col-sm-12">
-                                            Gama, Brasília - DF, 7200000<br />
-                                        </div>
-
-                                        <div class="col-sm-12">
-                                            <abbr title="Phone"><i class="glyphicon glyphicon-phone-alt"></i></abbr> (61) 0000-0000
-                                        </div>
-
-                                        <div class="col-sm-12">
-                                            <abbr title="Phone"><i class="glyphicon glyphicon-phone-alt"></i></abbr> (61) 0000-0000
-                                        </div>
-
-                                    </address>
-                                    <!--fim bloco endereco-->
-
-                                </div>
-                                <!--fim primeiro bloco-->
-
-                                <!--botao topo-->
-                                <div class="col-xs-12">
-
-                                    <div class="pull-right">
-                                        <a id="back-to-top" href="#" class="btn btn-primary btn-lg back-to-top" role="button" title="Clique para voltar ao topo" data-toggle="tooltip" data-placement="left">
-                                            <span class="glyphicon glyphicon-chevron-up"></span>
-                                        </a>
-                                    </div>
-
-                                </div>
-                                <!--fim botao topo-->
-                                <!--rodape-->
-
-                            </div>
-                            <!--linha-->
+                <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+
+                    <!--nav container-->
+                    <div class="container-fluid">
+
+                        <!--botao de menu para mobile-->
+                        <div class="navbar-header">
+
+                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-targset="#dropdown-thumbnail-preview" data-target=".navbar-collapse">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                            <!--fim botao de menu para mobile-->
+
+                            <a class="navbar-brand hidden-xs" href="#/"><img src="img/fulo.png" /></a>
+                            <a class="navbar-brand hidden-sm hidden-md hidden-lg" href="#/"><img src="img/fulo.png" /></a>
 
                         </div>
-                        <!--conteudo-->
+
+                        <!--colapso-->
+                        <div id="navbar" class="navbar-collapse collapse">
+
+                            <!--botoes da esquerda-->
+                            <ul class="nav navbar-nav">
+
+                                <!--botoes navbar-->
+                                <li class="active"><a href="#/"><i class="glyphicon glyphicon-home"></i> Home</a></li>
+
+                                <!--menu dropdown-->
+                                <li class="dropdown thumb-dropdown">
+
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-th"></i> Produtos<span class="caret"></span></a>
+
+                                    <ul class="dropdown-menu" role="menu">
+
+                                        <li class="dropdown-header">Casa</li>
+
+                                        <li>
+                                            <a href="#">
+                                                Acessórios para Cozinha
+                                                <div class="thumbnail hidden-xs">
+                                                    <img class="img-responsive" src="img/dropdown_menu/acessoriocozinha.png" width="400" height="400"/>
+                                                </div>
+                                            </a>
+                                        </li>
+
+                                        <li>
+                                            <a href="#">
+                                                Almofadas
+                                                <div class="thumbnail hidden-xs">
+                                                    <img class="img-responsive" src="img/dropdown_menu/almofadas.png" width="400" height="400"/>
+                                                </div>
+                                            </a>
+                                        </li>
+
+                                        <li>
+                                            <a href="#">
+                                                Bolsas
+                                                <div class="thumbnail hidden-xs">
+                                                    <img class="img-responsive" src="img/dropdown_menu/bolsas.png" width="400" height="400"/>
+                                                </div>
+                                            </a>
+                                        </li>
+
+                                        <li class="divider"></li>
+                                        <li class="dropdown-header">Infatil</li>
+
+                                        <li>
+                                            <a href="#">
+                                                Cobreleitos
+                                                <div class="thumbnail hidden-xs">
+                                                    <img class="img-responsive" src="img/dropdown_menu/cobreleitos.png" width="400" height="400"/>
+                                                </div>
+                                            </a>
+                                        </li>
+
+                                        <li>
+                                            <a href="#">
+                                                Kit Bebê
+                                                <div class="thumbnail hidden-xs">
+                                                    <img class="img-responsive" src="img/dropdown_menu/kitbebe.png" width="400" height="400" />
+                                                </div>
+                                            </a>
+                                        </li>
+
+                                        <li>
+                                            <a href="#">
+                                                Mantos para Sofá
+                                                <div class="thumbnail hidden-xs">
+                                                    <img class="img-responsive" src="img/dropdown_menu/mantossofa.png" width="400" height="400"/>
+                                                </div>
+                                            </a>
+                                        </li>
+
+                                        <li>
+                                            <a href="#">
+                                                Mimos
+                                                <div class="thumbnail hidden-xs">
+                                                    <img class="img-responsive" src="img/dropdown_menu/mimos.png" width="400" height="400"/>
+                                                </div>
+                                            </a>
+                                        </li>
+
+                                        <li>
+                                            <a href="#">
+                                                Panôs
+                                                <div class="thumbnail hidden-xs">
+                                                    <img class="img-responsive" src="img/dropdown_menu/panos.png" width="400" height="400"/>
+                                                </div>
+                                            </a>
+                                        </li>
+
+                                        <li>
+                                            <a href="#">
+                                                Peso de Porta
+                                                <div class="thumbnail hidden-xs">
+                                                    <img class="img-responsive" src="img/dropdown_menu/pesoporta.png" width="400" height="400"/>
+                                                </div>
+                                            </a>
+                                        </li>
+
+                                        <li>
+                                            <a href="#">
+                                                Porta Trecos
+                                                <div class="thumbnail hidden-xs">
+
+                                                    <img class="img-responsive"
+                                                         src="img/dropdown_menu/portatrecos.png"
+                                                         width="400"
+                                                         height="400"/>
+
+                                                </div>
+                                            </a>
+                                        </li>
+
+                                    </ul>
+                                </li>
+                                <!--fim dropdown-->
+
+                                <li><a href="#"><i class="glyphicon glyphicon-phone-alt"></i> Contato</a></li>
+
+                                <!--dropdown institucional-->
+                                <li class="dropdown thumb-dropdown">
+
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        <i class="glyphicon glyphicon-road"></i> Institucional<span class="caret"></span>
+                                    </a>
+
+                                    <ul class="dropdown-menu" role="menu">
+
+                                        <li><a href="#">Como tudo começou</a></li>
+                                        <li><a href="#">Cuidados especiais</a></li>
+                                        <li><a href="#">História do patchwork</a></li>
+                                        <li><a href="#/user">Usuários</a></li>
+                                        <li><a href="#/funcionarios">Funcionários</a></li>
+                                        <li><a href="#/transportadoras">Transportadoras</a></li>
+
+                                    </ul>
+
+                                </li>
+                                <!--dropdown institucional-->
+
+                                <!--identificação do usuário logado-->
+                                <li>
+                                    <a href="#/user/edit">
+                                        <i class="glyphicon glyphicon-user" ng-show="user.ds_nome"></i>
+                                        <strong> {{user.ds_nome}}</strong>
+                                    </a>
+                                </li>
+                                <!--identificação do usuário logado-->
+
+                                <!--fim botoes navbar-->
+                            </ul>
+
+                            <!--fim botoes da esquerda-->
+
+                            <!--botoes da direita-->
+                            <ul class="nav navbar-nav navbar-right">
+
+                                <!--login-->
+                                <li ng-show="!user.sq_pessoa">
+                                    <a href="" data-toggle="modal" data-target="#modalLogin">
+                                        <strong>Entrar </strong>
+                                        <i class="glyphicon glyphicon-log-in text-primary"></i>
+                                    </a>
+                                </li>
+                                <!--login-->
+
+                                <!--logout-->
+                                <li ng-show="user.sq_pessoa">
+                                    <a href="" data-toggle="modal" data-target="#modalLogoff">
+                                        <strong>Sair </strong>
+                                        <i class="glyphicon glyphicon-log-out text-danger"></i>
+                                    </a>
+                                </li>
+                                <!--logout-->
+
+                            </ul>
+                            <!--fim botoes da direita-->
+
+                            <form class="navbar-form pull-right">
+                                <img src="img/ajax-loader.gif" ng-show="showLoaderFlag" class="pull-right" />
+                            </form>
+
+                        </div>
+                        <!--nav container-->
 
                     </div>
-                    <!--end session data user-->
+                    <!--colapso-->
+
+                </nav>
+                <!--navbar-->
+
+                <!--conteudo-->
+                <div class="container-fluid">
+
+                    <!--linha-->
+                    <div class="row">
+
+                        <!--flashmessage-->
+                        <div id="flashmessage" class="navbar-fixed-top">
+
+                            <div  class="alert {{flashType}} fade in" role="alert">
+                                <i class="glyphicon {{glyphicon}}"></i>
+                                {{flashMsg}}
+                            </div>
+
+                        </div>
+                        <!--flashmessage-->
+
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+                            <!--conteudo-->
+                            <div ng-view></div>
+                            <!--conteudo-->
+
+                        </div>
+
+                        <!--rodape-->
+                        <legend><br /></legend>
+
+                        <!--primeiro bloco-->
+                        <div class="col-xs-12 col-md-6">
+
+                            <!--bloco de endereco-->
+                            <address>
+                                <h3>Fulô Patchwork</h3>
+
+                                <div class="col-sm-12">
+                                    Gama, Brasília - DF, 7200000<br />
+                                </div>
+
+                                <div class="col-sm-12">
+                                    <abbr title="Phone"><i class="glyphicon glyphicon-phone-alt"></i></abbr> (61) 0000-0000
+                                </div>
+
+                                <div class="col-sm-12">
+                                    <abbr title="Phone"><i class="glyphicon glyphicon-phone-alt"></i></abbr> (61) 0000-0000
+                                </div>
+
+                            </address>
+                            <!--fim bloco endereco-->
+
+                        </div>
+                        <!--fim primeiro bloco-->
+
+                        <!--botao topo-->
+                        <div class="col-xs-12">
+
+                            <div class="pull-right">
+                                <a id="back-to-top" href="#" class="btn btn-primary btn-lg back-to-top" role="button" title="Clique para voltar ao topo" data-toggle="tooltip" data-placement="left">
+                                    <span class="glyphicon glyphicon-chevron-up"></span>
+                                </a>
+                            </div>
+
+                        </div>
+                        <!--fim botao topo-->
+                        <!--rodape-->
+
+                    </div>
+                    <!--linha-->
 
                 </div>
-                <!--end controller-->
+                <!--conteudo-->
 
             </div>
             <!--linha-->

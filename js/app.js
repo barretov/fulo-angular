@@ -10,10 +10,9 @@ $app.config(['$routeProvider', '$httpProvider', function ($routeProvider, $httpP
         $routeProvider.
                 when('/', {templateUrl: 'view/main.html'}).
                 when('/user', {templateUrl: 'view/user/main.html', controller: 'userController'}).
-                when('/user/new', {templateUrl: 'view/user/update.html', controller: 'userController'}).
-                when('/user/:id', {templateUrl: 'view/user/update.html', controller: 'userController'}).
+                when('/user/new', {templateUrl: 'view/user/add.html', controller: 'userController'}).
                 when('/user/edit', {templateUrl: 'view/user/edit.html', controller: 'userController'}).
-                when('/funcionarios', {templateUrl: 'view/funcionarios/main.html', controller: 'funcionariosController'}).
+                when('/user/:id', {templateUrl: 'view/user/update.html', controller: 'userController'}).
                 otherwise({redirectTo: '/'});
 
         //configura o RESPONSE interceptor, usado para exibir o ícone de acesso ao servidor
@@ -55,7 +54,7 @@ $app.config(['$routeProvider', '$httpProvider', function ($routeProvider, $httpP
         });
     }]);
 
-$app.run(['$rootScope', function ($rootScope) {
+$app.run(['$rootScope', '$http', function ($rootScope, $http) {
 
         //Uma flag que define se o ícone de acesso ao servidor deve estar ativado
         $rootScope.showLoaderFlag = false;
@@ -126,8 +125,22 @@ $app.run(['$rootScope', function ($rootScope) {
             return SERVER_URL + $url;
         }
 
-    }]);
+        /**
+         * Method for get session user data
+         * @name session
+         * @author Victor Eduardo Barreto
+         * @date Apr 17, 2015
+         * @version 1.0
+         */
+        $rootScope.session = function () {
 
+            $http.get(this.server("/session")).success(function ($return) {
+
+                $rootScope.user = $return;
+            });
+        }
+
+    }]);
 
 //We already have a limitTo filter built-in to angular,
 //let's make a startFrom filter

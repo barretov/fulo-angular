@@ -22,7 +22,7 @@
  * @date Apr 14, 2015
  * @version 1.0
  */
-$app.controller('loginController', function ($scope, $http, $routeParams, $location) {
+$app.controller('loginController', function ($scope, $rootScope, $http, $routeParams, $location) {
 
     /**
      * Method for login in the system
@@ -40,6 +40,7 @@ $app.controller('loginController', function ($scope, $http, $routeParams, $locat
                 $scope.showFlashmessage("alert-success", "Processo realizado com sucesso.");
                 $('#ds_senha').val('');
                 $('#modalLogin').modal('hide');
+                location.reload();
 
             } else {
 
@@ -66,6 +67,7 @@ $app.controller('loginController', function ($scope, $http, $routeParams, $locat
 
                 $scope.showFlashmessage("alert-success", "Processo realizado com sucesso.");
                 $('#modalLogoff').modal('hide');
+                window.location = "/";
 
             } else {
 
@@ -76,22 +78,8 @@ $app.controller('loginController', function ($scope, $http, $routeParams, $locat
     }
 
     /**
-     * Method for get session user data
-     * @name session
-     * @author Victor Eduardo Barreto
-     * @date Apr 17, 2015
-     * @version 1.0
+     * Initiate the method session in app.js
      */
-    $scope.session = function () {
-
-        $http.get($scope.server("/session")).success(function ($return) {
-
-            if ($return) {
-
-                $scope.user = $return;
-            }
-
-        });
-    }
+    $scope.user = $rootScope.session();
 
 });

@@ -31,13 +31,13 @@
 
                 <!--perfil-->
                 <td>
-                    <span class="label label-primary" ng-show="row.sq_perfil === 1">AD</span>
-                    <span class="label label-default" ng-show="row.sq_perfil === 2">CL</span>
+                    <span title="Administrador" class="label label-primary" ng-show="row.sq_perfil === 1">AD</span>
+                    <span title="Cliente" class="label label-default" ng-show="row.sq_perfil === 2">CL</span>
                 </td>
 
                 <!--button del-->
                 <td>
-                    <button class="btn btn-danger btn-xs" ng-click="fireModal(row)" data-toggle="modal" data-target="#modalExcluir">
+                    <button title="Excluir" class="btn btn-danger btn-xs" ng-click="fireModal(row)" data-toggle="modal" data-target="#modalExcluir">
                         <i class="glyphicon glyphicon-remove"></i>
                     </button>
                 </td>

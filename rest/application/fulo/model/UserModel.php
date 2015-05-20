@@ -135,7 +135,7 @@ class UserModel
             $conn = getConn::getConnect();
 
             $stmt = $conn->prepare(
-                    "SELECT * FROM fulo.pessoa "
+                    "SELECT sq_pessoa, ds_nome, ds_email, sq_perfil FROM fulo.pessoa "
                     . "JOIN fulo.usuario on pessoa.sq_pessoa = usuario.sq_usuario "
                     . "and pessoa.sq_pessoa <> $sq_pessoa ORDER BY pessoa.ds_nome ASC"
             );
@@ -164,7 +164,9 @@ class UserModel
 
             $conn = getConn::getConnect();
 
-            $stmt = $conn->prepare("SELECT * FROM fulo.pessoa JOIN fulo.usuario on pessoa.sq_pessoa = usuario.sq_usuario WHERE sq_pessoa = ?");
+            $stmt = $conn->prepare("SELECT sq_pessoa, ds_nome, ds_email, sq_perfil "
+                    . "FROM fulo.pessoa JOIN fulo.usuario on pessoa.sq_pessoa = usuario.sq_usuario "
+                    . "WHERE sq_pessoa = ?");
 
             $stmt->execute(array(
                 $sq_pessoa
@@ -234,6 +236,40 @@ class UserModel
 
             return $stmt->fetch();
         } catch (Exception $ex) {
+
+            throw new $ex;
+        }
+    }
+
+    /**
+     * Method for update user data access
+     * @name updateDataAccess
+     * @author Victor Eduardo Barreto
+     * @param array $data Data for user
+     * @return bool Result of procedure
+     * @date May 19, 2015
+     * @version 1.0
+     */
+    public function updateDataAccess (& $data)
+    {
+
+        try {
+
+            $conn = getConn::getConnect();
+
+            $conn->beginTransaction();
+
+            $stmt = $conn->prepare("UPDATE fulo.usuario SET ds_senha = ? WHERE sq_usuario = ?");
+
+            $stmt->execute(array(
+                $data->ds_senha,
+                $data->sq_usuario,
+            ));
+
+            return $conn->commit();
+        } catch (Exception $ex) {
+
+            $conn->rollback();
 
             throw new $ex;
         }
