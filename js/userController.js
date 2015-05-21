@@ -75,7 +75,6 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
             $http.get($scope.server("/user/" + $routeParams.id)).success(function ($data) {
 
                 $scope.row = $data;
-                $scope.row.isUpdate = true;
                 $scope.hideLoader();
             });
 
@@ -83,50 +82,9 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
 
             $scope.row = {}
             $scope.row.sq_pessoa = null;
-            $scope.row.isUpdate = false;
             $scope.hideLoader();
         }
 
-    }
-
-    /**
-     * Method for save user
-     * @name save
-     * @author Victor Eduardo Barreto
-     * @date Apr 3, 2015
-     * @version 1.0
-     */
-    $scope.save = function () {
-
-        $scope.showLoader();
-
-        // validate passwords
-        if ($scope.row.ds_re_senha === null || $scope.row.ds_senha === $scope.row.re_senha) {
-
-            $http.post($scope.server("/user/" + $routeParams.id), $scope.row).success(function ($data) {
-
-                // verify if email already exists.
-                if ($data === "email-already") {
-
-                    $scope.hideLoader();
-
-                    $scope.showFlashmessage('alert-warning', 'Este email já está cadastrado.');
-
-                } else {
-
-                    $scope.row.isUpdate = true;
-
-                    $scope.hideLoader();
-
-                    $location.path("/user");
-
-                    $scope.showFlashmessage("alert-success", "Processo realizado com sucesso.");
-                }
-            });
-
-        } else {
-            $scope.showFlashmessage("alert-warning", "A senha não confere.");
-        }
     }
 
     /**
@@ -204,11 +162,28 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
      * @date May 09, 2015
      * @version 1.0
      */
-    $scope.updateDataUser = function () {
+    $scope.updateDataUser = function ($form) {
 
         $scope.showLoader();
 
-        $http.post($scope.server("/userUpData/"), $scope.row).success(function ($data) {
+        // verify what data arrive and define the destiny.
+        switch ($form) {
+
+            case "user":
+            {
+                $param = $scope.user;
+                $destination = "/";
+                break;
+            }
+            case "admin":
+            {
+                $param = $scope.row;
+                $destination = "/user";
+                break;
+            }
+        }
+
+        $http.post($scope.server("/userUpData/"), $param).success(function ($data) {
 
             // verify if email already exists.
             if ($data === "email-already") {
@@ -221,7 +196,7 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
 
                 $scope.hideLoader();
 
-                $location.path("/user");
+                $location.path($destination);
 
                 $scope.showFlashmessage("alert-success", "Processo realizado com sucesso.");
             }

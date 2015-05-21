@@ -1,16 +1,25 @@
-<legend>Edição de usuário</legend>
+<legend>Alterar dados</legend>
 
+<!--scrip for controll the tabs-->
 <script>
 
-    $('#tabPessoal a').click(function (e) {
-        e.preventDefault()
-        $(tab).tab('show')
-    })
+    $(document).ready(function () {
 
-    $('#tabAcesso a').click(function (e) {
-        e.preventDefault()
-        $(tab).tab('show')
-    })
+        //initialize variable.
+        var tab;
+
+        // show data user tab.
+        $('#tabPessoal a').click(function (e) {
+            e.preventDefault()
+            $(tab).tab('show')
+        })
+
+        // show data access tab.
+        $('#tabAcesso a').click(function (e) {
+            e.preventDefault()
+            $(tab).tab('show')
+        })
+    });
 </script>
 
 <div ng-init="userController">
@@ -102,29 +111,11 @@
                     </div>
                     <!--campo email-->
 
-                    <!--campo perfil-->
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">Perfil</label>
-
-                        <div class="col-sm-10 radio radio-center">
-
-                            <label>
-                                <input type="radio" name="sq_perfil" value="1" ng-model="user.sq_perfil" required/> Administrador
-                            </label>
-
-                            <label>
-                                <input type="radio" name="sq_perfil" value="2" ng-model="user.sq_perfil" required /> Cliente
-                            </label>
-
-                        </div>
-                    </div>
-                    <!--campo perfil-->
-
                     <!--botões-->
                     <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-10">
 
-                            <button type="submit" class="btn btn-primary btn-sm" ng-click="updateDataUser()" ng-Disabled="formPessoal.$invalid">Salvar
+                            <button type="submit" class="btn btn-primary btn-sm" ng-click="updateDataUser('user')" ng-Disabled="formPessoal.$invalid">Salvar
                                 <i class="glyphicon glyphicon-save"></i>
                             </button>
 

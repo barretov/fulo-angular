@@ -67,6 +67,9 @@ class UserBusiness extends MasterBusiness
 
         try {
 
+            # set email to lower case.
+            $data->ds_email = strtolower($data->ds_email);
+
             # verify if e-mail already exists.
             if ($this->verifyEmailExists($data->ds_email)) {
 
@@ -101,6 +104,9 @@ class UserBusiness extends MasterBusiness
     {
 
         try {
+
+            # set email to lower case.
+            $data->ds_email = strtolower($data->ds_email);
 
             # verify if e-mail already exists.
             if ($this->verifyEmailExists($data->ds_email)) {
@@ -139,8 +145,6 @@ class UserBusiness extends MasterBusiness
     {
 
         try {
-
-            $this->isLoged();
 
             return $this->_userModel->getUsers($_SESSION['user']['sq_pessoa']);
         } catch (Exception $ex) {

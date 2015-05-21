@@ -9,7 +9,7 @@ $app.config(['$routeProvider', '$httpProvider', function ($routeProvider, $httpP
         //Configura o route provider
         $routeProvider.
                 when('/', {templateUrl: 'view/main.html'}).
-                when('/user', {templateUrl: 'view/user/main.html', controller: 'userController'}).
+                when('/user', {templateUrl: 'view/user/list.html', controller: 'userController'}).
                 when('/user/new', {templateUrl: 'view/user/add.html', controller: 'userController'}).
                 when('/user/edit', {templateUrl: 'view/user/edit.html', controller: 'userController'}).
                 when('/user/:id', {templateUrl: 'view/user/update.html', controller: 'userController'}).

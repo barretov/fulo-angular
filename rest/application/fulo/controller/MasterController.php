@@ -27,3 +27,26 @@ function formatJson ($obj)
 {
     echo json_encode($obj);
 }
+
+/**
+ * Method for verify if user is loged in the system
+ * @name isLoged
+ * @author Victor Eduardo Barreto
+ * @return Bool Result of the procedure
+ * @date Apr 12, 2015
+ * @version 1.0
+ */
+function isLoged ()
+{
+    try {
+
+        if ($_SESSION['user']) {
+            return true;
+        } else {
+            return false;
+        }
+    } catch (Exception $ex) {
+
+        throw new $ex;
+    }
+}
