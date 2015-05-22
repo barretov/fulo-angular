@@ -23,8 +23,7 @@
  * @date May 3, 2015
  * @version 1.0
  */
-function formatJson ($obj)
-{
+function formatJson ($obj) {
     echo json_encode($obj);
 }
 
@@ -36,17 +35,13 @@ function formatJson ($obj)
  * @date Apr 12, 2015
  * @version 1.0
  */
-function isLoged ()
-{
+function isLoged () {
+
     try {
 
-        if ($_SESSION['user']) {
-            return true;
-        } else {
-            return false;
-        }
+        return empty($_SESSION['user']) ? TRUE : FALSE;
     } catch (Exception $ex) {
 
-        throw new $ex;
+        throw $ex;
     }
 }

@@ -75,7 +75,7 @@ class LoginBusiness extends MasterBusiness
             return false;
         } catch (Exception $ex) {
 
-            throw new $ex;
+            throw $ex;
         }
     }
 

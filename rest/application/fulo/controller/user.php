@@ -42,7 +42,7 @@ $app->get("/user", function () {
         formatJson($business->getUsers());
     } catch (Exception $ex) {
 
-        throw new $ex;
+        throw $ex;
     }
 });
 
@@ -64,7 +64,7 @@ $app->get("/user/:id", function ($sq_pessoa) {
         formatJson($business->getUser($sq_pessoa));
     } catch (Exception $ex) {
 
-        throw new $ex;
+        throw $ex;
     }
 });
 
@@ -97,7 +97,7 @@ $app->post("/user/:id", function () {
         formatJson($result);
     } catch (Exception $ex) {
 
-        throw new $ex;
+        throw $ex;
     }
 });
 
@@ -126,7 +126,7 @@ $app->post("/addUser/", function () {
         formatJson($result);
     } catch (Exception $ex) {
 
-        throw new $ex;
+        throw $ex;
     }
 });
 
@@ -148,7 +148,7 @@ $app->delete("/user/:id", function ($sq_pessoa) {
         formatJson($business->delUser($sq_pessoa));
     } catch (Exception $ex) {
 
-        throw new $ex;
+        throw $ex;
     }
 });
 
@@ -174,7 +174,7 @@ $app->post("/userUpData/", function () {
         formatJson($result);
     } catch (Exception $ex) {
 
-        throw new $ex;
+        throw $ex;
     }
 });
 
@@ -200,6 +200,6 @@ $app->post("/userUpDataAccess/", function () {
         formatJson($result);
     } catch (Exception $ex) {
 
-        throw new $ex;
+        throw $ex;
     }
 });

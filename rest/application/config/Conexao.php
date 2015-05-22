@@ -4,11 +4,9 @@ namespace config;
 
 use PDO as PDO;
 
-abstract class Conexao
-{
+abstract class Conexao {
 
-    public static function getConnect ()
-    {
+    public static function getConnect () {
 
         # Informações sobre o sistema:
         $sistema_titulo = "Fulo Patchwork";
@@ -16,11 +14,8 @@ abstract class Conexao
 
         try {
 
-            if (empty($PDO)) {
-
-                $PDO = new PDO("pgsql:dbname=" . DB_NAME . ";host=" . DB_HOST, DB_USER, DB_PASSWORD);
-                $PDO->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            }
+            $PDO = new PDO("pgsql:dbname=" . DB_NAME . ";host=" . DB_HOST, DB_USER, DB_PASSWORD);
+            $PDO->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
             return $PDO;
 

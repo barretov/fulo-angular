@@ -44,7 +44,7 @@ $app->post("/login", function () {
         formatJson($result);
     } catch (Exception $ex) {
 
-        throw new $ex;
+        throw $ex;
     }
 });
 
@@ -72,7 +72,7 @@ $app->post("/logoff", function () {
         }
     } catch (Exception $ex) {
 
-        throw new $ex;
+        throw $ex;
     }
 });
 
@@ -98,6 +98,6 @@ $app->get("/session", function () {
         }
     } catch (Exception $ex) {
 
-        throw new $ex;
+        throw $ex;
     }
 });

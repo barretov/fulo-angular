@@ -29,8 +29,7 @@ use fulo\model\UserModel as UserModel;
  * @date Apr 8, 2015
  * @version 1.0
  */
-class UserBusiness extends MasterBusiness
-{
+class UserBusiness extends MasterBusiness {
 
     /**
      * variable for instance of user model
@@ -47,8 +46,7 @@ class UserBusiness extends MasterBusiness
      * @date May 3, 2015
      * @version 1.0
      */
-    public function __construct ()
-    {
+    public function __construct () {
         $this->_userModel = new UserModel();
     }
 
@@ -62,8 +60,7 @@ class UserBusiness extends MasterBusiness
      * @date Apr 8, 2015
      * @version 1.0
      */
-    public function addUser (& $data)
-    {
+    public function addUser (& $data) {
 
         try {
 
@@ -86,7 +83,7 @@ class UserBusiness extends MasterBusiness
             return $this->_userModel->addUser($data);
         } catch (Exception $ex) {
 
-            throw new $ex;
+            throw $ex;
         }
     }
 
@@ -100,8 +97,7 @@ class UserBusiness extends MasterBusiness
      * @date Apr 8, 2015
      * @version 1.0
      */
-    public function upUser (& $data)
-    {
+    public function upUser (& $data) {
 
         try {
 
@@ -128,7 +124,7 @@ class UserBusiness extends MasterBusiness
             return $this->_userModel->upUser($data);
         } catch (Exception $ex) {
 
-            throw new $ex;
+            throw $ex;
         }
     }
 
@@ -141,15 +137,16 @@ class UserBusiness extends MasterBusiness
      * @date Apr 8, 2015
      * @version 1.0
      */
-    public function getUsers ()
-    {
+    public function getUsers () {
 
         try {
 
-            return $this->_userModel->getUsers($_SESSION['user']['sq_pessoa']);
+            $sq_pessoa = empty($_SESSION['user']['sq_pessoa']) ? 'null' : $_SESSION['user']['sq_pessoa'];
+
+            return $this->_userModel->getUsers($sq_pessoa);
         } catch (Exception $ex) {
 
-            throw new $ex;
+            throw $ex;
         }
     }
 
@@ -163,14 +160,13 @@ class UserBusiness extends MasterBusiness
      * @date Apr 8, 2015
      * @version 1.0
      */
-    public function getUser (& $sq_pessoa)
-    {
+    public function getUser (& $sq_pessoa) {
         try {
 
             return $this->_userModel->getUserByIdenty($sq_pessoa);
         } catch (Exception $ex) {
 
-            throw new $ex;
+            throw $ex;
         }
     }
 
@@ -184,14 +180,13 @@ class UserBusiness extends MasterBusiness
      * @date Apr 8, 2015
      * @version 1.0
      */
-    public function delUser (& $sq_pessoa)
-    {
+    public function delUser (& $sq_pessoa) {
         try {
 
             return $this->_userModel->delUser($sq_pessoa);
         } catch (Exception $ex) {
 
-            throw new $ex;
+            throw $ex;
         }
     }
 
@@ -205,8 +200,7 @@ class UserBusiness extends MasterBusiness
      * @date Apr 12, 2015
      * @version 1.0
      */
-    public function verifyEmailExists ($ds_email)
-    {
+    public function verifyEmailExists ($ds_email) {
 
         try {
 
@@ -223,7 +217,7 @@ class UserBusiness extends MasterBusiness
             }
         } catch (Exception $ex) {
 
-            throw new $ex;
+            throw $ex;
         }
     }
 
@@ -237,8 +231,7 @@ class UserBusiness extends MasterBusiness
      * @date May 19, 2015
      * @version 1.0
      */
-    public function upDataAccesss (& $data)
-    {
+    public function upDataAccesss (& $data) {
 
         try {
 
@@ -252,7 +245,7 @@ class UserBusiness extends MasterBusiness
             return $this->_userModel->updateDataAccess($data);
         } catch (Exception $ex) {
 
-            throw new $ex;
+            throw $ex;
         }
     }
 

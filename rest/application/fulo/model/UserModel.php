@@ -72,7 +72,7 @@ class UserModel
 
             $conn->rollback();
 
-            throw new $ex;
+            throw $ex;
         }
     }
 
@@ -115,7 +115,7 @@ class UserModel
 
             $conn->rollback();
 
-            throw new $ex;
+            throw $ex;
         }
     }
 
@@ -128,7 +128,7 @@ class UserModel
      * @date Apr 8, 2015
      * @version 1.0
      */
-    public function getUsers ($sq_pessoa = null)
+    public function getUsers ($sq_pessoa)
     {
         try {
 
@@ -145,7 +145,7 @@ class UserModel
             return $stmt->fetchAll();
         } catch (Exception $ex) {
 
-            throw new $ex;
+            throw $ex;
         }
     }
 
@@ -175,7 +175,7 @@ class UserModel
             return $stmt->fetch();
         } catch (Exception $ex) {
 
-            throw new $ex;
+            throw $ex;
         }
     }
 
@@ -207,7 +207,7 @@ class UserModel
 
             $conn->rollBack();
 
-            throw new $ex;
+            throw $ex;
         }
     }
 
@@ -237,7 +237,7 @@ class UserModel
             return $stmt->fetch();
         } catch (Exception $ex) {
 
-            throw new $ex;
+            throw $ex;
         }
     }
 
@@ -271,7 +271,7 @@ class UserModel
 
             $conn->rollback();
 
-            throw new $ex;
+            throw $ex;
         }
     }
 

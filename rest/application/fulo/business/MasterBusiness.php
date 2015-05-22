@@ -64,7 +64,7 @@ abstract class MasterBusiness
             }
         } catch (Exception $ex) {
 
-            throw new $ex;
+            throw $ex;
         }
     }
 
