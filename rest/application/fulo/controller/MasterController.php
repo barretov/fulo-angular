@@ -23,25 +23,7 @@
  * @date May 3, 2015
  * @version 1.0
  */
-function formatJson ($obj) {
+function formatJson ($obj)
+{
     echo json_encode($obj);
-}
-
-/**
- * Method for verify if user is loged in the system
- * @name isLoged
- * @author Victor Eduardo Barreto
- * @return Bool Result of the procedure
- * @date Apr 12, 2015
- * @version 1.0
- */
-function isLoged () {
-
-    try {
-
-        return empty($_SESSION['user']) ? TRUE : FALSE;
-    } catch (Exception $ex) {
-
-        throw $ex;
-    }
 }

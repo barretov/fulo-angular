@@ -1,5 +1,5 @@
 //URL de acesso ao servidor RESTful
-SERVER_URL = "http://localhost/rest";
+SERVER_URL = "http://localhost:8082";
 
 //Criação ao $app que é o modulo que representa toda a aplicação
 var $app = angular.module('app', ['ngRoute']);

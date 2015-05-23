@@ -34,9 +34,6 @@ $app->get("/user", function () {
 
     try {
 
-        # verify if user is loged.
-        isLoged();
-
         $business = new UserBusiness();
 
         formatJson($business->getUsers());
