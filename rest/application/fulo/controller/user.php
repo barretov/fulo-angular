@@ -111,9 +111,6 @@ $app->post("/addUser/", function () {
 
     try {
 
-        # verify if user is loged.
-        isLoged();
-
         $business = new UserBusiness();
 
         $data = json_decode(\Slim\Slim::getInstance()->request()->getBody());
