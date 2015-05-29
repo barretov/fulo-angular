@@ -1,17 +1,12 @@
 <?php
 
-# set cookies config.
-ini_set('session.use_cookies', '1');
-ini_set('session.use_only_cookies', '1');
-ini_set('session.use_trans_sid', '0');
-
 session_start();
 
 require_once './vendor/autoload.php';
 
 $app = new \Slim\Slim(array(
     'debug' => true
-        )
+    )
 );
 
 $app->contentType("application/json");
