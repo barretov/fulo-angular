@@ -1,231 +1,104 @@
-<legend>Alterar dados</legend>
+<legend ng-show="row.sq_pessoa != null">Edição de usuário</legend>
 
-<!--scrip for controll the tabs-->
-<script>
+<div ng-init="loadRow()">
 
-    $(document).ready(function () {
+    <!--Apresentação-->
+    <h1><span class="text-primary hidden-xs" ng-bind="row.ds_nome"></span></h1>
+    <h2><span class="text-primary hidden-sm hidden-md hidden-lg" ng-bind="row.ds_nome"></span></h2>
 
-        //initialize variable.
-        var tab;
+    <form name="formPessoal" class="form-horizontal" ng-show="row != null">
 
-        // show data user tab.
-        $('#tabPessoal a').click(function (e) {
-            e.preventDefault()
-            $(tab).tab('show')
-        })
+        <!--sq_pessoa hidden-->
+        <input name="sq_pessoa" type="hidden" ng-model="row.sq_pessoa" />
+        <!--sq_pessoa hidden-->
 
-        // show data access tab.
-        $('#tabAcesso a').click(function (e) {
-            e.preventDefault()
-            $(tab).tab('show')
-        })
-    });
-</script>
+        <!--campo nome-->
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Nome</label>
 
-<div ng-init="userController">
-
-    <!--tabs-->
-    <div role="tabpanel">
-
-        <!-- Nav tabs -->
-        <ul class="nav nav-tabs" role="tablist">
-
-            <li id="tabPessoal" role="presentation" class="active">
-                <a  href="#pessoal" aria-controls="home" role="tab" data-toggle="tab">Pessoal</a>
-            </li>
-
-            <li id="tabAcesso" role="presentation">
-                <a  href="#acesso" aria-controls="profile" role="tab" data-toggle="tab">Acesso</a>
-            </li>
-
-        </ul>
-
-        <!-- Tab panes -->
-        <div class="tab-content">
-
-            <!--conteúdo da aba dados de pessoais-->
-            <div role="tabpanel" class="tab-pane active" id="pessoal">
-
-                <!--Apresentação-->
-                <h1><span class="text-primary hidden-xs" ng-bind="user.ds_nome"></span></h1>
-                <h2><span class="text-primary hidden-sm hidden-md hidden-lg" ng-bind="user.ds_nome"></span></h2>
-
-                <form name="formPessoal" class="form-horizontal" ng-show="user != null">
-
-                    <!--sq_pessoa hidden-->
-                    <input name="sq_pessoa" type="hidden" ng-model="user.sq_pessoa" ng-disabled="user.isUpdate" />
-                    <!--sq_pessoa hidden-->
-
-                    <!--campo nome-->
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">Nome</label>
-
-                        <div class="col-xs-12 col-sm-6 col-md-6">
-                            <input class="form-control"
-                                   placeholder="Nome e sobrenome"
-                                   name="ds_nome"
-                                   type="text"
-                                   ng-maxlength="50"
-                                   maxlength="50"
-                                   ng-model="user.ds_nome"
-                                   required/>
-                        </div>
-
-                        <div class="help-block-input col-xs-12 col-sm-4 col-md-4">
-                            <span class="text-danger" ng-show="formPessoal.ds_nome.$dirty && formPessoal.ds_nome.$invalid">
-                                <i class="glyphicon glyphicon-remove-sign"></i>
-                                <span ng-show="formPessoal.ds_nome.$error.required">Campo obrigatório</span>
-                                <span ng-show="formPessoal.ds_nome.$error.maxlength">Máximo de cinquenta caracteres</span>
-                            </span>
-
-                        </div>
-                    </div>
-                    <!--campo nome-->
-
-                    <!--campo email-->
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">E-mail</label>
-
-
-                        <div class="col-xs-12 col-sm-6 col-md-6">
-                            <input class="form-control text-lowercase"
-                                   placeholder="E-mail"
-                                   name="ds_email"
-                                   type="email"
-                                   ng-model="user.ds_email"
-                                   maxlength="50"
-                                   ng-maxlength="50"
-                                   required/>
-                        </div>
-
-                        <div class="help-block-input col-xs-12 col-sm-4 col-md-4">
-
-                            <span class="text-danger" ng-show="formPessoal.ds_email.$dirty && formPessoal.ds_email.$invalid">
-                                <i class="glyphicon glyphicon-remove-sign"></i>
-                                <span ng-show="formPessoal.ds_email.$error.required">Campo obrigatório</span>
-                                <span ng-show="formPessoal.ds_email.$error.email">Email inválido</span>
-                                <span ng-show="formPessoal.ds_email.$error.maxlength">Máximo de cinquenta caracteres</span>
-                            </span>
-
-                        </div>
-                    </div>
-                    <!--campo email-->
-
-                    <!--botões-->
-                    <div class="form-group">
-                        <div class="col-sm-offset-2 col-sm-10">
-
-                            <button type="submit" class="btn btn-primary btn-sm" ng-click="updateDataUser('user')" ng-Disabled="formPessoal.$invalid">Salvar
-                                <i class="glyphicon glyphicon-save"></i>
-                            </button>
-
-                            <a class="btn btn-default btn-sm" href="#/">Voltar
-                                <i class="glyphicon glyphicon-remove"></i>
-                            </a>
-
-                        </div>
-                    </div>
-
-                </form>
-
+            <div class="col-xs-12 col-sm-6 col-md-6">
+                <input class="form-control"
+                       placeholder="Nome e sobrenome"
+                       name="ds_nome"
+                       type="text"
+                       ng-maxlength="50"
+                       maxlength="50"
+                       ng-model="row.ds_nome"
+                       required/>
             </div>
 
-            <!--conteúdo da aba dados de acesso-->
-            <div role="tabpanel" class="tab-pane" id="acesso">
-
-                <!--Apresentação-->
-                <h1><span class="text-primary hidden-xs" ng-bind="user.ds_nome"></span></h1>
-                <h2><span class="text-primary hidden-sm hidden-md hidden-lg" ng-bind="user.ds_nome"></span></h2>
-
-                <form name="formAcesso" class="form-horizontal" ng-show="user != null">
-
-                    <!--sq_pessoa hidden-->
-                    <input name="sq_pessoa" type="hidden" ng-model="user.sq_pessoa" ng-disabled="user.isUpdate" />
-                    <!--sq_pessoa hidden-->
-
-                    <!--campo senha-->
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">Senha</label>
-
-
-                        <div class="col-xs-12 col-sm-6 col-md-6">
-
-                            <input class="form-control"
-                                   placeholder="Senha"
-                                   name="ds_senha"
-                                   type="password"
-                                   maxlength="20"
-                                   ng-maxlength="20"
-                                   ng-minlength="4"
-                                   ng-model="user.ds_senha"
-                                   required/>
-                        </div>
-
-                        <div class="help-block-input col-xs-12 col-sm-4 col-md-4">
-
-                            <span class="text-danger" ng-show="formAcesso.ds_senha.$dirty && formAcesso.ds_senha.$invalid">
-                                <i class="glyphicon glyphicon-remove-sign"></i>
-                                <span ng-show="formAcesso.ds_senha.$error.required">Campo obrigatório</span>
-                                <span ng-show="formAcesso.ds_senha.$error.minlength">Mínimo de quatro caracteres</span>
-                                <span ng-show="formAcesso.ds_senha.$error.maxlength">Máximo de vinte caracteres</span>
-                            </span>
-
-                        </div>
-                    </div>
-                    <!--campo senha-->
-
-                    <!--campo confirma senha-->
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">Repita a senha</label>
-
-
-                        <div class="col-xs-12 col-sm-6 col-md-6">
-
-                            <input class="form-control"
-                                   placeholder="Repita a senha"
-                                   name="re_senha"
-                                   type="password"
-                                   maxlength="20"
-                                   ng-model="user.re_senha"
-                                   ng-maxlength="20"
-                                   ng-minlength="4"
-                                   required/>
-                        </div>
-
-                        <div class="help-block-input col-xs-12 col-sm-4 col-md-4">
-
-                            <span class="text-danger" ng-show="formAcesso.re_senha.$dirty && formAcesso.re_senha.$invalid">
-                                <i class="glyphicon glyphicon-remove-sign"></i>
-                                <span ng-show="formAcesso.re_senha.$error.required">Campo obrigatório</span>
-                                <span ng-show="formAcesso.re_senha.$error.minlength">Mínimo de quatro caracteres</span>
-                                <span ng-show="formAcesso.re_senha.$error.maxlength">Máximo de vinte caracteres</span>
-                            </span>
-
-                        </div>
-                    </div>
-                    <!--campo confirma senha-->
-
-                    <!--botões-->
-                    <div class="form-group">
-                        <div class="col-sm-offset-2 col-sm-10">
-
-                            <button type="submit" class="btn btn-primary btn-sm" ng-click="updateDataAccess()" ng-Disabled="formAcesso.$invalid">Salvar
-                                <i class="glyphicon glyphicon-save"></i>
-                            </button>
-
-                            <a class="btn btn-default btn-sm" href="#/">Voltar
-                                <i class="glyphicon glyphicon-remove"></i>
-                            </a>
-
-                        </div>
-                    </div>
-
-                </form>
+            <div class="help-block-input col-xs-12 col-sm-4 col-md-4">
+                <span class="text-danger" ng-show="formPessoal.ds_nome.$dirty && formPessoal.ds_nome.$invalid">
+                    <i class="glyphicon glyphicon-remove-sign"></i>
+                    <span ng-show="formPessoal.ds_nome.$error.required">Campo obrigatório</span>
+                    <span ng-show="formPessoal.ds_nome.$error.maxlength">Máximo de cinquenta caracteres</span>
+                </span>
 
             </div>
+        </div>
+        <!--campo nome-->
 
+        <!--campo email-->
+        <div class="form-group">
+            <label class="col-sm-2 control-label">E-mail</label>
+
+            <div class="col-xs-12 col-sm-6 col-md-6">
+                <input class="form-control text-lowercase"
+                       placeholder="E-mail"
+                       name="ds_email"
+                       type="email"
+                       ng-model="row.ds_email"
+                       maxlength="50"
+                       ng-maxlength="50"
+                       required/>
+            </div>
+
+            <div class="help-block-input col-xs-12 col-sm-4 col-md-4">
+
+                <span class="text-danger" ng-show="formPessoal.ds_email.$dirty && formPessoal.ds_email.$invalid">
+                    <i class="glyphicon glyphicon-remove-sign"></i>
+                    <span ng-show="formPessoal.ds_email.$error.required">Campo obrigatório</span>
+                    <span ng-show="formPessoal.ds_email.$error.email">Email inválido</span>
+                    <span ng-show="formPessoal.ds_email.$error.maxlength">Máximo de cinquenta caracteres</span>
+                </span>
+
+            </div>
+        </div>
+        <!--campo email-->
+
+        <!--campo perfil-->
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Perfil</label>
+
+            <div class="col-sm-10 radio radio-center">
+
+                <label>
+                    <input type="radio" name="sq_perfil" value="1" ng-model="row.sq_perfil" required/> Administrador
+                </label>
+
+                <label>
+                    <input type="radio" name="sq_perfil" value="2" ng-model="row.sq_perfil" required /> Cliente
+                </label>
+
+            </div>
+        </div>
+        <!--campo perfil-->
+
+        <!--botões-->
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+
+                <button type="submit" class="btn btn-primary btn-sm" ng-click="updateDataUser('admin')" ng-Disabled="formPessoal.$invalid">Salvar
+                    <i class="glyphicon glyphicon-save"></i>
+                </button>
+
+                <a class="btn btn-default btn-sm" href="#/user">Voltar
+                    <i class="glyphicon glyphicon-remove"></i>
+                </a>
+
+            </div>
         </div>
 
-    </div>
+    </form>
 
 </div>

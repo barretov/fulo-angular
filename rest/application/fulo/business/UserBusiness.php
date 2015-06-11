@@ -258,4 +258,45 @@ class UserBusiness extends MasterBusiness
         }
     }
 
+    /**
+     * Method for business to add Customer
+     * @name addCustomer
+     * @author Victor Eduardo Barreto
+     * @package fulo\business
+     * @param array $data Data for user
+     * @return bool Result of procedure
+     * @date Jun 10, 2015
+     * @version 1.0
+     */
+    public function addCustomer (& $data)
+    {
+
+        try {
+
+            # set email to lower case.
+            $data->ds_email = strtolower($data->ds_email);
+
+            # verify if e-mail already exists.
+            if ($this->verifyEmailExists($data->ds_email)) {
+
+                return "email-already";
+            }
+
+            # remove special char and spaces.
+            $this->removeSpecialChar($data);
+
+            #cript password.
+            $data->ds_senha = crypt($data->ds_senha);
+
+            # set user perfil sq_perfil as cliente.
+            $data->sq_perfil = 2;
+
+            # send to the model of user for add and return for controller.
+            return $this->_userModel->addUser($data);
+        } catch (Exception $ex) {
+
+            throw $ex;
+        }
+    }
+
 }

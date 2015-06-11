@@ -112,8 +112,6 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
 
                 } else {
 
-                    $scope.row.isUpdate = true;
-
                     $scope.hideLoader();
 
                     $location.path("/user");
@@ -237,6 +235,44 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
 
         // set the variable pessoa in the scope.
         $scope.pessoa = $row;
+    }
+
+    /**
+     * Method for add customer
+     * @name addCustomer
+     * @author Victor Eduardo Barreto
+     * @date Jun 10, 2015
+     * @version 1.0
+     */
+    $scope.addCustomer = function () {
+
+        $scope.showLoader();
+
+        // validate passwords
+        if ($scope.row.ds_re_senha === null || $scope.row.ds_senha === $scope.row.re_senha) {
+
+            $http.post($scope.server("/addCustomer/"), $scope.row).success(function ($data) {
+
+                // verify if email already exists.
+                if ($data === "email-already") {
+
+                    $scope.hideLoader();
+
+                    $scope.showFlashmessage('alert-warning', 'Este email já está cadastrado.');
+
+                } else {
+
+                    $scope.hideLoader();
+
+                    $location.path("/");
+
+                    $scope.showFlashmessage("alert-success", "Processo realizado com sucesso.");
+                }
+            });
+
+        } else {
+            $scope.showFlashmessage("alert-warning", "A senha não confere.");
+        }
     }
 
 });

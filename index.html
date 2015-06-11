@@ -40,8 +40,8 @@
                             </button>
                             <!--fim botao de menu para mobile-->
 
-                            <a class="navbar-brand hidden-xs" href="#/"><img src="img/fulo.png" /></a>
-                            <a class="navbar-brand hidden-sm hidden-md hidden-lg" href="#/"><img src="img/fulo.png" /></a>
+                            <a class="navbar-brand hidden-xs"><img src="img/fulo.png" /></a>
+                            <a class="navbar-brand hidden-sm hidden-md hidden-lg"><img src="img/fulo.png" /></a>
 
                         </div>
 
@@ -57,7 +57,7 @@
                                 <!--menu dropdown-->
                                 <li class="dropdown thumb-dropdown">
 
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-th"></i> Produtos<span class="caret"></span></a>
+                                    <a href="" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-th"></i> Produtos<span class="caret"></span></a>
 
                                     <ul class="dropdown-menu" role="menu">
 
@@ -165,12 +165,12 @@
                                 </li>
                                 <!--fim dropdown-->
 
-                                <li><a href="#"><i class="glyphicon glyphicon-phone-alt"></i> Contato</a></li>
+                                <li><a href="#/contact"><i class="glyphicon glyphicon-phone-alt"></i> Contato</a></li>
 
                                 <!--dropdown institucional-->
                                 <li class="dropdown thumb-dropdown">
 
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <a href="" class="dropdown-toggle" data-toggle="dropdown">
                                         <i class="glyphicon glyphicon-road"></i> Institucional<span class="caret"></span>
                                     </a>
 
@@ -204,6 +204,15 @@
 
                             <!--botoes da direita-->
                             <ul class="nav navbar-nav navbar-right">
+
+                                <!--Cadastre-se-->
+                                <li ng-show="!user.sq_pessoa">
+                                    <a href="#/user/newCustomer">
+                                        <strong>Cadastre-se </strong>
+                                        <i class="glyphicon glyphicon-user text-primary"></i>
+                                    </a>
+                                </li>
+                                <!--Cadastre-se-->
 
                                 <!--login-->
                                 <li ng-show="!user.sq_pessoa">

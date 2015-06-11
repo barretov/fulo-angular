@@ -74,29 +74,29 @@ $app->get("/user/:id", function ($sq_pessoa) {
  * @date Apr 3, 2015
  * @version 1.0
  */
-$app->post("/user/:id", function () {
-
-    try {
-
-        $business = new UserBusiness();
-
-        $data = json_decode(\Slim\Slim::getInstance()->request()->getBody());
-
-        # verify if is update.
-        if ($data->isUpdate) {
-
-            $result = $business->upUser($data);
-        } else {
-
-            $result = $business->addUser($data);
-        }
-
-        formatJson($result);
-    } catch (Exception $ex) {
-
-        throw $ex;
-    }
-});
+//$app->post("/user/:id", function () {
+//
+//    try {
+//
+//        $business = new UserBusiness();
+//
+//        $data = json_decode(\Slim\Slim::getInstance()->request()->getBody());
+//
+//        # verify if is update.
+//        if ($data->isUpdate) {
+//
+//            $result = $business->upUser($data);
+//        } else {
+//
+//            $result = $business->addUser($data);
+//        }
+//
+//        formatJson($result);
+//    } catch (Exception $ex) {
+//
+//        throw $ex;
+//    }
+//});
 
 /**
  * Method for add user
@@ -115,9 +115,7 @@ $app->post("/addUser/", function () {
 
         $data = json_decode(\Slim\Slim::getInstance()->request()->getBody());
 
-        $result = $business->addUser($data);
-
-        formatJson($result);
+        formatJson($business->addUser($data));
     } catch (Exception $ex) {
 
         throw $ex;
@@ -163,9 +161,7 @@ $app->post("/userUpData/", function () {
 
         $data = json_decode(\Slim\Slim::getInstance()->request()->getBody());
 
-        $result = $business->upUser($data);
-
-        formatJson($result);
+        formatJson($business->upUser($data));
     } catch (Exception $ex) {
 
         throw $ex;
@@ -189,9 +185,31 @@ $app->post("/userUpDataAccess/", function () {
 
         $data = json_decode(\Slim\Slim::getInstance()->request()->getBody());
 
-        $result = $business->upDataAccesss($data);
+        formatJson($business->upDataAccesss($data));
+    } catch (Exception $ex) {
 
-        formatJson($result);
+        throw $ex;
+    }
+});
+
+/**
+ * Method for add customer
+ * @name addCustomer
+ * @author Victor Eduardo Barreto
+ * @param json Data of user
+ * @return bool Result of procedure
+ * @date Jun 10, 2015
+ * @version 1.0
+ */
+$app->post("/addCustomer/", function () {
+
+    try {
+
+        $business = new UserBusiness();
+
+        $data = json_decode(\Slim\Slim::getInstance()->request()->getBody());
+
+        formatJson($business->addCustomer($data));
     } catch (Exception $ex) {
 
         throw $ex;
