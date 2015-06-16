@@ -33,7 +33,7 @@ class LoginBusiness extends MasterBusiness
 {
 
     /**
-     * Method for log in the user
+     * Method for log in the system
      * @name doLogin
      * @author Victor Eduardo Barreto
      * @package fulo\business
@@ -59,20 +59,46 @@ class LoginBusiness extends MasterBusiness
             # compare user and pass to login in the system.
             if ($dataUser['ds_email'] === $data->ds_email && crypt($data->ds_senha, $dataUser['ds_senha']) === $dataUser['ds_senha']) {
 
-                # save data of user in session.
-                $_SESSION['user'] = array(
-                    'sq_pessoa' => $dataUser['sq_pessoa'],
-                    'sq_usuario' => $dataUser['sq_usuario'],
-                    'ds_nome' => $dataUser['ds_nome'],
-                    'ds_email' => $dataUser['ds_email'],
-                    'sq_perfil' => $dataUser['sq_perfil'],
-                    'no_ip' => $_SERVER['REMOTE_ADDR']
-                );
+                # add ip user.
+                $dataUser['no_ip'] = $_SERVER['REMOTE_ADDR'];
 
-                return true;
+                return $dataUser;
             }
 
             return false;
+        } catch (Exception $ex) {
+
+            throw $ex;
+        }
+    }
+
+    /**
+     * Method for logoff in the system
+     * @name doLogoff
+     * @author Victor Eduardo Barreto
+     * @package fulo\business
+     * @param array $data Data for user
+     * @return bool Result of procedure
+     * @date jun 15, 2015
+     * @version 1.0
+     */
+    public function doLogoff (& $data)
+    {
+
+        try {
+
+            # validate origin.
+            $this->validateOrigin($data);
+
+            # remove special char and spaces.
+            $this->removeSpecialChar($data);
+
+            # model of user.
+            $modelUser = new UserModel();
+
+            # TODO write in log.
+
+            return true;
         } catch (Exception $ex) {
 
             throw $ex;

@@ -39,9 +39,7 @@ $app->post("/login", function () {
 
         $data = json_decode(\Slim\Slim::getInstance()->request()->getBody());
 
-        $result = $business->doLogin($data);
-
-        formatJson($result);
+        formatJson($business->doLogin($data));
     } catch (Exception $ex) {
 
         throw $ex;
@@ -60,16 +58,11 @@ $app->post("/logoff", function () {
 
     try {
 
-        # verify if current ip is the same wich did the login.
-        if ($_SESSION['user']['no_ip'] === $_SERVER['REMOTE_ADDR']) {
+        $business = new LoginBusiness();
 
-            unset($_SESSION['user']);
+        $data = json_decode(\Slim\Slim::getInstance()->request()->getBody());
 
-            formatJson(true);
-        } else {
-
-            formatJson(false);
-        }
+        formatJson($business->doLogoff($data));
     } catch (Exception $ex) {
 
         throw $ex;
@@ -77,25 +70,19 @@ $app->post("/logoff", function () {
 });
 
 /**
- * Method for get session data
- * @name get | session
+ * Method get ip of user.
+ * @name userIp
  * @author Victor Eduardo Barreto
- * @return json Data of users
- * @date Apr 3, 2015
+ * @return Obj Result of procedure
+ * @date Jun 13, 2015
  * @version 1.0
  */
-$app->get("/session", function () {
+$app->get("/userIp", function () {
 
     try {
 
-        # verify if current ip is the same wich did the login.
-        if (@$_SESSION['user']['no_ip'] === $_SERVER['REMOTE_ADDR']) {
-
-            formatJson($_SESSION['user']);
-        } else {
-
-            formatJson(false);
-        }
+        # get ip of user.
+        formatJson($_SERVER['REMOTE_ADDR']);
     } catch (Exception $ex) {
 
         throw $ex;

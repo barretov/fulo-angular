@@ -7,6 +7,7 @@
 
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon"/>
         <title>Fulo</title>
 
         <!--carga de arquivos css-->
@@ -190,7 +191,7 @@
 
                                 <!--identificação do usuário logado-->
                                 <li>
-                                    <a href="#/user/edit">
+                                    <a href="#/user/editCustomer">
                                         <i class="glyphicon glyphicon-user" ng-show="user.ds_nome"></i>
                                         <strong> {{user.ds_nome}}</strong>
                                     </a>
@@ -208,8 +209,8 @@
                                 <!--Cadastre-se-->
                                 <li ng-show="!user.sq_pessoa">
                                     <a href="#/user/newCustomer">
-                                        <strong>Cadastre-se </strong>
                                         <i class="glyphicon glyphicon-user text-primary"></i>
+                                        <strong>Cadastre-se </strong>
                                     </a>
                                 </li>
                                 <!--Cadastre-se-->
@@ -217,8 +218,8 @@
                                 <!--login-->
                                 <li ng-show="!user.sq_pessoa">
                                     <a href="" data-toggle="modal" data-target="#modalLogin">
-                                        <strong>Entrar </strong>
                                         <i class="glyphicon glyphicon-log-in text-primary"></i>
+                                        <strong>Entrar </strong>
                                     </a>
                                 </li>
                                 <!--login-->
@@ -226,8 +227,8 @@
                                 <!--logout-->
                                 <li ng-show="user.sq_pessoa">
                                     <a href="" data-toggle="modal" data-target="#modalLogoff">
-                                        <strong>Sair </strong>
                                         <i class="glyphicon glyphicon-log-out text-danger"></i>
+                                        <strong>Sair </strong>
                                     </a>
                                 </li>
                                 <!--logout-->
@@ -352,89 +353,84 @@
     <!--modal login-->
     <div id="modalLogin" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
 
-        <div ng-controller="loginController">
+        <!--tamanho e alinhamento-->
+        <div class="col-xs-12 col-sm-5 col-md-4 col-lg-4 col-sm-offset-4">
 
-            <!--tamanho e alinhamento-->
-            <div class="col-xs-12 col-sm-5 col-md-4 col-lg-4 col-sm-offset-4">
+            <legend class="text-white"> <i class="glyphicon glyphicon-log-in text-white"></i> Entrar
 
-                <legend class="text-white">Entrar
+                <a class="close pull-right text-white glyphicon glyphicon-remove-circle" data-dismiss="modal"></a>
 
-                    <i class="glyphicon glyphicon-log-in text-white"></i>
-                    <a class="close pull-right text-white glyphicon glyphicon-remove-circle" data-dismiss="modal"></a>
+            </legend>
 
-                </legend>
+            <!--formulario-->
+            <form name="form" class="form-horizontal">
 
-                <!--formulario-->
-                <form name="form" class="form-horizontal">
+                <!--campo email-->
+                <div class="form-group">
 
-                    <!--campo email-->
-                    <div class="form-group">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <input type="email"
+                               name="ds_email"
+                               class="form-control
+                               text-lowercase"
+                               placeholder="usuario@email.com"
+                               ng-model="row.ds_email"
+                               maxlength="50"
+                               ng-maxlength="50"
+                               required/>
+                    </div>
 
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                            <input type="email"
-                                   name="ds_email"
-                                   class="form-control
-                                   text-lowercase"
-                                   placeholder="usuario@email.com"
-                                   ng-model="row.ds_email"
-                                   maxlength="50"
-                                   ng-maxlength="50"
-                                   required/>
-                        </div>
+                    <div id="div-email" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <span class="text-white" ng-show="form.ds_email.$dirty && form.ds_email.$invalid">
+                            <i class="glyphicon glyphicon-remove-sign"></i>
+                            <span ng-show="form.ds_email.$error.required">Campo obrigatório</span>
+                            <span ng-show="form.ds_email.$error.email">Email inválido</span>
+                            <span ng-show="form.ds_email.$error.maxlength">Máximo de cinquenta caracteres</span>
+                        </span>
+                    </div>
 
-                        <div id="div-email" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                            <span class="text-white" ng-show="form.ds_email.$dirty && form.ds_email.$invalid">
-                                <i class="glyphicon glyphicon-remove-sign"></i>
-                                <span ng-show="form.ds_email.$error.required">Campo obrigatório</span>
-                                <span ng-show="form.ds_email.$error.email">Email inválido</span>
-                                <span ng-show="form.ds_email.$error.maxlength">Máximo de cinquenta caracteres</span>
-                            </span>
-                        </div>
+                </div>
+                <!--fim campo email-->
+
+                <!--campo senha-->
+                <div class="form-group">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <input class="form-control"
+                               placeholder="Senha"
+                               id="ds_senha"
+                               name="ds_senha"
+                               type="password"
+                               maxlength="20"
+                               ng-maxlength="20"
+                               ng-model="row.ds_senha"
+                               required/>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <span class="text-white" ng-show="form.ds_senha.$dirty && form.ds_senha.$invalid">
+                            <i class="glyphicon glyphicon-remove-sign"></i>
+                            <span ng-show="form.ds_senha.$error.required">Campo obrigatório</span>
+                            <span ng-show="form.ds_senha.$error.maxlength">Máximo de vinte caracteres</span>
+                        </span>
+                    </div>
+
+                </div>
+                <!--fim campo senha-->
+
+                <!--botao submit-->
+                <div class="form-group">
+                    <div class="col-sm-12">
+
+                        <button id="entrar" class="btn btn-primary" ng-click="login()" ng-Disabled="form.$invalid">Entrar
+                            <i class="glyphicon glyphicon-log-in"></i>
+                        </button>
 
                     </div>
-                    <!--fim campo email-->
+                </div>
+                <!--fim botao submit-->
 
-                    <!--campo senha-->
-                    <div class="form-group">
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                            <input class="form-control"
-                                   placeholder="Senha"
-                                   id="ds_senha"
-                                   name="ds_senha"
-                                   type="password"
-                                   maxlength="20"
-                                   ng-maxlength="20"
-                                   ng-model="row.ds_senha"
-                                   required/>
-                        </div>
-
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                            <span class="text-white" ng-show="form.ds_senha.$dirty && form.ds_senha.$invalid">
-                                <i class="glyphicon glyphicon-remove-sign"></i>
-                                <span ng-show="form.ds_senha.$error.required">Campo obrigatório</span>
-                                <span ng-show="form.ds_senha.$error.maxlength">Máximo de vinte caracteres</span>
-                            </span>
-                        </div>
-
-                    </div>
-                    <!--fim campo senha-->
-
-                    <!--botao submit-->
-                    <div class="form-group">
-                        <div class="col-sm-12">
-
-                            <button id="entrar" class="btn btn-primary" ng-click="login()" ng-Disabled="form.$invalid">Entrar
-                                <i class="glyphicon glyphicon-log-in"></i>
-                            </button>
-
-                        </div>
-                    </div>
-                    <!--fim botao submit-->
-
-                </form>
-                <!--fim formulario-->
-
-            </div>
+            </form>
+            <!--fim formulario-->
 
         </div>
 

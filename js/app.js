@@ -12,8 +12,8 @@ $app.config(['$routeProvider', '$httpProvider', function ($routeProvider, $httpP
                 when('/contact', {templateUrl: 'view/general/contact.html'}).
                 when('/user/new', {templateUrl: 'view/user/add.html', controller: 'userController'}).
                 when('/user/newCustomer', {templateUrl: 'view/user/addCustomer.html', controller: 'userController'}).
+                when('/user/editCustomer', {templateUrl: 'view/user/editCustomer.html', controller: 'userController'}).
                 when('/user/:id', {templateUrl: 'view/user/edit.html', controller: 'userController'}).
-                when('/user/edit', {templateUrl: 'view/user/editCustomer.html', controller: 'userController'}).
                 when('/user', {templateUrl: 'view/user/list.html', controller: 'userController'}).
                 when('/user/contact', {templateUrl: 'view/user/contact.html', controller: 'userController'}).
                 otherwise({redirectTo: '/'});
@@ -126,21 +126,6 @@ $app.run(['$rootScope', '$http', function ($rootScope, $http) {
          */
         $rootScope.server = function ($url) {
             return SERVER_URL + $url;
-        }
-
-        /**
-         * Method for get session user data
-         * @name session
-         * @author Victor Eduardo Barreto
-         * @date Apr 17, 2015
-         * @version 1.0
-         */
-        $rootScope.session = function () {
-
-            $http.get(this.server("/session")).success(function ($return) {
-
-                $rootScope.user = $return;
-            });
         }
 
     }]);

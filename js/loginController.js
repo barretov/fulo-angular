@@ -31,20 +31,37 @@ $app.controller('loginController', function ($scope, $rootScope, $http, $routePa
      * @date Apr 12, 2015
      * @version 1.0
      */
-    $scope.login = function () {
+    $rootScope.login = function ($param) {
 
-        $http.post($scope.server("/login"), $scope.row).success(function ($return) {
+        // define $scope.row as $param, for get param of function or by variable $scope.row.
+        if ($scope.row) {
+            $param = $scope.row;
+        }
+
+        $http.post($scope.server("/login"), $param).success(function ($return) {
 
             if ($return) {
 
+                // if exists remove data user of the session browser.
+                sessionStorage.removeItem('user');
+
+                // set user data in the session.
+                sessionStorage.setItem('user', JSON.stringify($return));
+
+                // set user data in the $rootScope.user variable.
+                $rootScope.user = JSON.parse(sessionStorage.getItem('user'));
+
                 $scope.showFlashmessage("alert-success", "Processo realizado com sucesso.");
+
+                // clear pass field.
                 $('#ds_senha').val('');
                 $('#modalLogin').modal('hide');
-                location.reload();
 
             } else {
 
                 $scope.showFlashmessage("alert-danger", "Dados incorretos.");
+
+                // clear pass field.
                 $('#ds_senha').val('');
 
             }
@@ -61,25 +78,28 @@ $app.controller('loginController', function ($scope, $rootScope, $http, $routePa
      */
     $scope.logoff = function () {
 
-        $http.post($scope.server("/logoff")).success(function ($return) {
+        $http.post($scope.server("/logoff"), $scope.user).success(function ($return) {
 
             if ($return) {
 
+                // remove user data of the session.
+                $rootScope.user = sessionStorage.removeItem('user');
+
                 $scope.showFlashmessage("alert-success", "Processo realizado com sucesso.");
                 $('#modalLogoff').modal('hide');
-                window.location = "/";
+                $location.path("/");
 
             } else {
 
-                $scope.showFlashmessage("alert-danger", "Problemas encontrados.");
+                $scope.showFlashmessage("alert-danger", "Problemas encontrados. O seu IP Mudou!");
             }
 
         });
     }
 
     /**
-     * Initiate the method session in app.js
+     * Get data of loged user in the session browser and set in the ariable $rootScope.user.
      */
-    $scope.user = $rootScope.session();
+    $rootScope.user = JSON.parse(sessionStorage.getItem('user'));
 
 });

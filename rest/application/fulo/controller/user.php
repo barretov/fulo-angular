@@ -24,7 +24,7 @@ use \fulo\business\UserBusiness as UserBusiness;
 
 /**
  * Method for get users
- * @name get | user
+ * @name user
  * @author Victor Eduardo Barreto
  * @return json Data of users
  * @date Apr 3, 2015
@@ -36,7 +36,12 @@ $app->get("/user", function () {
 
         $business = new UserBusiness();
 
-        formatJson($business->getUsers());
+//        $data = json_decode(\Slim\Slim::getInstance()->request()->getBody());
+        $data = \Slim\Slim::getInstance()->request()->params();
+        
+        return $data;
+//            $data = $_GET['params'];
+        formatJson($business->getUsers($data));
     } catch (Exception $ex) {
 
         throw $ex;
@@ -52,13 +57,15 @@ $app->get("/user", function () {
  * @date Apr 3, 2015
  * @version 1.0
  */
-$app->get("/user/:id", function ($sq_pessoa) {
+$app->post("/userEdit", function () {
 
     try {
 
         $business = new UserBusiness();
 
-        formatJson($business->getUser($sq_pessoa));
+        $data = json_decode(\Slim\Slim::getInstance()->request()->getBody());
+
+        formatJson($business->getUser($data));
     } catch (Exception $ex) {
 
         throw $ex;

@@ -33,7 +33,6 @@ abstract class MasterBusiness
      * @name removeSpecialChar
      * @author Victor Eduardo Barreto
      * @param object or array or string $data Data to remove special char
-     * @return object or array or string Data without special char
      * @date Apr 12, 2015
      * @version 1.0
      */
@@ -65,6 +64,26 @@ abstract class MasterBusiness
         } catch (Exception $ex) {
 
             throw $ex;
+        }
+    }
+
+    /**
+     * Method for validate the credential and ip of user
+     * @name validateOrigin
+     * @author Victor Eduardo Barreto
+     * @param object $data Data of request
+     * @return bool FALSE case the data is fake
+     * @date June 15, 2015
+     * @version 1.0
+     */
+    public function validateOrigin (& $data)
+    {
+
+        # TODO validade hash access.
+        # validate origin ip.
+        if (is_null($data) || $_SERVER['REMOTE_ADDR'] != $data->no_ip) {
+
+            return "data_false";
         }
     }
 

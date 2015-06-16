@@ -137,18 +137,20 @@ class UserBusiness extends MasterBusiness
      * @name getUser
      * @author Victor Eduardo Barreto
      * @package fulo\business
+     * @param object $data User data
      * @return array Data of users
      * @date Apr 8, 2015
      * @version 1.0
      */
-    public function getUsers ()
+    public function getUsers ($data)
     {
 
         try {
 
-            $sq_pessoa = empty($_SESSION['user']['sq_pessoa']) ? 0 : $_SESSION['user']['sq_pessoa'];
+            # validate origin.
+            $this->validateOrigin($data);
 
-            return $this->_userModel->getUsers($sq_pessoa);
+            return $this->_userModel->getUsers($data->sq_pessoa);
         } catch (Exception $ex) {
 
             throw $ex;
@@ -165,11 +167,14 @@ class UserBusiness extends MasterBusiness
      * @date Apr 8, 2015
      * @version 1.0
      */
-    public function getUser (& $sq_pessoa)
+    public function getUser (& $data)
     {
         try {
 
-            return $this->_userModel->getUserByIdenty($sq_pessoa);
+            # validate origin.
+            $this->validateOrigin($data);
+
+            return $this->_userModel->getUserByIdenty($data->sq_usuario_editado);
         } catch (Exception $ex) {
 
             throw $ex;

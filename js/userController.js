@@ -52,9 +52,17 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
 
         $scope.showLoader();
 
-        $http.get($scope.server("/user")).success(function (data) {
+        // get user loged data
+        $param = JSON.parse(sessionStorage.getItem('user'));
 
-            $scope.rows = data;
+        $http.get($scope.server("/user"), {
+            params: $param
+        }).success(function ($data) {
+            
+            console.log($data);
+//            $http.post($scope.server("/user"), $param).success(function ($data) {
+
+            $scope.rows = $data;
             $scope.hideLoader();
         });
     }
@@ -71,13 +79,17 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
         if ($routeParams.id != null) {
 
             $scope.showLoader();
-
-            $http.get($scope.server("/user/" + $routeParams.id)).success(function ($data) {
+            // get user loged data
+            $param = JSON.parse(sessionStorage.getItem('user'));
+            // insert in param id of edited user.
+            $param.sq_usuario_editado = $routeParams.id;
+//            $http.get($scope.server("/user/" + $routeParams.id)).success(function ($data) {
+//            $http.get($scope.server("/user/" + $routeParams.id)).success(function ($data) {
+            $http.post($scope.server("/userEdit"), $param).success(function ($data) {
 
                 $scope.row = $data;
                 $scope.hideLoader();
             });
-
         } else {
 
             $scope.row = {}
@@ -264,9 +276,10 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
 
                     $scope.hideLoader();
 
-                    $location.path("/");
+                    // do the login.
+                    $scope.login($scope.row);
 
-                    $scope.showFlashmessage("alert-success", "Processo realizado com sucesso.");
+                    $location.path("/");
                 }
             });
 
