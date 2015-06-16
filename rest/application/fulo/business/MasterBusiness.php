@@ -39,22 +39,22 @@ abstract class MasterBusiness {
 
         try {
 
-            # verify the type of variable.
-            # array.
+# verify the type of variable.
+# array.
             if (is_array($data)) {
 
                 foreach ($data as $key => $value) {
                     $data->$key = ereg_replace("[^a-zA-Z0-9_@. ]", "", strtr($value, "áàãâéêíóôõúüçÁÀÃÂÉÊÍÓÔÕÚÜÇ ", "aaaaeeiooouucAAAAEEIOOOUUC-"));
                 }
 
-                # object.
+# object.
             } elseif (is_object($data)) {
 
                 foreach ($data as $key => $value) {
                     $data->$key = ereg_replace("[^a-zA-Z0-9_@. ]", "", strtr($value, "áàãâéêíóôõúüçÁÀÃÂÉÊÍÓÔÕÚÜÇ ", "aaaaeeiooouucAAAAEEIOOOUUC-"));
                 }
 
-                # other types.
+# other types.
             } else {
 
                 $data = ereg_replace("[^a-zA-Z0-9_@. ]", "", strtr($data, "áàãâéêíóôõúüçÁÀÃÂÉÊÍÓÔÕÚÜÇ ", "aaaaeeiooouucAAAAEEIOOOUUC-"));
@@ -77,7 +77,7 @@ abstract class MasterBusiness {
     public function validateOrigin (& $data) {
 
         # verify if arrived array or object.
-        if (is_array($data)) {
+        if (is_array($data) && empty($data)) {
 
             $object = new \stdClass();
 
@@ -93,10 +93,16 @@ abstract class MasterBusiness {
 
         # TODO validade hash access.
         # validate origin ip.
-        if (is_null($data) || $_SERVER['REMOTE_ADDR'] != $data->no_ip) {
+        if (empty($data->no_ip) || $_SERVER['REMOTE_ADDR'] != $data->no_ip) {
 
-            return "data_false";
+            \Slim\Slim::getInstance()->redirect($this->returnData("false"));
+//            return "data_false";
         }
+    }
+
+    public function returnData ($return) {
+
+        return $return;
     }
 
 }
