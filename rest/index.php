@@ -8,9 +8,8 @@ require_once './vendor/autoload.php';
 # init the Slim Framework.
 $app = new \Slim\Slim(array(
     'debug' => true
-        )
+    )
 );
-
 
 $app->contentType("application/json");
 $app->response->headers->set('Access-Control-Allow-Origin', '*');

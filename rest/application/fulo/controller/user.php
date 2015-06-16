@@ -36,11 +36,8 @@ $app->get("/user", function () {
 
         $business = new UserBusiness();
 
-//        $data = json_decode(\Slim\Slim::getInstance()->request()->getBody());
         $data = \Slim\Slim::getInstance()->request()->params();
-        
-        return $data;
-//            $data = $_GET['params'];
+
         formatJson($business->getUsers($data));
     } catch (Exception $ex) {
 
@@ -50,20 +47,20 @@ $app->get("/user", function () {
 
 /**
  * Method for get user
- * @name get | user
+ * @name userEdit
  * @author Victor Eduardo Barreto
  * @param int $sq_pessoa Identifier of user
  * @return json Data of user selected
  * @date Apr 3, 2015
  * @version 1.0
  */
-$app->post("/userEdit", function () {
+$app->get("/userEdit", function () {
 
     try {
 
         $business = new UserBusiness();
 
-        $data = json_decode(\Slim\Slim::getInstance()->request()->getBody());
+        $data = \Slim\Slim::getInstance()->request()->params();
 
         formatJson($business->getUser($data));
     } catch (Exception $ex) {
@@ -131,7 +128,7 @@ $app->post("/addUser/", function () {
 
 /**
  * Method for save or update user
- * @name delete | user
+ * @name user/:id
  * @author Victor Eduardo Barreto
  * @param int $sq_pessoa Identifier of user
  * @return bool Result of procedure
@@ -153,7 +150,7 @@ $app->delete("/user/:id", function ($sq_pessoa) {
 
 /**
  * Method for update data user
- * @name post | user
+ * @name userUpData
  * @author Victor Eduardo Barreto
  * @param json Data of user
  * @return bool Result of procedure
@@ -177,7 +174,7 @@ $app->post("/userUpData/", function () {
 
 /**
  * Method for update user data access
- * @name post | user
+ * @name userUpDataAccess
  * @author Victor Eduardo Barreto
  * @param json Data access of user
  * @return bool Result of procedure

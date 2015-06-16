@@ -25,8 +25,7 @@ namespace fulo\business;
  * @date Apr 12, 2015
  * @version 1.0
  */
-abstract class MasterBusiness
-{
+abstract class MasterBusiness {
 
     /**
      * Method for remove special char of data
@@ -36,8 +35,7 @@ abstract class MasterBusiness
      * @date Apr 12, 2015
      * @version 1.0
      */
-    protected function removeSpecialChar (& $data)
-    {
+    protected function removeSpecialChar (& $data) {
 
         try {
 
@@ -76,8 +74,22 @@ abstract class MasterBusiness
      * @date June 15, 2015
      * @version 1.0
      */
-    public function validateOrigin (& $data)
-    {
+    public function validateOrigin (& $data) {
+
+        # verify if arrived array or object.
+        if (is_array($data)) {
+
+            $object = new \stdClass();
+
+            # change array to object.
+            foreach ($data as $key => $value) {
+
+                $object->$key = $value;
+            }
+
+            # save object in $data;
+            $data = $object;
+        }
 
         # TODO validade hash access.
         # validate origin ip.

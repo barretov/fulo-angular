@@ -55,12 +55,7 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
         // get user loged data
         $param = JSON.parse(sessionStorage.getItem('user'));
 
-        $http.get($scope.server("/user"), {
-            params: $param
-        }).success(function ($data) {
-            
-            console.log($data);
-//            $http.post($scope.server("/user"), $param).success(function ($data) {
+        $http.get($scope.server("/user"), {params: $param}).success(function ($data) {
 
             $scope.rows = $data;
             $scope.hideLoader();
@@ -79,13 +74,14 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
         if ($routeParams.id != null) {
 
             $scope.showLoader();
+
             // get user loged data
             $param = JSON.parse(sessionStorage.getItem('user'));
+
             // insert in param id of edited user.
             $param.sq_usuario_editado = $routeParams.id;
-//            $http.get($scope.server("/user/" + $routeParams.id)).success(function ($data) {
-//            $http.get($scope.server("/user/" + $routeParams.id)).success(function ($data) {
-            $http.post($scope.server("/userEdit"), $param).success(function ($data) {
+
+            $http.get($scope.server("/userEdit"), {params: $param}).success(function ($data) {
 
                 $scope.row = $data;
                 $scope.hideLoader();
