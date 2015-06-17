@@ -19,6 +19,10 @@
  * Controller of clients
  * @name userController
  * @author Victor Eduardo Barreto
+ * @param {Object} $scope Scope
+ * @param {Object} $http  Http
+ * @param {Object} $routeParams Route
+ * @param {Object} $location Locatioin
  * @date Apr 3, 2015
  * @version 1.0
  */
@@ -39,7 +43,7 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
      */
     $scope.numberOfPages = function () {
         return Math.ceil($scope.rows.length / $scope.pageSize);
-    }
+    };
 
     /**
      * Method for load all users
@@ -52,15 +56,12 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
 
         $scope.showLoader();
 
-        // get user loged data
-        $param = JSON.parse(sessionStorage.getItem('user'));
-
-        $http.get($scope.server("/user"), {params: $param}).success(function ($data) {
+        $http.get($scope.server("/user"), {params: $scope.secret}).success(function ($data) {
 
             $scope.rows = $data;
             $scope.hideLoader();
         });
-    }
+    };
 
     /**
      * Method for load one user
@@ -71,29 +72,26 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
      */
     $scope.loadRow = function () {
 
-        if ($routeParams.id != null) {
+        if ($routeParams.id !== null) {
 
             $scope.showLoader();
 
-            // get user loged data
-            $param = JSON.parse(sessionStorage.getItem('user'));
-
             // insert in param id of edited user.
-            $param.sq_usuario_editado = $routeParams.id;
+            $scope.secret.sq_usuario = $routeParams.id;
 
-            $http.get($scope.server("/userEdit"), {params: $param}).success(function ($data) {
+            $http.get($scope.server("/userEdit"), {params: $scope.secret}).success(function ($data) {
 
                 $scope.row = $data;
                 $scope.hideLoader();
             });
         } else {
 
-            $scope.row = {}
+            $scope.row = {};
             $scope.row.sq_pessoa = null;
             $scope.hideLoader();
         }
 
-    }
+    };
 
     /**
      * Method for add user
@@ -109,7 +107,7 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
         // validate passwords
         if ($scope.row.ds_re_senha === null || $scope.row.ds_senha === $scope.row.re_senha) {
 
-            $http.post($scope.server("/addUser/"), $scope.row).success(function ($data) {
+            $http.post($scope.server("/addUser/"), $scope.row, $scope.secret).success(function ($data) {
 
                 // verify if email already exists.
                 if ($data === "email-already") {
@@ -131,7 +129,7 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
         } else {
             $scope.showFlashmessage("alert-warning", "A senha não confere.");
         }
-    }
+    };
 
     /**
      * Method for update user data access
@@ -147,7 +145,7 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
         // validate passwords
         if ($scope.user.ds_re_senha === null || $scope.user.ds_senha === $scope.user.re_senha) {
 
-            $http.post($scope.server("/userUpDataAccess/"), $scope.user).success(function ($data) {
+            $http.post($scope.server("/userUpDataAccess/"), $scope.user, $scope.secret).success(function () {
 
                 $scope.hideLoader();
 
@@ -159,12 +157,13 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
         } else {
             $scope.showFlashmessage("alert-warning", "A senha não confere.");
         }
-    }
+    };
 
     /**
      * Method for update data user
      * @name updateDataUser
      * @author Victor Eduardo Barreto
+     * @param {String} $form Define what form sended data
      * @date May 09, 2015
      * @version 1.0
      */
@@ -189,7 +188,10 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
             }
         }
 
-        $http.post($scope.server("/userUpData/"), $param).success(function ($data) {
+        console.log($param);
+        console.log($scope.secret);
+
+        $http.post($scope.server("/userUpData"), $param, $scope.secret).success(function ($data) {
 
             // verify if email already exists.
             if ($data === "email-already") {
@@ -208,7 +210,7 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
             }
         });
 
-    }
+    };
 
     /**
      * Method for delete user
@@ -220,7 +222,10 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
      */
     $scope.del = function ($sq_pessoa) {
 
-        $http.delete($scope.server("/user/" + $sq_pessoa)).success(function ($result) {
+        // insert data loged user in $param.
+        $scope.secret.sq_pessoa = $sq_pessoa;
+
+        $http.delete($scope.server("/userDel"), {params: $scope.secret}).success(function ($result) {
 
             if ($result) {
 
@@ -229,7 +234,7 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
                 $scope.showFlashmessage("alert-success", "Processo realizado com sucesso.");
             }
         });
-    }
+    };
 
     /**
      * Method for tranfer data for exclusion modal
@@ -243,7 +248,7 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
 
         // set the variable pessoa in the scope.
         $scope.pessoa = $row;
-    }
+    };
 
     /**
      * Method for add customer
@@ -282,6 +287,6 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
         } else {
             $scope.showFlashmessage("alert-warning", "A senha não confere.");
         }
-    }
+    };
 
 });

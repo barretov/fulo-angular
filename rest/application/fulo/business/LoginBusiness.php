@@ -96,7 +96,7 @@ class LoginBusiness extends MasterBusiness
             # model of user.
             $modelUser = new UserModel();
 
-            # TODO write in log.
+            # TODO write in logoff.
 
             return true;
         } catch (Exception $ex) {

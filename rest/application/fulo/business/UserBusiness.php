@@ -67,6 +67,9 @@ class UserBusiness extends MasterBusiness
 
         try {
 
+            # validate origin.
+            $this->validateOrigin($data);
+
             # set email to lower case.
             $data->ds_email = strtolower($data->ds_email);
 
@@ -104,6 +107,9 @@ class UserBusiness extends MasterBusiness
     {
 
         try {
+
+            # validate origin.
+            $this->validateOrigin($data);
 
             # set email to lower case.
             $data->ds_email = strtolower($data->ds_email);
@@ -150,7 +156,7 @@ class UserBusiness extends MasterBusiness
             # validate origin.
             $this->validateOrigin($data);
 
-            return $this->_userModel->getUsers($data->sq_pessoa);
+            return $this->_userModel->getUsers($data->secret_sq_pessoa);
         } catch (Exception $ex) {
 
             throw $ex;
@@ -174,7 +180,7 @@ class UserBusiness extends MasterBusiness
             # validate origin.
             $this->validateOrigin($data);
 
-            return $this->_userModel->getUserByIdenty($data->sq_usuario_editado);
+            return $this->_userModel->getUserByIdenty($data->sq_usuario);
         } catch (Exception $ex) {
 
             throw $ex;
@@ -186,16 +192,19 @@ class UserBusiness extends MasterBusiness
      * @name delUser
      * @author Victor Eduardo Barreto
      * @package fulo\business
-     * @param int $sq_pessoa Identifier of user
+     * @param int $data User data
      * @return bool Result of procedure
      * @date Apr 8, 2015
      * @version 1.0
      */
-    public function delUser (& $sq_pessoa)
+    public function delUser (& $data)
     {
         try {
 
-            return $this->_userModel->delUser($sq_pessoa);
+            # validate origin.
+            $this->validateOrigin($data);
+
+            return $this->_userModel->delUser($data->sq_pessoa);
         } catch (Exception $ex) {
 
             throw $ex;
@@ -248,6 +257,9 @@ class UserBusiness extends MasterBusiness
     {
 
         try {
+
+            # validate origin.
+            $this->validateOrigin($data);
 
             # remove special char and spaces.
             $this->removeSpecialChar($data);

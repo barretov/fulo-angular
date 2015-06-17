@@ -70,39 +70,6 @@ $app->get("/userEdit", function () {
 });
 
 /**
- * Method for save or update user
- * @name post | user
- * @author Victor Eduardo Barreto
- * @param json Data of user
- * @return bool Result of procedure
- * @date Apr 3, 2015
- * @version 1.0
- */
-//$app->post("/user/:id", function () {
-//
-//    try {
-//
-//        $business = new UserBusiness();
-//
-//        $data = json_decode(\Slim\Slim::getInstance()->request()->getBody());
-//
-//        # verify if is update.
-//        if ($data->isUpdate) {
-//
-//            $result = $business->upUser($data);
-//        } else {
-//
-//            $result = $business->addUser($data);
-//        }
-//
-//        formatJson($result);
-//    } catch (Exception $ex) {
-//
-//        throw $ex;
-//    }
-//});
-
-/**
  * Method for add user
  * @name addUser
  * @author Victor Eduardo Barreto
@@ -135,13 +102,15 @@ $app->post("/addUser/", function () {
  * @date Apr 3, 2015
  * @version 1.0
  */
-$app->delete("/user/:id", function ($sq_pessoa) {
+$app->delete("/userDel", function () {
 
     try {
 
         $business = new UserBusiness();
 
-        formatJson($business->delUser($sq_pessoa));
+        $data = \Slim\Slim::getInstance()->request()->params();
+
+        formatJson($business->delUser($data));
     } catch (Exception $ex) {
 
         throw $ex;
@@ -157,7 +126,7 @@ $app->delete("/user/:id", function ($sq_pessoa) {
  * @date Apr 3, 2015
  * @version 1.0
  */
-$app->post("/userUpData/", function () {
+$app->post("/userUpData", function () {
 
     try {
 

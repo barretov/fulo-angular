@@ -44,12 +44,22 @@ $app.controller('loginController', function ($scope, $rootScope, $http, $routePa
 
                 // if exists remove data user of the session browser.
                 sessionStorage.removeItem('user');
+                sessionStorage.removeItem('secret');
+
+                // adjust secret data for save.
+                $secret = {
+                    'secret_no_ip': $return.no_ip,
+                    'secret_sq_pessoa': $return.sq_pessoa,
+                    'secret_ds_senha': $return.ds_senha,
+                };
 
                 // set user data in the session.
                 sessionStorage.setItem('user', JSON.stringify($return));
+                sessionStorage.setItem('secret', JSON.stringify($secret));
 
-                // set user data in the $rootScope.user variable.
+                // set user data in the $rootScope variable.
                 $rootScope.user = JSON.parse(sessionStorage.getItem('user'));
+                $rootScope.secret = JSON.parse(sessionStorage.getItem('secret'));
 
                 $scope.showFlashmessage("alert-success", "Processo realizado com sucesso.");
 
@@ -78,12 +88,13 @@ $app.controller('loginController', function ($scope, $rootScope, $http, $routePa
      */
     $scope.logoff = function () {
 
-        $http.post($scope.server("/logoff"), $scope.user).success(function ($return) {
+        $http.post($scope.server("/logoff"), $scope.user, $scope.secret).success(function ($return) {
 
             if ($return) {
 
                 // remove user data of the session.
                 $rootScope.user = sessionStorage.removeItem('user');
+                $rootScope.secret = sessionStorage.removeItem('secret');
 
                 $scope.showFlashmessage("alert-success", "Processo realizado com sucesso.");
                 $('#modalLogoff').modal('hide');
@@ -101,5 +112,6 @@ $app.controller('loginController', function ($scope, $rootScope, $http, $routePa
      * Get data of loged user in the session browser and set in the ariable $rootScope.user.
      */
     $rootScope.user = JSON.parse(sessionStorage.getItem('user'));
+    $rootScope.secret = JSON.parse(sessionStorage.getItem('secret'));
 
 });

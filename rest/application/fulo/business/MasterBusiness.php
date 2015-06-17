@@ -25,7 +25,8 @@ namespace fulo\business;
  * @date Apr 12, 2015
  * @version 1.0
  */
-abstract class MasterBusiness {
+abstract class MasterBusiness
+{
 
     /**
      * Method for remove special char of data
@@ -35,26 +36,27 @@ abstract class MasterBusiness {
      * @date Apr 12, 2015
      * @version 1.0
      */
-    protected function removeSpecialChar (& $data) {
+    protected function removeSpecialChar (& $data)
+    {
 
         try {
 
-# verify the type of variable.
-# array.
+            # verify the type of variable.
+            # array.
             if (is_array($data)) {
 
                 foreach ($data as $key => $value) {
                     $data->$key = ereg_replace("[^a-zA-Z0-9_@. ]", "", strtr($value, "áàãâéêíóôõúüçÁÀÃÂÉÊÍÓÔÕÚÜÇ ", "aaaaeeiooouucAAAAEEIOOOUUC-"));
                 }
 
-# object.
+                # object.
             } elseif (is_object($data)) {
 
                 foreach ($data as $key => $value) {
                     $data->$key = ereg_replace("[^a-zA-Z0-9_@. ]", "", strtr($value, "áàãâéêíóôõúüçÁÀÃÂÉÊÍÓÔÕÚÜÇ ", "aaaaeeiooouucAAAAEEIOOOUUC-"));
                 }
 
-# other types.
+                # other types.
             } else {
 
                 $data = ereg_replace("[^a-zA-Z0-9_@. ]", "", strtr($data, "áàãâéêíóôõúüçÁÀÃÂÉÊÍÓÔÕÚÜÇ ", "aaaaeeiooouucAAAAEEIOOOUUC-"));
@@ -74,10 +76,11 @@ abstract class MasterBusiness {
      * @date June 15, 2015
      * @version 1.0
      */
-    public function validateOrigin (& $data) {
+    public function validateOrigin (& $data)
+    {
 
-        # verify if arrived array or object.
-        if (is_array($data) && empty($data)) {
+        # verify if arrived is array.
+        if (is_array($data) && !empty($data)) {
 
             $object = new \stdClass();
 
@@ -89,20 +92,19 @@ abstract class MasterBusiness {
 
             # save object in $data;
             $data = $object;
+        } else {
+
+            # stop the request.
+            \Slim\Slim::getInstance()->stop();
         }
 
         # TODO validade hash access.
         # validate origin ip.
-        if (empty($data->no_ip) || $_SERVER['REMOTE_ADDR'] != $data->no_ip) {
+        if (empty($data->secret_no_ip) || $_SERVER['REMOTE_ADDR'] != $data->secret_no_ip) {
 
-            \Slim\Slim::getInstance()->redirect($this->returnData("false"));
-//            return "data_false";
+            # stop the request.
+            \Slim\Slim::getInstance()->stop();
         }
-    }
-
-    public function returnData ($return) {
-
-        return $return;
     }
 
 }
