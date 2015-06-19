@@ -44,22 +44,22 @@ $app.controller('loginController', function ($scope, $rootScope, $http, $routePa
 
                 // if exists remove data user of the session browser.
                 sessionStorage.removeItem('user');
-                sessionStorage.removeItem('secret');
+                sessionStorage.removeItem('origin');
 
-                // adjust secret data for save.
-                $secret = {
-                    'secret_no_ip': $return.no_ip,
-                    'secret_sq_pessoa': $return.sq_pessoa,
-                    'secret_ds_senha': $return.ds_senha,
+                // adjust origin data;
+                $origin = {
+                    origin_no_ip: $return.no_ip,
+                    origin_secret: $return.secret,
+                    origin_sq_pessoa: $return.sq_pessoa,
                 };
 
                 // set user data in the session.
                 sessionStorage.setItem('user', JSON.stringify($return));
-                sessionStorage.setItem('secret', JSON.stringify($secret));
+                sessionStorage.setItem('origin', JSON.stringify($origin));
 
                 // set user data in the $rootScope variable.
                 $rootScope.user = JSON.parse(sessionStorage.getItem('user'));
-                $rootScope.secret = JSON.parse(sessionStorage.getItem('secret'));
+                $rootScope.origin = JSON.parse(sessionStorage.getItem('origin'));
 
                 $scope.showFlashmessage("alert-success", "Processo realizado com sucesso.");
 
@@ -86,15 +86,18 @@ $app.controller('loginController', function ($scope, $rootScope, $http, $routePa
      * @date Apr 17, 2015
      * @version 1.0
      */
-    $scope.logoff = function () {
+    $rootScope.logoff = function () {
 
-        $http.post($scope.server("/logoff"), $scope.user, $scope.secret).success(function ($return) {
+        // adjust parameters and add origin data.
+        $param = $.extend($scope.origin, $scope.user);
+
+        $http.post($scope.server("/logoff"), $param).success(function ($return) {
 
             if ($return) {
 
                 // remove user data of the session.
                 $rootScope.user = sessionStorage.removeItem('user');
-                $rootScope.secret = sessionStorage.removeItem('secret');
+                $rootScope.origin = sessionStorage.removeItem('origin');
 
                 $scope.showFlashmessage("alert-success", "Processo realizado com sucesso.");
                 $('#modalLogoff').modal('hide');
@@ -112,6 +115,6 @@ $app.controller('loginController', function ($scope, $rootScope, $http, $routePa
      * Get data of loged user in the session browser and set in the ariable $rootScope.user.
      */
     $rootScope.user = JSON.parse(sessionStorage.getItem('user'));
-    $rootScope.secret = JSON.parse(sessionStorage.getItem('secret'));
+    $rootScope.origin = JSON.parse(sessionStorage.getItem('origin'));
 
 });

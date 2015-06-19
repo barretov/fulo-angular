@@ -39,7 +39,7 @@ $app->post("/login", function () {
 
         $data = json_decode(\Slim\Slim::getInstance()->request()->getBody());
 
-        formatJson($business->doLogin($data));
+        echo json_encode($business->doLogin($data));
     } catch (Exception $ex) {
 
         throw $ex;
@@ -62,27 +62,7 @@ $app->post("/logoff", function () {
 
         $data = json_decode(\Slim\Slim::getInstance()->request()->getBody());
 
-        formatJson($business->doLogoff($data));
-    } catch (Exception $ex) {
-
-        throw $ex;
-    }
-});
-
-/**
- * Method get ip of user.
- * @name userIp
- * @author Victor Eduardo Barreto
- * @return Obj Result of procedure
- * @date Jun 13, 2015
- * @version 1.0
- */
-$app->get("/userIp", function () {
-
-    try {
-
-        # get ip of user.
-        formatJson($_SERVER['REMOTE_ADDR']);
+        echo json_encode($business->doLogoff($data));
     } catch (Exception $ex) {
 
         throw $ex;

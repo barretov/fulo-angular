@@ -126,7 +126,30 @@ $app.run(['$rootScope', '$http', function ($rootScope, $http) {
          */
         $rootScope.server = function ($url) {
             return SERVER_URL + $url;
-        }
+        };
+
+//        /**
+//         * Method for inject the origin data.
+//         * @name Origin
+//         * @author Victor Eduardo Barreto
+//         * @param {object} $data URL to complete address
+//         * @return {string} Complete address of server.
+//         * @date Apr 4, 2015
+//         * @version 1.0
+//         */
+//        $rootScope.origin = function ($data) {
+//
+//            if (!$data) {
+//
+//                $data = {};
+//            }
+//
+//            $data.origin_no_ip = $rootScope.user.origin_no_ip;
+//            $data.origin_sq_pessoa = $rootScope.user.sq_pessoa;
+//            $data.origin_secret = $rootScope.user.origin_secret;
+//
+//            return $data;
+//        };
 
     }]);
 

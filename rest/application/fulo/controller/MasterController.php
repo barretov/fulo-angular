@@ -15,15 +15,3 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-/**
- * Format object to json
- * @name formatJson
- * @author Victor Eduardo Barreto
- * @date May 3, 2015
- * @version 1.0
- */
-function formatJson ($obj)
-{
-    echo json_encode($obj);
-}

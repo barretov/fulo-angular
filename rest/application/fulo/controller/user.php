@@ -38,7 +38,7 @@ $app->get("/user", function () {
 
         $data = \Slim\Slim::getInstance()->request()->params();
 
-        formatJson($business->getUsers($data));
+        echo json_encode($business->getUsers($data));
     } catch (Exception $ex) {
 
         throw $ex;
@@ -62,7 +62,7 @@ $app->get("/userEdit", function () {
 
         $data = \Slim\Slim::getInstance()->request()->params();
 
-        formatJson($business->getUser($data));
+        echo json_encode($business->getUser($data));
     } catch (Exception $ex) {
 
         throw $ex;
@@ -78,7 +78,7 @@ $app->get("/userEdit", function () {
  * @date May 13, 2015
  * @version 1.0
  */
-$app->post("/addUser/", function () {
+$app->post("/addUser", function () {
 
     try {
 
@@ -86,7 +86,7 @@ $app->post("/addUser/", function () {
 
         $data = json_decode(\Slim\Slim::getInstance()->request()->getBody());
 
-        formatJson($business->addUser($data));
+        echo json_encode($business->addUser($data));
     } catch (Exception $ex) {
 
         throw $ex;
@@ -110,7 +110,7 @@ $app->delete("/userDel", function () {
 
         $data = \Slim\Slim::getInstance()->request()->params();
 
-        formatJson($business->delUser($data));
+        echo json_encode($business->delUser($data));
     } catch (Exception $ex) {
 
         throw $ex;
@@ -119,14 +119,14 @@ $app->delete("/userDel", function () {
 
 /**
  * Method for update data user
- * @name userUpData
+ * @name updateDataUser
  * @author Victor Eduardo Barreto
  * @param json Data of user
  * @return bool Result of procedure
  * @date Apr 3, 2015
  * @version 1.0
  */
-$app->post("/userUpData", function () {
+$app->post("/updateDataUser", function () {
 
     try {
 
@@ -134,7 +134,7 @@ $app->post("/userUpData", function () {
 
         $data = json_decode(\Slim\Slim::getInstance()->request()->getBody());
 
-        formatJson($business->upUser($data));
+        echo json_encode($business->upUser($data));
     } catch (Exception $ex) {
 
         throw $ex;
@@ -143,14 +143,14 @@ $app->post("/userUpData", function () {
 
 /**
  * Method for update user data access
- * @name userUpDataAccess
+ * @name userUpAccess
  * @author Victor Eduardo Barreto
  * @param json Data access of user
  * @return bool Result of procedure
  * @date May 19, 2015
  * @version 1.0
  */
-$app->post("/userUpDataAccess/", function () {
+$app->post("/userUpAccess", function () {
 
     try {
 
@@ -158,7 +158,7 @@ $app->post("/userUpDataAccess/", function () {
 
         $data = json_decode(\Slim\Slim::getInstance()->request()->getBody());
 
-        formatJson($business->upDataAccesss($data));
+        echo json_encode($business->upDataAccesss($data));
     } catch (Exception $ex) {
 
         throw $ex;
@@ -182,7 +182,7 @@ $app->post("/addCustomer/", function () {
 
         $data = json_decode(\Slim\Slim::getInstance()->request()->getBody());
 
-        formatJson($business->addCustomer($data));
+        echo json_encode($business->addCustomer($data));
     } catch (Exception $ex) {
 
         throw $ex;

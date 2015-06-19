@@ -121,7 +121,7 @@ class UserBusiness extends MasterBusiness
                 $currentEmail = $this->_userModel->getUserByIdenty($data->sq_pessoa);
 
                 # if don't change email, do the update.
-                if ($data->ds_email != $currentEmail['ds_email']) {
+                if ($data->ds_email != $currentEmail->ds_email) {
 
                     return "email-already";
                 }
@@ -156,7 +156,7 @@ class UserBusiness extends MasterBusiness
             # validate origin.
             $this->validateOrigin($data);
 
-            return $this->_userModel->getUsers($data->secret_sq_pessoa);
+            return $this->_userModel->getUsers($data->origin_sq_pessoa);
         } catch (Exception $ex) {
 
             throw $ex;
@@ -227,10 +227,10 @@ class UserBusiness extends MasterBusiness
         try {
 
             # get user data.
-            $UserData = $this->_userModel->getDataByEmail($ds_email);
+            $userData = $this->_userModel->getDataByEmail($ds_email);
 
             # compare the email.
-            if ($UserData['ds_email'] === $ds_email) {
+            if (!empty($userData) && $userData->ds_email === $ds_email) {
 
                 return true;
             } else {

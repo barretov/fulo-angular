@@ -57,10 +57,12 @@ class LoginBusiness extends MasterBusiness
             $dataUser = $modelUser->getDataByEmail($data->ds_email);
 
             # compare user and pass to login in the system.
-            if ($dataUser['ds_email'] === $data->ds_email && crypt($data->ds_senha, $dataUser['ds_senha']) === $dataUser['ds_senha']) {
+            if (!empty($dataUser) && $dataUser->ds_email === $data->ds_email && crypt($data->ds_senha, $dataUser->ds_senha) === $dataUser->ds_senha) {
 
-                # add ip user.
-                $dataUser['no_ip'] = $_SERVER['REMOTE_ADDR'];
+                # add origin data adn remove pass.
+                $dataUser->no_ip = $_SERVER['REMOTE_ADDR'];
+                $dataUser->secret = crypt($dataUser->no_ip, "FuLo");
+                unset($dataUser->ds_senha);
 
                 return $dataUser;
             }
@@ -86,9 +88,6 @@ class LoginBusiness extends MasterBusiness
     {
 
         try {
-
-            # validate origin.
-            $this->validateOrigin($data);
 
             # remove special char and spaces.
             $this->removeSpecialChar($data);

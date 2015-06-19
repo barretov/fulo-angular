@@ -82,6 +82,7 @@ abstract class MasterBusiness
         # verify if arrived is array.
         if (is_array($data) && !empty($data)) {
 
+
             $object = new \stdClass();
 
             # change array to object.
@@ -92,17 +93,14 @@ abstract class MasterBusiness
 
             # save object in $data;
             $data = $object;
-        } else {
-
-            # stop the request.
-            \Slim\Slim::getInstance()->stop();
         }
 
         # TODO validade hash access.
         # validate origin ip.
-        if (empty($data->secret_no_ip) || $_SERVER['REMOTE_ADDR'] != $data->secret_no_ip) {
+        if (empty($data->origin_no_ip) || $_SERVER['REMOTE_ADDR'] != $data->origin_no_ip) {
 
             # stop the request.
+            echo json_encode('ip_changed');
             \Slim\Slim::getInstance()->stop();
         }
     }

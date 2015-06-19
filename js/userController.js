@@ -56,7 +56,15 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
 
         $scope.showLoader();
 
-        $http.get($scope.server("/user"), {params: $scope.secret}).success(function ($data) {
+        $http.get($scope.server("/user"), {params: $scope.origin}).success(function ($data) {
+
+// TODO ajustar 
+            if ($data === "ip_changed") {
+
+                $scope.showFlashmessage('alert-danger', 'Seu Ip mudou.');
+                $scope.logoff();
+            }
+// TODO ajustar 
 
             $scope.rows = $data;
             $scope.hideLoader();
@@ -76,10 +84,10 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
 
             $scope.showLoader();
 
-            // insert in param id of edited user.
-            $scope.secret.sq_usuario = $routeParams.id;
+            // adjust parameters and add origin data.
+            $param = $.extend($scope.origin, {sq_usuario: $routeParams.id});
 
-            $http.get($scope.server("/userEdit"), {params: $scope.secret}).success(function ($data) {
+            $http.get($scope.server("/userEdit"), {params: $param}).success(function ($data) {
 
                 $scope.row = $data;
                 $scope.hideLoader();
@@ -104,10 +112,13 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
 
         $scope.showLoader();
 
+        // adjust parameters and add origin data.
+        $param = $.extend($scope.origin, $scope.row);
+
         // validate passwords
         if ($scope.row.ds_re_senha === null || $scope.row.ds_senha === $scope.row.re_senha) {
 
-            $http.post($scope.server("/addUser/"), $scope.row, $scope.secret).success(function ($data) {
+            $http.post($scope.server("/addUser"), $param).success(function ($data) {
 
                 // verify if email already exists.
                 if ($data === "email-already") {
@@ -133,19 +144,22 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
 
     /**
      * Method for update user data access
-     * @name updateDataAccess
+     * @name userUpAccess
      * @author Victor Eduardo Barreto
      * @date May 9, 2015
      * @version 1.0
      */
-    $scope.updateDataAccess = function () {
+    $scope.userUpAccess = function () {
 
         $scope.showLoader();
 
         // validate passwords
         if ($scope.user.ds_re_senha === null || $scope.user.ds_senha === $scope.user.re_senha) {
 
-            $http.post($scope.server("/userUpDataAccess/"), $scope.user, $scope.secret).success(function () {
+            // adjust parameters and add origin data.
+            $param = $.extend($scope.origin, $scope.user);
+
+            $http.post($scope.server("/userUpAccess"), $param).success(function () {
 
                 $scope.hideLoader();
 
@@ -171,27 +185,25 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
 
         $scope.showLoader();
 
-        // verify what data arrive and define the destiny.
+        // verify what form data was arrive and define the param and destiny.
         switch ($form) {
 
             case "user":
-            {
-                $param = $scope.user;
-                $destination = "/";
+                {
+                    $param = $.extend($scope.origin, $scope.user);
+                    $destination = "/";
+                }
                 break;
-            }
+
             case "admin":
-            {
-                $param = $scope.row;
-                $destination = "/user";
+                {
+                    $param = $.extend($scope.origin, $scope.row);
+                    $destination = "/user";
+                }
                 break;
-            }
         }
 
-        console.log($param);
-        console.log($scope.secret);
-
-        $http.post($scope.server("/userUpData"), $param, $scope.secret).success(function ($data) {
+        $http.post($scope.server("/updateDataUser"), $param).success(function ($data) {
 
             // verify if email already exists.
             if ($data === "email-already") {
@@ -222,10 +234,10 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
      */
     $scope.del = function ($sq_pessoa) {
 
-        // insert data loged user in $param.
-        $scope.secret.sq_pessoa = $sq_pessoa;
+        // adjust parameters and add origin data.
+        $param = $.extend($scope.origin, {sq_pessoa: $sq_pessoa});
 
-        $http.delete($scope.server("/userDel"), {params: $scope.secret}).success(function ($result) {
+        $http.delete($scope.server("/userDel"), {params: $param}).success(function ($result) {
 
             if ($result) {
 
@@ -264,7 +276,10 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
         // validate passwords
         if ($scope.row.ds_re_senha === null || $scope.row.ds_senha === $scope.row.re_senha) {
 
-            $http.post($scope.server("/addCustomer/"), $scope.row).success(function ($data) {
+            // adjust parameters and add origin data.
+            $param = $.extend($scope.origin, $scope.row);
+
+            $http.post($scope.server("/addCustomer/"), $param).success(function ($data) {
 
                 // verify if email already exists.
                 if ($data === "email-already") {

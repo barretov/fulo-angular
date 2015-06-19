@@ -172,7 +172,7 @@ class UserModel
                 $sq_pessoa
             ));
 
-            return $stmt->fetch();
+            return $stmt->fetchObject();
         } catch (Exception $ex) {
 
             throw $ex;
@@ -234,7 +234,7 @@ class UserModel
                 $ds_email
             ));
 
-            return $stmt->fetch();
+            return $stmt->fetchObject();
         } catch (Exception $ex) {
 
             throw $ex;
