@@ -46,20 +46,20 @@ abstract class MasterBusiness
             if (is_array($data)) {
 
                 foreach ($data as $key => $value) {
-                    $data->$key = ereg_replace("[^a-zA-Z0-9_@. ]", "", strtr($value, "áàãâéêíóôõúüçÁÀÃÂÉÊÍÓÔÕÚÜÇ ", "aaaaeeiooouucAAAAEEIOOOUUC-"));
+                    $data->$key = preg_replace("/[^a-zA-Z0-9_@.,áàãâéêíóôõúüçÁÀÃÂÉÊÍÓÔÕÚÜÇ ]/", "", $value);
                 }
 
                 # object.
             } elseif (is_object($data)) {
 
                 foreach ($data as $key => $value) {
-                    $data->$key = ereg_replace("[^a-zA-Z0-9_@. ]", "", strtr($value, "áàãâéêíóôõúüçÁÀÃÂÉÊÍÓÔÕÚÜÇ ", "aaaaeeiooouucAAAAEEIOOOUUC-"));
+                    $data->$key = preg_replace("/[^a-zA-Z0-9_@.,áàãâéêíóôõúüçÁÀÃÂÉÊÍÓÔÕÚÜÇ ]/", "", $value);
                 }
 
                 # other types.
             } else {
 
-                $data = ereg_replace("[^a-zA-Z0-9_@. ]", "", strtr($data, "áàãâéêíóôõúüçÁÀÃÂÉÊÍÓÔÕÚÜÇ ", "aaaaeeiooouucAAAAEEIOOOUUC-"));
+                $data = preg_replace("/[^a-zA-Z0-9_@.,áàãâéêíóôõúüçÁÀÃÂÉÊÍÓÔÕÚÜÇ ]/", "", $data);
             }
         } catch (Exception $ex) {
 
@@ -76,7 +76,7 @@ abstract class MasterBusiness
      * @date June 15, 2015
      * @version 1.0
      */
-    public function validateOrigin (& $data)
+    protected function validateOrigin (& $data)
     {
 
         # verify if arrived is array.

@@ -141,7 +141,7 @@ class UserModel
             );
 
             $stmt->execute();
-
+            
             return $stmt->fetchAll();
         } catch (Exception $ex) {
 

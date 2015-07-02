@@ -8,7 +8,7 @@ require_once './vendor/autoload.php';
 # init the Slim Framework.
 $app = new \Slim\Slim(array(
     'debug' => true
-    )
+        )
 );
 
 $app->contentType("application/json");
@@ -31,5 +31,6 @@ include_once './application/config/config.php';
 include_once './application/fulo/controller/MasterController.php';
 include_once './application/fulo/controller/user.php';
 include_once './application/fulo/controller/login.php';
+include_once './application/fulo/controller/domain.php';
 
 $app->run();

@@ -86,7 +86,7 @@ $app.controller('loginController', function ($scope, $rootScope, $http, $routePa
      * @date Apr 17, 2015
      * @version 1.0
      */
-    $rootScope.logoff = function () {
+    $scope.logoff = function () {
 
         // adjust parameters and add origin data.
         $param = $.extend($scope.origin, $scope.user);

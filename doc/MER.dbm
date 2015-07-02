@@ -11,13 +11,13 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<comment>shema dados da loja fulo</comment>
 </schema>
 
-<database name="fulo" encoding="UTF8">
+<database name="db_joker" encoding="UTF8">
 </database>
 
 <table name="pessoa" oids="false">
 	<schema name="fulo"/>
 	<comment>dados de pessoas</comment>
-	<position x="60" y="20"/>
+	<position x="357" y="7"/>
 	<column name="sq_pessoa" not-null="true">
 		<type name="serial" spatial-type="POINT" variation="0"/>
 		<comment>identificador da pessoa</comment>
@@ -30,6 +30,10 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="varchar" length="50" spatial-type="POINT" variation="0"/>
 		<comment>email da pessoa</comment>
 	</column>
+	<column name="sq_status" not-null="true" default-value="1">
+		<type name="integer" spatial-type="POINT" variation="0"/>
+		<comment>status do cadastro da pessoa</comment>
+	</column>
 	<constraint name="pk_pessoa" type="pk-constr" factor="10" table="fulo.pessoa">
 		<columns names="sq_pessoa" ref-type="src-columns"/>
 	</constraint>
@@ -38,7 +42,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="usuario" oids="true">
 	<schema name="fulo"/>
 	<comment>dados de usuários</comment>
-	<position x="54" y="196"/>
+	<position x="351" y="219"/>
 	<column name="sq_usuario" not-null="true">
 		<type name="integer" spatial-type="POINT" variation="0"/>
 		<comment>identificador do usuário</comment>
@@ -59,7 +63,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="perfil" oids="false">
 	<schema name="dominio"/>
 	<comment>dados de perfis</comment>
-	<position x="67" y="366"/>
+	<position x="366" y="456"/>
 	<column name="sq_perfil" not-null="true">
 		<type name="serial" spatial-type="POINT" variation="0"/>
 		<comment>identificador do perfil</comment>
@@ -94,5 +98,181 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	 src-required="false" dst-required="false"
 	 src-table="fulo.usuario"
 	 dst-table="dominio.perfil"/>
+
+<table name="status" oids="false">
+	<schema name="dominio"/>
+	<comment>guarda todos os tipos de status</comment>
+	<position x="808" y="15"/>
+	<column name="sq_status" not-null="true">
+		<type name="serial" spatial-type="POINT" variation="0"/>
+		<comment>identificador de status</comment>
+	</column>
+	<column name="ds_status" not-null="true">
+		<type name="varchar" length="50" spatial-type="POINT" variation="0"/>
+		<comment>descrição do status</comment>
+	</column>
+	<constraint name="fk_status" type="pk-constr" factor="10" table="dominio.status">
+		<columns names="sq_status" ref-type="src-columns"/>
+		<comment>chave primaria da tabela</comment>
+	</constraint>
+</table>
+
+<constraint name="fk_pessoa_status" type="fk-constr"	 comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="dominio.status" table="fulo.pessoa">
+	<columns names="sq_status" ref-type="src-columns"/>
+	<columns names="sq_status" ref-type="dst-columns"/>
+		<comment>chave estrangeira de status</comment>
+</constraint>
+<relationship name="rel_pessoa_status"
+	 type="relfk"
+	 src-required="false" dst-required="false"
+	 src-table="fulo.pessoa"
+	 dst-table="dominio.status"/>
+
+<table name="log" oids="false">
+	<schema name="fulo"/>
+	<comment>tabela para guardar log</comment>
+	<position x="810" y="213"/>
+	<column name="sq_log" not-null="true">
+		<type name="serial" spatial-type="POINT" variation="0"/>
+		<comment>identificador do log</comment>
+	</column>
+	<column name="sq_usuario" not-null="true">
+		<type name="integer" spatial-type="POINT" variation="0"/>
+		<comment>identificador do usuário</comment>
+	</column>
+	<column name="no_data_hora" not-null="true">
+		<type name="timestamp" spatial-type="POINT" variation="0"/>
+		<comment>data e hora atual</comment>
+	</column>
+	<column name="sq_operacao" not-null="true">
+		<type name="integer" spatial-type="POINT" variation="0"/>
+		<comment>indentificador da operação</comment>
+	</column>
+	<constraint name="pk_log" type="pk-constr" factor="10" table="fulo.log">
+		<columns names="sq_log" ref-type="src-columns"/>
+		<comment>chave primaria da tabela</comment>
+	</constraint>
+</table>
+
+<table name="operacao" oids="false">
+	<schema name="dominio"/>
+	<comment>tabela de operações</comment>
+	<position x="808" y="458"/>
+	<column name="sq_operação" not-null="true">
+		<type name="serial" spatial-type="POINT" variation="0"/>
+		<comment>identificador da operação</comment>
+	</column>
+	<column name="ds_operacao" not-null="true">
+		<type name="varchar" length="50" spatial-type="POINT" variation="0"/>
+		<comment>descrição da operação</comment>
+	</column>
+	<constraint name="pk_operacao" type="pk-constr" factor="10" table="dominio.operacao">
+		<columns names="sq_operação" ref-type="src-columns"/>
+		<comment>chave primária da tabela</comment>
+	</constraint>
+</table>
+
+<constraint name="fk_log_usuario" type="fk-constr"	 comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="fulo.usuario" table="fulo.log">
+	<columns names="sq_usuario" ref-type="src-columns"/>
+	<columns names="sq_usuario" ref-type="dst-columns"/>
+		<comment>chave estrangeira de usuário</comment>
+</constraint>
+<relationship name="rel_log_usuario"
+	 type="relfk"
+	 src-required="false" dst-required="false"
+	 src-table="fulo.log"
+	 dst-table="fulo.usuario"/>
+
+<constraint name="fk_log_operacao" type="fk-constr"	 comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="dominio.operacao" table="fulo.log">
+	<columns names="sq_operacao" ref-type="src-columns"/>
+	<columns names="sq_operação" ref-type="dst-columns"/>
+		<comment>identificador de operação</comment>
+</constraint>
+<relationship name="rel_log_operacao"
+	 type="relfk"
+	 src-required="false" dst-required="false"
+	 src-table="fulo.log"
+	 dst-table="dominio.operacao"/>
+
+<table name="endereco" oids="false">
+	<schema name="fulo"/>
+	<comment>tabela de endereços</comment>
+	<position x="6" y="156"/>
+	<column name="sq_endereco" not-null="true">
+		<type name="serial" spatial-type="POINT" variation="0"/>
+		<comment>identificador do endereço</comment>
+	</column>
+	<column name="sq_pessoa" not-null="true">
+		<type name="integer" spatial-type="POINT" variation="0"/>
+		<comment>identificador de pessoa</comment>
+	</column>
+	<constraint name="pk_endereco" type="pk-constr" factor="10" table="fulo.endereco">
+		<columns names="sq_endereco" ref-type="src-columns"/>
+		<comment>chave primária da tabela</comment>
+	</constraint>
+</table>
+
+<table name="telefone" oids="false">
+	<schema name="fulo"/>
+	<comment>tabela de telefon</comment>
+	<position x="6" y="17"/>
+	<column name="sq_telefone" not-null="true">
+		<type name="serial" spatial-type="POINT" variation="0"/>
+		<comment>identificador do telefone</comment>
+	</column>
+	<column name="sq_pessoa" not-null="true">
+		<type name="integer" spatial-type="POINT" variation="0"/>
+		<comment>identificador de usuário</comment>
+	</column>
+	<constraint name="pk_telefone" type="pk-constr" factor="10" table="fulo.telefone">
+		<columns names="sq_telefone" ref-type="src-columns"/>
+		<comment>chave primária da tabela</comment>
+	</constraint>
+</table>
+
+<constraint name="fk_telefone_pessoa" type="fk-constr"	 comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="fulo.pessoa" table="fulo.telefone">
+	<columns names="sq_pessoa" ref-type="src-columns"/>
+	<columns names="sq_pessoa" ref-type="dst-columns"/>
+		<comment>chave estrangeira de pessoa</comment>
+</constraint>
+<relationship name="rel_telefone_pessoa"
+	 type="relfk"
+	 src-required="false" dst-required="false"
+	 src-table="fulo.telefone"
+	 dst-table="fulo.pessoa"/>
+
+<constraint name="fk_endereco_pessoa" type="fk-constr"	 comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="fulo.pessoa" table="fulo.endereco">
+	<columns names="sq_pessoa" ref-type="src-columns"/>
+	<columns names="sq_pessoa" ref-type="dst-columns"/>
+		<comment>chave estrangeira de pessoa</comment>
+</constraint>
+<relationship name="rel_endereco_pessoa"
+	 type="relfk"
+	 src-required="false" dst-required="false"
+	 src-table="fulo.endereco"
+	 dst-table="fulo.pessoa"/>
+
+<table name="newsletter" oids="false">
+	<schema name="fulo"/>
+	<comment>tabela de newsletter</comment>
+	<position x="5" y="252"/>
+	<column name="sq_newsletter" not-null="true">
+		<type name="serial" spatial-type="POINT" variation="0"/>
+		<comment>identificador de newsletter</comment>
+	</column>
+	<column name="ds_email" not-null="true">
+		<type name="varchar" length="50" spatial-type="POINT" variation="0"/>
+		<comment>email para envio de newsletter</comment>
+	</column>
+	<constraint name="pk_newsletter" type="pk-constr" factor="10" table="fulo.newsletter">
+		<columns names="sq_newsletter" ref-type="src-columns"/>
+		<comment>chave primária de newsletter</comment>
+	</constraint>
+</table>
 
 </dbmodel>

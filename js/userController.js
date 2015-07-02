@@ -28,6 +28,11 @@
  */
 $app.controller('userController', function ($scope, $http, $routeParams, $location) {
 
+    $http.get($scope.server("/getProfiles"), {params: $scope.origin}).success(function ($return) {
+
+        $scope.profile = $return;
+    });
+
     /**
      * variables for pagination.
      */
@@ -56,17 +61,12 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
 
         $scope.showLoader();
 
-        $http.get($scope.server("/user"), {params: $scope.origin}).success(function ($data) {
+        $http.get($scope.server("/user"), {params: $scope.origin}).success(function ($return) {
 
-// TODO ajustar 
-            if ($data === "ip_changed") {
+            // verify return data.
+            $scope.securityReponse($return);
 
-                $scope.showFlashmessage('alert-danger', 'Seu Ip mudou.');
-                $scope.logoff();
-            }
-// TODO ajustar 
-
-            $scope.rows = $data;
+            $scope.rows = $return;
             $scope.hideLoader();
         });
     };
@@ -87,9 +87,12 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
             // adjust parameters and add origin data.
             $param = $.extend($scope.origin, {sq_usuario: $routeParams.id});
 
-            $http.get($scope.server("/userEdit"), {params: $param}).success(function ($data) {
+            $http.get($scope.server("/userEdit"), {params: $param}).success(function ($return) {
 
-                $scope.row = $data;
+                // verify return data.
+                $scope.securityReponse($return);
+
+                $scope.row = $return;
                 $scope.hideLoader();
             });
         } else {
@@ -118,10 +121,13 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
         // validate passwords
         if ($scope.row.ds_re_senha === null || $scope.row.ds_senha === $scope.row.re_senha) {
 
-            $http.post($scope.server("/addUser"), $param).success(function ($data) {
+            $http.post($scope.server("/addUser"), $param).success(function ($return) {
+
+                // verify return data.
+                $scope.securityReponse($return);
 
                 // verify if email already exists.
-                if ($data === "email-already") {
+                if ($return === "email-already") {
 
                     $scope.hideLoader();
 
@@ -159,7 +165,10 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
             // adjust parameters and add origin data.
             $param = $.extend($scope.origin, $scope.user);
 
-            $http.post($scope.server("/userUpAccess"), $param).success(function () {
+            $http.post($scope.server("/userUpAccess"), $param).success(function ($return) {
+
+                // verify return data.
+                $scope.securityReponse($return);
 
                 $scope.hideLoader();
 
@@ -203,10 +212,13 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
                 break;
         }
 
-        $http.post($scope.server("/updateDataUser"), $param).success(function ($data) {
+        $http.post($scope.server("/updateDataUser"), $param).success(function ($return) {
+
+            // verify return data.
+            $scope.securityReponse($return);
 
             // verify if email already exists.
-            if ($data === "email-already") {
+            if ($return === "email-already") {
 
                 $scope.hideLoader();
 
@@ -237,9 +249,12 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
         // adjust parameters and add origin data.
         $param = $.extend($scope.origin, {sq_pessoa: $sq_pessoa});
 
-        $http.delete($scope.server("/userDel"), {params: $param}).success(function ($result) {
+        $http.delete($scope.server("/userDel"), {params: $param}).success(function ($return) {
 
-            if ($result) {
+            // verify return data.
+            $scope.securityReponse($return);
+
+            if ($return) {
 
                 // if result is true, remove the row in the screen.
                 $('#' + $sq_pessoa).fadeOut('slow');
@@ -279,7 +294,10 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
             // adjust parameters and add origin data.
             $param = $.extend($scope.origin, $scope.row);
 
-            $http.post($scope.server("/addCustomer/"), $param).success(function ($data) {
+            $http.post($scope.server("/addCustomer/"), $param).success(function ($return) {
+
+                // verify return data.
+                $scope.securityReponse($return);
 
                 // verify if email already exists.
                 if ($data === "email-already") {
@@ -302,6 +320,25 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
         } else {
             $scope.showFlashmessage("alert-warning", "A senha não confere.");
         }
+    };
+
+    /**
+     * Method for get user profile
+     * @name getProfiles
+     * @author Victor Eduardo Barreto
+     * @date Jun 19, 2015
+     * @version 1.0
+     */
+    $scope.getProfiles = function () {
+
+        $http.get($scope.server("/getProfiles"), {params: $scope.origin}).success(function ($return) {
+
+            // verify return data.
+            $scope.securityReponse($return);
+
+            $scope.profiles = $return;
+
+        });
     };
 
 });

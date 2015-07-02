@@ -57,7 +57,7 @@ $app.config(['$routeProvider', '$httpProvider', function ($routeProvider, $httpP
         });
     }]);
 
-$app.run(['$rootScope', '$http', function ($rootScope, $http) {
+$app.run(['$rootScope', '$location', function ($rootScope, $location) {
 
         //Uma flag que define se o ícone de acesso ao servidor deve estar ativado
         $rootScope.showLoaderFlag = false;
@@ -126,6 +126,39 @@ $app.run(['$rootScope', '$http', function ($rootScope, $http) {
          */
         $rootScope.server = function ($url) {
             return SERVER_URL + $url;
+        };
+
+        /**
+         * Method for verify if exist errors about security
+         * @name securityReponse
+         * @author Victor Eduardo Barreto
+         * @param {obj} $response Data of response
+         * @return Data of response.
+         * @date Jun 19, 2015
+         * @version 1.0
+         */
+        $rootScope.securityReponse = function ($response) {
+
+            switch ($response) {
+
+                case "ip_changed":
+
+                    // remove user data of the session.
+                    $rootScope.user = sessionStorage.removeItem('user');
+                    $rootScope.origin = sessionStorage.removeItem('origin');
+
+                    // change screen and show message to user.
+                    $location.path("/");
+                    this.showFlashmessage('alert-danger', 'Seu Ip mudou.');
+
+                    break;
+
+                default:
+
+                    return $response;
+
+                    break;
+            }
         };
 
     }]);
