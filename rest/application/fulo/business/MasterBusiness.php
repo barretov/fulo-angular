@@ -82,7 +82,6 @@ abstract class MasterBusiness
         # verify if arrived is array.
         if (is_array($data) && !empty($data)) {
 
-
             $object = new \stdClass();
 
             # change array to object.
