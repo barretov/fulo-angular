@@ -99,5 +99,6 @@ body {
 
 /*centraliza a label do radio inline*/
 .radio-center {
-    padding-top: 2px !important;
+    /*padding-top: 6px !important;*/
+    margin-left: -5px !important;
 }

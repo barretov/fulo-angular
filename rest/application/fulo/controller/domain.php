@@ -48,3 +48,29 @@ $app->get("/getProfiles", function () {
         throw $ex;
     }
 });
+
+/**
+ * Method for get constants for frontend
+ * @name getConstants
+ * @author Victor Eduardo Barreto
+ * @return json Data of users
+ * @date Jul 5, 2015
+ * @version 1.0
+ */
+$app->get("/getConstants", function () {
+
+    try {
+
+        ########### TODO; Implementar segurança sem estar logado usando hash. ##########
+        # load constants file
+        $constant = parse_ini_file('./application/config/constants.ini', true);
+
+        # merge constants for frontend.
+        $constants = array_merge($constant['frontend'], $constant['both']);
+
+        echo json_encode($constants);
+    } catch (Exception $ex) {
+
+        throw $ex;
+    }
+});

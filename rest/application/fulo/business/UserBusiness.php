@@ -305,8 +305,8 @@ class UserBusiness extends MasterBusiness
             #cript password.
             $data->ds_senha = crypt($data->ds_senha);
 
-            # set user perfil sq_perfil as cliente.
-            $data->sq_perfil = 2;
+            # set user perfil sq_perfil as customer.
+            $data->sq_perfil = PROFILE_CUSTOMER;
 
             # send to the model of user for add and return for controller.
             return $this->_userModel->addUser($data);

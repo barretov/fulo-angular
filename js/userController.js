@@ -28,11 +28,6 @@
  */
 $app.controller('userController', function ($scope, $http, $routeParams, $location) {
 
-    $http.get($scope.server("/getProfiles"), {params: $scope.origin}).success(function ($return) {
-
-        $scope.profile = $return;
-    });
-
     /**
      * variables for pagination.
      */
@@ -131,7 +126,7 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
 
                     $scope.hideLoader();
 
-                    $scope.showFlashmessage('alert-warning', 'Este email já está cadastrado.');
+                    $scope.showFlashmessage('alert-warning', $scope.constant.MSG0002);
 
                 } else {
 
@@ -139,12 +134,11 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
 
                     $location.path("/user");
 
-                    $scope.showFlashmessage("alert-success", "Processo realizado com sucesso.");
+                    $scope.showFlashmessage("alert-success", $scope.constant.MSG0001);
                 }
             });
-
         } else {
-            $scope.showFlashmessage("alert-warning", "A senha não confere.");
+            $scope.showFlashmessage("alert-warning", $scope.constant.MSG0003);
         }
     };
 
@@ -154,8 +148,7 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
      * @author Victor Eduardo Barreto
      * @date May 9, 2015
      * @version 1.0
-     */
-    $scope.userUpAccess = function () {
+     */     $scope.userUpAccess = function () {
 
         $scope.showLoader();
 
@@ -174,11 +167,11 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
 
                 $location.path("/");
 
-                $scope.showFlashmessage("alert-success", "Processo realizado com sucesso.");
+                $scope.showFlashmessage("alert-success", $scope.constant.MSG0001);
             });
 
         } else {
-            $scope.showFlashmessage("alert-warning", "A senha não confere.");
+            $scope.showFlashmessage("alert-warning", $scope.constant.MSG0003);
         }
     };
 
@@ -222,7 +215,7 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
 
                 $scope.hideLoader();
 
-                $scope.showFlashmessage('alert-warning', 'Este email já está cadastrado.');
+                $scope.showFlashmessage('alert-warning', $scope.constant.MSG0002);
 
             } else {
 
@@ -230,7 +223,7 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
 
                 $location.path($destination);
 
-                $scope.showFlashmessage("alert-success", "Processo realizado com sucesso.");
+                $scope.showFlashmessage("alert-success", $scope.constant.MSG0001);
             }
         });
 
@@ -258,7 +251,7 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
 
                 // if result is true, remove the row in the screen.
                 $('#' + $sq_pessoa).fadeOut('slow');
-                $scope.showFlashmessage("alert-success", "Processo realizado com sucesso.");
+                $scope.showFlashmessage("alert-success", $scope.constant.MSG0001);
             }
         });
     };
@@ -300,11 +293,11 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
                 $scope.securityReponse($return);
 
                 // verify if email already exists.
-                if ($data === "email-already") {
+                if ($return === "email-already") {
 
                     $scope.hideLoader();
 
-                    $scope.showFlashmessage('alert-warning', 'Este email já está cadastrado.');
+                    $scope.showFlashmessage('alert-warning', $scope.constant.MSG0002);
 
                 } else {
 
@@ -318,7 +311,7 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
             });
 
         } else {
-            $scope.showFlashmessage("alert-warning", "A senha não confere.");
+            $scope.showFlashmessage("alert-warning", $scope.constant.MSG0003);
         }
     };
 

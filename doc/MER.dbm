@@ -132,10 +132,14 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="log" oids="false">
 	<schema name="fulo"/>
 	<comment>tabela para guardar log</comment>
-	<position x="810" y="213"/>
+	<position x="809" y="213"/>
 	<column name="sq_log" not-null="true">
 		<type name="serial" spatial-type="POINT" variation="0"/>
 		<comment>identificador do log</comment>
+	</column>
+	<column name="sq_operacao" not-null="true">
+		<type name="integer" spatial-type="POINT" variation="0"/>
+		<comment>indentificador da operação</comment>
 	</column>
 	<column name="sq_usuario" not-null="true">
 		<type name="integer" spatial-type="POINT" variation="0"/>
@@ -144,10 +148,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="no_data_hora" not-null="true">
 		<type name="timestamp" spatial-type="POINT" variation="0"/>
 		<comment>data e hora atual</comment>
-	</column>
-	<column name="sq_operacao" not-null="true">
-		<type name="integer" spatial-type="POINT" variation="0"/>
-		<comment>indentificador da operação</comment>
 	</column>
 	<constraint name="pk_log" type="pk-constr" factor="10" table="fulo.log">
 		<columns names="sq_log" ref-type="src-columns"/>
@@ -200,7 +200,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="endereco" oids="false">
 	<schema name="fulo"/>
 	<comment>tabela de endereços</comment>
-	<position x="6" y="156"/>
+	<position x="9" y="157"/>
 	<column name="sq_endereco" not-null="true">
 		<type name="serial" spatial-type="POINT" variation="0"/>
 		<comment>identificador do endereço</comment>
@@ -208,6 +208,26 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="sq_pessoa" not-null="true">
 		<type name="integer" spatial-type="POINT" variation="0"/>
 		<comment>identificador de pessoa</comment>
+	</column>
+	<column name="nu_cep" not-null="true" default-value="	">
+		<type name="numeric" length="8" spatial-type="POINT" variation="0"/>
+		<comment>número do cep</comment>
+	</column>
+	<column name="sg_uf" not-null="true">
+		<type name="varchar" length="2" spatial-type="POINT" variation="0"/>
+		<comment>sigla de estado</comment>
+	</column>
+	<column name="ds_endereco" not-null="true">
+		<type name="varchar" length="100" spatial-type="POINT" variation="0"/>
+		<comment>decrição do endereço</comment>
+	</column>
+	<column name="ds_complemento" not-null="true">
+		<type name="varchar" length="100" spatial-type="POINT" variation="0"/>
+		<comment>complemento do endereço</comment>
+	</column>
+	<column name="ds_bairro" not-null="true" default-value="							">
+		<type name="varchar" length="100" spatial-type="POINT" variation="0"/>
+		<comment>descrição do bairro</comment>
 	</column>
 	<constraint name="pk_endereco" type="pk-constr" factor="10" table="fulo.endereco">
 		<columns names="sq_endereco" ref-type="src-columns"/>
@@ -218,7 +238,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="telefone" oids="false">
 	<schema name="fulo"/>
 	<comment>tabela de telefon</comment>
-	<position x="6" y="17"/>
+	<position x="10" y="21"/>
 	<column name="sq_telefone" not-null="true">
 		<type name="serial" spatial-type="POINT" variation="0"/>
 		<comment>identificador do telefone</comment>
@@ -226,6 +246,10 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="sq_pessoa" not-null="true">
 		<type name="integer" spatial-type="POINT" variation="0"/>
 		<comment>identificador de usuário</comment>
+	</column>
+	<column name="no_telefone">
+		<type name="numeric" length="11" spatial-type="POINT" variation="0"/>
+		<comment>número do telefone</comment>
 	</column>
 	<constraint name="pk_telefone" type="pk-constr" factor="10" table="fulo.telefone">
 		<columns names="sq_telefone" ref-type="src-columns"/>
@@ -260,7 +284,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="newsletter" oids="false">
 	<schema name="fulo"/>
 	<comment>tabela de newsletter</comment>
-	<position x="5" y="252"/>
+	<position x="10" y="301"/>
 	<column name="sq_newsletter" not-null="true">
 		<type name="serial" spatial-type="POINT" variation="0"/>
 		<comment>identificador de newsletter</comment>

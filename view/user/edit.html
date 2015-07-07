@@ -67,20 +67,16 @@
         <!--campo email-->
 
         <!--campo perfil-->
-        <div class="form-group">
-            <label class="col-sm-2 control-label">Perfil</label>
+        <div class="form-group" ng-init="teste = getProfiles()">
 
-            <div class="col-sm-10 radio radio-center">
+            <label class="col-xs-2 col-sm-2 col-md-2 col-lg-2 control-label">Perfil</label>
 
+            <div class="radio radio-inline radio-center" ng-repeat="prof in profiles">
                 <label>
-                    <input type="radio" name="sq_perfil" value="1" ng-model="row.sq_perfil" required/> Administrador
+                    <input type="radio" name="sq_perfil" value="{{prof.sq_perfil}}" ng-model="row.sq_perfil" required/> {{prof.ds_perfil}}
                 </label>
-
-                <label>
-                    <input type="radio" name="sq_perfil" value="2" ng-model="row.sq_perfil" required /> Cliente
-                </label>
-
             </div>
+
         </div>
         <!--campo perfil-->
 

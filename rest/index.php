@@ -1,11 +1,14 @@
 <?php
 
-# init the session.
-//session_start();
-# init composer autoload.
+/*
+ * Init composer autoload
+ */
 require_once './vendor/autoload.php';
 
-# init the Slim Framework.
+/*
+ * Init the Slim Framework
+ * @var $app Variable to recive Slim Framework
+ */
 $app = new \Slim\Slim(array(
     'debug' => true
         )
@@ -24,13 +27,34 @@ $app->error(function ( Exception $e = null) use ($app) {
     echo '{"error":{"text":"' . $e->getMessage() . '"}}';
 });
 
-//Includes de configurações.
-include_once './application/config/config.php';
+/*
+ * Include controllers
+ * @var $directoryController Variable to recive files of controller directory
+ */
+$directoryController = \opendir("./application/fulo/controller/");
 
-# include de controllers.
-include_once './application/fulo/controller/MasterController.php';
-include_once './application/fulo/controller/user.php';
-include_once './application/fulo/controller/login.php';
-include_once './application/fulo/controller/domain.php';
+while (($file = readdir($directoryController)) !== false) {
+
+    if (strpos($file, ".php")) {
+
+        include_once("./application/fulo/controller/" . $file);
+    }
+}
+
+closedir($directoryController);
+
+/*
+ * Generate constants
+ * var $constant Variable to recive constants
+ */
+$constant = parse_ini_file('./application/config/constants.ini', true);
+
+# merge constants for backend.
+$constants = array_merge($constant['backend'], $constant['both']);
+
+# set constants.
+foreach ($constants as $key => $value) {
+    define($key, $value);
+}
 
 $app->run();

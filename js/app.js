@@ -53,11 +53,11 @@ $app.config(['$routeProvider', '$httpProvider', function ($routeProvider, $httpP
 
                             return $q.reject(response);
                         });
-            }
+            };
         });
     }]);
 
-$app.run(['$rootScope', '$location', function ($rootScope, $location) {
+$app.run(['$rootScope', '$location', '$http', function ($rootScope, $location, $http) {
 
         //Uma flag que define se o ícone de acesso ao servidor deve estar ativado
         $rootScope.showLoaderFlag = false;
@@ -65,11 +65,12 @@ $app.run(['$rootScope', '$location', function ($rootScope, $location) {
         //Força que o ícone de acesso ao servidor seja ativado
         $rootScope.showLoader = function () {
             $rootScope.showLoaderFlag = true;
-        }
+        };
+
         //Força que o ícone de acesso ao servidor seja desativado
         $rootScope.hideLoader = function () {
             $rootScope.showLoaderFlag = false;
-        }
+        };
 
         /**
          * Method for compose the flashmessages
@@ -113,7 +114,7 @@ $app.run(['$rootScope', '$location', function ($rootScope, $location) {
 
             $('#flashmessage').fadeIn().delay(1500).fadeOut('slow');
 
-        }
+        };
 
         /**
          * Method for compose the URL of server REST.
@@ -161,6 +162,20 @@ $app.run(['$rootScope', '$location', function ($rootScope, $location) {
             }
         };
 
+        /**
+         * Method to get in the server and set constants for system
+         * @name getConstants
+         * @author Victor Eduardo Barreto
+         * @param {obj} $return Object with constants
+         * @date Jul 5, 2015
+         * @version 1.0
+         */
+        $http.get($rootScope.server("/getConstants")).success(function ($return) {
+
+            $rootScope.constant = $return;
+        });
+
+
     }]);
 
 //We already have a limitTo filter built-in to angular,
@@ -174,5 +189,5 @@ $app.filter('startFrom', function () {
         start = +start; //parse to int
 
         return input.slice(start);
-    }
+    };
 });

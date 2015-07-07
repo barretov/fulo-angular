@@ -20,18 +20,13 @@
 namespace fulo\model;
 
 /**
- * Set a better name for data base connection.
- */
-use config\Conexao as getConn;
-
-/**
- * Class of model for users
+ * Model class for users
  * @name UserModel
  * @author Victor Eduardo Barreto
  * @date Apr 8, 2015
  * @version 1.0
  */
-class UserModel
+class UserModel extends MasterModel
 {
 
     /**
@@ -48,29 +43,27 @@ class UserModel
 
         try {
 
-            $conn = getConn::getConnect();
+            $this->_conn->beginTransaction();
 
-            $conn->beginTransaction();
+            $stmt = $this->_conn->prepare("INSERT INTO fulo.pessoa (ds_nome, ds_email) VALUES (?,?)");
 
-            $stmt = $conn->prepare("INSERT INTO fulo.pessoa (ds_nome, ds_email) VALUES (?,?)");
-
-            $stmt->execute(array(
+            $stmt->execute([
                 $data->ds_nome,
                 $data->ds_email,
-            ));
+            ]);
 
-            $stmt = $conn->prepare("INSERT INTO fulo.usuario (sq_usuario, sq_perfil, ds_senha) VALUES (?,?,?)");
+            $stmt = $this->_conn->prepare("INSERT INTO fulo.usuario (sq_usuario, sq_perfil, ds_senha) VALUES (?,?,?)");
 
-            $stmt->execute(array(
-                $conn->lastInsertId('fulo.pessoa_sq_pessoa_seq'),
+            $stmt->execute([
+                $this->_conn->lastInsertId('fulo.pessoa_sq_pessoa_seq'),
                 $data->sq_perfil,
                 $data->ds_senha,
-            ));
+            ]);
 
-            return $conn->commit();
+            return $this->_conn->commit();
         } catch (Exception $ex) {
 
-            $conn->rollback();
+            $this->_conn->rollback();
 
             throw $ex;
         }
@@ -89,31 +82,29 @@ class UserModel
     {
         try {
 
-            $conn = getConn::getConnect();
-
-            $conn->beginTransaction();
+            $this->_conn->beginTransaction();
 
             # set $stmt to update pessoa.
-            $stmt = $conn->prepare("UPDATE fulo.pessoa SET ds_nome = ?, ds_email = ? WHERE sq_pessoa = ?");
+            $stmt = $this->_conn->prepare("UPDATE fulo.pessoa SET ds_nome = ?, ds_email = ? WHERE sq_pessoa = ?");
 
-            $stmt->execute(array(
+            $stmt->execute([
                 $data->ds_nome,
                 $data->ds_email,
                 $data->sq_pessoa,
-            ));
+            ]);
 
             # set $stmt to update usuario.
-            $stmt = $conn->prepare("UPDATE fulo.usuario SET sq_perfil = ? WHERE sq_usuario = ?");
+            $stmt = $this->_conn->prepare("UPDATE fulo.usuario SET sq_perfil = ? WHERE sq_usuario = ?");
 
-            $stmt->execute(array(
+            $stmt->execute([
                 $data->sq_perfil,
                 $data->sq_pessoa,
-            ));
+            ]);
 
-            return $conn->commit();
+            return $this->_conn->commit();
         } catch (Exception $ex) {
 
-            $conn->rollback();
+            $this->_conn->rollback();
 
             throw $ex;
         }
@@ -124,7 +115,7 @@ class UserModel
      * @name getUser
      * @author Victor Eduardo Barreto
      * @return array Data of users
-     * @param int Id of loged user
+     * @param int $sq_pessoa Id of loged user
      * @date Apr 8, 2015
      * @version 1.0
      */
@@ -132,16 +123,16 @@ class UserModel
     {
         try {
 
-            $conn = getConn::getConnect();
-
-            $stmt = $conn->prepare(
+            $stmt = $this->_conn->prepare(
                     "SELECT sq_pessoa, ds_nome, ds_email, sq_perfil FROM fulo.pessoa "
                     . "JOIN fulo.usuario on pessoa.sq_pessoa = usuario.sq_usuario "
-                    . "and pessoa.sq_pessoa <> $sq_pessoa ORDER BY pessoa.ds_nome ASC"
+                    . "and pessoa.sq_pessoa <> ? ORDER BY pessoa.ds_nome ASC"
             );
 
-            $stmt->execute();
-            
+            $stmt->execute([
+                $sq_pessoa
+            ]);
+
             return $stmt->fetchAll();
         } catch (Exception $ex) {
 
@@ -162,15 +153,13 @@ class UserModel
     {
         try {
 
-            $conn = getConn::getConnect();
-
-            $stmt = $conn->prepare("SELECT sq_pessoa, ds_nome, ds_email, sq_perfil "
+            $stmt = $this->_conn->prepare("SELECT sq_pessoa, ds_nome, ds_email, sq_perfil "
                     . "FROM fulo.pessoa JOIN fulo.usuario on pessoa.sq_pessoa = usuario.sq_usuario "
                     . "WHERE sq_pessoa = ?");
 
-            $stmt->execute(array(
+            $stmt->execute([
                 $sq_pessoa
-            ));
+            ]);
 
             return $stmt->fetchObject();
         } catch (Exception $ex) {
@@ -192,20 +181,18 @@ class UserModel
     {
         try {
 
-            $conn = getConn::getConnect();
+            $this->_conn->beginTransaction();
 
-            $conn->beginTransaction();
+            $stmt = $this->_conn->prepare("DELETE FROM fulo.pessoa WHERE sq_pessoa = ?");
 
-            $stmt = $conn->prepare("DELETE FROM fulo.pessoa WHERE sq_pessoa = ?");
-
-            $stmt->execute(array(
+            $stmt->execute([
                 $sq_pessoa
-            ));
+            ]);
 
-            return $conn->commit();
+            return $this->_conn->commit();
         } catch (Exception $ex) {
 
-            $conn->rollBack();
+            $this->_conn->rollBack();
 
             throw $ex;
         }
@@ -226,13 +213,11 @@ class UserModel
 
         try {
 
-            $conn = getConn::getConnect();
+            $stmt = $this->_conn->prepare("SELECT * FROM fulo.pessoa JOIN fulo.usuario on pessoa.sq_pessoa = usuario.sq_usuario WHERE ds_email = ?");
 
-            $stmt = $conn->prepare("SELECT * FROM fulo.pessoa JOIN fulo.usuario on pessoa.sq_pessoa = usuario.sq_usuario WHERE ds_email = ?");
-
-            $stmt->execute(array(
+            $stmt->execute([
                 $ds_email
-            ));
+            ]);
 
             return $stmt->fetchObject();
         } catch (Exception $ex) {
@@ -255,21 +240,19 @@ class UserModel
 
         try {
 
-            $conn = getConn::getConnect();
+            $this->_conn->beginTransaction();
 
-            $conn->beginTransaction();
+            $stmt = $this->_conn->prepare("UPDATE fulo.usuario SET ds_senha = ? WHERE sq_usuario = ?");
 
-            $stmt = $conn->prepare("UPDATE fulo.usuario SET ds_senha = ? WHERE sq_usuario = ?");
-
-            $stmt->execute(array(
+            $stmt->execute([
                 $data->ds_senha,
                 $data->sq_usuario,
-            ));
+            ]);
 
-            return $conn->commit();
+            return $this->_conn->commit();
         } catch (Exception $ex) {
 
-            $conn->rollback();
+            $this->_conn->rollback();
 
             throw $ex;
         }

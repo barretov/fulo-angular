@@ -20,18 +20,13 @@
 namespace fulo\model;
 
 /**
- * Set a better name for data base connection.
- */
-use config\Conexao as getConn;
-
-/**
- * Class of model for domain
+ * Model class for domain
  * @name DomainModel
  * @author Victor Eduardo Barreto
  * @date Jun 19, 2015
  * @version 1.0
  */
-class DomainModel
+class DomainModel extends MasterModel
 {
 
     /**
@@ -47,18 +42,16 @@ class DomainModel
 
         try {
 
-            $conn = getConn::getConnect();
+            $this->_conn->beginTransaction();
 
-            $conn->beginTransaction();
-
-            $stmt = $conn->prepare("SELECT * FROM dominio.perfil");
+            $stmt = $this->_conn->prepare("SELECT * FROM dominio.perfil");
 
             $stmt->execute();
 
             return $stmt->fetchAll();
         } catch (Exception $ex) {
 
-            $conn->rollback();
+            $this->_conn->rollback();
 
             throw $ex;
         }
