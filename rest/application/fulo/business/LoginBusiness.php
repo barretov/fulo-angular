@@ -29,8 +29,7 @@ use fulo\model\UserModel as UserModel;
  * @date Apr 14, 2015
  * @version 1.0
  */
-class LoginBusiness extends MasterBusiness
-{
+class LoginBusiness extends MasterBusiness {
 
     /**
      * Method for log in the system
@@ -42,8 +41,7 @@ class LoginBusiness extends MasterBusiness
      * @date Apr 14, 2015
      * @version 1.0
      */
-    public function doLogin (& $data)
-    {
+    public function doLogin (& $data) {
 
         try {
 
@@ -59,11 +57,15 @@ class LoginBusiness extends MasterBusiness
             # compare user and pass to login in the system.
             if (!empty($dataUser) && $dataUser->ds_email === $data->ds_email && crypt($data->ds_senha, $dataUser->ds_senha) === $dataUser->ds_senha) {
 
-                # add ip in data
-                $dataUser->no_ip = $_SERVER['REMOTE_ADDR'];
+                # make secret.
+                $origin = [
+                    'origin_no_ip' => $data->origin_no_ip,
+                    'origin_sq_usuario' => $dataUser->sq_usuario,
+                    'origin_sq_perfil' => $dataUser->sq_perfil,
+                ];
 
-                ###@TODO para nao ficar tao extenso preciso encriptar somente alguns dados
-                $dataUser->secret = $this->encrypt(json_encode($dataUser));
+                $dataUser->origin = $this->encrypt(json_encode($origin));
+
                 unset($dataUser->ds_senha);
 
                 return $dataUser;
@@ -86,8 +88,7 @@ class LoginBusiness extends MasterBusiness
      * @date jun 15, 2015
      * @version 1.0
      */
-    public function doLogoff (& $data)
-    {
+    public function doLogoff (& $data) {
 
         try {
 

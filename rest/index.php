@@ -27,7 +27,7 @@ require_once './vendor/autoload.php';
  */
 $app = new \Slim\Slim(array(
     'debug' => true
-        )
+    )
 );
 
 $app->contentType("application/json");
