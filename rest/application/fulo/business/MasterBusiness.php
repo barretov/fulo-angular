@@ -79,6 +79,7 @@ abstract class MasterBusiness
     protected function validateOrigin (& $data)
     {
 
+//        $data = $this->decrypt($data['origin_secret']);
         # verify if arrived is array.
         if (is_array($data) && !empty($data)) {
 
@@ -92,6 +93,13 @@ abstract class MasterBusiness
 
             # save object in $data;
             $data = $object;
+
+            ### TESTE ###
+            echo "<pre>";
+            var_dump($data);
+### TESTE ###
+
+            \Slim\Slim::getInstance()->stop();
         }
 
         # TODO validade hash access.
@@ -102,6 +110,21 @@ abstract class MasterBusiness
             echo json_encode('ip_changed');
             \Slim\Slim::getInstance()->stop();
         }
+    }
+
+    protected function encrypt ($text)
+    {
+
+        $salt = 'FuLo';
+
+        return trim(base64_encode(mcrypt_encrypt(MCRYPT_RIJNDAEL_256, $salt, $text, MCRYPT_MODE_ECB, mcrypt_create_iv(mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_ECB), MCRYPT_RAND))));
+    }
+
+    protected function decrypt ($text)
+    {
+        $salt = 'FuLo';
+
+        return trim(mcrypt_decrypt(MCRYPT_RIJNDAEL_256, $salt, base64_decode($text), MCRYPT_MODE_ECB, mcrypt_create_iv(mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_ECB), MCRYPT_RAND)));
     }
 
 }

@@ -209,7 +209,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="integer" spatial-type="POINT" variation="0"/>
 		<comment>identificador de pessoa</comment>
 	</column>
-	<column name="nu_cep" not-null="true" default-value="	">
+	<column name="nu_cep" not-null="true" default-value=" ">
 		<type name="numeric" length="8" spatial-type="POINT" variation="0"/>
 		<comment>número do cep</comment>
 	</column>
@@ -225,7 +225,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="varchar" length="100" spatial-type="POINT" variation="0"/>
 		<comment>complemento do endereço</comment>
 	</column>
-	<column name="ds_bairro" not-null="true" default-value="							">
+	<column name="ds_bairro" not-null="true" default-value="       ">
 		<type name="varchar" length="100" spatial-type="POINT" variation="0"/>
 		<comment>descrição do bairro</comment>
 	</column>

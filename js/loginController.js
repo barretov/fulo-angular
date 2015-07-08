@@ -15,19 +15,26 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/* global $app */
+
 /**
  * Controller for login and logff in the system
  * @name loginController
  * @author Victor Eduardo Barreto
+ * @param {object} $scope
+ * @param {object} $rootScope
+ * @param {object} $http
+ * @param {string} $location
  * @date Apr 14, 2015
  * @version 1.0
  */
-$app.controller('loginController', function ($scope, $rootScope, $http, $routeParams, $location) {
+$app.controller('loginController', function ($scope, $rootScope, $http, $location) {
 
     /**
      * Method for login in the system
      * @name login
      * @author Victor Eduardo Barreto
+     * @param {object} $param Data for login user
      * @date Apr 12, 2015
      * @version 1.0
      */
@@ -50,7 +57,7 @@ $app.controller('loginController', function ($scope, $rootScope, $http, $routePa
                 $origin = {
                     origin_no_ip: $return.no_ip,
                     origin_secret: $return.secret,
-                    origin_sq_pessoa: $return.sq_pessoa,
+                    origin_sq_pessoa: $return.sq_pessoa
                 };
 
                 // set user data in the session.
@@ -73,11 +80,9 @@ $app.controller('loginController', function ($scope, $rootScope, $http, $routePa
 
                 // clear pass field.
                 $('#ds_senha').val('');
-
             }
-
         });
-    }
+    };
 
     /**
      * System of a down xD
@@ -107,14 +112,12 @@ $app.controller('loginController', function ($scope, $rootScope, $http, $routePa
 
                 $scope.showFlashmessage("alert-danger", "Problemas encontrados. O seu IP Mudou!");
             }
-
         });
-    }
+    };
 
     /**
      * Get data of loged user in the session browser and set in the ariable $rootScope.user.
      */
     $rootScope.user = JSON.parse(sessionStorage.getItem('user'));
     $rootScope.origin = JSON.parse(sessionStorage.getItem('origin'));
-
 });

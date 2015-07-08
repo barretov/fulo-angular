@@ -59,9 +59,11 @@ class LoginBusiness extends MasterBusiness
             # compare user and pass to login in the system.
             if (!empty($dataUser) && $dataUser->ds_email === $data->ds_email && crypt($data->ds_senha, $dataUser->ds_senha) === $dataUser->ds_senha) {
 
-                # add origin data adn remove pass.
+                # add ip in data
                 $dataUser->no_ip = $_SERVER['REMOTE_ADDR'];
-                $dataUser->secret = crypt($dataUser->no_ip, "FuLo");
+
+                ###@TODO para nao ficar tao extenso preciso encriptar somente alguns dados
+                $dataUser->secret = $this->encrypt(json_encode($dataUser));
                 unset($dataUser->ds_senha);
 
                 return $dataUser;
