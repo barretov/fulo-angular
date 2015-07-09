@@ -61,13 +61,66 @@ class DomainBusiness extends MasterBusiness
      * @date June 19, 2015
      * @version 1.0
      */
-    public function getProfiles ($data)
+    public function getProfiles (& $data)
+    {
+        try {
+
+            # validate origin.
+            $this->validateOrigin($data);
+
+            return $this->_domainModel->getProfiles();
+        } catch (Exception $ex) {
+
+            throw $ex;
+        }
+    }
+
+    /**
+     * Method for get secret
+     * @name getSecret
+     * @author Victor Eduardo Barreto
+     * @return json Data of users
+     * @date Jul 8, 2015
+     * @version 1.0
+     */
+    public function getSecret ()
     {
 
-        # validate origin.
-        $this->validateOrigin($data);
+        try {
 
-        return $this->_domainModel->getProfiles();
+            return crypt($_SERVER['REMOTE_ADDR'] . ENCRYPT_SALT, ENCRYPT_SALT);
+        } catch (Exception $ex) {
+
+            throw $ex;
+        }
+    }
+
+    /**
+     * Method for get constants
+     * @name getConstants
+     * @author Victor Eduardo Barreto
+     * @patam Object $data Data of origin
+     * @return array Constants
+     * @date Jul 8, 2015
+     * @version 1.0
+     */
+    public function getConstants (& $data)
+    {
+
+        try {
+
+            # validate origin.
+//            $this->validateOrigin($data);
+
+            # load constants file
+            $constant = parse_ini_file('./application/config/constants.ini', true);
+
+            # merge constants for frontend.
+            return $constants = array_merge($constant['frontend'], $constant['both']);
+        } catch (Exception $ex) {
+
+            throw $ex;
+        }
     }
 
 }

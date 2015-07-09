@@ -1,3 +1,5 @@
+/* global angular */
+
 //URL de acesso ao servidor RESTful
 SERVER_URL = "http://localhost:8082";
 
@@ -134,7 +136,7 @@ $app.run(['$rootScope', '$location', '$http', function ($rootScope, $location, $
          * @name securityReponse
          * @author Victor Eduardo Barreto
          * @param {obj} $response Data of response
-         * @return Data of response.
+         * @return Data of response
          * @date Jun 19, 2015
          * @version 1.0
          */
@@ -163,6 +165,43 @@ $app.run(['$rootScope', '$location', '$http', function ($rootScope, $location, $
         };
 
         /**
+         * Method to get server secret
+         * @name getSecret
+         * @author Victor Eduardo Barreto
+         * @param {string} $return Object with secret
+         * @date Jul 8, 2015
+         * @version 1.0
+         */
+        $http.get($rootScope.server("/getSecret")).success(function ($return) {
+
+            // save secret in session.
+            sessionStorage.setItem('secret', $return);
+
+        });
+
+        /**
+         * Method configure origin parameters
+         * @name configParam
+         * @author Victor Eduardo Barreto
+         * @param {obj} $data Data to send
+         * @return Data with origin configured
+         * @date Jul 8, 2015
+         * @version 1.0
+         */
+        $rootScope.configParam = function ($data) {
+
+            if (!$data) {
+
+                $data = {};
+            }
+            // inset secret and origin data.
+            $data.secret = sessionStorage.getItem('secret');
+            $data.origin = $rootScope.origin;
+            return $data;
+
+        };
+
+        /**
          * Method to get in the server and set constants for system
          * @name getConstants
          * @author Victor Eduardo Barreto
@@ -174,7 +213,6 @@ $app.run(['$rootScope', '$location', '$http', function ($rootScope, $location, $
 
             $rootScope.constant = $return;
         });
-
 
     }]);
 

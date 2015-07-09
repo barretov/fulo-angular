@@ -53,20 +53,13 @@ $app.controller('loginController', function ($scope, $rootScope, $http, $locatio
                 sessionStorage.removeItem('user');
                 sessionStorage.removeItem('origin');
 
-                // adjust origin data;
-                $origin = {
-                    origin_no_ip: $return.no_ip,
-                    origin_secret: $return.secret,
-                    origin_sq_pessoa: $return.sq_pessoa
-                };
-
                 // set user data in the session.
                 sessionStorage.setItem('user', JSON.stringify($return));
-                sessionStorage.setItem('origin', JSON.stringify($origin));
+                sessionStorage.setItem('origin', $return.origin);
 
                 // set user data in the $rootScope variable.
                 $rootScope.user = JSON.parse(sessionStorage.getItem('user'));
-                $rootScope.origin = JSON.parse(sessionStorage.getItem('origin'));
+                $rootScope.origin = sessionStorage.getItem('origin');
 
                 $scope.showFlashmessage("alert-success", "Processo realizado com sucesso.");
 
@@ -119,5 +112,5 @@ $app.controller('loginController', function ($scope, $rootScope, $http, $locatio
      * Get data of loged user in the session browser and set in the ariable $rootScope.user.
      */
     $rootScope.user = JSON.parse(sessionStorage.getItem('user'));
-    $rootScope.origin = JSON.parse(sessionStorage.getItem('origin'));
+    $rootScope.origin = sessionStorage.getItem('origin');
 });

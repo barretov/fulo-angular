@@ -20,16 +20,43 @@ namespace config;
 
 use PDO as PDO;
 
+/**
+ * Class for data base connection
+ * @name Connection
+ * @author Victor Eduardo Barreto
+ * @package config
+ * @date Jul 8, 2015
+ * @version 1.0
+ */
 class Connection
 {
 
-    public static $_PDO;
+    /**
+     *
+     * @var object Variable to recive PDO connection
+     */
+    protected static $_PDO;
 
+    /**
+     * Method constructor
+     * @name __construct
+     * @author Victor Eduardo Barreto
+     * @date Jul 8, 2015
+     * @version 1.0
+     */
     private function __construct ()
     {
-        #
+        # prevent instance.
     }
 
+    /**
+     * Method for get PDO connection
+     * @name Connection
+     * @author Victor Eduardo Barreto
+     * @return object Data base connection
+     * @date Jul 8, 2015
+     * @version 1.0
+     */
     public static function getConnection ()
     {
 

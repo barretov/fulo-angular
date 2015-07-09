@@ -20,7 +20,7 @@
 namespace fulo\model;
 
 /**
- * Set a better name for data base connection.
+ * Alias to connection
  */
 use config\Connection as Connection;
 
@@ -33,17 +33,18 @@ use config\Connection as Connection;
  */
 class MasterModel
 {
-    /*
-     * var $_conn Variable to recive a connection
-     */
 
+    /**
+     *
+     * var object Variable to recive a connection
+     */
     protected $_conn;
 
     /**
      * Method constructor
      * @name __construct
      * @author Victor Eduardo Barreto
-     * @date Jul 5, 2015
+     * @date Jul 8, 2015
      * @version 1.0
      */
     public function __construct ()

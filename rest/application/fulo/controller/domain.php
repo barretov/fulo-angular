@@ -22,9 +22,9 @@
  */
 
 /**
- * Set a better name for domain business.
+ * Alias for master controller
  */
-use \fulo\business\DomainBusiness as DomainBusiness;
+use fulo\controller\MasterController as MasterController;
 
 /**
  * Method for get domain profiles
@@ -38,7 +38,7 @@ $app->get("/getProfiles", function () {
 
     try {
 
-        $business = new DomainBusiness();
+        $business = MasterController::getDomainBusiness();
 
         $data = \Slim\Slim::getInstance()->request()->params();
 
@@ -61,16 +61,35 @@ $app->get("/getConstants", function () {
 
     try {
 
-        ########### TODO; Implementar segurança sem estar logado usando hash. ##########
-        # load constants file
-        $constant = parse_ini_file('./application/config/constants.ini', true);
+        $business = MasterController::getDomainBusiness();
 
-        # merge constants for frontend.
-        $constants = array_merge($constant['frontend'], $constant['both']);
+        $data = \Slim\Slim::getInstance()->request()->params();
 
-        echo json_encode($constants);
+        echo json_encode($business->getConstants($data));
     } catch (Exception $ex) {
 
         throw $ex;
     }
 });
+
+/**
+ * Method for get secret
+ * @name getSecret
+ * @author Victor Eduardo Barreto
+ * @return json Secret
+ * @date Jul 8, 2015
+ * @version 1.0
+ */
+$app->get("/getSecret", function () {
+
+    try {
+
+        $business = MasterController::getDomainBusiness();
+
+        echo json_encode($business->getSecret());
+    } catch (Exception $ex) {
+
+        throw $ex;
+    }
+});
+

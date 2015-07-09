@@ -19,13 +19,14 @@
 namespace fulo\business;
 
 /**
- * Class to keep generic functions for business
+ * Mater class for business
  * @name MasterBusiness
  * @author Victor Eduardo Barreto
  * @date Apr 12, 2015
  * @version 1.0
  */
-abstract class MasterBusiness {
+class MasterBusiness
+{
 
     /**
      * Method for remove special char of data
@@ -35,7 +36,8 @@ abstract class MasterBusiness {
      * @date Apr 12, 2015
      * @version 1.0
      */
-    protected function removeSpecialChar (& $data) {
+    protected function removeSpecialChar (& $data)
+    {
 
         try {
 
@@ -74,40 +76,51 @@ abstract class MasterBusiness {
      * @date June 15, 2015
      * @version 1.0
      */
-    protected function validateOrigin (& $data) {
+    protected function validateOrigin (& $data)
+    {
 
         try {
 
             # verify if arrived is array.
-//        if (is_array($data) && !empty($data)) {
-//
-//            $object = new \stdClass();
-//
-//            # change array to object.
-//            foreach ($data as $key => $value) {
-//
-//                $object->$key = $value;
-//            }
-//
-//            # save object in $data;
-//            $data = $object;
-//        }
+            if (is_array($data) && !empty($data)) {
+
+                $object = new \stdClass();
+
+                # change array to object.
+                foreach ($data as $key => $value) {
+
+                    $object->$key = $value;
+                }
+
+                # save object in $data;
+                $data = $object;
+            }
+
+            # verificar se vem do site usando o secret
+            if (empty($data->secret)) {
+
+                # stop the request.
+                echo json_encode('sem secret');
+                \Slim\Slim::getInstance()->stop();
+            }
+
             if (!empty($data->origin)) {
 
                 # decrypt data secret.
                 $secret = $this->decrypt($data->origin);
 
+                # remove origin hash.
+                unset($data->origin);
+
                 # add decrypted secret in data.
-                foreach ($secret as $key => $value) {
+                foreach (json_decode($secret) as $key => $value) {
 
                     $data->$key = $value;
                 }
             }
 
-            echo REMOTE_ADDR;
-
-            # validate origin ip.
-            if ($_SERVER['REMOTE_ADDR'] != $data->origin_no_ip) {
+            # validate origin secret.
+            if (crypt($_SERVER['REMOTE_ADDR'] . ENCRYPT_SALT, ENCRYPT_SALT) != $data->secret) {
 
                 # stop the request.
                 echo json_encode('sem data');
@@ -128,20 +141,21 @@ abstract class MasterBusiness {
      * @date Jul 08, 2015
      * @version 1.0
      */
-    protected function encrypt ($data) {
+    protected function encrypt ($data)
+    {
 
         try {
 
             return trim(
-                base64_encode(
-                    mcrypt_encrypt(
-                        MCRYPT_RIJNDAEL_256, ENCRYPT_SALT, $data, MCRYPT_MODE_ECB, mcrypt_create_iv(
-                            mcrypt_get_iv_size(
-                                MCRYPT_RIJNDAEL_256, MCRYPT_MODE_ECB
-                            ), MCRYPT_RAND
-                        )
+                    base64_encode(
+                            mcrypt_encrypt(
+                                    MCRYPT_RIJNDAEL_256, ENCRYPT_SALT, $data, MCRYPT_MODE_ECB, mcrypt_create_iv(
+                                            mcrypt_get_iv_size(
+                                                    MCRYPT_RIJNDAEL_256, MCRYPT_MODE_ECB
+                                            ), MCRYPT_RAND
+                                    )
+                            )
                     )
-                )
             );
         } catch (Exception $ex) {
 
@@ -158,18 +172,19 @@ abstract class MasterBusiness {
      * @date Jul 08, 2015
      * @version 1.0
      */
-    protected function decrypt ($data) {
+    protected function decrypt ($data)
+    {
 
         try {
 
             return trim(
-                mcrypt_decrypt(
-                    MCRYPT_RIJNDAEL_256, ENCRYPT_SALT, base64_decode($data), MCRYPT_MODE_ECB, mcrypt_create_iv(
-                        mcrypt_get_iv_size(
-                            MCRYPT_RIJNDAEL_256, MCRYPT_MODE_ECB
-                        ), MCRYPT_RAND
+                    mcrypt_decrypt(
+                            MCRYPT_RIJNDAEL_256, ENCRYPT_SALT, base64_decode($data), MCRYPT_MODE_ECB, mcrypt_create_iv(
+                                    mcrypt_get_iv_size(
+                                            MCRYPT_RIJNDAEL_256, MCRYPT_MODE_ECB
+                                    ), MCRYPT_RAND
+                            )
                     )
-                )
             );
         } catch (Exception $ex) {
 

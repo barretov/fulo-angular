@@ -58,7 +58,10 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
 
         $scope.showLoader();
 
-        $http.get($scope.server("/user"), {params: $scope.origin}).success(function ($return) {
+        // adjust param.
+        $param = $scope.configParam();
+
+        $http.get($scope.server("/user"), {params: $param}).success(function ($return) {
 
             // verify return data.
             $scope.securityReponse($return);
@@ -83,6 +86,7 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
 
             // adjust parameters and add origin data.
             $param = $.extend($scope.origin, {sq_usuario: $routeParams.id});
+//            $param = $scope.configParam();
 
             $http.get($scope.server("/userEdit"), {params: $param}).success(function ($return) {
 

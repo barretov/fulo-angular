@@ -29,7 +29,8 @@ use fulo\model\UserModel as UserModel;
  * @date Apr 14, 2015
  * @version 1.0
  */
-class LoginBusiness extends MasterBusiness {
+class LoginBusiness extends MasterBusiness
+{
 
     /**
      * Method for log in the system
@@ -41,7 +42,8 @@ class LoginBusiness extends MasterBusiness {
      * @date Apr 14, 2015
      * @version 1.0
      */
-    public function doLogin (& $data) {
+    public function doLogin (& $data)
+    {
 
         try {
 
@@ -59,8 +61,7 @@ class LoginBusiness extends MasterBusiness {
 
                 # make secret.
                 $origin = [
-                    'origin_no_ip' => $data->origin_no_ip,
-                    'origin_sq_usuario' => $dataUser->sq_usuario,
+                    'origin_sq_pessoa' => $dataUser->sq_pessoa,
                     'origin_sq_perfil' => $dataUser->sq_perfil,
                 ];
 
@@ -88,7 +89,8 @@ class LoginBusiness extends MasterBusiness {
      * @date jun 15, 2015
      * @version 1.0
      */
-    public function doLogoff (& $data) {
+    public function doLogoff (& $data)
+    {
 
         try {
 

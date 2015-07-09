@@ -18,9 +18,9 @@
  */
 
 /**
- * Set a better name for user business.
+ * User Controller
  */
-use \fulo\business\UserBusiness as UserBusiness;
+use fulo\controller\MasterController as MasterController;
 
 /**
  * Method for get users
@@ -34,7 +34,7 @@ $app->get("/user", function () {
 
     try {
 
-        $business = new UserBusiness();
+        $business = MasterController::getUserBusiness();
 
         $data = \Slim\Slim::getInstance()->request()->params();
 
@@ -58,7 +58,7 @@ $app->get("/userEdit", function () {
 
     try {
 
-        $business = new UserBusiness();
+        $business = MasterController::getUserBusiness();
 
         $data = \Slim\Slim::getInstance()->request()->params();
 
@@ -82,7 +82,7 @@ $app->post("/addUser", function () {
 
     try {
 
-        $business = new UserBusiness();
+        $business = MasterController::getUserBusiness();
 
         $data = json_decode(\Slim\Slim::getInstance()->request()->getBody());
 
@@ -106,7 +106,7 @@ $app->delete("/userDel", function () {
 
     try {
 
-        $business = new UserBusiness();
+        $business = MasterController::getUserBusiness();
 
         $data = \Slim\Slim::getInstance()->request()->params();
 
@@ -130,7 +130,7 @@ $app->post("/updateDataUser", function () {
 
     try {
 
-        $business = new UserBusiness();
+        $business = MasterController::getUserBusiness();
 
         $data = json_decode(\Slim\Slim::getInstance()->request()->getBody());
 
@@ -154,7 +154,7 @@ $app->post("/userUpAccess", function () {
 
     try {
 
-        $business = new UserBusiness();
+        $business = MasterController::getUserBusiness();
 
         $data = json_decode(\Slim\Slim::getInstance()->request()->getBody());
 
@@ -178,7 +178,7 @@ $app->post("/addCustomer/", function () {
 
     try {
 
-        $business = new UserBusiness();
+        $business = MasterController::getUserBusiness();
 
         $data = json_decode(\Slim\Slim::getInstance()->request()->getBody());
 
