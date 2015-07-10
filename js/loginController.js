@@ -41,9 +41,7 @@ $app.controller('loginController', function ($scope, $rootScope, $http, $locatio
     $rootScope.login = function ($param) {
 
         // define $scope.row as $param, for get param of function or by variable $scope.row.
-        if ($scope.row) {
-            $param = $scope.row;
-        }
+        $param = ($scope.row) ? $scope.configParam($scope.row) : $scope.configParam($param);
 
         $http.post($scope.server("/login"), $param).success(function ($return) {
 
@@ -87,7 +85,7 @@ $app.controller('loginController', function ($scope, $rootScope, $http, $locatio
     $scope.logoff = function () {
 
         // adjust parameters and add origin data.
-        $param = $.extend($scope.origin, $scope.user);
+        $param = $scope.configParam($scope.user);
 
         $http.post($scope.server("/logoff"), $param).success(function ($return) {
 

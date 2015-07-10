@@ -84,24 +84,8 @@ class MasterBusiness
             # verify if arrived is array.
             if (is_array($data) && !empty($data)) {
 
-                $object = new \stdClass();
-
-                # change array to object.
-                foreach ($data as $key => $value) {
-
-                    $object->$key = $value;
-                }
-
-                # save object in $data;
-                $data = $object;
-            }
-
-            # verificar se vem do site usando o secret
-            if (empty($data->secret)) {
-
-                # stop the request.
-                echo json_encode('sem secret');
-                \Slim\Slim::getInstance()->stop();
+                $data = json_encode($data);
+                $data = json_decode($data);
             }
 
             if (!empty($data->origin)) {
@@ -120,10 +104,10 @@ class MasterBusiness
             }
 
             # validate origin secret.
-            if (crypt($_SERVER['REMOTE_ADDR'] . ENCRYPT_SALT, ENCRYPT_SALT) != $data->secret) {
+            if (empty($data->secret) || crypt($_SERVER['REMOTE_ADDR'] . $_SERVER['SERVER_ADDR'], ENCRYPT_SALT) != $data->secret) {
 
                 # stop the request.
-                echo json_encode('sem data');
+                echo json_encode('Access Denied');
                 \Slim\Slim::getInstance()->stop();
             }
         } catch (Exception $ex) {

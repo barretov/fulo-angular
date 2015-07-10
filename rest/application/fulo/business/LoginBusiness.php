@@ -33,6 +33,26 @@ class LoginBusiness extends MasterBusiness
 {
 
     /**
+     * variable for instance of user model
+     * @var object
+     */
+    private $_userModel;
+
+    /**
+     * Method constructor of class
+     * @name __construct
+     * @author Victor Eduardo Barreto
+     * @package fulo\business
+     * @return object Model of user
+     * @date May 3, 2015
+     * @version 1.0
+     */
+    public function __construct ()
+    {
+        $this->_userModel = new UserModel();
+    }
+
+    /**
      * Method for log in the system
      * @name doLogin
      * @author Victor Eduardo Barreto
@@ -47,14 +67,13 @@ class LoginBusiness extends MasterBusiness
 
         try {
 
+            $this->validateOrigin($data);
+
             # remove special char and spaces.
             $this->removeSpecialChar($data);
 
-            # model of user.
-            $modelUser = new UserModel();
-
             # get user data.
-            $dataUser = $modelUser->getDataByEmail($data->ds_email);
+            $dataUser = $this->_userModel->getDataByEmail($data->ds_email);
 
             # compare user and pass to login in the system.
             if (!empty($dataUser) && $dataUser->ds_email === $data->ds_email && crypt($data->ds_senha, $dataUser->ds_senha) === $dataUser->ds_senha) {
@@ -94,11 +113,10 @@ class LoginBusiness extends MasterBusiness
 
         try {
 
+            $this->validateOrigin($data);
+
             # remove special char and spaces.
             $this->removeSpecialChar($data);
-
-            # model of user.
-            $modelUser = new UserModel();
 
             # TODO write in logoff.
 

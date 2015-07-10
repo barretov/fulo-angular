@@ -1,7 +1,7 @@
 /* global angular */
 
 //URL de acesso ao servidor RESTful
-SERVER_URL = "http://localhost:8082";
+SERVER_URL = "http://rest.local:8081";
 
 //Criação ao $app que é o modulo que representa toda a aplicação
 var $app = angular.module('app', ['ngRoute']);
@@ -176,7 +176,6 @@ $app.run(['$rootScope', '$location', '$http', function ($rootScope, $location, $
 
             // save secret in session.
             sessionStorage.setItem('secret', $return);
-
         });
 
         /**
@@ -190,10 +189,9 @@ $app.run(['$rootScope', '$location', '$http', function ($rootScope, $location, $
          */
         $rootScope.configParam = function ($data) {
 
-            if (!$data) {
+            // if no arrived data, make a new object.
+            (!$data) ? $data = {} : null;
 
-                $data = {};
-            }
             // inset secret and origin data.
             $data.secret = sessionStorage.getItem('secret');
             $data.origin = $rootScope.origin;
@@ -209,7 +207,7 @@ $app.run(['$rootScope', '$location', '$http', function ($rootScope, $location, $
          * @date Jul 5, 2015
          * @version 1.0
          */
-        $http.get($rootScope.server("/getConstants")).success(function ($return) {
+        $http.get($rootScope.server("/getConstants"), {params: $rootScope.configParam()}).success(function ($return) {
 
             $rootScope.constant = $return;
         });

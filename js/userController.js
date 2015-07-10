@@ -85,8 +85,7 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
             $scope.showLoader();
 
             // adjust parameters and add origin data.
-            $param = $.extend($scope.origin, {sq_usuario: $routeParams.id});
-//            $param = $scope.configParam();
+            $param = $scope.configParam({sq_usuario: $routeParams.id});
 
             $http.get($scope.server("/userEdit"), {params: $param}).success(function ($return) {
 
@@ -117,7 +116,7 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
         $scope.showLoader();
 
         // adjust parameters and add origin data.
-        $param = $.extend($scope.origin, $scope.row);
+        $param = $scope.configParam($scope.row);
 
         // validate passwords
         if ($scope.row.ds_re_senha === null || $scope.row.ds_senha === $scope.row.re_senha) {
@@ -154,15 +153,18 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
      * @author Victor Eduardo Barreto
      * @date May 9, 2015
      * @version 1.0
-     */     $scope.userUpAccess = function () {
+     */
+    $scope.userUpAccess = function () {
 
         $scope.showLoader();
+
+        // #### @TODO MOVE THIS TO CUSTOMER CONTROLLER ###############################################
 
         // validate passwords
         if ($scope.user.ds_re_senha === null || $scope.user.ds_senha === $scope.user.re_senha) {
 
             // adjust parameters and add origin data.
-            $param = $.extend($scope.origin, $scope.user);
+            $param = $scope.configParam($scope.user);
 
             $http.post($scope.server("/userUpAccess"), $param).success(function ($return) {
 
@@ -193,19 +195,21 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
 
         $scope.showLoader();
 
+        // #### @TODO MOVE ONE OF FORM TO CUSTOMER CONTROLLER ###############################################
+
         // verify what form data was arrive and define the param and destiny.
         switch ($form) {
 
             case "user":
                 {
-                    $param = $.extend($scope.origin, $scope.user);
+                    $param = $scope.configParam($scope.user);
                     $destination = "/";
                 }
                 break;
 
             case "admin":
                 {
-                    $param = $.extend($scope.origin, $scope.row);
+                    $param = $scope.configParam($scope.row);
                     $destination = "/user";
                 }
                 break;
@@ -246,7 +250,7 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
     $scope.del = function ($sq_pessoa) {
 
         // adjust parameters and add origin data.
-        $param = $.extend($scope.origin, {sq_pessoa: $sq_pessoa});
+        $param = $scope.configParam({sq_pessoa: $sq_pessoa});
 
         $http.delete($scope.server("/userDel"), {params: $param}).success(function ($return) {
 
@@ -291,7 +295,7 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
         if ($scope.row.ds_re_senha === null || $scope.row.ds_senha === $scope.row.re_senha) {
 
             // adjust parameters and add origin data.
-            $param = $.extend($scope.origin, $scope.row);
+            $param = $scope.configParam($scope.row);
 
             $http.post($scope.server("/addCustomer/"), $param).success(function ($return) {
 
@@ -330,7 +334,10 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
      */
     $scope.getProfiles = function () {
 
-        $http.get($scope.server("/getProfiles"), {params: $scope.origin}).success(function ($return) {
+        // adjust parameters and add origin data.
+        $param = $scope.configParam();
+
+        $http.get($scope.server("/getProfiles"), {params: $param}).success(function ($return) {
 
             // verify return data.
             $scope.securityReponse($return);

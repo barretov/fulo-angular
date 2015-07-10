@@ -1,0 +1,15 @@
+Archive to describe nginx configuration.
+
+----
+Slim framework in vhost nginx;
+try_files $uri $uri/ /index.php?$args;
+----
+
+----
+To active mcrypt in nginx
+1 - apt-get install php5-mcrypt
+2 - php5enmod mcrypt
+3 - service php5-fpm restart
+4 - sudo service nginx restart
+----
+
