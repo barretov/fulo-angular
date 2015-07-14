@@ -140,7 +140,7 @@ class UserBusiness extends MasterBusiness
 
     /**
      * Method for business to get users data
-     * @name getUser
+     * @name getUsers
      * @author Victor Eduardo Barreto
      * @package fulo\business
      * @param object $data User data

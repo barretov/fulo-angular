@@ -24,13 +24,13 @@ use fulo\controller\MasterController as MasterController;
 
 /**
  * Method for get users
- * @name user
+ * @name getUsers
  * @author Victor Eduardo Barreto
  * @return json Data of users
  * @date Apr 3, 2015
  * @version 1.0
  */
-$app->get("/user", function () {
+$app->get("/getUsers", function () {
 
     try {
 
@@ -47,14 +47,14 @@ $app->get("/user", function () {
 
 /**
  * Method for get user
- * @name userEdit
+ * @name getUser
  * @author Victor Eduardo Barreto
  * @param int $sq_pessoa Identifier of user
  * @return json Data of user selected
  * @date Apr 3, 2015
  * @version 1.0
  */
-$app->get("/userEdit", function () {
+$app->get("/getUser", function () {
 
     try {
 
@@ -102,7 +102,7 @@ $app->post("/addUser", function () {
  * @date Apr 3, 2015
  * @version 1.0
  */
-$app->delete("/userDel", function () {
+$app->delete("/delUser", function () {
 
     try {
 
@@ -119,14 +119,14 @@ $app->delete("/userDel", function () {
 
 /**
  * Method for update data user
- * @name updateDataUser
+ * @name editCustomerData
  * @author Victor Eduardo Barreto
  * @param json Data of user
  * @return bool Result of procedure
  * @date Apr 3, 2015
  * @version 1.0
  */
-$app->post("/updateDataUser", function () {
+$app->post("/editCustomerData", function () {
 
     try {
 
@@ -143,14 +143,14 @@ $app->post("/updateDataUser", function () {
 
 /**
  * Method for update user data access
- * @name userUpAccess
+ * @name editCustomerAcc
  * @author Victor Eduardo Barreto
  * @param json Data access of user
  * @return bool Result of procedure
  * @date May 19, 2015
  * @version 1.0
  */
-$app->post("/userUpAccess", function () {
+$app->post("/editCustomerAcc", function () {
 
     try {
 

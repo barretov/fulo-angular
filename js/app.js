@@ -12,11 +12,11 @@ $app.config(['$routeProvider', '$httpProvider', function ($routeProvider, $httpP
         $routeProvider.
                 when('/', {templateUrl: 'view/general/main.html'}).
                 when('/contact', {templateUrl: 'view/general/contact.html'}).
-                when('/user/new', {templateUrl: 'view/user/add.html', controller: 'userController'}).
-                when('/user/newCustomer', {templateUrl: 'view/user/addCustomer.html', controller: 'userController'}).
-                when('/user/editCustomer', {templateUrl: 'view/user/editCustomer.html', controller: 'userController'}).
-                when('/user/:id', {templateUrl: 'view/user/edit.html', controller: 'userController'}).
-                when('/user', {templateUrl: 'view/user/list.html', controller: 'userController'}).
+                when('/user/addCustomer', {templateUrl: 'view/user/addCustomer.html', controller: 'customerController'}).
+                when('/user/upCustomer', {templateUrl: 'view/user/upCustomer.html', controller: 'customerController'}).
+                when('/user/addUser', {templateUrl: 'view/user/addUser.html', controller: 'userController'}).
+                when('/user/upUser:id', {templateUrl: 'view/user/upUser.html', controller: 'userController'}).
+                when('/user/listUser', {templateUrl: 'view/user/listUser.html', controller: 'userController'}).
                 when('/user/contact', {templateUrl: 'view/user/contact.html', controller: 'userController'}).
                 otherwise({redirectTo: '/'});
 

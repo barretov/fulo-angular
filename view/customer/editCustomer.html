@@ -22,7 +22,7 @@
     });
 </script>
 
-<div ng-init="userController">
+<div ng-init="customerController">
 
     <!--tabs-->
     <div role="tabpanel">
@@ -115,7 +115,7 @@
                     <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-10">
 
-                            <button type="submit" class="btn btn-primary btn-sm" ng-click="updateDataUser('user')" ng-Disabled="formPessoal.$invalid">Salvar
+                            <button type="submit" class="btn btn-primary btn-sm" ng-click="editCustomerData()" ng-Disabled="formPessoal.$invalid">Salvar
                                 <i class="glyphicon glyphicon-save"></i>
                             </button>
 
@@ -209,7 +209,7 @@
                     <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-10">
 
-                            <button type="submit" class="btn btn-primary btn-sm" ng-click="userUpAccess()" ng-Disabled="formAcesso.$invalid">Salvar
+                            <button type="submit" class="btn btn-primary btn-sm" ng-click="editCustomerAcc()" ng-Disabled="formAcesso.$invalid">Salvar
                                 <i class="glyphicon glyphicon-save"></i>
                             </button>
 

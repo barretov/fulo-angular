@@ -112,7 +112,7 @@ class UserModel extends MasterModel
 
     /**
      * Method for get users
-     * @name getUser
+     * @name getUsers
      * @author Victor Eduardo Barreto
      * @return array Data of users
      * @param int $sq_pessoa Id of loged user

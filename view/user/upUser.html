@@ -1,6 +1,6 @@
 <legend ng-show="row.sq_pessoa != null">Edição de usuário</legend>
 
-<div ng-init="loadRow()">
+<div ng-init="getUser()">
 
     <!--Apresentação-->
     <h1><span class="text-primary hidden-xs" ng-bind="row.ds_nome"></span></h1>
@@ -84,7 +84,7 @@
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
 
-                <button type="submit" class="btn btn-primary btn-sm" ng-click="updateDataUser('admin')" ng-Disabled="formPessoal.$invalid">Salvar
+                <button type="submit" class="btn btn-primary btn-sm" ng-click="updateDataUser()" ng-Disabled="formPessoal.$invalid">Salvar
                     <i class="glyphicon glyphicon-save"></i>
                 </button>
 

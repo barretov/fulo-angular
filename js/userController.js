@@ -49,19 +49,19 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
 
     /**
      * Method for load all users
-     * @name loadAll
+     * @name getUsers
      * @author Victor Eduardo Barreto
      * @date Apr 3, 2015
      * @version 1.0
      */
-    $scope.loadAll = function () {
+    $scope.getUsers = function () {
 
         $scope.showLoader();
 
         // adjust param.
         $param = $scope.configParam();
 
-        $http.get($scope.server("/user"), {params: $param}).success(function ($return) {
+        $http.get($scope.server("/getUsers"), {params: $param}).success(function ($return) {
 
             // verify return data.
             $scope.securityReponse($return);
@@ -73,12 +73,12 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
 
     /**
      * Method for load one user
-     * @name loadRow
+     * @name getUser
      * @author Victor Eduardo Barreto
      * @date Apr 3, 2015
      * @version 1.0
      */
-    $scope.loadRow = function () {
+    $scope.getUser = function () {
 
         if ($routeParams.id !== null) {
 
@@ -87,7 +87,7 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
             // adjust parameters and add origin data.
             $param = $scope.configParam({sq_usuario: $routeParams.id});
 
-            $http.get($scope.server("/userEdit"), {params: $param}).success(function ($return) {
+            $http.get($scope.server("/getUser"), {params: $param}).success(function ($return) {
 
                 // verify return data.
                 $scope.securityReponse($return);
@@ -137,47 +137,11 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
 
                     $scope.hideLoader();
 
-                    $location.path("/user");
+                    $location.path("/userList");
 
                     $scope.showFlashmessage("alert-success", $scope.constant.MSG0001);
                 }
             });
-        } else {
-            $scope.showFlashmessage("alert-warning", $scope.constant.MSG0003);
-        }
-    };
-
-    /**
-     * Method for update user data access
-     * @name userUpAccess
-     * @author Victor Eduardo Barreto
-     * @date May 9, 2015
-     * @version 1.0
-     */
-    $scope.userUpAccess = function () {
-
-        $scope.showLoader();
-
-        // #### @TODO MOVE THIS TO CUSTOMER CONTROLLER ###############################################
-
-        // validate passwords
-        if ($scope.user.ds_re_senha === null || $scope.user.ds_senha === $scope.user.re_senha) {
-
-            // adjust parameters and add origin data.
-            $param = $scope.configParam($scope.user);
-
-            $http.post($scope.server("/userUpAccess"), $param).success(function ($return) {
-
-                // verify return data.
-                $scope.securityReponse($return);
-
-                $scope.hideLoader();
-
-                $location.path("/");
-
-                $scope.showFlashmessage("alert-success", $scope.constant.MSG0001);
-            });
-
         } else {
             $scope.showFlashmessage("alert-warning", $scope.constant.MSG0003);
         }
@@ -191,29 +155,11 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
      * @date May 09, 2015
      * @version 1.0
      */
-    $scope.updateDataUser = function ($form) {
+    $scope.editUserData = function () {
 
         $scope.showLoader();
 
-        // #### @TODO MOVE ONE OF FORM TO CUSTOMER CONTROLLER ###############################################
-
-        // verify what form data was arrive and define the param and destiny.
-        switch ($form) {
-
-            case "user":
-                {
-                    $param = $scope.configParam($scope.user);
-                    $destination = "/";
-                }
-                break;
-
-            case "admin":
-                {
-                    $param = $scope.configParam($scope.row);
-                    $destination = "/user";
-                }
-                break;
-        }
+        $param = $scope.configParam($scope.row);
 
         $http.post($scope.server("/updateDataUser"), $param).success(function ($return) {
 
@@ -231,7 +177,7 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
 
                 $scope.hideLoader();
 
-                $location.path($destination);
+                $location.path("/userList");
 
                 $scope.showFlashmessage("alert-success", $scope.constant.MSG0001);
             }
@@ -241,18 +187,18 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
 
     /**
      * Method for delete user
-     * @name del
+     * @name delUser
      * @author Victor Eduardo Barreto
      * @param {int} $sq_pessoa Identifier of person
      * @date Apr 12, 2015
      * @version 1.0
      */
-    $scope.del = function ($sq_pessoa) {
+    $scope.delUser = function ($sq_pessoa) {
 
         // adjust parameters and add origin data.
         $param = $scope.configParam({sq_pessoa: $sq_pessoa});
 
-        $http.delete($scope.server("/userDel"), {params: $param}).success(function ($return) {
+        $http.delete($scope.server("/delUser"), {params: $param}).success(function ($return) {
 
             // verify return data.
             $scope.securityReponse($return);
