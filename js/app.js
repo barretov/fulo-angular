@@ -1,7 +1,7 @@
 /* global angular */
 
 //URL de acesso ao servidor RESTful
-SERVER_URL = "http://rest.local:8081";
+SERVER_URL = "http://rest.local";
 
 //Criação ao $app que é o modulo que representa toda a aplicação
 var $app = angular.module('app', ['ngRoute']);
@@ -12,12 +12,11 @@ $app.config(['$routeProvider', '$httpProvider', function ($routeProvider, $httpP
         $routeProvider.
                 when('/', {templateUrl: 'view/general/main.html'}).
                 when('/contact', {templateUrl: 'view/general/contact.html'}).
-                when('/user/addCustomer', {templateUrl: 'view/user/addCustomer.html', controller: 'customerController'}).
-                when('/user/upCustomer', {templateUrl: 'view/user/upCustomer.html', controller: 'customerController'}).
+                when('/customer/addCustomer', {templateUrl: 'view/customer/addCustomer.html', controller: 'customerController'}).
+                when('/customer/upCustomer', {templateUrl: 'view/customer/upCustomer.html', controller: 'customerController'}).
                 when('/user/addUser', {templateUrl: 'view/user/addUser.html', controller: 'userController'}).
-                when('/user/upUser:id', {templateUrl: 'view/user/upUser.html', controller: 'userController'}).
+                when('/user/upUser/:id', {templateUrl: 'view/user/upUser.html', controller: 'userController'}).
                 when('/user/listUser', {templateUrl: 'view/user/listUser.html', controller: 'userController'}).
-                when('/user/contact', {templateUrl: 'view/user/contact.html', controller: 'userController'}).
                 otherwise({redirectTo: '/'});
 
         //configura o RESPONSE interceptor, usado para exibir o ícone de acesso ao servidor

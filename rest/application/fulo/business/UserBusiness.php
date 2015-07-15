@@ -29,8 +29,7 @@ use fulo\model\UserModel as UserModel;
  * @date Apr 8, 2015
  * @version 1.0
  */
-class UserBusiness extends MasterBusiness
-{
+class UserBusiness extends MasterBusiness {
 
     /**
      * variable for instance of user model
@@ -47,8 +46,7 @@ class UserBusiness extends MasterBusiness
      * @date May 3, 2015
      * @version 1.0
      */
-    public function __construct ()
-    {
+    public function __construct () {
         $this->_userModel = new UserModel();
     }
 
@@ -57,13 +55,12 @@ class UserBusiness extends MasterBusiness
      * @name addUser
      * @author Victor Eduardo Barreto
      * @package fulo\business
-     * @param array $data Data for user
+     * @param array $data User data
      * @return bool Result of procedure
      * @date Apr 8, 2015
      * @version 1.0
      */
-    public function addUser (& $data)
-    {
+    public function addUser (& $data) {
 
         try {
 
@@ -98,13 +95,12 @@ class UserBusiness extends MasterBusiness
      * @name upUser
      * @author Victor Eduardo Barreto
      * @package fulo\business
-     * @param array $data Data for user
+     * @param array $data User data
      * @return bool Result of procedure
      * @date Apr 8, 2015
      * @version 1.0
      */
-    public function upUser (& $data)
-    {
+    public function upUser (& $data) {
 
         try {
 
@@ -148,8 +144,7 @@ class UserBusiness extends MasterBusiness
      * @date Apr 8, 2015
      * @version 1.0
      */
-    public function getUsers ($data)
-    {
+    public function getUsers ($data) {
 
         try {
 
@@ -173,8 +168,7 @@ class UserBusiness extends MasterBusiness
      * @date Apr 8, 2015
      * @version 1.0
      */
-    public function getUser (& $data)
-    {
+    public function getUser (& $data) {
         try {
 
             # validate origin.
@@ -197,8 +191,7 @@ class UserBusiness extends MasterBusiness
      * @date Apr 8, 2015
      * @version 1.0
      */
-    public function delUser (& $data)
-    {
+    public function delUser (& $data) {
         try {
 
             # validate origin.
@@ -221,8 +214,7 @@ class UserBusiness extends MasterBusiness
      * @date Apr 12, 2015
      * @version 1.0
      */
-    public function verifyEmailExists ($ds_email)
-    {
+    public function verifyEmailExists ($ds_email) {
 
         try {
 
@@ -253,8 +245,7 @@ class UserBusiness extends MasterBusiness
      * @date May 19, 2015
      * @version 1.0
      */
-    public function upDataAccesss (& $data)
-    {
+    public function upDataAccesss (& $data) {
 
         try {
 
@@ -280,13 +271,12 @@ class UserBusiness extends MasterBusiness
      * @name addCustomer
      * @author Victor Eduardo Barreto
      * @package fulo\business
-     * @param array $data Data for user
+     * @param array $data User data
      * @return bool Result of procedure
      * @date Jun 10, 2015
      * @version 1.0
      */
-    public function addCustomer (& $data)
-    {
+    public function addCustomer (& $data) {
 
         try {
 
@@ -310,6 +300,50 @@ class UserBusiness extends MasterBusiness
 
             # send to the model of user for add and return for controller.
             return $this->_userModel->addUser($data);
+        } catch (Exception $ex) {
+
+            throw $ex;
+        }
+    }
+
+    /**
+     * Method for business to up customer
+     * @name upCustomer
+     * @author Victor Eduardo Barreto
+     * @package fulo\business
+     * @param array $data User data
+     * @return bool Result of procedure
+     * @date Jul 14, 2015
+     * @version 1.0
+     */
+    public function upCustomer (& $data) {
+
+        try {
+
+            # validate origin.
+            $this->validateOrigin($data);
+
+            # set email to lower case.
+            $data->ds_email = strtolower($data->ds_email);
+
+            # verify if e-mail already exists.
+            if ($this->verifyEmailExists($data->ds_email)) {
+
+                # get current email in the base.
+                $currentEmail = $this->_userModel->getUserByIdenty($data->sq_pessoa);
+
+                # if don't change email, do the update.
+                if ($data->ds_email != $currentEmail->ds_email) {
+
+                    return "email-already";
+                }
+            }
+
+            # remove special char and spaces.
+            $this->removeSpecialChar($data);
+
+            # send to the model of user for update and return for controller.
+            return $this->_userModel->upUser($data);
         } catch (Exception $ex) {
 
             throw $ex;

@@ -26,7 +26,7 @@ use fulo\controller\MasterController as MasterController;
  * Method for get users
  * @name getUsers
  * @author Victor Eduardo Barreto
- * @return json Data of users
+ * @return json User datas
  * @date Apr 3, 2015
  * @version 1.0
  */
@@ -50,7 +50,7 @@ $app->get("/getUsers", function () {
  * @name getUser
  * @author Victor Eduardo Barreto
  * @param int $sq_pessoa Identifier of user
- * @return json Data of user selected
+ * @return json User data selected
  * @date Apr 3, 2015
  * @version 1.0
  */
@@ -73,7 +73,7 @@ $app->get("/getUser", function () {
  * Method for add user
  * @name addUser
  * @author Victor Eduardo Barreto
- * @param json Data of user
+ * @param json User data
  * @return bool Result of procedure
  * @date May 13, 2015
  * @version 1.0
@@ -95,7 +95,7 @@ $app->post("/addUser", function () {
 
 /**
  * Method for save or update user
- * @name user/:id
+ * @name delUser
  * @author Victor Eduardo Barreto
  * @param int $sq_pessoa Identifier of user
  * @return bool Result of procedure
@@ -118,15 +118,15 @@ $app->delete("/delUser", function () {
 });
 
 /**
- * Method for update data user
- * @name editCustomerData
+ * Method for update data of user
+ * @name upUser
  * @author Victor Eduardo Barreto
- * @param json Data of user
+ * @param json User data
  * @return bool Result of procedure
  * @date Apr 3, 2015
  * @version 1.0
  */
-$app->post("/editCustomerData", function () {
+$app->post("/upUser", function () {
 
     try {
 
@@ -143,14 +143,14 @@ $app->post("/editCustomerData", function () {
 
 /**
  * Method for update user data access
- * @name editCustomerAcc
+ * @name upDataAccesss
  * @author Victor Eduardo Barreto
  * @param json Data access of user
  * @return bool Result of procedure
  * @date May 19, 2015
  * @version 1.0
  */
-$app->post("/editCustomerAcc", function () {
+$app->post("/upDataAccesss", function () {
 
     try {
 
@@ -169,7 +169,7 @@ $app->post("/editCustomerAcc", function () {
  * Method for add customer
  * @name addCustomer
  * @author Victor Eduardo Barreto
- * @param json Data of user
+ * @param json User data
  * @return bool Result of procedure
  * @date Jun 10, 2015
  * @version 1.0
@@ -183,6 +183,30 @@ $app->post("/addCustomer/", function () {
         $data = json_decode(\Slim\Slim::getInstance()->request()->getBody());
 
         echo json_encode($business->addCustomer($data));
+    } catch (Exception $ex) {
+
+        throw $ex;
+    }
+});
+
+/**
+ * Method for update data of customer
+ * @name upCustomer
+ * @author Victor Eduardo Barreto
+ * @param json Customer data
+ * @return bool Result of procedure
+ * @date Jul 14, 2015
+ * @version 1.0
+ */
+$app->post("/upCustomer", function () {
+
+    try {
+
+        $business = MasterController::getUserBusiness();
+
+        $data = json_decode(\Slim\Slim::getInstance()->request()->getBody());
+
+        echo json_encode($business->upCustomer($data));
     } catch (Exception $ex) {
 
         throw $ex;

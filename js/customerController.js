@@ -31,12 +31,12 @@ $app.controller('customerController', function ($scope, $http, $location) {
 
     /**
      * Method for update user data access
-     * @name editCustomerAcc
+     * @name upDataAccesss
      * @author Victor Eduardo Barreto
      * @date May 9, 2015
      * @version 1.0
      */
-    $scope.editCustomerAcc = function () {
+    $scope.upDataAccesss = function () {
 
         $scope.showLoader();
 
@@ -46,7 +46,7 @@ $app.controller('customerController', function ($scope, $http, $location) {
             // adjust parameters and add origin data.
             $param = $scope.configParam($scope.user);
 
-            $http.post($scope.server("/editCustomerAcc"), $param).success(function ($return) {
+            $http.post($scope.server("/upDataAccesss"), $param).success(function ($return) {
 
                 // verify return data.
                 $scope.securityReponse($return);
@@ -65,19 +65,19 @@ $app.controller('customerController', function ($scope, $http, $location) {
 
     /**
      * Method for update data user
-     * @name editCustomerData
+     * @name upCustomer
      * @author Victor Eduardo Barreto
      * @param {String} $form Define what form sended data
      * @date May 09, 2015
      * @version 1.0
      */
-    $scope.editCustomerData = function () {
+    $scope.upCustomer = function () {
 
         $scope.showLoader();
 
         $param = $scope.configParam($scope.user);
 
-        $http.post($scope.server("/editCustomerData"), $param).success(function ($return) {
+        $http.post($scope.server("/upCustomer"), $param).success(function ($return) {
 
             // verify return data.
             $scope.securityReponse($return);

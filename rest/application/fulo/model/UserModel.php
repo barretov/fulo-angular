@@ -26,20 +26,18 @@ namespace fulo\model;
  * @date Apr 8, 2015
  * @version 1.0
  */
-class UserModel extends MasterModel
-{
+class UserModel extends MasterModel {
 
     /**
      * Method for add user
      * @name addUser
      * @author Victor Eduardo Barreto
-     * @param array $data Data for user
+     * @param array $data User data
      * @return bool Result of procedure
      * @date Apr 8, 2015
      * @version 1.0
      */
-    public function addUser (& $data)
-    {
+    public function addUser (& $data) {
 
         try {
 
@@ -73,13 +71,12 @@ class UserModel extends MasterModel
      * Method for update user
      * @name upUser
      * @author Victor Eduardo Barreto
-     * @param array $data Data for user
+     * @param array $data User data
      * @return bool Result of procedure
      * @date Apr 8, 2015
      * @version 1.0
      */
-    public function upUser (& $data)
-    {
+    public function upUser (& $data) {
         try {
 
             $this->_conn->beginTransaction();
@@ -119,14 +116,13 @@ class UserModel extends MasterModel
      * @date Apr 8, 2015
      * @version 1.0
      */
-    public function getUsers ($sq_pessoa)
-    {
+    public function getUsers ($sq_pessoa) {
         try {
 
             $stmt = $this->_conn->prepare(
-                    "SELECT sq_pessoa, ds_nome, ds_email, sq_perfil FROM fulo.pessoa "
-                    . "JOIN fulo.usuario on pessoa.sq_pessoa = usuario.sq_usuario "
-                    . "and pessoa.sq_pessoa <> ? ORDER BY pessoa.ds_nome ASC"
+                "SELECT sq_pessoa, ds_nome, ds_email, sq_perfil FROM fulo.pessoa "
+                . "JOIN fulo.usuario on pessoa.sq_pessoa = usuario.sq_usuario "
+                . "and pessoa.sq_pessoa <> ? ORDER BY pessoa.ds_nome ASC"
             );
 
             $stmt->execute([
@@ -144,18 +140,17 @@ class UserModel extends MasterModel
      * Method for get user by Identy
      * @name getUserByIdenty
      * @author Victor Eduardo Barreto
-     * @param int $sq_pessoa Identifier of user
+     * @param int $sq_pessoa User identifier
      * @return array Data of user selected
      * @date Apr 8, 2015
      * @version 1.0
      */
-    public function getUserByIdenty (& $sq_pessoa)
-    {
+    public function getUserByIdenty (& $sq_pessoa) {
         try {
 
             $stmt = $this->_conn->prepare("SELECT sq_pessoa, ds_nome, ds_email, sq_perfil "
-                    . "FROM fulo.pessoa JOIN fulo.usuario on pessoa.sq_pessoa = usuario.sq_usuario "
-                    . "WHERE sq_pessoa = ?");
+                . "FROM fulo.pessoa JOIN fulo.usuario on pessoa.sq_pessoa = usuario.sq_usuario "
+                . "WHERE sq_pessoa = ?");
 
             $stmt->execute([
                 $sq_pessoa
@@ -172,13 +167,12 @@ class UserModel extends MasterModel
      * Method for del user
      * @name delUser
      * @author Victor Eduardo Barreto
-     * @param int $sq_pessoa Identifier of user
+     * @param int $sq_pessoa User identifier
      * @return bool Result of procedure
      * @date Apr 8, 2015
      * @version 1.0
      */
-    public function delUser (& $sq_pessoa)
-    {
+    public function delUser (& $sq_pessoa) {
         try {
 
             $this->_conn->beginTransaction();
@@ -204,12 +198,11 @@ class UserModel extends MasterModel
      * @author Victor Eduardo Barreto
      * @package fulo\model
      * @param string $ds_email Email of user
-     * @return array Data of user
+     * @return array User data
      * @date Apr 12, 2015
      * @version 1.0
      */
-    public function getDataByEmail (& $ds_email)
-    {
+    public function getDataByEmail (& $ds_email) {
 
         try {
 
@@ -230,13 +223,12 @@ class UserModel extends MasterModel
      * Method for update user data access
      * @name updateDataAccess
      * @author Victor Eduardo Barreto
-     * @param array $data Data for user
+     * @param array $data User data
      * @return bool Result of procedure
      * @date May 19, 2015
      * @version 1.0
      */
-    public function updateDataAccess (& $data)
-    {
+    public function updateDataAccess (& $data) {
 
         try {
 
@@ -246,7 +238,47 @@ class UserModel extends MasterModel
 
             $stmt->execute([
                 $data->ds_senha,
-                $data->sq_usuario,
+                $data->origin_sq_pessoa,
+            ]);
+
+            return $this->_conn->commit();
+        } catch (Exception $ex) {
+
+            $this->_conn->rollback();
+
+            throw $ex;
+        }
+    }
+
+    /**
+     * Method for update Customer
+     * @name upCustomer
+     * @author Victor Eduardo Barreto
+     * @param array $data Customer data
+     * @return bool Result of procedure
+     * @date Jul 14, 2015
+     * @version 1.0
+     */
+    public function upCustomer (& $data) {
+        try {
+
+            $this->_conn->beginTransaction();
+
+            # set $stmt to update pessoa.
+            $stmt = $this->_conn->prepare("UPDATE fulo.pessoa SET ds_nome = ?, ds_email = ? WHERE sq_pessoa = ?");
+
+            $stmt->execute([
+                $data->ds_nome,
+                $data->ds_email,
+                $data->origin_sq_pessoa,
+            ]);
+
+            # set $stmt to update usuario.
+            $stmt = $this->_conn->prepare("UPDATE fulo.usuario SET sq_perfil = ? WHERE sq_usuario = ?");
+
+            $stmt->execute([
+                $data->sq_perfil,
+                $data->origin_sq_pessoa,
             ]);
 
             return $this->_conn->commit();

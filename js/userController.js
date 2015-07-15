@@ -137,7 +137,7 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
 
                     $scope.hideLoader();
 
-                    $location.path("/userList");
+                    $location.path("/user/listUser");
 
                     $scope.showFlashmessage("alert-success", $scope.constant.MSG0001);
                 }
@@ -149,19 +149,19 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
 
     /**
      * Method for update data user
-     * @name updateDataUser
+     * @name upUser
      * @author Victor Eduardo Barreto
      * @param {String} $form Define what form sended data
      * @date May 09, 2015
      * @version 1.0
      */
-    $scope.editUserData = function () {
+    $scope.upUser = function () {
 
         $scope.showLoader();
 
         $param = $scope.configParam($scope.row);
 
-        $http.post($scope.server("/updateDataUser"), $param).success(function ($return) {
+        $http.post($scope.server("/upUser"), $param).success(function ($return) {
 
             // verify return data.
             $scope.securityReponse($return);
@@ -177,7 +177,7 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
 
                 $scope.hideLoader();
 
-                $location.path("/userList");
+                $location.path("/user/listUser");
 
                 $scope.showFlashmessage("alert-success", $scope.constant.MSG0001);
             }

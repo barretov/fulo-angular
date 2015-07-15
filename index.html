@@ -191,7 +191,7 @@
 
                                 <!--identificação do usuário logado-->
                                 <li>
-                                    <a href="#/user/editCustomer">
+                                    <a href="#/customer/upCustomer">
                                         <i class="glyphicon glyphicon-user" ng-show="user.ds_nome"></i>
                                         <strong> {{user.ds_nome}}</strong>
                                     </a>
@@ -208,7 +208,7 @@
 
                                 <!--Cadastre-se-->
                                 <li ng-show="!user.sq_pessoa">
-                                    <a href="#/user/addCustomer">
+                                    <a href="#/customer/addCustomer">
                                         <i class="glyphicon glyphicon-user text-primary"></i>
                                         <strong>Cadastre-se </strong>
                                     </a>
@@ -345,6 +345,7 @@
         <!--Controllers-->
         <script src="js/userController.js"></script>
         <script src="js/loginController.js"></script>
+        <script src="js/customerController.js"></script>
         <!--Controllers-->
         <!--carga de scripts-->
 
