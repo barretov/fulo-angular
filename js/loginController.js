@@ -62,7 +62,7 @@ $app.controller('loginController', function ($scope, $rootScope, $http, $locatio
                 $scope.showFlashmessage("alert-success", "Processo realizado com sucesso.");
 
                 // clear pass field.
-                $('#ds_senha').val('');
+                $('#ds_password').val('');
                 $('#modalLogin').modal('hide');
 
             } else {
@@ -70,7 +70,7 @@ $app.controller('loginController', function ($scope, $rootScope, $http, $locatio
                 $scope.showFlashmessage("alert-danger", "Dados incorretos.");
 
                 // clear pass field.
-                $('#ds_senha').val('');
+                $('#ds_password').val('');
             }
         });
     };

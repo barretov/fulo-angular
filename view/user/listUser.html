@@ -21,10 +21,10 @@
 
         <tbody>
 
-            <tr ng-repeat="row in rows| startFrom: currentPage * pageSize| limitTo: pageSize" id="{{row.sq_pessoa}}">
+            <tr ng-repeat="row in rows| startFrom: currentPage * pageSize| limitTo: pageSize" id="{{row.sq_person}}">
 
                 <!--name-->
-                <td><a href='#/user/upUser/{{row.sq_pessoa}}'>{{row.ds_nome}}</a></td>
+                <td><a href='#/user/upUser/{{row.sq_person}}'>{{row.ds_name}}</a></td>
 
                 <!--email-->
                 <td>{{row.ds_email}}</td>
@@ -84,7 +84,7 @@
             <!--body-->
             <div class="modal-body">
                 <span>Deseja excluir</span>
-                <span class="text-danger">{{pessoa.ds_nome}}</span>
+                <span class="text-danger">{{person.ds_name}}</span>
                 <span>?</span>
             </div>
             <!--body-->
@@ -95,7 +95,7 @@
                     Não <i class="glyphicon glyphicon-remove"></i>
                 </button>
 
-                <button ng-click="delUser(pessoa.sq_pessoa)" class="btn btn-danger btn-sm" data-dismiss="modal">
+                <button ng-click="delUser(person.sq_person)" class="btn btn-danger btn-sm" data-dismiss="modal">
                     Sim <i class="glyphicon glyphicon-ok"></i>
                 </button>
             </div>

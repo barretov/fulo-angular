@@ -41,7 +41,7 @@ $app.controller('customerController', function ($scope, $http, $location) {
         $scope.showLoader();
 
         // validate passwords
-        if ($scope.user.ds_re_senha === null || $scope.user.ds_senha === $scope.user.re_senha) {
+        if ($scope.user.ds_re_password === null || $scope.user.ds_password === $scope.user.re_senha) {
 
             // adjust parameters and add origin data.
             $param = $scope.configParam($scope.user);
@@ -105,14 +105,14 @@ $app.controller('customerController', function ($scope, $http, $location) {
      * Method for delete user
      * @name del
      * @author Victor Eduardo Barreto
-     * @param {int} $sq_pessoa Identifier of person
+     * @param {int} $sq_person Identifier of person
      * @date Apr 12, 2015
      * @version 1.0
      */
-    $scope.del = function ($sq_pessoa) {
+    $scope.del = function ($sq_person) {
 
         // adjust parameters and add origin data.
-        $param = $scope.configParam({sq_pessoa: $sq_pessoa});
+        $param = $scope.configParam({sq_person: $sq_person});
 
         $http.delete($scope.server("/userDel"), {params: $param}).success(function ($return) {
 
@@ -122,7 +122,7 @@ $app.controller('customerController', function ($scope, $http, $location) {
             if ($return) {
 
                 // if result is true, remove the row in the screen.
-                $('#' + $sq_pessoa).fadeOut('slow');
+                $('#' + $sq_person).fadeOut('slow');
                 $scope.showFlashmessage("alert-success", $scope.constant.MSG0001);
             }
         });
@@ -141,7 +141,7 @@ $app.controller('customerController', function ($scope, $http, $location) {
         $scope.showLoader();
 
         // validate passwords
-        if ($scope.row.ds_re_senha === null || $scope.row.ds_senha === $scope.row.re_senha) {
+        if ($scope.row.ds_re_password === null || $scope.row.ds_password === $scope.row.re_senha) {
 
             // adjust parameters and add origin data.
             $param = $scope.configParam($scope.row);

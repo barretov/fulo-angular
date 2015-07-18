@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+CAUTION: Do not modify this file unless you know what you are doing.
+         Unexpected results may occur if the code is changed deliberately.
+-->
+<dbmodel>
+<schema name="domain">
+</schema>
+
+<schema name="fulo">
+	<comment>shema of fulo</comment>
+</schema>
+
+<database name="db_joker" encoding="UTF8">
+</database>
+
+<table name="person" oids="false">
+	<schema name="fulo"/>
+	<comment>data of persons</comment>
+	<position x="357" y="8"/>
+	<column name="sq_person" not-null="true">
+		<type name="serial" spatial-type="POINT" variation="0"/>
+		<comment>identifier of person</comment>
+	</column>
+	<column name="ds_name" not-null="true">
+		<type name="varchar" length="50" spatial-type="POINT" variation="0"/>
+		<comment>name of person</comment>
+	</column>
+	<column name="ds_email" not-null="true">
+		<type name="varchar" length="50" spatial-type="POINT" variation="0"/>
+		<comment>email of person</comment>
+	</column>
+	<column name="sq_status" not-null="true" default-value="1">
+		<type name="integer" spatial-type="POINT" variation="0"/>
+		<comment>status of person account</comment>
+	</column>
+	<constraint name="pk_person" type="pk-constr" factor="10" table="fulo.person">
+		<columns names="sq_person" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="user" oids="true">
+	<schema name="fulo"/>
+	<comment>data of users</comment>
+	<position x="351" y="219"/>
+	<column name="sq_user" not-null="true">
+		<type name="integer" spatial-type="POINT" variation="0"/>
+		<comment>identifier of user</comment>
+	</column>
+	<column name="sq_profile" not-null="true">
+		<type name="integer" spatial-type="POINT" variation="0"/>
+		<comment>identifier of profile</comment>
+	</column>
+	<column name="ds_password" not-null="true">
+		<type name="varchar" length="40" spatial-type="POINT" variation="0"/>
+		<comment>password of user</comment>
+	</column>
+	<constraint name="pk_user" type="pk-constr" factor="10" table="fulo.user">
+		<columns names="sq_user" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="profile" oids="false">
+	<schema name="domain"/>
+	<comment>data of profiles</comment>
+	<position x="366" y="456"/>
+	<column name="sq_profile" not-null="true">
+		<type name="serial" spatial-type="POINT" variation="0"/>
+		<comment>identifier of profile</comment>
+	</column>
+	<column name="ds_profile" not-null="true">
+		<type name="varchar" length="50" spatial-type="POINT" variation="0"/>
+		<comment>description of profile</comment>
+	</column>
+	<constraint name="pk_profile" type="pk-constr" factor="10" table="domain.profile">
+		<columns names="sq_profile" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<constraint name="fk_user_person" type="fk-constr"	 comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="fulo.person" table="fulo.user">
+	<columns names="sq_user" ref-type="src-columns"/>
+	<columns names="sq_person" ref-type="dst-columns"/>
+</constraint>
+<relationship name="rel_user_person"
+	 type="relfk"
+	 src-required="false" dst-required="false"
+	 src-table="fulo.user"
+	 dst-table="fulo.person"/>
+
+<constraint name="fk_user_profile" type="fk-constr"	 comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="domain.profile" table="fulo.user">
+	<columns names="sq_profile" ref-type="src-columns"/>
+	<columns names="sq_profile" ref-type="dst-columns"/>
+</constraint>
+<relationship name="rel_user_profile"
+	 type="relfk"
+	 src-required="false" dst-required="false"
+	 src-table="fulo.user"
+	 dst-table="domain.profile"/>
+
+<table name="status" oids="false">
+	<schema name="domain"/>
+	<comment>table of status</comment>
+	<position x="808" y="15"/>
+	<column name="sq_status" not-null="true">
+		<type name="serial" spatial-type="POINT" variation="0"/>
+		<comment>identifier of status</comment>
+	</column>
+	<column name="ds_status" not-null="true">
+		<type name="varchar" length="50" spatial-type="POINT" variation="0"/>
+		<comment>description of status</comment>
+	</column>
+	<constraint name="fk_status" type="pk-constr" factor="10" table="domain.status">
+		<columns names="sq_status" ref-type="src-columns"/>
+		<comment>primary key of table</comment>
+	</constraint>
+</table>
+
+<constraint name="fk_person_status" type="fk-constr"	 comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="domain.status" table="fulo.person">
+	<columns names="sq_status" ref-type="src-columns"/>
+	<columns names="sq_status" ref-type="dst-columns"/>
+		<comment>foreign key of status</comment>
+</constraint>
+<relationship name="rel_person_status"
+	 type="relfk"
+	 src-required="false" dst-required="false"
+	 src-table="fulo.person"
+	 dst-table="domain.status"/>
+
+<table name="log" oids="false">
+	<schema name="fulo"/>
+	<comment>table of log</comment>
+	<position x="809" y="213"/>
+	<column name="sq_log" not-null="true">
+		<type name="serial" spatial-type="POINT" variation="0"/>
+		<comment>identifier of log</comment>
+	</column>
+	<column name="sq_operation" not-null="true">
+		<type name="integer" spatial-type="POINT" variation="0"/>
+		<comment>identifier of operation</comment>
+	</column>
+	<column name="sq_user" not-null="true">
+		<type name="integer" spatial-type="POINT" variation="0"/>
+		<comment>identifier of user</comment>
+	</column>
+	<column name="nu_date_time" not-null="true">
+		<type name="timestamp" spatial-type="POINT" variation="0"/>
+		<comment>date and time</comment>
+	</column>
+	<constraint name="pk_log" type="pk-constr" factor="10" table="fulo.log">
+		<columns names="sq_log" ref-type="src-columns"/>
+		<comment>primary key of table</comment>
+	</constraint>
+</table>
+
+<table name="operation" oids="false">
+	<schema name="domain"/>
+	<comment>table of operation</comment>
+	<position x="808" y="458"/>
+	<column name="sq_operation" not-null="true">
+		<type name="serial" spatial-type="POINT" variation="0"/>
+		<comment>identifier of operation</comment>
+	</column>
+	<column name="ds_operation" not-null="true">
+		<type name="varchar" length="50" spatial-type="POINT" variation="0"/>
+		<comment>description of operation</comment>
+	</column>
+	<constraint name="pk_operation" type="pk-constr" factor="10" table="domain.operation">
+		<columns names="sq_operation" ref-type="src-columns"/>
+		<comment>primary key of table</comment>
+	</constraint>
+</table>
+
+<constraint name="fk_log_user" type="fk-constr"	 comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="fulo.user" table="fulo.log">
+	<columns names="sq_user" ref-type="src-columns"/>
+	<columns names="sq_user" ref-type="dst-columns"/>
+		<comment>foreign key of user</comment>
+</constraint>
+<relationship name="rel_log_user"
+	 type="relfk"
+	 src-required="false" dst-required="false"
+	 src-table="fulo.log"
+	 dst-table="fulo.user"/>
+
+<constraint name="fk_log_operation" type="fk-constr"	 comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="domain.operation" table="fulo.log">
+	<columns names="sq_operation" ref-type="src-columns"/>
+	<columns names="sq_operation" ref-type="dst-columns"/>
+		<comment>identifier of operation</comment>
+</constraint>
+<relationship name="rel_log_operation"
+	 type="relfk"
+	 src-required="false" dst-required="false"
+	 src-table="fulo.log"
+	 dst-table="domain.operation"/>
+
+<table name="address" oids="false">
+	<schema name="fulo"/>
+	<comment>table of address</comment>
+	<position x="9" y="157"/>
+	<column name="sq_address" not-null="true">
+		<type name="serial" spatial-type="POINT" variation="0"/>
+		<comment>identifier of address</comment>
+	</column>
+	<column name="sq_person" not-null="true">
+		<type name="integer" spatial-type="POINT" variation="0"/>
+		<comment>identifier of person</comment>
+	</column>
+	<column name="nu_cep" not-null="true">
+		<type name="numeric" length="8" spatial-type="POINT" variation="0"/>
+		<comment>number of cep</comment>
+	</column>
+	<column name="ac_state" not-null="true">
+		<type name="varchar" length="2" spatial-type="POINT" variation="0"/>
+		<comment>acronym of state</comment>
+	</column>
+	<column name="ds_address" not-null="true">
+		<type name="varchar" length="100" spatial-type="POINT" variation="0"/>
+		<comment>description of address</comment>
+	</column>
+	<column name="ds_complement" not-null="true">
+		<type name="varchar" length="100" spatial-type="POINT" variation="0"/>
+		<comment>complement of address</comment>
+	</column>
+	<column name="ds_neighborhood" not-null="true">
+		<type name="varchar" length="100" spatial-type="POINT" variation="0"/>
+		<comment>description of neighborhood</comment>
+	</column>
+	<constraint name="pk_address" type="pk-constr" factor="10" table="fulo.address">
+		<columns names="sq_address" ref-type="src-columns"/>
+		<comment>primary key of table</comment>
+	</constraint>
+</table>
+
+<table name="phone" oids="false">
+	<schema name="fulo"/>
+	<comment>table of phone</comment>
+	<position x="10" y="21"/>
+	<column name="sq_phone" not-null="true">
+		<type name="serial" spatial-type="POINT" variation="0"/>
+		<comment>identifier of phone</comment>
+	</column>
+	<column name="sq_person" not-null="true">
+		<type name="integer" spatial-type="POINT" variation="0"/>
+		<comment>identifier of user</comment>
+	</column>
+	<column name="nu_phone">
+		<type name="numeric" length="11" spatial-type="POINT" variation="0"/>
+		<comment>number of phone</comment>
+	</column>
+	<constraint name="pk_phone" type="pk-constr" factor="10" table="fulo.phone">
+		<columns names="sq_phone" ref-type="src-columns"/>
+		<comment>primary key of table</comment>
+	</constraint>
+</table>
+
+<constraint name="fk_phone_person" type="fk-constr"	 comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="fulo.person" table="fulo.phone">
+	<columns names="sq_person" ref-type="src-columns"/>
+	<columns names="sq_person" ref-type="dst-columns"/>
+		<comment>foreign key of person</comment>
+</constraint>
+<relationship name="rel_phone_person"
+	 type="relfk"
+	 src-required="false" dst-required="false"
+	 src-table="fulo.phone"
+	 dst-table="fulo.person"/>
+
+<constraint name="fk_address_person" type="fk-constr"	 comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="fulo.person" table="fulo.address">
+	<columns names="sq_person" ref-type="src-columns"/>
+	<columns names="sq_person" ref-type="dst-columns"/>
+		<comment>foreign key of person</comment>
+</constraint>
+<relationship name="rel_address_person"
+	 type="relfk"
+	 src-required="false" dst-required="false"
+	 src-table="fulo.address"
+	 dst-table="fulo.person"/>
+
+<table name="newsletter" oids="false">
+	<schema name="fulo"/>
+	<comment>table of newsletter</comment>
+	<position x="10" y="301"/>
+	<column name="sq_newsletter" not-null="true">
+		<type name="serial" spatial-type="POINT" variation="0"/>
+		<comment>identifier of newsletter</comment>
+	</column>
+	<column name="ds_email" not-null="true">
+		<type name="varchar" length="50" spatial-type="POINT" variation="0"/>
+		<comment>email of send newsletter</comment>
+	</column>
+	<constraint name="pk_newsletter" type="pk-constr" factor="10" table="fulo.newsletter">
+		<columns names="sq_newsletter" ref-type="src-columns"/>
+		<comment>primary key of table</comment>
+	</constraint>
+</table>
+
+</dbmodel>

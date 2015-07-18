@@ -44,7 +44,7 @@ class DomainModel extends MasterModel
 
             $this->_conn->beginTransaction();
 
-            $stmt = $this->_conn->prepare("SELECT * FROM dominio.perfil");
+            $stmt = $this->_conn->prepare("SELECT * FROM domain.profile");
 
             $stmt->execute();
 

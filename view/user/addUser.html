@@ -1,14 +1,14 @@
 <legend>Cadastro de usuário</legend>
 
 <!--Apresentação-->
-<h1><span class="text-primary hidden-xs" ng-bind="row.ds_nome"></span></h1>
-<h2><span class="text-primary hidden-sm hidden-md hidden-lg" ng-bind="row.ds_nome"></span></h2>
+<h1><span class="text-primary hidden-xs" ng-bind="row.ds_name"></span></h1>
+<h2><span class="text-primary hidden-sm hidden-md hidden-lg" ng-bind="row.ds_name"></span></h2>
 
 <form name="form" class="form-horizontal">
 
-    <!--sq_pessoa hidden-->
-    <input name="sq_pessoa" type="hidden" ng-model="row.sq_pessoa" />
-    <!--sq_pessoa hidden-->
+    <!--sq_person hidden-->
+    <input name="sq_person" type="hidden" ng-model="row.sq_person" />
+    <!--sq_person hidden-->
 
     <!--campo nome-->
     <div class="form-group">
@@ -17,19 +17,19 @@
         <div class="col-xs-12 col-sm-6 col-md-6">
             <input class="form-control"
                    placeholder="Nome e sobrenome"
-                   name="ds_nome"
+                   name="ds_name"
                    type="text"
                    ng-maxlength="50"
                    maxlength="50"
-                   ng-model="row.ds_nome"
+                   ng-model="row.ds_name"
                    required/>
         </div>
 
         <div class="help-block-input col-xs-12 col-sm-4 col-md-4">
-            <span class="text-danger" ng-show="form.ds_nome.$dirty && form.ds_nome.$invalid">
+            <span class="text-danger" ng-show="form.ds_name.$dirty && form.ds_name.$invalid">
                 <i class="glyphicon glyphicon-remove-sign"></i>
-                <span ng-show="form.ds_nome.$error.required">Campo obrigatório</span>
-                <span ng-show="form.ds_nome.$error.maxlength">Máximo de cinquenta caracteres</span>
+                <span ng-show="form.ds_name.$error.required">Campo obrigatório</span>
+                <span ng-show="form.ds_name.$error.maxlength">Máximo de cinquenta caracteres</span>
             </span>
 
         </div>
@@ -87,22 +87,22 @@
 
             <input class="form-control"
                    placeholder="Senha"
-                   name="ds_senha"
+                   name="ds_password"
                    type="password"
                    maxlength="20"
                    ng-maxlength="20"
                    ng-minlength="4"
-                   ng-model="row.ds_senha"
+                   ng-model="row.ds_password"
                    required/>
         </div>
 
         <div class="help-block-input col-xs-12 col-sm-4 col-md-4">
 
-            <span class="text-danger" ng-show="form.ds_senha.$dirty && form.ds_senha.$invalid">
+            <span class="text-danger" ng-show="form.ds_password.$dirty && form.ds_password.$invalid">
                 <i class="glyphicon glyphicon-remove-sign"></i>
-                <span ng-show="form.ds_senha.$error.required">Campo obrigatório</span>
-                <span ng-show="form.ds_senha.$error.minlength">Mínimo de quatro caracteres</span>
-                <span ng-show="form.ds_senha.$error.maxlength">Máximo de vinte caracteres</span>
+                <span ng-show="form.ds_password.$error.required">Campo obrigatório</span>
+                <span ng-show="form.ds_password.$error.minlength">Mínimo de quatro caracteres</span>
+                <span ng-show="form.ds_password.$error.maxlength">Máximo de vinte caracteres</span>
             </span>
 
         </div>
@@ -118,10 +118,10 @@
 
             <input class="form-control"
                    placeholder="Repita a senha"
-                   name="re_senha"
+                   name="re_password"
                    type="password"
                    maxlength="20"
-                   ng-model="row.re_senha"
+                   ng-model="row.re_password"
                    ng-maxlength="20"
                    ng-minlength="4"
                    required/>
@@ -129,11 +129,11 @@
 
         <div class="help-block-input col-xs-12 col-sm-4 col-md-4">
 
-            <span class="text-danger" ng-show="form.re_senha.$dirty && form.re_senha.$invalid">
+            <span class="text-danger" ng-show="form.re_password.$dirty && form.re_password.$invalid">
                 <i class="glyphicon glyphicon-remove-sign"></i>
-                <span ng-show="form.re_senha.$error.required">Campo obrigatório</span>
-                <span ng-show="form.re_senha.$error.minlength">Mínimo de quatro caracteres</span>
-                <span ng-show="form.re_senha.$error.maxlength">Máximo de vinte caracteres</span>
+                <span ng-show="form.re_password.$error.required">Campo obrigatório</span>
+                <span ng-show="form.re_password.$error.minlength">Mínimo de quatro caracteres</span>
+                <span ng-show="form.re_password.$error.maxlength">Máximo de vinte caracteres</span>
             </span>
 
         </div>

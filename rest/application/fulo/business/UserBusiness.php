@@ -29,7 +29,8 @@ use fulo\model\UserModel as UserModel;
  * @date Apr 8, 2015
  * @version 1.0
  */
-class UserBusiness extends MasterBusiness {
+class UserBusiness extends MasterBusiness
+{
 
     /**
      * variable for instance of user model
@@ -46,7 +47,8 @@ class UserBusiness extends MasterBusiness {
      * @date May 3, 2015
      * @version 1.0
      */
-    public function __construct () {
+    public function __construct ()
+    {
         $this->_userModel = new UserModel();
     }
 
@@ -60,7 +62,8 @@ class UserBusiness extends MasterBusiness {
      * @date Apr 8, 2015
      * @version 1.0
      */
-    public function addUser (& $data) {
+    public function addUser (& $data)
+    {
 
         try {
 
@@ -80,7 +83,7 @@ class UserBusiness extends MasterBusiness {
             $this->removeSpecialChar($data);
 
             #cript password.
-            $data->ds_senha = crypt($data->ds_senha);
+            $data->ds_password = crypt($data->ds_password);
 
             # send to the model of user for add and return for controller.
             return $this->_userModel->addUser($data);
@@ -100,7 +103,8 @@ class UserBusiness extends MasterBusiness {
      * @date Apr 8, 2015
      * @version 1.0
      */
-    public function upUser (& $data) {
+    public function upUser (& $data)
+    {
 
         try {
 
@@ -114,7 +118,7 @@ class UserBusiness extends MasterBusiness {
             if ($this->verifyEmailExists($data->ds_email)) {
 
                 # get current email in the base.
-                $currentEmail = $this->_userModel->getUserByIdenty($data->sq_pessoa);
+                $currentEmail = $this->_userModel->getUserByIdenty($data->sq_person);
 
                 # if don't change email, do the update.
                 if ($data->ds_email != $currentEmail->ds_email) {
@@ -144,14 +148,15 @@ class UserBusiness extends MasterBusiness {
      * @date Apr 8, 2015
      * @version 1.0
      */
-    public function getUsers ($data) {
+    public function getUsers ($data)
+    {
 
         try {
 
             # validate origin.
             $this->validateOrigin($data);
 
-            return $this->_userModel->getUsers($data->origin_sq_pessoa);
+            return $this->_userModel->getUsers($data->origin_sq_person);
         } catch (Exception $ex) {
 
             throw $ex;
@@ -163,18 +168,19 @@ class UserBusiness extends MasterBusiness {
      * @name getUser
      * @author Victor Eduardo Barreto
      * @package fulo\business
-     * @param int $sq_pessoa Identifier of user
+     * @param int $sq_person Identifier of user
      * @return array Data of user selected
      * @date Apr 8, 2015
      * @version 1.0
      */
-    public function getUser (& $data) {
+    public function getUser (& $data)
+    {
         try {
 
             # validate origin.
             $this->validateOrigin($data);
 
-            return $this->_userModel->getUserByIdenty($data->sq_usuario);
+            return $this->_userModel->getUserByIdenty($data->sq_user);
         } catch (Exception $ex) {
 
             throw $ex;
@@ -191,13 +197,14 @@ class UserBusiness extends MasterBusiness {
      * @date Apr 8, 2015
      * @version 1.0
      */
-    public function delUser (& $data) {
+    public function delUser (& $data)
+    {
         try {
 
             # validate origin.
             $this->validateOrigin($data);
 
-            return $this->_userModel->delUser($data->sq_pessoa);
+            return $this->_userModel->delUser($data->sq_person);
         } catch (Exception $ex) {
 
             throw $ex;
@@ -214,7 +221,8 @@ class UserBusiness extends MasterBusiness {
      * @date Apr 12, 2015
      * @version 1.0
      */
-    public function verifyEmailExists ($ds_email) {
+    public function verifyEmailExists ($ds_email)
+    {
 
         try {
 
@@ -245,7 +253,8 @@ class UserBusiness extends MasterBusiness {
      * @date May 19, 2015
      * @version 1.0
      */
-    public function upDataAccesss (& $data) {
+    public function upDataAccesss (& $data)
+    {
 
         try {
 
@@ -256,7 +265,7 @@ class UserBusiness extends MasterBusiness {
             $this->removeSpecialChar($data);
 
             #cript password.
-            $data->ds_senha = crypt($data->ds_senha);
+            $data->ds_password = crypt($data->ds_password);
 
             # send to the model of user for update and return for controller.
             return $this->_userModel->updateDataAccess($data);
@@ -276,7 +285,8 @@ class UserBusiness extends MasterBusiness {
      * @date Jun 10, 2015
      * @version 1.0
      */
-    public function addCustomer (& $data) {
+    public function addCustomer (& $data)
+    {
 
         try {
 
@@ -293,10 +303,10 @@ class UserBusiness extends MasterBusiness {
             $this->removeSpecialChar($data);
 
             #cript password.
-            $data->ds_senha = crypt($data->ds_senha);
+            $data->ds_password = crypt($data->ds_password);
 
-            # set user perfil sq_perfil as customer.
-            $data->sq_perfil = PROFILE_CUSTOMER;
+            # set user perfil sq_profile as customer.
+            $data->sq_profile = PROFILE_CUSTOMER;
 
             # send to the model of user for add and return for controller.
             return $this->_userModel->addUser($data);
@@ -316,7 +326,8 @@ class UserBusiness extends MasterBusiness {
      * @date Jul 14, 2015
      * @version 1.0
      */
-    public function upCustomer (& $data) {
+    public function upCustomer (& $data)
+    {
 
         try {
 
@@ -330,7 +341,7 @@ class UserBusiness extends MasterBusiness {
             if ($this->verifyEmailExists($data->ds_email)) {
 
                 # get current email in the base.
-                $currentEmail = $this->_userModel->getUserByIdenty($data->sq_pessoa);
+                $currentEmail = $this->_userModel->getUserByIdenty($data->sq_person);
 
                 # if don't change email, do the update.
                 if ($data->ds_email != $currentEmail->ds_email) {

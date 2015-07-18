@@ -85,7 +85,7 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
             $scope.showLoader();
 
             // adjust parameters and add origin data.
-            $param = $scope.configParam({sq_usuario: $routeParams.id});
+            $param = $scope.configParam({sq_user: $routeParams.id});
 
             $http.get($scope.server("/getUser"), {params: $param}).success(function ($return) {
 
@@ -98,7 +98,7 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
         } else {
 
             $scope.row = {};
-            $scope.row.sq_pessoa = null;
+            $scope.row.sq_person = null;
             $scope.hideLoader();
         }
 
@@ -119,7 +119,7 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
         $param = $scope.configParam($scope.row);
 
         // validate passwords
-        if ($scope.row.ds_re_senha === null || $scope.row.ds_senha === $scope.row.re_senha) {
+        if ($scope.row.ds_re_password === null || $scope.row.ds_password === $scope.row.re_senha) {
 
             $http.post($scope.server("/addUser"), $param).success(function ($return) {
 
@@ -189,14 +189,14 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
      * Method for delete user
      * @name delUser
      * @author Victor Eduardo Barreto
-     * @param {int} $sq_pessoa Identifier of person
+     * @param {int} $sq_person Identifier of person
      * @date Apr 12, 2015
      * @version 1.0
      */
-    $scope.delUser = function ($sq_pessoa) {
+    $scope.delUser = function ($sq_person) {
 
         // adjust parameters and add origin data.
-        $param = $scope.configParam({sq_pessoa: $sq_pessoa});
+        $param = $scope.configParam({sq_person: $sq_person});
 
         $http.delete($scope.server("/delUser"), {params: $param}).success(function ($return) {
 
@@ -206,7 +206,7 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
             if ($return) {
 
                 // if result is true, remove the row in the screen.
-                $('#' + $sq_pessoa).fadeOut('slow');
+                $('#' + $sq_person).fadeOut('slow');
                 $scope.showFlashmessage("alert-success", $scope.constant.MSG0001);
             }
         });
@@ -238,7 +238,7 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
         $scope.showLoader();
 
         // validate passwords
-        if ($scope.row.ds_re_senha === null || $scope.row.ds_senha === $scope.row.re_senha) {
+        if ($scope.row.ds_re_password === null || $scope.row.ds_password === $scope.row.re_senha) {
 
             // adjust parameters and add origin data.
             $param = $scope.configParam($scope.row);

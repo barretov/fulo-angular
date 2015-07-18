@@ -76,17 +76,17 @@ class LoginBusiness extends MasterBusiness
             $dataUser = $this->_userModel->getDataByEmail($data->ds_email);
 
             # compare user and pass to login in the system.
-            if (!empty($dataUser) && $dataUser->ds_email === $data->ds_email && crypt($data->ds_senha, $dataUser->ds_senha) === $dataUser->ds_senha) {
+            if (!empty($dataUser) && $dataUser->ds_email === $data->ds_email && crypt($data->ds_password, $dataUser->ds_password) === $dataUser->ds_password) {
 
                 # make secret.
                 $origin = [
-                    'origin_sq_pessoa' => $dataUser->sq_pessoa,
-                    'origin_sq_perfil' => $dataUser->sq_perfil,
+                    'origin_sq_person' => $dataUser->sq_person,
+                    'origin_sq_profile' => $dataUser->sq_profile,
                 ];
 
                 $dataUser->origin = $this->encrypt(json_encode($origin));
 
-                unset($dataUser->ds_senha);
+                unset($dataUser->ds_password);
 
                 return $dataUser;
             }
