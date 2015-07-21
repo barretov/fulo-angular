@@ -180,7 +180,7 @@ class UserBusiness extends MasterBusiness
             # validate origin.
             $this->validateOrigin($data);
 
-            return $this->_userModel->getUserByIdenty($data->sq_user);
+            return $this->_userModel->getUserByIdenty($data->sq_person);
         } catch (Exception $ex) {
 
             throw $ex;

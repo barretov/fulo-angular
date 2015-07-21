@@ -1,6 +1,6 @@
 <legend>Cadastro de usuário</legend>
 
-<!--Apresentação-->
+<!--presentation-->
 <h1><span class="text-primary hidden-xs" ng-bind="row.ds_name"></span></h1>
 <h2><span class="text-primary hidden-sm hidden-md hidden-lg" ng-bind="row.ds_name"></span></h2>
 
@@ -10,7 +10,7 @@
     <input name="sq_person" type="hidden" ng-model="row.sq_person" />
     <!--sq_person hidden-->
 
-    <!--campo nome-->
+    <!--field name-->
     <div class="form-group">
         <label class="col-sm-2 control-label">Nome</label>
 
@@ -34,9 +34,9 @@
 
         </div>
     </div>
-    <!--campo nome-->
+    <!--field name-->
 
-    <!--campo email-->
+    <!--field email-->
     <div class="form-group">
         <label class="col-sm-2 control-label">E-mail</label>
 
@@ -63,23 +63,23 @@
 
         </div>
     </div>
-    <!--campo email-->
+    <!--field email-->
 
-    <!--campo perfil-->
+    <!--field profile-->
     <div class="form-group" ng-init="getProfiles()">
 
         <label class="col-xs-2 col-sm-2 col-md-2 col-lg-2 control-label">Perfil</label>
 
         <div class="radio radio-inline radio-center" ng-repeat="prof in profiles">
             <label>
-                <input type="radio" name="sq_perfil" value="{{prof.sq_perfil}}" ng-model="row.sq_perfil" required/> {{prof.ds_perfil}}
+                <input type="radio" name="sq_profile" value="{{prof.sq_profile}}" ng-model="row.sq_profile" required/> {{prof.ds_profile}}
             </label>
         </div>
 
     </div>
-    <!--campo perfil-->
+    <!--field profile-->
 
-    <!--campo senha-->
+    <!--field password-->
     <div class="form-group">
         <label class="col-sm-2 control-label">Senha</label>
 
@@ -107,9 +107,9 @@
 
         </div>
     </div>
-    <!--campo senha-->
+    <!--field password-->
 
-    <!--campo confirma senha-->
+    <!--field re password-->
     <div class="form-group">
         <label class="col-sm-2 control-label">Repita a senha</label>
 
@@ -138,9 +138,9 @@
 
         </div>
     </div>
-    <!--campo confirma senha-->
+    <!--field re password-->
 
-    <!--botões-->
+    <!--buttons-->
     <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
 

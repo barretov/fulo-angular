@@ -56,28 +56,24 @@ class MasterModel
      * Method for save log for operations
      * @name saveLog
      * @author Victor Eduardo Barreto
-     * @param int $sq_user Identifier of user
+     * @param int $sq_person Identifier of user
      * @param int $sq_operation Identifier of operation
      * @return bool Result of procedure
      * @date Jun 19, 2015
      * @version 1.0
      */
-    public function saveLog ($sq_user, $sq_operation)
+    public function saveLog ($sq_person, $sq_operation)
     {
 
         try {
 
-            $this->_conn->beginTransaction();
-
-            $stmt = $this->_conn->prepare("INSERT INTO fulo.log (sq_operation, sq_user, nu_date_time) VALUES (?,?,?)");
+            $stmt = $this->_conn->prepare("INSERT INTO fulo.log (sq_operation, sq_person, nu_date_time) VALUES (?,?,?)");
 
             $stmt->execute(array(
                 $sq_operation,
-                $sq_user,
+                $sq_person,
                 date_default_timezone_get(),
             ));
-
-            return $this->_conn->commit();
         } catch (Exception $ex) {
 
             $this->_conn->rollback();

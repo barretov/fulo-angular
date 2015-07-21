@@ -125,8 +125,8 @@ class UserModel extends MasterModel
 
             $stmt = $this->_conn->prepare(
                     "SELECT sq_person, ds_name, ds_email, sq_profile FROM fulo.person "
-                    . "JOIN fulo.user on person.sq_person = user.sq_user "
-                    . "and person.sq_person <> ? ORDER BY person.ds_name ASC"
+                    . "JOIN fulo.user on sq_person = sq_user "
+                    . "and sq_person <> ? ORDER BY person.ds_name ASC"
             );
 
             $stmt->execute([
@@ -154,7 +154,7 @@ class UserModel extends MasterModel
         try {
 
             $stmt = $this->_conn->prepare("SELECT sq_person, ds_name, ds_email, sq_profile "
-                    . "FROM fulo.person JOIN fulo.user on person.sq_person = user.sq_user "
+                    . "FROM fulo.person JOIN fulo.user on sq_person = sq_user "
                     . "WHERE sq_person = ?");
 
             $stmt->execute([
@@ -213,7 +213,7 @@ class UserModel extends MasterModel
 
         try {
 
-            $stmt = $this->_conn->prepare("SELECT * FROM fulo.person JOIN fulo.user on person.sq_person = user.sq_user WHERE ds_email = ?");
+            $stmt = $this->_conn->prepare("SELECT * FROM fulo.person JOIN fulo.user on sq_person = sq_user WHERE ds_email = ?");
 
             $stmt->execute([
                 $ds_email

@@ -2,7 +2,7 @@
 
     <legend>Usuários</legend>
 
-    <!--listagem-->
+    <!--list-->
     <table id="tableData" class="table table-hover table-striped table-responsive">
 
         <thead>
@@ -29,10 +29,10 @@
                 <!--email-->
                 <td>{{row.ds_email}}</td>
 
-                <!--perfil-->
+                <!--profile-->
                 <td>
-                    <span title="Administrador" class="label label-primary" ng-show="row.sq_perfil === 1">AD</span>
-                    <span title="Cliente" class="label label-default" ng-show="row.sq_perfil === 2">CL</span>
+                    <span title="Administrador" class="label label-primary" ng-show="row.sq_profile === 1">AD</span>
+                    <span title="Cliente" class="label label-default" ng-show="row.sq_profile === 2">CL</span>
                 </td>
 
                 <!--button del-->
@@ -47,13 +47,13 @@
         </tbody>
 
     </table>
-    <!--listagem-->
+    <!--list-->
 
-    <!--botao novo-->
+    <!--button new-->
     <a class="btn btn-primary btn-sm" href="#/user/addUser">Novo <i class="glyphicon glyphicon-plus"></i></a>
-    <!--botao novo-->
+    <!--button new-->
 
-    <!--paginação-->
+    <!--pagination-->
     <button class="btn btn-default btn-sm" ng-click="currentPage = currentPage - 1" ng-disabled="currentPage == 0" >
         <i class="text-info glyphicon glyphicon-arrow-left"></i>
     </button>
@@ -61,17 +61,17 @@
     <button class="btn btn-default btn-sm" ng-click="currentPage = currentPage + 1" ng-disabled="currentPage >= rows.length / pageSize - 1">
         <i class="text-info glyphicon glyphicon-arrow-right"></i>
     </button>
-    <!--paginação-->
+    <!--pagination-->
 
 </div>
 
-<!-- Modal exclusão -->
+<!-- Modal dell -->
 <div class="modal fade" id="modalExcluir" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 
     <div class="modal-dialog">
         <div class="modal-content">
 
-            <!--cabeçalho-->
+            <!--head-->
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -79,7 +79,7 @@
 
                 <h4 class="modal-title" id="myModalLabel">Exclusão</h4>
             </div>
-            <!--cabeçalho-->
+            <!--head-->
 
             <!--body-->
             <div class="modal-body">
@@ -89,7 +89,7 @@
             </div>
             <!--body-->
 
-            <!--rodape-->
+            <!--footer-->
             <div class="modal-footer">
                 <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">
                     Não <i class="glyphicon glyphicon-remove"></i>
@@ -99,10 +99,10 @@
                     Sim <i class="glyphicon glyphicon-ok"></i>
                 </button>
             </div>
-            <!--rodape-->
+            <!--footer-->
 
         </div>
     </div>
 
 </div>
-<!-- Modal exclusão -->
+<!-- Modal dell -->

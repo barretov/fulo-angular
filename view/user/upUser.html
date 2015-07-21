@@ -2,7 +2,7 @@
 
 <div ng-init="getUser()">
 
-    <!--Apresentação-->
+    <!--presentation-->
     <h1><span class="text-primary hidden-xs" ng-bind="row.ds_name"></span></h1>
     <h2><span class="text-primary hidden-sm hidden-md hidden-lg" ng-bind="row.ds_name"></span></h2>
 
@@ -12,13 +12,13 @@
         <input name="sq_person" type="hidden" ng-model="row.sq_person" />
         <!--sq_person hidden-->
 
-        <!--campo nome-->
+        <!--field name-->
         <div class="form-group">
-            <label class="col-sm-2 control-label">Nome</label>
+            <label class="col-sm-2 control-label">name</label>
 
             <div class="col-xs-12 col-sm-6 col-md-6">
                 <input class="form-control"
-                       placeholder="Nome e sobrenome"
+                       placeholder="name e sobrename"
                        name="ds_name"
                        type="text"
                        ng-maxlength="50"
@@ -30,15 +30,15 @@
             <div class="help-block-input col-xs-12 col-sm-4 col-md-4">
                 <span class="text-danger" ng-show="formPessoal.ds_name.$dirty && formPessoal.ds_name.$invalid">
                     <i class="glyphicon glyphicon-remove-sign"></i>
-                    <span ng-show="formPessoal.ds_name.$error.required">Campo obrigatório</span>
+                    <span ng-show="formPessoal.ds_name.$error.required">field obrigatório</span>
                     <span ng-show="formPessoal.ds_name.$error.maxlength">Máximo de cinquenta caracteres</span>
                 </span>
 
             </div>
         </div>
-        <!--campo nome-->
+        <!--field name-->
 
-        <!--campo email-->
+        <!--field email-->
         <div class="form-group">
             <label class="col-sm-2 control-label">E-mail</label>
 
@@ -57,30 +57,30 @@
 
                 <span class="text-danger" ng-show="formPessoal.ds_email.$dirty && formPessoal.ds_email.$invalid">
                     <i class="glyphicon glyphicon-remove-sign"></i>
-                    <span ng-show="formPessoal.ds_email.$error.required">Campo obrigatório</span>
+                    <span ng-show="formPessoal.ds_email.$error.required">field obrigatório</span>
                     <span ng-show="formPessoal.ds_email.$error.email">Email inválido</span>
                     <span ng-show="formPessoal.ds_email.$error.maxlength">Máximo de cinquenta caracteres</span>
                 </span>
 
             </div>
         </div>
-        <!--campo email-->
+        <!--field email-->
 
-        <!--campo perfil-->
+        <!--field profile-->
         <div class="form-group" ng-init="teste = getProfiles()">
 
             <label class="col-xs-2 col-sm-2 col-md-2 col-lg-2 control-label">Perfil</label>
 
             <div class="radio radio-inline radio-center" ng-repeat="prof in profiles">
                 <label>
-                    <input type="radio" name="sq_perfil" value="{{prof.sq_perfil}}" ng-model="row.sq_perfil" required/> {{prof.ds_perfil}}
+                    <input type="radio" name="sq_profile" value="{{prof.sq_profile}}" ng-model="row.sq_profile" required/> {{prof.ds_profile}}
                 </label>
             </div>
 
         </div>
-        <!--campo perfil-->
+        <!--field profile-->
 
-        <!--botões-->
+        <!--buttons-->
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
 

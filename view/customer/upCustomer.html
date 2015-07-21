@@ -1,6 +1,6 @@
 <legend>Alterar dados</legend>
 
-<!--scrip for controll the tabs-->
+<!--scrip for control the tabs-->
 <script>
 
     $(document).ready(function () {
@@ -43,20 +43,20 @@
         <!-- Tab panes -->
         <div class="tab-content">
 
-            <!--conteúdo da aba dados de pessoais-->
+            <!--content of the tab user data-->
             <div role="tabpanel" class="tab-pane active" id="pessoal">
 
-                <!--Apresentação-->
+                <!--presentation-->
                 <h1><span class="text-primary hidden-xs" ng-bind="user.ds_name"></span></h1>
                 <h2><span class="text-primary hidden-sm hidden-md hidden-lg" ng-bind="user.ds_name"></span></h2>
 
                 <form name="formPessoal" class="form-horizontal" ng-show="user != null">
 
-                    <!--sq_pessoa hidden-->
-                    <input name="sq_pessoa" type="hidden" ng-model="user.sq_pessoa" />
-                    <!--sq_pessoa hidden-->
+                    <!--sq_person hidden-->
+                    <input name="sq_person" type="hidden" ng-model="user.sq_person" />
+                    <!--sq_person hidden-->
 
-                    <!--campo nome-->
+                    <!--field name-->
                     <div class="form-group">
                         <label class="col-sm-2 control-label">Nome</label>
 
@@ -80,9 +80,9 @@
 
                         </div>
                     </div>
-                    <!--campo nome-->
+                    <!--field name-->
 
-                    <!--campo email-->
+                    <!--field email-->
                     <div class="form-group">
                         <label class="col-sm-2 control-label">E-mail</label>
 
@@ -109,9 +109,9 @@
 
                         </div>
                     </div>
-                    <!--campo email-->
+                    <!--field email-->
 
-                    <!--botões-->
+                    <!--buttons-->
                     <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-10">
 
@@ -130,20 +130,20 @@
 
             </div>
 
-            <!--conteúdo da aba dados de acesso-->
+            <!--content of the tab access data user-->
             <div role="tabpanel" class="tab-pane" id="acesso">
 
-                <!--Apresentação-->
+                <!--presentation-->
                 <h1><span class="text-primary hidden-xs" ng-bind="user.ds_name"></span></h1>
                 <h2><span class="text-primary hidden-sm hidden-md hidden-lg" ng-bind="user.ds_name"></span></h2>
 
                 <form name="formAcesso" class="form-horizontal" ng-show="user != null">
 
-                    <!--sq_pessoa hidden-->
-                    <input name="sq_pessoa" type="hidden" ng-model="user.sq_pessoa"/>
-                    <!--sq_pessoa hidden-->
+                    <!--sq_person hidden-->
+                    <input name="sq_person" type="hidden" ng-model="user.sq_person"/>
+                    <!--sq_person hidden-->
 
-                    <!--campo senha-->
+                    <!--field password-->
                     <div class="form-group">
                         <label class="col-sm-2 control-label">Senha</label>
 
@@ -172,9 +172,9 @@
 
                         </div>
                     </div>
-                    <!--campo senha-->
+                    <!--field password-->
 
-                    <!--campo confirma senha-->
+                    <!--field re password-->
                     <div class="form-group">
                         <label class="col-sm-2 control-label">Repita a senha</label>
 
@@ -203,9 +203,9 @@
 
                         </div>
                     </div>
-                    <!--campo confirma senha-->
+                    <!--field re password-->
 
-                    <!--botões-->
+                    <!--buttons-->
                     <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-10">
 

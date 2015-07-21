@@ -85,7 +85,7 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
             $scope.showLoader();
 
             // adjust parameters and add origin data.
-            $param = $scope.configParam({sq_user: $routeParams.id});
+            $param = $scope.configParam({sq_person: $routeParams.id});
 
             $http.get($scope.server("/getUser"), {params: $param}).success(function ($return) {
 
@@ -119,7 +119,7 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
         $param = $scope.configParam($scope.row);
 
         // validate passwords
-        if ($scope.row.ds_re_password === null || $scope.row.ds_password === $scope.row.re_senha) {
+        if ($scope.row.ds_re_password === null || $scope.row.ds_password === $scope.row.re_password) {
 
             $http.post($scope.server("/addUser"), $param).success(function ($return) {
 
@@ -223,7 +223,7 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
     $scope.fireModal = function ($row) {
 
         // set the variable pessoa in the scope.
-        $scope.pessoa = $row;
+        $scope.person = $row;
     };
 
     /**
