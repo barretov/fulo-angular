@@ -12,9 +12,9 @@
 
                 <th>E-mail</th>
 
-                <th>Perfil</th>
+                <th>ADM</th>
 
-                <th>Ações</th>
+                <th>Ativo</th>
             </tr>
 
         </thead>
@@ -37,6 +37,12 @@
 
                 <!--button del-->
                 <td>
+
+                    <div class="onoffswitch">
+                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch">
+                        <label class="onoffswitch-label" for="myonoffswitch"></label>
+                    </div>
+
                     <button title="Excluir" class="btn btn-danger btn-xs" ng-click="fireModal(row)" data-toggle="modal" data-target="#modalExcluir">
                         <i class="glyphicon glyphicon-remove"></i>
                     </button>

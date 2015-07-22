@@ -75,11 +75,10 @@ var Geral = {
         $("html").niceScroll({
             cursorcolor: "#424242",
             cursorwidth: "7px",
-            hwacceleration: true,
+            hwacceleration: true
         });
-
-    },
-}
+    }
+};
 
 $(document).ready(function () {
     Geral.geral();

@@ -156,12 +156,6 @@ class UserBusiness extends MasterBusiness
             # validate origin.
             $this->validateOrigin($data);
 
-            # @TODO ACL.
-            if (empty($data->origin)) {
-                echo json_encode("Access Denied!");
-                \Slim\Slim::getInstance()->stop();
-            }
-
             return $this->_userModel->getUsers($data->origin_sq_person);
         } catch (Exception $ex) {
 
