@@ -94,30 +94,6 @@ $app->post("/addUser", function () {
 });
 
 /**
- * Method for save or update user
- * @name delUser
- * @author Victor Eduardo Barreto
- * @param int $sq_pessoa Identifier of user
- * @return bool Result of procedure
- * @date Apr 3, 2015
- * @version 1.0
- */
-$app->delete("/delUser", function () {
-
-    try {
-
-        $business = MasterController::getUserBusiness();
-
-        $data = \Slim\Slim::getInstance()->request()->params();
-
-        echo json_encode($business->delUser($data));
-    } catch (Exception $ex) {
-
-        throw $ex;
-    }
-});
-
-/**
  * Method for update data of user
  * @name upUser
  * @author Victor Eduardo Barreto
@@ -207,6 +183,52 @@ $app->post("/upCustomer", function () {
         $data = json_decode(\Slim\Slim::getInstance()->request()->getBody());
 
         echo json_encode($business->upCustomer($data));
+    } catch (Exception $ex) {
+
+        throw $ex;
+    }
+});
+
+/**
+ * Method for inativate user
+ * @name inativateUser
+ * @author Victor Eduardo Barreto
+ * @return bool Result of procedure
+ * @date Jul 23, 2015
+ * @version 1.0
+ */
+$app->post("/inativateUser", function () {
+
+    try {
+
+        $business = MasterController::getUserBusiness();
+
+        $data = json_decode(\Slim\Slim::getInstance()->request()->getBody());
+
+        echo json_encode($business->inativateUser($data));
+    } catch (Exception $ex) {
+
+        throw $ex;
+    }
+});
+
+/**
+ * Method for activate user
+ * @name activateUser
+ * @author Victor Eduardo Barreto
+ * @return bool Result of procedure
+ * @date Jul 23, 2015
+ * @version 1.0
+ */
+$app->post("/activateUser", function () {
+
+    try {
+
+        $business = MasterController::getUserBusiness();
+
+        $data = json_decode(\Slim\Slim::getInstance()->request()->getBody());
+
+        echo json_encode($business->activateUser($data));
     } catch (Exception $ex) {
 
         throw $ex;

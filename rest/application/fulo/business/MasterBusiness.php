@@ -88,16 +88,16 @@ class MasterBusiness
                 $data = json_decode($data);
             }
 
-            if (!empty($data->origin)) {
+            if (!empty($data->origin) && !is_null($data->origin)) {
 
                 # decrypt data secret.
-                $secret = $this->decrypt($data->origin);
+                $origin = $this->decrypt($data->origin);
 
                 # remove origin hash.
                 unset($data->origin);
 
                 # add decrypted secret in data.
-                foreach (json_decode($secret) as $key => $value) {
+                foreach (json_decode($origin) as $key => $value) {
 
                     $data->$key = $value;
                 }

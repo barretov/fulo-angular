@@ -1,114 +1,93 @@
-<div ng-init="getUsers()">
+<div ng-init="userController">
+    <div ng-init="getUsers()">
 
-    <legend>Usuários</legend>
+        <legend>Usuários</legend>
 
-    <!--list-->
-    <table id="tableData" class="table table-hover table-striped table-responsive">
+        <!--list-->
+        <table id="tableData" class="table table-hover table-striped table-responsive">
 
-        <thead>
+            <thead>
 
-            <tr>
-                <th>Nome</th>
+                <tr>
+                    <th>Nome</th>
 
-                <th>E-mail</th>
+                    <th>E-mail</th>
 
-                <th>ADM</th>
+                    <th>Perfil</th>
 
-                <th>Ativo</th>
-            </tr>
+                    <th>Ativo</th>
+                </tr>
 
-        </thead>
+            </thead>
 
-        <tbody>
+            <tbody>
 
-            <tr ng-repeat="row in rows| startFrom: currentPage * pageSize| limitTo: pageSize" id="{{row.sq_person}}">
+                <tr ng-repeat="row in rows| startFrom: currentPage * pageSize| limitTo: pageSize" id="{{row.sq_person}}">
 
-                <!--name-->
-                <td><a href='#/user/upUser/{{row.sq_person}}'>{{row.ds_name}}</a></td>
+                    <!--name-->
+                    <td><a href='#/user/upUser/{{row.sq_person}}'>{{row.ds_name}}</a></td>
 
-                <!--email-->
-                <td>{{row.ds_email}}</td>
+                    <!--email-->
+                    <td>{{row.ds_email}}</td>
 
-                <!--profile-->
-                <td>
-                    <span title="Administrador" class="label label-primary" ng-show="row.sq_profile === 1">AD</span>
-                    <span title="Cliente" class="label label-default" ng-show="row.sq_profile === 2">CL</span>
-                </td>
+                    <!--profile-->
+                    <td>
 
-                <!--button del-->
-                <td>
+                        <span
+                            title="Administrador"
+                            class="label label-primary"
+                            ng-show="row.sq_profile == constant.PROFILE_ADMINISTRATOR">
+                            AD
+                        </span>
 
-                    <div class="onoffswitch">
-                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch">
-                        <label class="onoffswitch-label" for="myonoffswitch"></label>
-                    </div>
+                        <span
+                            title="Cliente"
+                            class="label label-default"
+                            ng-show="row.sq_profile == constant.PROFILE_CUSTOMER">
+                            CL
+                        </span>
 
-                    <button title="Excluir" class="btn btn-danger btn-xs" ng-click="fireModal(row)" data-toggle="modal" data-target="#modalExcluir">
-                        <i class="glyphicon glyphicon-remove"></i>
-                    </button>
-                </td>
+                    </td>
 
-            </tr>
+                    <!--user status-->
+                    <td>
 
-        </tbody>
+                        <div class="onoffswitch">
 
-    </table>
-    <!--list-->
+                            <input
+                                type="checkbox"
+                                class="onoffswitch-checkbox"
+                                id="status_{{row.sq_user}}"
+                                ng-checked="row.sq_status == constant.PROFILE_ADMINISTRATOR"
+                                ng-click="row.sq_status == constant.USER_ACTIVE ? inativateUser(row.sq_user) : activateUser(row.sq_user)">
 
-    <!--button new-->
-    <a class="btn btn-primary btn-sm" href="#/user/addUser">Novo <i class="glyphicon glyphicon-plus"></i></a>
-    <!--button new-->
+                            <label class="onoffswitch-label" for="status_{{row.sq_user}}"></label>
 
-    <!--pagination-->
-    <button class="btn btn-default btn-sm" ng-click="currentPage = currentPage - 1" ng-disabled="currentPage == 0" >
-        <i class="text-info glyphicon glyphicon-arrow-left"></i>
-    </button>
+                        </div>
 
-    <button class="btn btn-default btn-sm" ng-click="currentPage = currentPage + 1" ng-disabled="currentPage >= rows.length / pageSize - 1">
-        <i class="text-info glyphicon glyphicon-arrow-right"></i>
-    </button>
-    <!--pagination-->
+                    </td>
+                    <!--user status-->
 
-</div>
+                </tr>
 
-<!-- Modal dell -->
-<div class="modal fade" id="modalExcluir" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            </tbody>
 
-    <div class="modal-dialog">
-        <div class="modal-content">
+        </table>
+        <!--list-->
 
-            <!--head-->
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+        <!--button new-->
+        <a class="btn btn-primary btn-sm" href="#/user/addUser">Novo <i class="glyphicon glyphicon-plus"></i></a>
+        <!--button new-->
 
-                <h4 class="modal-title" id="myModalLabel">Exclusão</h4>
-            </div>
-            <!--head-->
+        <!--pagination-->
+        <button class="btn btn-default btn-sm" ng-click="currentPage = currentPage - 1" ng-disabled="currentPage == 0" >
+            <i class="text-info glyphicon glyphicon-arrow-left"></i>
+        </button>
 
-            <!--body-->
-            <div class="modal-body">
-                <span>Deseja excluir</span>
-                <span class="text-danger">{{person.ds_name}}</span>
-                <span>?</span>
-            </div>
-            <!--body-->
+        <button class="btn btn-default btn-sm" ng-click="currentPage = currentPage + 1" ng-disabled="currentPage >= rows.length / pageSize - 1">
+            <i class="text-info glyphicon glyphicon-arrow-right"></i>
+        </button>
+        <!--pagination-->
 
-            <!--footer-->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">
-                    Não <i class="glyphicon glyphicon-remove"></i>
-                </button>
-
-                <button ng-click="delUser(person.sq_person)" class="btn btn-danger btn-sm" data-dismiss="modal">
-                    Sim <i class="glyphicon glyphicon-ok"></i>
-                </button>
-            </div>
-            <!--footer-->
-
-        </div>
     </div>
-
 </div>
-<!-- Modal dell -->

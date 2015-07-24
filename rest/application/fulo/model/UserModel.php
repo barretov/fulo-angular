@@ -124,7 +124,7 @@ class UserModel extends MasterModel
         try {
 
             $stmt = $this->_conn->prepare(
-                    "SELECT sq_person, ds_name, ds_email, sq_profile FROM fulo.person "
+                    "SELECT sq_person, sq_user, ds_name, ds_email, sq_profile, sq_status FROM fulo.person "
                     . "JOIN fulo.user on sq_person = sq_user "
                     . "and sq_person <> ? ORDER BY person.ds_name ASC"
             );
@@ -163,36 +163,6 @@ class UserModel extends MasterModel
 
             return $stmt->fetchObject();
         } catch (Exception $ex) {
-
-            throw $ex;
-        }
-    }
-
-    /**
-     * Method for del user
-     * @name delUser
-     * @author Victor Eduardo Barreto
-     * @param int $sq_person User identifier
-     * @return bool Result of procedure
-     * @date Apr 8, 2015
-     * @version 1.0
-     */
-    public function delUser (& $sq_person)
-    {
-        try {
-
-            $this->_conn->beginTransaction();
-
-            $stmt = $this->_conn->prepare("DELETE FROM fulo.person WHERE sq_person = ?");
-
-            $stmt->execute([
-                $sq_person
-            ]);
-
-            return $this->_conn->commit();
-        } catch (Exception $ex) {
-
-            $this->_conn->rollBack();
 
             throw $ex;
         }
@@ -294,6 +264,68 @@ class UserModel extends MasterModel
         } catch (Exception $ex) {
 
             $this->_conn->rollback();
+
+            throw $ex;
+        }
+    }
+
+    /**
+     * Method for inativate user
+     * @name inativateUser
+     * @author Victor Eduardo Barreto
+     * @param int $sq_user User identifier
+     * @return bool Result of procedure
+     * @date Jul 23, 2015
+     * @version 1.0
+     */
+    public function inativateUser (& $sq_user)
+    {
+        try {
+
+            $this->_conn->beginTransaction();
+
+            $stmt = $this->_conn->prepare("UPDATE fulo.user SET sq_status = ? WHERE sq_user = ?");
+
+            $stmt->execute([
+                USER_INACTIVE,
+                $sq_user
+            ]);
+
+            return $this->_conn->commit();
+        } catch (Exception $ex) {
+
+            $this->_conn->rollBack();
+
+            throw $ex;
+        }
+    }
+
+    /**
+     * Method for activate user
+     * @name activateUser
+     * @author Victor Eduardo Barreto
+     * @param int $sq_user User identifier
+     * @return bool Result of procedure
+     * @date Jul 23, 2015
+     * @version 1.0
+     */
+    public function activateUser (& $sq_user)
+    {
+        try {
+
+            $this->_conn->beginTransaction();
+
+            $stmt = $this->_conn->prepare("UPDATE fulo.user SET sq_status = ? WHERE sq_user = ?");
+
+            $stmt->execute([
+                USER_ACTIVE,
+                $sq_user
+            ]);
+
+            return $this->_conn->commit();
+        } catch (Exception $ex) {
+
+            $this->_conn->rollBack();
 
             throw $ex;
         }

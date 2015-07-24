@@ -466,9 +466,15 @@
 
                                 <div ng-controller="loginController">
 
-                                    <button class="btn btn-danger btn-sm" ng-click="logoff()">Sim <i class="glyphicon glyphicon-ok"></i></button>
+                                    <button class="btn btn-default btn-sm" data-dismiss="modal">
+                                        Não
+                                        <i class="glyphicon glyphicon-remove"></i>
+                                    </button>
 
-                                    <button class="btn btn-default btn-sm" data-dismiss="modal">Não <i class="glyphicon glyphicon-remove"></i></button>
+                                    <button class="btn btn-danger btn-sm" ng-click="logoff()">
+                                        Sim
+                                        <i class="glyphicon glyphicon-ok"></i>
+                                    </button>
 
                                 </div>
 

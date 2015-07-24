@@ -62,8 +62,16 @@ $app.controller('loginController', function ($scope, $rootScope, $http, $locatio
                 $scope.showFlashmessage("alert-success", "Processo realizado com sucesso.");
 
                 // clear pass field.
-                $('#ds_password').val('');
                 $('#modalLogin').modal('hide');
+                $('#ds_password').val('');
+
+                // if customer account was inactivated, show modal to inform.
+                if ($rootScope.user.sq_status == $scope.constant.USER_INACTIVE) {
+                    console.log("teste");
+
+                    // @TODO.
+                    $('#modalReactiveCustomer').show();
+                }
 
             } else {
 
@@ -82,27 +90,25 @@ $app.controller('loginController', function ($scope, $rootScope, $http, $locatio
      * @date Apr 17, 2015
      * @version 1.0
      */
-    $scope.logoff = function () {
+    $rootScope.logoff = function () {
 
         // adjust parameters and add origin data.
         $param = $scope.configParam($scope.user);
 
         $http.post($scope.server("/logoff"), $param).success(function ($return) {
 
-            if ($return) {
+            // verify return data.
+            $scope.securityReponse($return);
 
-                // remove user data of the session.
-                $rootScope.user = sessionStorage.removeItem('user');
-                $rootScope.origin = sessionStorage.removeItem('origin');
+            // remove user data of the session.
+            $rootScope.user = sessionStorage.removeItem('user');
+            $rootScope.origin = sessionStorage.removeItem('origin');
+            sessionStorage.removeItem('secret');
 
-                $scope.showFlashmessage("alert-success", "Processo realizado com sucesso.");
-                $('#modalLogoff').modal('hide');
-                $location.path("/");
+            $scope.showFlashmessage("alert-success", "Processo realizado com sucesso.");
+            $('#modalLogoff').modal('hide');
+            $location.path("/");
 
-            } else {
-
-                $scope.showFlashmessage("alert-danger", "Problemas encontrados. O seu IP Mudou!");
-            }
         });
     };
 

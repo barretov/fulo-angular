@@ -125,7 +125,7 @@ body {
     position: absolute; top: 0; bottom: 0;
     right: 28px;
     border: 1px solid #F07D7D; border-radius: 20px;
-    transition: all 0.3s ease-in 0s; 
+    transition: all 0.3s ease-in 0s;
 }
 .onoffswitch-checkbox:checked + .onoffswitch-label {
     background-color: #9CE09B;

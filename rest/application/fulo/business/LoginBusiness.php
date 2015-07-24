@@ -81,9 +81,11 @@ class LoginBusiness extends MasterBusiness
                 # make secret.
                 $origin = [
                     'origin_sq_person' => $dataUser->sq_person,
+                    'origin_sq_user' => $dataUser->sq_user,
                     'origin_sq_profile' => $dataUser->sq_profile,
                 ];
 
+                # encript origin data.
                 $dataUser->origin = $this->encrypt(json_encode($origin));
 
                 unset($dataUser->ds_password);

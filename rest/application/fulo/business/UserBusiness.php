@@ -188,30 +188,6 @@ class UserBusiness extends MasterBusiness
     }
 
     /**
-     * Method for business to del user
-     * @name delUser
-     * @author Victor Eduardo Barreto
-     * @package fulo\business
-     * @param int $data User data
-     * @return bool Result of procedure
-     * @date Apr 8, 2015
-     * @version 1.0
-     */
-    public function delUser (& $data)
-    {
-        try {
-
-            # validate origin.
-            $this->validateOrigin($data);
-
-            return $this->_userModel->delUser($data->sq_person);
-        } catch (Exception $ex) {
-
-            throw $ex;
-        }
-    }
-
-    /**
      * Method for verify if email already existis
      * @name verifyEmailExists
      * @author Victor Eduardo Barreto
@@ -355,6 +331,54 @@ class UserBusiness extends MasterBusiness
 
             # send to the model of user for update and return for controller.
             return $this->_userModel->upUser($data);
+        } catch (Exception $ex) {
+
+            throw $ex;
+        }
+    }
+
+    /**
+     * Method for business to inativate user
+     * @name inativateUser
+     * @author Victor Eduardo Barreto
+     * @package fulo\business
+     * @param int $data User data
+     * @return bool Result of procedure
+     * @date Jul 23, 2015
+     * @version 1.0
+     */
+    public function inativateUser (& $data)
+    {
+        try {
+
+            # validate origin.
+            $this->validateOrigin($data);
+
+            return $this->_userModel->inativateUser($data->sq_user);
+        } catch (Exception $ex) {
+
+            throw $ex;
+        }
+    }
+
+    /**
+     * Method for business to activate user
+     * @name activateUser
+     * @author Victor Eduardo Barreto
+     * @package fulo\business
+     * @param int $data User data
+     * @return bool Result of procedure
+     * @date Jul 23, 2015
+     * @version 1.0
+     */
+    public function activateUser (& $data)
+    {
+        try {
+
+            # validate origin.
+            $this->validateOrigin($data);
+
+            return $this->_userModel->activateUser($data->sq_user);
         } catch (Exception $ex) {
 
             throw $ex;

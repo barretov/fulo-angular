@@ -1,26 +1,4 @@
-<legend>Alterar dados</legend>
-
-<!--scrip for control the tabs-->
-<script>
-
-    $(document).ready(function () {
-
-        //initialize variable.
-        var tab;
-
-        // show data user tab.
-        $('#tabPessoal a').click(function (e) {
-            e.preventDefault()
-            $(tab).tab('show')
-        })
-
-        // show data access tab.
-        $('#tabAcesso a').click(function (e) {
-            e.preventDefault()
-            $(tab).tab('show')
-        })
-    });
-</script>
+<legend>Dados pessoais</legend>
 
 <div ng-init="customerController">
 
@@ -30,12 +8,16 @@
         <!-- Nav tabs -->
         <ul class="nav nav-tabs" role="tablist">
 
-            <li id="tabPessoal" role="presentation" class="active">
-                <a  href="#pessoal" aria-controls="home" role="tab" data-toggle="tab">Pessoal</a>
+            <li id="tabPessoal" role="presentation" class="active" ng-click="$('#tabPessoal a').tab('show')">
+                <a href=".pessoal" aria-controls="home" role="tab" data-toggle="tab">Pessoal</a>
             </li>
 
-            <li id="tabAcesso" role="presentation">
-                <a  href="#acesso" aria-controls="profile" role="tab" data-toggle="tab">Acesso</a>
+            <li id="tabAcesso" role="presentation" ng-click="$('#tabAcesso a').tab('show')">
+                <a href=".acesso" aria-controls="profile" role="tab" data-toggle="tab">Acesso</a>
+            </li>
+
+            <li id="tabLocalizacao" role="presentation" ng-click="$('#tabLocalizacao a').tab('show')">
+                <a href=".localizacao" aria-controls="profile" role="tab" data-toggle="tab">Localização</a>
             </li>
 
         </ul>
@@ -44,13 +26,13 @@
         <div class="tab-content">
 
             <!--content of the tab user data-->
-            <div role="tabpanel" class="tab-pane active" id="pessoal">
+            <div role="tabpanel" class="tab-pane fade in active pessoal">
 
                 <!--presentation-->
                 <h1><span class="text-primary hidden-xs" ng-bind="user.ds_name"></span></h1>
                 <h2><span class="text-primary hidden-sm hidden-md hidden-lg" ng-bind="user.ds_name"></span></h2>
 
-                <form name="formPessoal" class="form-horizontal" ng-show="user != null">
+                <form name="formPessoal" class="form-horizontal">
 
                     <!--sq_person hidden-->
                     <input name="sq_person" type="hidden" ng-model="user.sq_person" />
@@ -115,13 +97,22 @@
                     <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-10">
 
-                            <button type="submit" class="btn btn-primary btn-sm" ng-click="upCustomer()" ng-Disabled="formPessoal.$invalid">Salvar
+                            <button type="submit" class="btn btn-primary btn-sm" ng-click="upCustomer()" ng-Disabled="formPessoal.$invalid">
+                                Salvar
                                 <i class="glyphicon glyphicon-save"></i>
                             </button>
 
-                            <a class="btn btn-default btn-sm" href="#/">Voltar
-                                <i class="glyphicon glyphicon-remove"></i>
+                            <a class="btn btn-default btn-sm" href="#/">
+                                Voltar
+                                <i class="glyphicon glyphicon-arrow-left"></i>
                             </a>
+
+                            <!--button cancel account-->
+                            <button class="btn btn-sm btn-danger" data-toggle="modal" data-target="#modalCancel">
+                                Desativar Conta
+                                <i class="glyphicon glyphicon-remove"></i>
+                            </button>
+                            <!--button cancel account-->
 
                         </div>
                     </div>
@@ -131,13 +122,11 @@
             </div>
 
             <!--content of the tab access data user-->
-            <div role="tabpanel" class="tab-pane" id="acesso">
+            <div role="tabpanel" class="tab-pane fade in acesso">
 
-                <!--presentation-->
-                <h1><span class="text-primary hidden-xs" ng-bind="user.ds_name"></span></h1>
-                <h2><span class="text-primary hidden-sm hidden-md hidden-lg" ng-bind="user.ds_name"></span></h2>
+                <legend>Dados de acesso</legend>
 
-                <form name="formAcesso" class="form-horizontal" ng-show="user != null">
+                <form name="formAcesso" class="form-horizontal">
 
                     <!--sq_person hidden-->
                     <input name="sq_person" type="hidden" ng-model="user.sq_person"/>
@@ -214,13 +203,126 @@
                             </button>
 
                             <a class="btn btn-default btn-sm" href="#/">Voltar
-                                <i class="glyphicon glyphicon-remove"></i>
+                                <i class="glyphicon glyphicon-arrow-left"></i>
                             </a>
 
                         </div>
                     </div>
+                    <!--buttons-->
 
                 </form>
+
+            </div>
+            <!--content of the tab access data user-->
+
+            <!--content of the tab localization data-->
+            <div role="tabpanel" class="tab-pane fade in localizacao">
+
+                <legend>Dados de localização</legend>
+
+                <form name="formLocal" class="form-horizontal">
+
+                    <!--sq_person hidden-->
+                    <input name="sq_person" type="hidden" ng-model="user.sq_person"/>
+                    <!--sq_person hidden-->
+
+                    <!--field password-->
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">CEP</label>
+
+
+                        <div class="col-xs-12 col-sm-6 col-md-6">
+
+                            <input class="form-control"
+                                   placeholder="Informe o CEP"
+                                   name="ds_password"
+                                   type="text"
+                                   maxlength="20"
+                                   ng-maxlength="20"
+                                   ng-minlength="4"
+                                   ng-model="user.ds_password"
+                                   required/>
+                        </div>
+
+                        <div class="help-block-input col-xs-12 col-sm-4 col-md-4">
+
+                            <span class="text-danger" ng-show="formAcesso.ds_password.$dirty && formAcesso.ds_password.$invalid">
+                                <i class="glyphicon glyphicon-remove-sign"></i>
+                                <span ng-show="formAcesso.ds_password.$error.required">Campo obrigatório</span>
+                                <span ng-show="formAcesso.ds_password.$error.minlength">Mínimo de quatro caracteres</span>
+                                <span ng-show="formAcesso.ds_password.$error.maxlength">Máximo de vinte caracteres</span>
+                            </span>
+
+                        </div>
+                    </div>
+                    <!--field password-->
+
+                    <!--buttons-->
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+
+                            <button type="submit" class="btn btn-primary btn-sm" ng-click="upDataAccesss()" ng-Disabled="formAcesso.$invalid">Salvar
+                                <i class="glyphicon glyphicon-save"></i>
+                            </button>
+
+                            <a class="btn btn-default btn-sm" href="#/">Voltar
+                                <i class="glyphicon glyphicon-arrow-left"></i>
+                            </a>
+
+                        </div>
+                    </div>
+                    <!--buttons-->
+
+                </form>
+
+            </div>
+            <!--content of the tab localization data-->
+
+        </div>
+
+    </div>
+
+</div>
+
+<div ng-controller="userController">
+
+    <!-- Modal cancel account -->
+    <div class="modal fade" id="modalCancel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!--head-->
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+
+                    <h4 class="modal-title" id="myModalLabel">Desativar conta de acesso</h4>
+                </div>
+                <!--head-->
+
+                <!--body-->
+                <div class="modal-body">
+                    <i class="glyphicon glyphicon-alert text-danger"></i>
+                    <span class="text-danger">{{user.ds_name}},</span>
+                    <span>quer mesmo desativar sua conta?</span>
+                    <!--<span>?</span>-->
+                </div>
+                <!--body-->
+
+                <!--footer-->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">
+                        Não <i class="glyphicon glyphicon-remove"></i>
+                    </button>
+
+                    <button class="btn btn-danger btn-sm" data-dismiss="modal" ng-click="inativateUser(user.sq_user)">
+                        Sim <i class="glyphicon glyphicon-ok"></i>
+                    </button>
+                    <!--footer-->
+
+                </div>
 
             </div>
 
@@ -229,3 +331,4 @@
     </div>
 
 </div>
+<!-- Modal cancel account -->

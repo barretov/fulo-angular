@@ -164,20 +164,6 @@ $app.run(['$rootScope', '$location', '$http', function ($rootScope, $location, $
         };
 
         /**
-         * Method to get server secret
-         * @name getSecret
-         * @author Victor Eduardo Barreto
-         * @param {string} $return Object with secret
-         * @date Jul 8, 2015
-         * @version 1.0
-         */
-        $http.get($rootScope.server("/getSecret")).success(function ($return) {
-
-            // save secret in session.
-            sessionStorage.setItem('secret', $return);
-        });
-
-        /**
          * Method configure origin parameters
          * @name configParam
          * @author Victor Eduardo Barreto
@@ -197,6 +183,20 @@ $app.run(['$rootScope', '$location', '$http', function ($rootScope, $location, $
             return $data;
 
         };
+
+        /**
+         * Method to get server secret
+         * @name getSecret
+         * @author Victor Eduardo Barreto
+         * @param {string} $return Object with secret
+         * @date Jul 8, 2015
+         * @version 1.0
+         */
+        $http.get($rootScope.server("/getSecret")).success(function ($return) {
+
+            // save secret in session.
+            sessionStorage.setItem('secret', $return);
+        });
 
         /**
          * Method to get in the server and set constants for system

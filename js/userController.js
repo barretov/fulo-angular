@@ -186,29 +186,47 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
     };
 
     /**
-     * Method for delete user
-     * @name delUser
+     * Method for inativate user
+     * @name inativateUser
      * @author Victor Eduardo Barreto
-     * @param {int} $sq_person Identifier of person
-     * @date Apr 12, 2015
+     * @param {int} $sq_user Identifier of user
+     * @date Jul 22, 2015
      * @version 1.0
      */
-    $scope.delUser = function ($sq_person) {
+    $scope.inativateUser = function ($sq_user) {
 
         // adjust parameters and add origin data.
-        $param = $scope.configParam({sq_person: $sq_person});
+        $param = $scope.configParam({sq_user: $sq_user});
 
-        $http.delete($scope.server("/delUser"), {params: $param}).success(function ($return) {
+        $http.post($scope.server("/inativateUser"), $param).success(function ($return) {
 
             // verify return data.
             $scope.securityReponse($return);
 
-            if ($return) {
-
-                // if result is true, remove the row in the screen.
-                $('#' + $sq_person).fadeOut('slow');
-                $scope.showFlashmessage("alert-success", $scope.constant.MSG0001);
+            /* if the customer deactivate his account, do logoff */
+            if ($sq_user == $scope.user.sq_user) {
+                $scope.logoff();
             }
+        });
+    };
+
+    /**
+     * Method for activate user
+     * @name activateUser
+     * @author Victor Eduardo Barreto
+     * @param {int} $sq_user Identifier of user
+     * @date Jul 22, 2015
+     * @version 1.0
+     */
+    $scope.activateUser = function ($sq_user) {
+
+        // adjust parameters and add origin data.
+        $param = $scope.configParam({sq_user: $sq_user});
+
+        $http.post($scope.server("/activateUser"), $param).success(function ($return) {
+
+            // verify return data.
+            $scope.securityReponse($return);
         });
     };
 
