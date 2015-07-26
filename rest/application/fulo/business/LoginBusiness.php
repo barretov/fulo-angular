@@ -67,7 +67,7 @@ class LoginBusiness extends MasterBusiness
 
         try {
 
-            $this->validateOrigin($data);
+            $this->validateSecret($data);
 
             # remove special char and spaces.
             $this->removeSpecialChar($data);
@@ -115,7 +115,7 @@ class LoginBusiness extends MasterBusiness
 
         try {
 
-            $this->validateOrigin($data);
+            $this->validateSecret($data);
 
             # remove special char and spaces.
             $this->removeSpecialChar($data);

@@ -231,20 +231,6 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
     };
 
     /**
-     * Method for tranfer data for exclusion modal
-     * @name fireModal
-     * @author Victor Eduardo Barreto
-     * @param {array} $row Data of user
-     * @date Apr 12, 2015
-     * @version 1.0
-     */
-    $scope.fireModal = function ($row) {
-
-        // set the variable pessoa in the scope.
-        $scope.person = $row;
-    };
-
-    /**
      * Method for add customer
      * @name addCustomer
      * @author Victor Eduardo Barreto

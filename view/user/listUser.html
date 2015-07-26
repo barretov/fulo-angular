@@ -52,18 +52,16 @@
                     <!--user status-->
                     <td>
 
-                        <div class="onoffswitch">
-
+                        <label class="switch">
                             <input
                                 type="checkbox"
-                                class="onoffswitch-checkbox"
+                                class="switch-input"
                                 id="status_{{row.sq_user}}"
                                 ng-checked="row.sq_status == constant.PROFILE_ADMINISTRATOR"
                                 ng-click="row.sq_status == constant.USER_ACTIVE ? inativateUser(row.sq_user) : activateUser(row.sq_user)">
-
-                            <label class="onoffswitch-label" for="status_{{row.sq_user}}"></label>
-
-                        </div>
+                            <span class="switch-label" data-on="" data-off=""></span>
+                            <span class="switch-handle"></span>
+                        </label>
 
                     </td>
                     <!--user status-->

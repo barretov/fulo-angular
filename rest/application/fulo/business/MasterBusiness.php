@@ -76,7 +76,7 @@ class MasterBusiness
      * @date June 15, 2015
      * @version 1.0
      */
-    protected function validateOrigin (& $data)
+    protected function validateSecret (& $data)
     {
 
         try {
@@ -88,7 +88,7 @@ class MasterBusiness
                 $data = json_decode($data);
             }
 
-            if (!empty($data->origin) && !is_null($data->origin)) {
+            if (!empty($data->origin) && $data->origin != "undefined") {
 
                 # decrypt data secret.
                 $origin = $this->decrypt($data->origin);

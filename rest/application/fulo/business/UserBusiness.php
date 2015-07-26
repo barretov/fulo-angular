@@ -67,8 +67,8 @@ class UserBusiness extends MasterBusiness
 
         try {
 
-            # validate origin.
-            $this->validateOrigin($data);
+            # validade secret
+            $this->validateSecret($data);
 
             # set email to lower case.
             $data->ds_email = strtolower($data->ds_email);
@@ -108,8 +108,8 @@ class UserBusiness extends MasterBusiness
 
         try {
 
-            # validate origin.
-            $this->validateOrigin($data);
+            # validade secret
+            $this->validateSecret($data);
 
             # set email to lower case.
             $data->ds_email = strtolower($data->ds_email);
@@ -153,8 +153,8 @@ class UserBusiness extends MasterBusiness
 
         try {
 
-            # validate origin.
-            $this->validateOrigin($data);
+            # validade secret
+            $this->validateSecret($data);
 
             return $this->_userModel->getUsers($data->origin_sq_person);
         } catch (Exception $ex) {
@@ -177,8 +177,8 @@ class UserBusiness extends MasterBusiness
     {
         try {
 
-            # validate origin.
-            $this->validateOrigin($data);
+            # validade secret
+            $this->validateSecret($data);
 
             return $this->_userModel->getUserByIdenty($data->sq_person);
         } catch (Exception $ex) {
@@ -234,8 +234,8 @@ class UserBusiness extends MasterBusiness
 
         try {
 
-            # validate origin.
-            $this->validateOrigin($data);
+            # validade secret
+            $this->validateSecret($data);
 
             # remove special char and spaces.
             $this->removeSpecialChar($data);
@@ -307,8 +307,8 @@ class UserBusiness extends MasterBusiness
 
         try {
 
-            # validate origin.
-            $this->validateOrigin($data);
+            # validade secret
+            $this->validateSecret($data);
 
             # set email to lower case.
             $data->ds_email = strtolower($data->ds_email);
@@ -351,8 +351,8 @@ class UserBusiness extends MasterBusiness
     {
         try {
 
-            # validate origin.
-            $this->validateOrigin($data);
+            # validade secret
+            $this->validateSecret($data);
 
             return $this->_userModel->inativateUser($data->sq_user);
         } catch (Exception $ex) {
@@ -375,8 +375,8 @@ class UserBusiness extends MasterBusiness
     {
         try {
 
-            # validate origin.
-            $this->validateOrigin($data);
+            # validade secret
+            $this->validateSecret($data);
 
             return $this->_userModel->activateUser($data->sq_user);
         } catch (Exception $ex) {

@@ -14,7 +14,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="person" oids="false">
 	<schema name="fulo"/>
 	<comment>data of persons</comment>
-	<position x="430" y="43"/>
+	<position x="431" y="11"/>
 	<column name="sq_person" not-null="true">
 		<type name="serial" spatial-type="POINT" variation="0"/>
 		<comment>identifier of person</comment>
@@ -35,7 +35,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="user" oids="false">
 	<schema name="fulo"/>
 	<comment>data of users</comment>
-	<position x="414" y="200"/>
+	<position x="418" y="144"/>
 	<column name="sq_user" not-null="true">
 		<type name="integer" spatial-type="POINT" variation="0"/>
 		<comment>identifier of user</comment>
@@ -60,7 +60,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="profile" oids="false">
 	<schema name="fulo"/>
 	<comment>data of profiles</comment>
-	<position x="426" y="379"/>
+	<position x="428" y="290"/>
 	<column name="sq_profile" not-null="true">
 		<type name="serial" spatial-type="POINT" variation="0"/>
 		<comment>identifier of profile</comment>
@@ -114,10 +114,10 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</constraint>
 </table>
 
-<table name="log" oids="false">
+<table name="log" oids="true">
 	<schema name="fulo"/>
 	<comment>table of log</comment>
-	<position x="791" y="247"/>
+	<position x="791" y="246"/>
 	<column name="sq_log" not-null="true">
 		<type name="serial" spatial-type="POINT" variation="0"/>
 		<comment>identifier of log</comment>
@@ -129,10 +129,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="sq_operation" not-null="true">
 		<type name="integer" spatial-type="POINT" variation="0"/>
 		<comment>identifier operation type</comment>
-	</column>
-	<column name="sq_type_element" not-null="true">
-		<type name="integer" spatial-type="POINT" variation="0"/>
-		<comment>type of target</comment>
 	</column>
 	<column name="nu_target" not-null="true">
 		<type name="integer" spatial-type="POINT" variation="0"/>
@@ -163,7 +159,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="address" oids="false">
 	<schema name="fulo"/>
 	<comment>table of address</comment>
-	<position x="782" y="15"/>
+	<position x="785" y="7"/>
 	<column name="sq_address" not-null="true">
 		<type name="serial" spatial-type="POINT" variation="0"/>
 		<comment>identifier of address</comment>
@@ -201,7 +197,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="phone" oids="false">
 	<schema name="fulo"/>
 	<comment>table of phone</comment>
-	<position x="32" y="46"/>
+	<position x="23" y="8"/>
 	<column name="sq_phone" not-null="true">
 		<type name="serial" spatial-type="POINT" variation="0"/>
 		<comment>identifier of phone</comment>
@@ -247,7 +243,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="newsletter" oids="false">
 	<schema name="fulo"/>
 	<comment>table of newsletter</comment>
-	<position x="13" y="459"/>
+	<position x="17" y="448"/>
 	<column name="sq_newsletter" not-null="true">
 		<type name="serial" spatial-type="POINT" variation="0"/>
 		<comment>identifier of newsletter</comment>
@@ -345,7 +341,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="operation" oids="false">
 	<schema name="fulo"/>
 	<comment>table of operations</comment>
-	<position x="802" y="458"/>
+	<position x="788" y="439"/>
 	<column name="sq_operation" not-null="true">
 		<type name="serial" spatial-type="POINT" variation="0"/>
 		<comment>identifier of operation</comment>
@@ -360,36 +356,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</constraint>
 </table>
 
-<table name="type_element" oids="false">
-	<schema name="fulo"/>
-	<comment>table of elements type</comment>
-	<position x="403" y="460"/>
-	<column name="sq_type_element" not-null="true">
-		<type name="serial" spatial-type="POINT" variation="0"/>
-		<comment>identifier of type</comment>
-	</column>
-	<column name="ds_type_element" not-null="true">
-		<type name="varchar" length="30" spatial-type="POINT" variation="0"/>
-		<comment>description of type</comment>
-	</column>
-	<constraint name="pk_type_element" type="pk-constr" factor="10" table="fulo.type_element">
-		<columns names="sq_type_element" ref-type="src-columns"/>
-		<comment>primary key of table</comment>
-	</constraint>
-</table>
-
-<constraint name="fk_log_type_element" type="fk-constr"	 comparison-type="MATCH FULL"
-	 upd-action="CASCADE" del-action="CASCADE" ref-table="fulo.type_element" table="fulo.log">
-	<columns names="sq_type_element" ref-type="src-columns"/>
-	<columns names="sq_type_element" ref-type="dst-columns"/>
-		<comment>foreign key of element type</comment>
-</constraint>
-<relationship name="rel_log_type"
-	 type="relfk"
-	 src-required="false" dst-required="false"
-	 src-table="fulo.log"
-	 dst-table="fulo.type_element"/>
-
 <constraint name="fk_log_operation" type="fk-constr"	 comparison-type="MATCH FULL"
 	 upd-action="CASCADE" del-action="CASCADE" ref-table="fulo.operation" table="fulo.log">
 	<columns names="sq_operation" ref-type="src-columns"/>
@@ -401,5 +367,51 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	 src-required="false" dst-required="false"
 	 src-table="fulo.log"
 	 dst-table="fulo.operation"/>
+
+<table name="acl" oids="false">
+	<schema name="public"/>
+	<comment>table of access rules</comment>
+	<position x="433" y="433"/>
+	<column name="sq_acl" not-null="true">
+		<type name="serial" spatial-type="POINT" variation="0"/>
+		<comment>identifier of rule</comment>
+	</column>
+	<column name="sq_operation" not-null="true">
+		<type name="integer" spatial-type="POINT" variation="0"/>
+		<comment>identifier of operation</comment>
+	</column>
+	<column name="sq_profile" not-null="true">
+		<type name="integer" spatial-type="POINT" variation="0"/>
+		<comment>identifier of profile</comment>
+	</column>
+	<constraint name="pk_acl" type="pk-constr" factor="10" table="public.acl">
+		<columns names="sq_acl" ref-type="src-columns"/>
+		<comment>primary key of table</comment>
+	</constraint>
+</table>
+
+<constraint name="fk_acl_operation" type="fk-constr"	 comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="fulo.operation" table="public.acl">
+	<columns names="sq_operation" ref-type="src-columns"/>
+	<columns names="sq_operation" ref-type="dst-columns"/>
+		<comment>foreign key of operation</comment>
+</constraint>
+<relationship name="rel_acl_operation"
+	 type="relfk"
+	 src-required="false" dst-required="false"
+	 src-table="public.acl"
+	 dst-table="fulo.operation"/>
+
+<constraint name="fk_acl_profile" type="fk-constr"	 comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="fulo.profile" table="public.acl">
+	<columns names="sq_profile" ref-type="src-columns"/>
+	<columns names="sq_profile" ref-type="dst-columns"/>
+		<comment>foreign key of profile</comment>
+</constraint>
+<relationship name="rel_acl_profile"
+	 type="relfk"
+	 src-required="false" dst-required="false"
+	 src-table="public.acl"
+	 dst-table="fulo.profile"/>
 
 </dbmodel>

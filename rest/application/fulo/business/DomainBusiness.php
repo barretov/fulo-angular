@@ -65,7 +65,7 @@ class DomainBusiness extends MasterBusiness
     {
         try {
 
-            $this->validateOrigin($data);
+            $this->validateSecret($data);
 
             return $this->_domainModel->getProfiles();
         } catch (Exception $ex) {
@@ -108,7 +108,7 @@ class DomainBusiness extends MasterBusiness
 
         try {
 
-            $this->validateOrigin($data);
+            $this->validateSecret($data);
 
             # load constants file
             $constant = parse_ini_file('./application/config/constants.ini', true);

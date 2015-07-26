@@ -67,10 +67,9 @@ $app.controller('loginController', function ($scope, $rootScope, $http, $locatio
 
                 // if customer account was inactivated, show modal to inform.
                 if ($rootScope.user.sq_status == $scope.constant.USER_INACTIVE) {
-                    console.log("teste");
 
-                    // @TODO.
-                    $('#modalReactiveCustomer').show();
+                    // apear modal to inform the customer.
+                    $('#modalReactiveCustomer').modal('show');
                 }
 
             } else {
@@ -103,7 +102,6 @@ $app.controller('loginController', function ($scope, $rootScope, $http, $locatio
             // remove user data of the session.
             $rootScope.user = sessionStorage.removeItem('user');
             $rootScope.origin = sessionStorage.removeItem('origin');
-            sessionStorage.removeItem('secret');
 
             $scope.showFlashmessage("alert-success", "Processo realizado com sucesso.");
             $('#modalLogoff').modal('hide');

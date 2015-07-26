@@ -494,4 +494,52 @@
     </div>
     <!--modal logoff-->
 
+    <!--modal inform about reactive account-->
+    <div class="modal fade" id="modalReactiveCustomer" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+        <div class="modal-dialog">
+
+            <div class="modal-content">
+
+                <div class="modal-header">
+
+                    <h4 class="modal-title" id="myModalLabel">Conta Reativada</h4>
+                </div>
+
+                <div class="modal-body">
+                    <span>Bem vindo de volta, sua conta foi reativada!</span>
+                </div>
+
+                <div class="modal-footer">
+
+                    <!--form-->
+                    <form class="form-horizontal">
+
+                        <!--buttons-->
+                        <div ng-init="userController">
+                            <div class="form-group">
+                                <div class="col-sm-12">
+
+                                    <button class="btn btn-primary btn-sm" ng-click="activateUser($scope.user.sq_user)" data-dismiss="modal">
+                                        Entendi
+                                        <i class="glyphicon glyphicon-remove"></i>
+                                    </button>
+
+                                </div>
+                            </div>
+                        </div>
+                        <!--buttons-->
+
+                    </form>
+                    <!--form-->
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    <!--modal inform about reactive account-->
+
 </html>
