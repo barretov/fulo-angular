@@ -190,14 +190,14 @@ $app->post("/upCustomer", function () {
 });
 
 /**
- * Method for inativate user
- * @name inativateUser
+ * Method for inactivate user
+ * @name inactivateUser
  * @author Victor Eduardo Barreto
  * @return bool Result of procedure
  * @date Jul 23, 2015
  * @version 1.0
  */
-$app->post("/inativateUser", function () {
+$app->post("/inactivateUser", function () {
 
     try {
 
@@ -205,7 +205,7 @@ $app->post("/inativateUser", function () {
 
         $data = json_decode(\Slim\Slim::getInstance()->request()->getBody());
 
-        echo json_encode($business->inativateUser($data));
+        echo json_encode($business->inactivateUser($data));
     } catch (Exception $ex) {
 
         throw $ex;

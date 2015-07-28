@@ -45,16 +45,16 @@ class UserModel extends MasterModel
 
             $this->_conn->beginTransaction();
 
-            $stmt = $this->_conn->prepare("INSERT INTO fulo.person (ds_name, ds_email) VALUES (?,?)");
+            $stmtPerson = $this->_conn->prepare("INSERT INTO fulo.person (ds_name, ds_email) VALUES (?,?)");
 
-            $stmt->execute([
+            $stmtPerson->execute([
                 $data->ds_name,
                 $data->ds_email,
             ]);
 
-            $stmt = $this->_conn->prepare("INSERT INTO fulo.user (sq_user, sq_profile, ds_password) VALUES (?,?,?)");
+            $stmtUser = $this->_conn->prepare("INSERT INTO fulo.user (sq_user, sq_profile, ds_password) VALUES (?,?,?)");
 
-            $stmt->execute([
+            $stmtUser->execute([
                 $this->_conn->lastInsertId('fulo.person_sq_person_seq'),
                 $data->sq_profile,
                 $data->ds_password,
@@ -84,19 +84,22 @@ class UserModel extends MasterModel
 
             $this->_conn->beginTransaction();
 
-            # set $stmt to update person.
-            $stmt = $this->_conn->prepare("UPDATE fulo.person SET ds_name = ?, ds_email = ? WHERE sq_person = ?");
+            # update person.
+            $stmtPerson = $this->_conn->prepare("UPDATE fulo.person "
+                    . "SET ds_name = ?, ds_email = ?, sq_status_news = ? "
+                    . "WHERE sq_person = ?");
 
-            $stmt->execute([
+            $stmtPerson->execute([
                 $data->ds_name,
                 $data->ds_email,
-                $data->sq_person,
+                $data->sq_status_news,
+                $data->sq_person
             ]);
 
             # set $stmt to update user.
-            $stmt = $this->_conn->prepare("UPDATE fulo.user SET sq_profile = ? WHERE sq_user = ?");
+            $stmtUser = $this->_conn->prepare("UPDATE fulo.user SET sq_profile = ? WHERE sq_user = ?");
 
-            $stmt->execute([
+            $stmtUser->execute([
                 $data->sq_profile,
                 $data->sq_person,
             ]);
@@ -123,8 +126,9 @@ class UserModel extends MasterModel
     {
         try {
 
-            $stmt = $this->_conn->prepare(
-                    "SELECT sq_person, sq_user, ds_name, ds_email, sq_profile, sq_status FROM fulo.person "
+            $stmt = $this->_conn->prepare("SELECT "
+                    . "sq_person, sq_user, ds_name, ds_email, sq_status_news, sq_profile, sq_status_user "
+                    . "FROM fulo.person "
                     . "JOIN fulo.user on sq_person = sq_user "
                     . "and sq_person <> ? ORDER BY person.ds_name ASC"
             );
@@ -141,19 +145,20 @@ class UserModel extends MasterModel
     }
 
     /**
-     * Method for get user by Identy
-     * @name getUserByIdenty
+     * Method for get user by Identity
+     * @name getUserByIdentity
      * @author Victor Eduardo Barreto
      * @param int $sq_person User identifier
      * @return array Data of user selected
      * @date Apr 8, 2015
      * @version 1.0
      */
-    public function getUserByIdenty (& $sq_person)
+    public function getUserByIdentity (& $sq_person)
     {
         try {
 
-            $stmt = $this->_conn->prepare("SELECT sq_person, ds_name, ds_email, sq_profile "
+            $stmt = $this->_conn->prepare("SELECT "
+                    . "sq_person, ds_name, ds_email, sq_profile, sq_status_news "
                     . "FROM fulo.person JOIN fulo.user on sq_person = sq_user "
                     . "WHERE sq_person = ?");
 
@@ -183,7 +188,9 @@ class UserModel extends MasterModel
 
         try {
 
-            $stmt = $this->_conn->prepare("SELECT * FROM fulo.person JOIN fulo.user on sq_person = sq_user WHERE ds_email = ?");
+            $stmt = $this->_conn->prepare("SELECT * FROM fulo.person"
+                    . " JOIN fulo.user ON sq_person = sq_user "
+                    . "WHERE person.ds_email = ?");
 
             $stmt->execute([
                 $ds_email
@@ -229,65 +236,24 @@ class UserModel extends MasterModel
     }
 
     /**
-     * Method for update Customer
-     * @name upCustomer
-     * @author Victor Eduardo Barreto
-     * @param array $data Customer data
-     * @return bool Result of procedure
-     * @date Jul 14, 2015
-     * @version 1.0
-     */
-    public function upCustomer (& $data)
-    {
-        try {
-
-            $this->_conn->beginTransaction();
-
-            # set $stmt to update person.
-            $stmt = $this->_conn->prepare("UPDATE fulo.person SET ds_name = ?, ds_email = ? WHERE sq_person = ?");
-
-            $stmt->execute([
-                $data->ds_name,
-                $data->ds_email,
-                $data->origin_sq_person,
-            ]);
-
-            # set $stmt to update user.
-            $stmt = $this->_conn->prepare("UPDATE fulo.user SET sq_profile = ? WHERE sq_user = ?");
-
-            $stmt->execute([
-                $data->sq_profile,
-                $data->origin_sq_person,
-            ]);
-
-            return $this->_conn->commit();
-        } catch (Exception $ex) {
-
-            $this->_conn->rollback();
-
-            throw $ex;
-        }
-    }
-
-    /**
-     * Method for inativate user
-     * @name inativateUser
+     * Method for inactivate user
+     * @name inactivateUser
      * @author Victor Eduardo Barreto
      * @param int $sq_user User identifier
      * @return bool Result of procedure
      * @date Jul 23, 2015
      * @version 1.0
      */
-    public function inativateUser (& $sq_user)
+    public function inactivateUser (& $sq_user)
     {
         try {
 
             $this->_conn->beginTransaction();
 
-            $stmt = $this->_conn->prepare("UPDATE fulo.user SET sq_status = ? WHERE sq_user = ?");
+            $stmt = $this->_conn->prepare("UPDATE fulo.user SET sq_status_user = ? WHERE sq_user = ?");
 
             $stmt->execute([
-                USER_INACTIVE,
+                STATUS_INACTIVE,
                 $sq_user
             ]);
 
@@ -315,10 +281,10 @@ class UserModel extends MasterModel
 
             $this->_conn->beginTransaction();
 
-            $stmt = $this->_conn->prepare("UPDATE fulo.user SET sq_status = ? WHERE sq_user = ?");
+            $stmt = $this->_conn->prepare("UPDATE fulo.user SET sq_status_user = ? WHERE sq_user = ?");
 
             $stmt->execute([
-                USER_ACTIVE,
+                STATUS_ACTIVE,
                 $sq_user
             ]);
 

@@ -93,6 +93,30 @@
                     </div>
                     <!--field email-->
 
+                    <!--newsletter-->
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+
+                            <label class="switch">
+
+                                <input
+                                    class="switch-input"
+                                    type="checkbox"
+                                    ng-model="user.sq_status_news"
+                                    ng-checked="user.sq_status_news == constant.STATUS_ACTIVE"
+                                    ng-true-value="1" ng-false-value="2">
+
+                                <span class="switch-label" data-on="" data-off=""></span>
+
+                                <span class="switch-handle"></span>
+                            </label>
+
+                            <span>Quero receber emails de promoções e novos produtos.</span>
+
+                        </div>
+                    </div>
+                    <!--newsletter-->
+
                     <!--buttons-->
                     <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-10">
@@ -115,23 +139,8 @@
                             <!--button cancel account-->
 
                         </div>
+
                     </div>
-
-                    <!--newsleter-->
-                    <div class="form-group">
-                        <div class="col-sm-offset-2 col-sm-10">
-
-                            <label class="switch">
-                                <input type="checkbox" class="switch-input" checked>
-                                <span class="switch-label" data-on="" data-off=""></span>
-                                <span class="switch-handle"></span>
-                            </label>
-                            Quero receber emails de promoções e novos produtos.
-                            <!--</div>-->
-
-                        </div>
-                    </div>
-                    <!--newsleter-->
 
                 </form>
 
@@ -320,10 +329,19 @@
 
                 <!--body-->
                 <div class="modal-body">
-                    <i class="glyphicon glyphicon-alert text-danger"></i>
-                    <span class="text-danger">{{user.ds_name}},</span>
-                    <span>quer mesmo desativar sua conta?</span>
-                    <!--<span>?</span>-->
+
+                    <div class="row">
+
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+                            <span class="text-danger">{{user.ds_name}},</span>
+                            <span>quer mesmo desativar sua conta?</span>
+                            <!--<span>?</span>-->
+
+                        </div>
+
+                    </div>
+
                 </div>
                 <!--body-->
 
@@ -333,7 +351,7 @@
                         Não <i class="glyphicon glyphicon-remove"></i>
                     </button>
 
-                    <button class="btn btn-danger btn-sm" data-dismiss="modal" ng-click="inativateUser(user.sq_user)">
+                    <button class="btn btn-danger btn-sm" data-dismiss="modal" ng-click="inactivateUser(user.sq_user)">
                         Sim <i class="glyphicon glyphicon-ok"></i>
                     </button>
                     <!--footer-->

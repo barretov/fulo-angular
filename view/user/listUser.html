@@ -57,8 +57,8 @@
                                 type="checkbox"
                                 class="switch-input"
                                 id="status_{{row.sq_user}}"
-                                ng-checked="row.sq_status == constant.PROFILE_ADMINISTRATOR"
-                                ng-click="row.sq_status == constant.USER_ACTIVE ? inativateUser(row.sq_user) : activateUser(row.sq_user)">
+                                ng-checked="row.sq_status_user == constant.STATUS_ACTIVE"
+                                ng-click="row.sq_status_user == constant.STATUS_ACTIVE ? inactivateUser(row.sq_user) : activateUser(row.sq_user)">
                             <span class="switch-label" data-on="" data-off=""></span>
                             <span class="switch-handle"></span>
                         </label>

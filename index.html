@@ -516,16 +516,18 @@
                     <form class="form-horizontal">
 
                         <!--buttons-->
-                        <div ng-init="userController">
-                            <div class="form-group">
-                                <div class="col-sm-12">
+                        <div class="form-group">
+                            <div class="col-sm-12">
 
-                                    <button class="btn btn-primary btn-sm" ng-click="activateUser($scope.user.sq_user)" data-dismiss="modal">
+                                <div ng-controller="userController">
+
+                                    <button class="btn btn-primary btn-sm" ng-click="activateUser(user.sq_user)" data-dismiss="modal" ng-click="activateUser(user.sq_user)">
                                         Entendi
                                         <i class="glyphicon glyphicon-remove"></i>
                                     </button>
 
                                 </div>
+
                             </div>
                         </div>
                         <!--buttons-->

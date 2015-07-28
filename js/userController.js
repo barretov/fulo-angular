@@ -186,19 +186,19 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
     };
 
     /**
-     * Method for inativate user
-     * @name inativateUser
+     * Method for inactivate user
+     * @name inactivateUser
      * @author Victor Eduardo Barreto
      * @param {int} $sq_user Identifier of user
      * @date Jul 22, 2015
      * @version 1.0
      */
-    $scope.inativateUser = function ($sq_user) {
+    $scope.inactivateUser = function ($sq_user) {
 
         // adjust parameters and add origin data.
         $param = $scope.configParam({sq_user: $sq_user});
 
-        $http.post($scope.server("/inativateUser"), $param).success(function ($return) {
+        $http.post($scope.server("/inactivateUser"), $param).success(function ($return) {
 
             // verify return data.
             $scope.securityReponse($return);
@@ -293,8 +293,6 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
             $scope.securityReponse($return);
 
             $scope.profiles = $return;
-
         });
     };
-
 });

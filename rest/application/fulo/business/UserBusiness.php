@@ -53,7 +53,7 @@ class UserBusiness extends MasterBusiness
     }
 
     /**
-     * Method for business to add user
+     * Method for business of add user
      * @name addUser
      * @author Victor Eduardo Barreto
      * @package fulo\business
@@ -94,7 +94,7 @@ class UserBusiness extends MasterBusiness
     }
 
     /**
-     * Method for business to up user
+     * Method for business of up user
      * @name upUser
      * @author Victor Eduardo Barreto
      * @package fulo\business
@@ -118,7 +118,7 @@ class UserBusiness extends MasterBusiness
             if ($this->verifyEmailExists($data->ds_email)) {
 
                 # get current email in the base.
-                $currentEmail = $this->_userModel->getUserByIdenty($data->sq_person);
+                $currentEmail = $this->_userModel->getUserByIdentity($data->sq_person);
 
                 # if don't change email, do the update.
                 if ($data->ds_email != $currentEmail->ds_email) {
@@ -139,7 +139,55 @@ class UserBusiness extends MasterBusiness
     }
 
     /**
-     * Method for business to get users data
+     * Method for business of up customer
+     * @name upCustomer
+     * @author Victor Eduardo Barreto
+     * @package fulo\business
+     * @param array $data User data
+     * @return bool Result of procedure
+     * @date Apr 8, 2015
+     * @version 1.0
+     */
+    public function upCustomer (& $data)
+    {
+
+        try {
+
+            # validade secret
+            $this->validateSecret($data);
+
+            # set email to lower case.
+            $data->ds_email = strtolower($data->ds_email);
+
+            # verify if e-mail already exists.
+            if ($this->verifyEmailExists($data->ds_email)) {
+
+                # get current email in the base.
+                $currentEmail = $this->_userModel->getUserByIdentity($data->sq_person);
+
+                # if don't change email, do the update.
+                if ($data->ds_email != $currentEmail->ds_email) {
+
+                    return "email-already";
+                }
+            }
+
+            # remove special char and spaces.
+            $this->removeSpecialChar($data);
+
+            # get identifier of user loged.
+            $data->sq_person = $data->origin_sq_person;
+
+            # send to the model of user for update and return for controller.
+            return $this->_userModel->upUser($data);
+        } catch (Exception $ex) {
+
+            throw $ex;
+        }
+    }
+
+    /**
+     * Method for business of get users data
      * @name getUsers
      * @author Victor Eduardo Barreto
      * @package fulo\business
@@ -164,7 +212,7 @@ class UserBusiness extends MasterBusiness
     }
 
     /**
-     * Method for business to get user data
+     * Method for business of get user data
      * @name getUser
      * @author Victor Eduardo Barreto
      * @package fulo\business
@@ -180,7 +228,7 @@ class UserBusiness extends MasterBusiness
             # validade secret
             $this->validateSecret($data);
 
-            return $this->_userModel->getUserByIdenty($data->sq_person);
+            return $this->_userModel->getUserByIdentity($data->sq_person);
         } catch (Exception $ex) {
 
             throw $ex;
@@ -220,7 +268,7 @@ class UserBusiness extends MasterBusiness
     }
 
     /**
-     * Method for business to update data access user
+     * Method for business of update data access user
      * @name upDataAccesss
      * @author Victor Eduardo Barreto
      * @package fulo\business
@@ -252,7 +300,7 @@ class UserBusiness extends MasterBusiness
     }
 
     /**
-     * Method for business to add Customer
+     * Method for business of add Customer
      * @name addCustomer
      * @author Victor Eduardo Barreto
      * @package fulo\business
@@ -293,53 +341,8 @@ class UserBusiness extends MasterBusiness
     }
 
     /**
-     * Method for business to up customer
-     * @name upCustomer
-     * @author Victor Eduardo Barreto
-     * @package fulo\business
-     * @param array $data User data
-     * @return bool Result of procedure
-     * @date Jul 14, 2015
-     * @version 1.0
-     */
-    public function upCustomer (& $data)
-    {
-
-        try {
-
-            # validade secret
-            $this->validateSecret($data);
-
-            # set email to lower case.
-            $data->ds_email = strtolower($data->ds_email);
-
-            # verify if e-mail already exists.
-            if ($this->verifyEmailExists($data->ds_email)) {
-
-                # get current email in the base.
-                $currentEmail = $this->_userModel->getUserByIdenty($data->sq_person);
-
-                # if don't change email, do the update.
-                if ($data->ds_email != $currentEmail->ds_email) {
-
-                    return "email-already";
-                }
-            }
-
-            # remove special char and spaces.
-            $this->removeSpecialChar($data);
-
-            # send to the model of user for update and return for controller.
-            return $this->_userModel->upUser($data);
-        } catch (Exception $ex) {
-
-            throw $ex;
-        }
-    }
-
-    /**
-     * Method for business to inativate user
-     * @name inativateUser
+     * Method for business of inactivate user
+     * @name inactivateUser
      * @author Victor Eduardo Barreto
      * @package fulo\business
      * @param int $data User data
@@ -347,14 +350,14 @@ class UserBusiness extends MasterBusiness
      * @date Jul 23, 2015
      * @version 1.0
      */
-    public function inativateUser (& $data)
+    public function inactivateUser (& $data)
     {
         try {
 
             # validade secret
             $this->validateSecret($data);
 
-            return $this->_userModel->inativateUser($data->sq_user);
+            return $this->_userModel->inactivateUser($data->sq_user);
         } catch (Exception $ex) {
 
             throw $ex;
@@ -362,7 +365,7 @@ class UserBusiness extends MasterBusiness
     }
 
     /**
-     * Method for business to activate user
+     * Method for business of activate user
      * @name activateUser
      * @author Victor Eduardo Barreto
      * @package fulo\business

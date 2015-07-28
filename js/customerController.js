@@ -90,6 +90,9 @@ $app.controller('customerController', function ($scope, $http, $location) {
 
             } else {
 
+                // update data in session.
+                sessionStorage.setItem('user', JSON.stringify($scope.user));
+
                 $scope.hideLoader();
 
                 $location.path("/");
@@ -97,36 +100,7 @@ $app.controller('customerController', function ($scope, $http, $location) {
                 $scope.showFlashmessage("alert-success", $scope.constant.MSG0001);
             }
         });
-
     };
-
-    /**
-     * Method for delete user
-     * @name del
-     * @author Victor Eduardo Barreto
-     * @param {int} $sq_person Identifier of person
-     * @date Apr 12, 2015
-     * @version 1.0
-     */
-    $scope.del = function ($sq_person) {
-
-        // adjust parameters and add origin data.
-        $param = $scope.configParam({sq_person: $sq_person});
-
-        $http.delete($scope.server("/userDel"), {params: $param}).success(function ($return) {
-
-            // verify return data.
-            $scope.securityReponse($return);
-
-            if ($return) {
-
-                // if result is true, remove the row in the screen.
-                $('#' + $sq_person).fadeOut('slow');
-                $scope.showFlashmessage("alert-success", $scope.constant.MSG0001);
-            }
-        });
-    };
-
 
     /**
      * Method for add customer
@@ -172,5 +146,4 @@ $app.controller('customerController', function ($scope, $http, $location) {
             $scope.showFlashmessage("alert-warning", $scope.constant.MSG0003);
         }
     };
-
 });

@@ -66,7 +66,7 @@ $app.controller('loginController', function ($scope, $rootScope, $http, $locatio
                 $('#ds_password').val('');
 
                 // if customer account was inactivated, show modal to inform.
-                if ($rootScope.user.sq_status == $scope.constant.USER_INACTIVE) {
+                if ($rootScope.user.sq_status_user == $scope.constant.STATUS_INACTIVE) {
 
                     // apear modal to inform the customer.
                     $('#modalReactiveCustomer').modal('show');
