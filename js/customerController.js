@@ -65,18 +65,18 @@ $app.controller('customerController', function ($scope, $http, $location) {
 
     /**
      * Method for update data user
-     * @name upCustomer
+     * @name upUser
      * @author Victor Eduardo Barreto
      * @date May 09, 2015
      * @version 1.0
      */
-    $scope.upCustomer = function () {
+    $scope.upUser = function () {
 
         $scope.showLoader();
 
         $param = $scope.configParam($scope.user);
 
-        $http.post($scope.server("/upCustomer"), $param).success(function ($return) {
+        $http.post($scope.server("/upUser"), $param).success(function ($return) {
 
             // verify return data.
             $scope.securityReponse($return);
@@ -145,5 +145,58 @@ $app.controller('customerController', function ($scope, $http, $location) {
         } else {
             $scope.showFlashmessage("alert-warning", $scope.constant.MSG0003);
         }
+    };
+
+    /**
+     * Method for up address
+     * @name upAddress
+     * @author Victor Eduardo Barreto
+     * @date Jul 29, 2015
+     * @version 1.0
+     */
+    $scope.upAddress = function () {
+
+        $scope.showLoader();
+
+        // adjust parameters and add origin data.
+        $param = $scope.configParam($scope.user);
+
+        $http.post($scope.server("/upAddress"), $param).success(function ($return) {
+
+            // verify return data.
+            $scope.securityReponse($return);
+
+            // insert current data in session and user variable.
+            sessionStorage.setItem('user', JSON.stringify($scope.user));
+            $scope.hideLoader();
+            $scope.showFlashmessage('alert-success', $scope.constant.MSG0001);
+            $location.path("/");
+        });
+    };
+
+    /**
+     * Method for add address
+     * @name addAddress
+     * @author Victor Eduardo Barreto
+     * @date Jul 30, 2015
+     * @version 1.0
+     */
+    $scope.addAddress = function () {
+
+        $scope.showLoader();
+
+        // adjust parameters and add origin data.
+        $param = $scope.configParam($scope.user);
+
+        $http.post($scope.server("/addAddress"), $param).success(function ($return) {
+
+            // verify return data.
+            $scope.securityReponse($return);
+
+            $scope.hideLoader();
+            sessionStorage.setItem('user', JSON.stringify($scope.user));
+            $scope.showFlashmessage('alert-success', $scope.constant.MSG0001);
+            $location.path("/");
+        });
     };
 });

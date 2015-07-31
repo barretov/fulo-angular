@@ -166,30 +166,6 @@ $app->post("/addCustomer/", function () {
 });
 
 /**
- * Method for update data of customer
- * @name upCustomer
- * @author Victor Eduardo Barreto
- * @param json Customer data
- * @return bool Result of procedure
- * @date Jul 14, 2015
- * @version 1.0
- */
-$app->post("/upCustomer", function () {
-
-    try {
-
-        $business = MasterController::getUserBusiness();
-
-        $data = json_decode(\Slim\Slim::getInstance()->request()->getBody());
-
-        echo json_encode($business->upCustomer($data));
-    } catch (Exception $ex) {
-
-        throw $ex;
-    }
-});
-
-/**
  * Method for inactivate user
  * @name inactivateUser
  * @author Victor Eduardo Barreto
@@ -229,6 +205,52 @@ $app->post("/activateUser", function () {
         $data = json_decode(\Slim\Slim::getInstance()->request()->getBody());
 
         echo json_encode($business->activateUser($data));
+    } catch (Exception $ex) {
+
+        throw $ex;
+    }
+});
+
+/**
+ * Method for update address
+ * @name upAddress
+ * @author Victor Eduardo Barreto
+ * @return bool Result of procedure
+ * @date Jul 29, 2015
+ * @version 1.0
+ */
+$app->post("/upAddress", function () {
+
+    try {
+
+        $business = MasterController::getUserBusiness();
+
+        $data = json_decode(\Slim\Slim::getInstance()->request()->getBody());
+
+        echo json_encode($business->upAddress($data));
+    } catch (Exception $ex) {
+
+        throw $ex;
+    }
+});
+
+/**
+ * Method for add address
+ * @name addAddress
+ * @author Victor Eduardo Barreto
+ * @return bool Result of procedure
+ * @date Jul 30, 2015
+ * @version 1.0
+ */
+$app->post("/addAddress", function () {
+
+    try {
+
+        $business = MasterController::getUserBusiness();
+
+        $data = json_decode(\Slim\Slim::getInstance()->request()->getBody());
+
+        echo json_encode($business->addAddress($data));
     } catch (Exception $ex) {
 
         throw $ex;

@@ -14,7 +14,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="person" oids="false">
 	<schema name="fulo"/>
 	<comment>data of persons</comment>
-	<position x="432" y="9"/>
+	<position x="417" y="23"/>
 	<column name="sq_person" not-null="true">
 		<type name="serial" spatial-type="POINT" variation="0"/>
 		<comment>identifier of person</comment>
@@ -27,7 +27,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="varchar" length="50" spatial-type="POINT" variation="0"/>
 		<comment>email of person</comment>
 	</column>
-	<column name="sq_status_news" not-null="true" default-value="1	">
+	<column name="sq_status_news" not-null="true" default-value="1 ">
 		<type name="integer" spatial-type="POINT" variation="0"/>
 		<comment>status of newsletter</comment>
 	</column>
@@ -39,7 +39,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="user" oids="false">
 	<schema name="fulo"/>
 	<comment>data of users</comment>
-	<position x="419" y="188"/>
+	<position x="417" y="188"/>
 	<column name="sq_user" not-null="true">
 		<type name="integer" spatial-type="POINT" variation="0"/>
 		<comment>identifier of user</comment>
@@ -103,7 +103,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="status" oids="false">
 	<schema name="fulo"/>
 	<comment>table of status</comment>
-	<position x="40" y="137"/>
+	<position x="40" y="100"/>
 	<column name="sq_status" not-null="true">
 		<type name="serial" spatial-type="POINT" variation="0"/>
 		<comment>identifier of status</comment>
@@ -121,7 +121,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="log" oids="true">
 	<schema name="fulo"/>
 	<comment>table of log</comment>
-	<position x="807" y="180"/>
+	<position x="807" y="179"/>
 	<column name="sq_log" not-null="true">
 		<type name="serial" spatial-type="POINT" variation="0"/>
 		<comment>identifier of log</comment>
@@ -163,7 +163,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="address" oids="false">
 	<schema name="fulo"/>
 	<comment>table of address</comment>
-	<position x="785" y="7"/>
+	<position x="794" y="1"/>
 	<column name="sq_address" not-null="true">
 		<type name="serial" spatial-type="POINT" variation="0"/>
 		<comment>identifier of address</comment>
@@ -184,13 +184,13 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="varchar" length="100" spatial-type="POINT" variation="0"/>
 		<comment>description of address</comment>
 	</column>
-	<column name="ds_complement" not-null="true">
+	<column name="ds_complement">
 		<type name="varchar" length="100" spatial-type="POINT" variation="0"/>
 		<comment>complement of address</comment>
 	</column>
-	<column name="ds_neighborhood" not-null="true">
+	<column name="ds_city" not-null="true">
 		<type name="varchar" length="100" spatial-type="POINT" variation="0"/>
-		<comment>description of neighborhood</comment>
+		<comment>description of city</comment>
 	</column>
 	<constraint name="pk_address" type="pk-constr" factor="10" table="fulo.address">
 		<columns names="sq_address" ref-type="src-columns"/>
@@ -201,7 +201,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="phone" oids="false">
 	<schema name="fulo"/>
 	<comment>table of phone</comment>
-	<position x="23" y="8"/>
+	<position x="38" y="28"/>
 	<column name="sq_phone" not-null="true">
 		<type name="serial" spatial-type="POINT" variation="0"/>
 		<comment>identifier of phone</comment>
@@ -247,7 +247,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="product" oids="false">
 	<schema name="fulo"/>
 	<comment>table of product</comment>
-	<position x="14" y="255"/>
+	<position x="14" y="240"/>
 	<column name="sq_product" not-null="true">
 		<type name="serial" spatial-type="POINT" variation="0"/>
 		<comment>identifier of product</comment>
@@ -255,6 +255,10 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="sq_type" not-null="true">
 		<type name="integer" spatial-type="POINT" variation="0"/>
 		<comment>type of product</comment>
+	</column>
+	<column name="sq_status_product" not-null="true" default-value="1">
+		<type name="integer" spatial-type="POINT" variation="0"/>
+		<comment>status of product</comment>
 	</column>
 	<column name="ds_product" not-null="true">
 		<type name="varchar" length="100" spatial-type="POINT" variation="0"/>
@@ -276,10 +280,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="timestamp" spatial-type="POINT" variation="0"/>
 		<comment>date of register</comment>
 	</column>
-	<column name="sq_status_product" not-null="true" default-value="1">
-		<type name="integer" spatial-type="POINT" variation="0"/>
-		<comment>status of product</comment>
-	</column>
 	<constraint name="pk_product" type="pk-constr" factor="10" table="fulo.product">
 		<columns names="sq_product" ref-type="src-columns"/>
 		<comment>primary key of product</comment>
@@ -289,7 +289,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="type" oids="false">
 	<schema name="fulo"/>
 	<comment>table of types</comment>
-	<position x="41" y="449"/>
+	<position x="36" y="469"/>
 	<column name="sq_type" not-null="true">
 		<type name="serial" spatial-type="POINT" variation="0"/>
 		<comment>identifier of product_type</comment>
@@ -331,7 +331,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="operation" oids="false">
 	<schema name="fulo"/>
 	<comment>table of operations</comment>
-	<position x="805" y="439"/>
+	<position x="807" y="461"/>
 	<column name="sq_operation" not-null="true">
 		<type name="serial" spatial-type="POINT" variation="0"/>
 		<comment>identifier of operation</comment>
@@ -361,7 +361,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="acl" oids="false">
 	<schema name="public"/>
 	<comment>table of access rules</comment>
-	<position x="433" y="433"/>
+	<position x="439" y="457"/>
 	<column name="sq_acl" not-null="true">
 		<type name="serial" spatial-type="POINT" variation="0"/>
 		<comment>identifier of rule</comment>

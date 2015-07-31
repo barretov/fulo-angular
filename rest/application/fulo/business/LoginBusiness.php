@@ -82,6 +82,7 @@ class LoginBusiness extends MasterBusiness
                 $origin = [
                     'origin_sq_person' => $dataUser->sq_person,
                     'origin_sq_user' => $dataUser->sq_user,
+                    'origin_sq_address' => $dataUser->sq_address,
                     'origin_sq_profile' => $dataUser->sq_profile,
                 ];
 

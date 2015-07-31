@@ -118,7 +118,7 @@ class UserBusiness extends MasterBusiness
             if ($this->verifyEmailExists($data->ds_email)) {
 
                 # get current email in the base.
-                $currentEmail = $this->_userModel->getUserByIdentity($data->sq_person);
+                $currentEmail = $this->_userModel->getDataByIdentity($data->sq_person);
 
                 # if don't change email, do the update.
                 if ($data->ds_email != $currentEmail->ds_email) {
@@ -130,53 +130,11 @@ class UserBusiness extends MasterBusiness
             # remove special char and spaces.
             $this->removeSpecialChar($data);
 
-            # send to the model of user for update and return for controller.
-            return $this->_userModel->upUser($data);
-        } catch (Exception $ex) {
+            # verify if profile is customer and adjust data.
+            if ($data->origin_sq_profile === PROFILE_CUSTOMER) {
 
-            throw $ex;
-        }
-    }
-
-    /**
-     * Method for business of up customer
-     * @name upCustomer
-     * @author Victor Eduardo Barreto
-     * @package fulo\business
-     * @param array $data User data
-     * @return bool Result of procedure
-     * @date Apr 8, 2015
-     * @version 1.0
-     */
-    public function upCustomer (& $data)
-    {
-
-        try {
-
-            # validade secret
-            $this->validateSecret($data);
-
-            # set email to lower case.
-            $data->ds_email = strtolower($data->ds_email);
-
-            # verify if e-mail already exists.
-            if ($this->verifyEmailExists($data->ds_email)) {
-
-                # get current email in the base.
-                $currentEmail = $this->_userModel->getUserByIdentity($data->sq_person);
-
-                # if don't change email, do the update.
-                if ($data->ds_email != $currentEmail->ds_email) {
-
-                    return "email-already";
-                }
+                $data->sq_person = $data_origin_sq_person;
             }
-
-            # remove special char and spaces.
-            $this->removeSpecialChar($data);
-
-            # get identifier of user loged.
-            $data->sq_person = $data->origin_sq_person;
 
             # send to the model of user for update and return for controller.
             return $this->_userModel->upUser($data);
@@ -204,7 +162,7 @@ class UserBusiness extends MasterBusiness
             # validade secret
             $this->validateSecret($data);
 
-            return $this->_userModel->getUsers($data->origin_sq_person);
+            return $this->_userModel->getUsers($data->origin_sq_user);
         } catch (Exception $ex) {
 
             throw $ex;
@@ -228,7 +186,12 @@ class UserBusiness extends MasterBusiness
             # validade secret
             $this->validateSecret($data);
 
-            return $this->_userModel->getUserByIdentity($data->sq_person);
+            $return = $this->_userModel->getDataByIdentity($data->sq_person);
+
+            # remove password.
+            unset($return->ds_password);
+
+            return $return;
         } catch (Exception $ex) {
 
             throw $ex;
@@ -382,6 +345,86 @@ class UserBusiness extends MasterBusiness
             $this->validateSecret($data);
 
             return $this->_userModel->activateUser($data->sq_user);
+        } catch (Exception $ex) {
+
+            throw $ex;
+        }
+    }
+
+    /**
+     * Method for business of update address
+     * @name upAddress
+     * @author Victor Eduardo Barreto
+     * @param Object $data Data user
+     * @return bool Result of procedure
+     * @date Jul 30, 2015
+     * @version 1.0
+     */
+    public function upAddress (& $data)
+    {
+        try {
+
+            # validade secret
+            $this->validateSecret($data);
+
+            # remove special char.
+            $this->removeSpecialChar($data);
+
+            # verify if profile is customer and ajust data.
+            if ($data->origin_sq_profile === PROFILE_CUSTOMER) {
+
+                $data->sq_address = $data->origin_sq_address;
+            }
+
+            return $this->_userModel->upAddress($data);
+        } catch (Exception $ex) {
+
+            throw $ex;
+        }
+    }
+
+    /**
+     * Method for business of add address
+     * @name addAddress
+     * @author Victor Eduardo Barreto
+     * @param Object $data Data user
+     * @return bool Result of procedure
+     * @date Jul 30, 2015
+     * @version 1.0
+     */
+    public function addAddress (& $data)
+    {
+        try {
+
+            # validade secret
+            $this->validateSecret($data);
+
+            # verify if profile is administrator and verify if already exists address.
+            if ($data->origin_sq_profile === PROFILE_ADMINISTRATOR) {
+
+                $dataUser = $this->_userModel->getDataByIdentity($data->sq_person);
+
+                if ($dataUser->sq_address) {
+
+                    # stop the request.
+                    echo json_encode('Address Already');
+                    \Slim\Slim::getInstance()->stop();
+                }
+
+                # verify if profile is customer and verify if already exists address.
+            } elseif ($data->origin_sq_profile === PROFILE_CUSTOMER) {
+
+                $dataUser = $this->_userModel->getDataByIdentity($data->origin_sq_person);
+
+                if ($dataUser->sq_address) {
+
+                    # stop the request.
+                    echo json_encode('Address Already');
+                    \Slim\Slim::getInstance()->stop();
+                }
+            }
+
+            return $this->_userModel->addAddress($data);
         } catch (Exception $ex) {
 
             throw $ex;

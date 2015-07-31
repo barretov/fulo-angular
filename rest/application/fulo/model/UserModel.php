@@ -118,23 +118,25 @@ class UserModel extends MasterModel
      * @name getUsers
      * @author Victor Eduardo Barreto
      * @return array Data of users
-     * @param int $sq_person Id of loged user
+     * @param int $sq_user Id of loged user
      * @date Apr 8, 2015
      * @version 1.0
      */
-    public function getUsers ($sq_person)
+    public function getUsers ($sq_user)
     {
         try {
 
             $stmt = $this->_conn->prepare("SELECT "
-                    . "sq_person, sq_user, ds_name, ds_email, sq_status_news, sq_profile, sq_status_user "
+                    . "person.sq_person, ds_name, ds_email, sq_status_news, sq_user, sq_profile, sq_status_user, "
+                    . "sq_address, nu_postcode, ac_state, ds_address, ds_complement, ds_city "
                     . "FROM fulo.person "
-                    . "JOIN fulo.user on sq_person = sq_user "
-                    . "and sq_person <> ? ORDER BY person.ds_name ASC"
+                    . "JOIN fulo.user ON (person.sq_person = sq_user) "
+                    . "LEFT JOIN fulo.address ON (person.sq_person = address.sq_person)"
+                    . "WHERE sq_user <> ? ORDER BY ds_name ASC"
             );
 
             $stmt->execute([
-                $sq_person
+                $sq_user
             ]);
 
             return $stmt->fetchAll();
@@ -145,22 +147,25 @@ class UserModel extends MasterModel
     }
 
     /**
-     * Method for get user by Identity
-     * @name getUserByIdentity
+     * Method for get user data by Identity
+     * @name getDataByIdentity
      * @author Victor Eduardo Barreto
      * @param int $sq_person User identifier
      * @return array Data of user selected
      * @date Apr 8, 2015
      * @version 1.0
      */
-    public function getUserByIdentity (& $sq_person)
+    public function getDataByIdentity (& $sq_person)
     {
         try {
 
             $stmt = $this->_conn->prepare("SELECT "
-                    . "sq_person, ds_name, ds_email, sq_profile, sq_status_news "
-                    . "FROM fulo.person JOIN fulo.user on sq_person = sq_user "
-                    . "WHERE sq_person = ?");
+                    . "person.sq_person, ds_name, ds_email, sq_status_news, sq_user, sq_profile, sq_status_user, "
+                    . "ds_password, sq_address, nu_postcode, ac_state, ds_address, ds_complement, ds_city "
+                    . "FROM fulo.person "
+                    . "JOIN fulo.user ON (person.sq_person = sq_user) "
+                    . "LEFT JOIN fulo.address ON (person.sq_person = address.sq_person)"
+                    . "WHERE person.sq_person = ?");
 
             $stmt->execute([
                 $sq_person
@@ -188,9 +193,13 @@ class UserModel extends MasterModel
 
         try {
 
-            $stmt = $this->_conn->prepare("SELECT * FROM fulo.person"
-                    . " JOIN fulo.user ON sq_person = sq_user "
-                    . "WHERE person.ds_email = ?");
+            $stmt = $this->_conn->prepare("SELECT "
+                    . "person.sq_person, ds_name, ds_email, sq_status_news, sq_user, sq_profile, sq_status_user, "
+                    . "ds_password, sq_address, nu_postcode, ac_state, ds_address, ds_complement, ds_city "
+                    . "FROM fulo.person "
+                    . "JOIN fulo.user ON (person.sq_person = sq_user) "
+                    . "LEFT JOIN fulo.address ON (person.sq_person = address.sq_person)"
+                    . "WHERE ds_email = ?");
 
             $stmt->execute([
                 $ds_email
@@ -286,6 +295,80 @@ class UserModel extends MasterModel
             $stmt->execute([
                 STATUS_ACTIVE,
                 $sq_user
+            ]);
+
+            return $this->_conn->commit();
+        } catch (Exception $ex) {
+
+            $this->_conn->rollBack();
+
+            throw $ex;
+        }
+    }
+
+    /**
+     * Method for update address
+     * @name upAddress
+     * @author Victor Eduardo Barreto
+     * @param Object $data Data user
+     * @return bool Result of procedure
+     * @date Jul 29, 2015
+     * @version 1.0
+     */
+    public function upAddress (& $data)
+    {
+        try {
+
+            $this->_conn->beginTransaction();
+
+            $stmt = $this->_conn->prepare("UPDATE fulo.address "
+                    . "SET nu_postcode = ? , ac_state = ?, ds_address = ?, ds_complement = ?, ds_city = ? "
+                    . "WHERE sq_address = ?");
+
+            $stmt->execute([
+                $data->nu_postcode,
+                $data->ac_state,
+                $data->ds_address,
+                $data->ds_complement,
+                $data->ds_city,
+                $data->sq_address
+            ]);
+
+            return $this->_conn->commit();
+        } catch (Exception $ex) {
+
+            $this->_conn->rollBack();
+
+            throw $ex;
+        }
+    }
+
+    /**
+     * Method for add address
+     * @name addAddress
+     * @author Victor Eduardo Barreto
+     * @param Object $data Data user
+     * @return bool Result of procedure
+     * @date Jul 30, 2015
+     * @version 1.0
+     */
+    public function addAddress (& $data)
+    {
+        try {
+
+            $this->_conn->beginTransaction();
+
+            $stmt = $this->_conn->prepare("INSERT INTO fulo.address "
+                    . "(sq_person, nu_postcode, ac_state, ds_address, ds_complement, ds_city) "
+                    . "VALUES (?,?,?,?,?,?)");
+
+            $stmt->execute([
+                $data->sq_person,
+                $data->nu_postcode,
+                $data->ac_state,
+                $data->ds_address,
+                $data->ds_complement,
+                $data->ds_city
             ]);
 
             return $this->_conn->commit();
