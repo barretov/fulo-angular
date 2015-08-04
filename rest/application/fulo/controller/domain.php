@@ -93,3 +93,26 @@ $app->get("/getSecret", function () {
     }
 });
 
+/**
+ * Method for get postal data by zip code
+ * @name getAddressByZip
+ * @author Victor Eduardo Barreto
+ * @return Object Data address
+ * @date Jul 31, 2015
+ * @version 1.0
+ */
+$app->get("/getAddressByZip", function () {
+
+    try {
+
+        $business = MasterController::getDomainBusiness();
+
+        $data = \Slim\Slim::getInstance()->request()->params();
+
+        echo json_encode($business->getAddressByZip($data));
+    } catch (Exception $ex) {
+
+        throw $ex;
+    }
+});
+

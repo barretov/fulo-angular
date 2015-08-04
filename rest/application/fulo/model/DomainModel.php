@@ -57,4 +57,42 @@ class DomainModel extends MasterModel
         }
     }
 
+    /**
+     * Method for get postal data by zip code
+     * @name getAddressByZip
+     * @author Victor Eduardo Barreto
+     * @param String $data Data user
+     * @return Object Data address
+     * @date Jul 31, 2015
+     * @version 1.0
+     */
+    public function getAddressByZip ($data)
+    {
+
+        try {
+
+            $this->_conn->beginTransaction();
+
+            $stmt = $this->_conn->prepare("SELECT "
+                    . "log_logradouro.log_no as logradouro, log_logradouro.log_tipo_logradouro, "
+                    . "log_bairro.bai_no as bairro, log_localidade.loc_no as cidade, log_localidade.ufe_sg as uf, "
+                    . "log_logradouro.cep "
+                    . "FROM cep.log_logradouro,cep.log_localidade, cep.log_bairro "
+                    . "WHERE log_logradouro.loc_nu_sequencial = log_localidade.loc_nu_sequencial "
+                    . "AND log_logradouro.bai_nu_sequencial_ini = log_bairro.bai_nu_sequencial "
+                    . "AND log_logradouro.cep = ?");
+
+            $stmt->execute([
+                $data->nu_postcode
+            ]);
+
+            return $stmt->fetch();
+        } catch (Exception $ex) {
+
+            $this->_conn->rollback();
+
+            throw $ex;
+        }
+    }
+
 }

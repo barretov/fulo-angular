@@ -41,7 +41,7 @@ $app.controller('customerController', function ($scope, $http, $location) {
         $scope.showLoader();
 
         // validate passwords
-        if ($scope.user.ds_re_password === null || $scope.user.ds_password === $scope.user.re_password) {
+        if ($scope.user.ds_password === $scope.user.re_password) {
 
             // adjust parameters and add origin data.
             $param = $scope.configParam($scope.user);
@@ -114,7 +114,7 @@ $app.controller('customerController', function ($scope, $http, $location) {
         $scope.showLoader();
 
         // validate passwords
-        if ($scope.row.ds_re_password === null || $scope.row.ds_password === $scope.row.re_password) {
+        if ($scope.row.ds_password === $scope.row.re_password) {
 
             // adjust parameters and add origin data.
             $param = $scope.configParam($scope.row);
@@ -175,28 +175,32 @@ $app.controller('customerController', function ($scope, $http, $location) {
     };
 
     /**
-     * Method for add address
-     * @name addAddress
+     * Method for get data address by zip
+     * @name getAddressByZip
      * @author Victor Eduardo Barreto
-     * @date Jul 30, 2015
+     * @date Jul 31, 2015
      * @version 1.0
      */
-    $scope.addAddress = function () {
+    $scope.getAddressByZip = function () {
 
         $scope.showLoader();
 
         // adjust parameters and add origin data.
-        $param = $scope.configParam($scope.user);
+        $param = $scope.configParam({nu_postcode: $scope.user.nu_postcode});
 
-        $http.post($scope.server("/addAddress"), $param).success(function ($return) {
+        $http.get($scope.server("/getAddressByZip"), {params: $param}).success(function ($return) {
 
             // verify return data.
             $scope.securityReponse($return);
 
+            // update user data.
+            $scope.user.ds_city = $return.cidade;
+            $scope.user.ds_neighborhood = $return.bairro;
+            $scope.user.ds_address = $return.log_tipo_logradouro + " " + $return.logradouro;
+            $scope.user.ac_state = $return.uf;
+
             $scope.hideLoader();
-            sessionStorage.setItem('user', JSON.stringify($scope.user));
-            $scope.showFlashmessage('alert-success', $scope.constant.MSG0001);
-            $location.path("/");
+
         });
     };
 });

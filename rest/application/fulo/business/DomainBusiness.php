@@ -121,4 +121,29 @@ class DomainBusiness extends MasterBusiness
         }
     }
 
+    /**
+     * Method for business of get postal data by zip code
+     * @name getAddressByZip
+     * @author Victor Eduardo Barreto
+     * @param String $data User data
+     * @return Object Data address
+     * @date Jul 31, 2015
+     * @version 1.0
+     */
+    public function getAddressByZip (& $data)
+    {
+
+        try {
+
+            $this->validateSecret($data);
+
+            $this->removeSpecialChar($data);
+
+            return $this->_domainModel->getAddressByZip($data);
+        } catch (Exception $ex) {
+
+            throw $ex;
+        }
+    }
+
 }

@@ -45,6 +45,7 @@ class UserModel extends MasterModel
 
             $this->_conn->beginTransaction();
 
+            # Person.
             $stmtPerson = $this->_conn->prepare("INSERT INTO fulo.person (ds_name, ds_email) VALUES (?,?)");
 
             $stmtPerson->execute([
@@ -52,12 +53,28 @@ class UserModel extends MasterModel
                 $data->ds_email,
             ]);
 
+            # User.
             $stmtUser = $this->_conn->prepare("INSERT INTO fulo.user (sq_user, sq_profile, ds_password) VALUES (?,?,?)");
 
             $stmtUser->execute([
                 $this->_conn->lastInsertId('fulo.person_sq_person_seq'),
                 $data->sq_profile,
                 $data->ds_password,
+            ]);
+
+            # Address.
+            $stmtAddress = $this->_conn->prepare("INSERT INTO fulo.address (sq_person) VALUES (?)");
+
+            $stmtAddress->execute([
+                $this->_conn->lastInsertId('fulo.person_sq_person_seq'),
+            ]);
+
+            # Phone.
+            $stmtPhone = $this->_conn->prepare("INSERT INTO fulo.phone (sq_person, nu_phone) VALUES (?,?)");
+
+            $stmtPhone->execute([
+                $this->_conn->lastInsertId('fulo.person_sq_person_seq'),
+                null
             ]);
 
             return $this->_conn->commit();
@@ -104,6 +121,14 @@ class UserModel extends MasterModel
                 $data->sq_person,
             ]);
 
+            # set $stmt to update phone.
+            $stmtPhone = $this->_conn->prepare("UPDATE fulo.phone SET nu_phone = ? WHERE sq_person = ?");
+
+            $stmtPhone->execute([
+                $data->nu_phone,
+                $data->sq_person,
+            ]);
+
             return $this->_conn->commit();
         } catch (Exception $ex) {
 
@@ -128,10 +153,11 @@ class UserModel extends MasterModel
 
             $stmt = $this->_conn->prepare("SELECT "
                     . "person.sq_person, ds_name, ds_email, sq_status_news, sq_user, sq_profile, sq_status_user, "
-                    . "sq_address, nu_postcode, ac_state, ds_address, ds_complement, ds_city "
+                    . "sq_address, nu_postcode, ac_state, ds_address, ds_complement, ds_city, nu_phone "
                     . "FROM fulo.person "
                     . "JOIN fulo.user ON (person.sq_person = sq_user) "
                     . "LEFT JOIN fulo.address ON (person.sq_person = address.sq_person)"
+                    . "JOIN fulo.phone ON (person.sq_person = phone.sq_person)"
                     . "WHERE sq_user <> ? ORDER BY ds_name ASC"
             );
 
@@ -161,10 +187,12 @@ class UserModel extends MasterModel
 
             $stmt = $this->_conn->prepare("SELECT "
                     . "person.sq_person, ds_name, ds_email, sq_status_news, sq_user, sq_profile, sq_status_user, "
-                    . "ds_password, sq_address, nu_postcode, ac_state, ds_address, ds_complement, ds_city "
+                    . "ds_password, sq_address, nu_postcode, ac_state, ds_address, ds_complement, ds_city, "
+                    . "ds_neighborhood, nu_phone "
                     . "FROM fulo.person "
                     . "JOIN fulo.user ON (person.sq_person = sq_user) "
                     . "LEFT JOIN fulo.address ON (person.sq_person = address.sq_person)"
+                    . "JOIN fulo.phone ON (person.sq_person = phone.sq_person)"
                     . "WHERE person.sq_person = ?");
 
             $stmt->execute([
@@ -195,10 +223,12 @@ class UserModel extends MasterModel
 
             $stmt = $this->_conn->prepare("SELECT "
                     . "person.sq_person, ds_name, ds_email, sq_status_news, sq_user, sq_profile, sq_status_user, "
-                    . "ds_password, sq_address, nu_postcode, ac_state, ds_address, ds_complement, ds_city "
+                    . "ds_password, sq_address, nu_postcode, ac_state, ds_address, ds_complement, ds_city, "
+                    . "ds_neighborhood, nu_phone "
                     . "FROM fulo.person "
                     . "JOIN fulo.user ON (person.sq_person = sq_user) "
                     . "LEFT JOIN fulo.address ON (person.sq_person = address.sq_person)"
+                    . "JOIN fulo.phone ON (person.sq_person = phone.sq_person)"
                     . "WHERE ds_email = ?");
 
             $stmt->execute([
@@ -317,12 +347,14 @@ class UserModel extends MasterModel
      */
     public function upAddress (& $data)
     {
+
         try {
 
             $this->_conn->beginTransaction();
 
             $stmt = $this->_conn->prepare("UPDATE fulo.address "
-                    . "SET nu_postcode = ? , ac_state = ?, ds_address = ?, ds_complement = ?, ds_city = ? "
+                    . "SET nu_postcode = ? , ac_state = ?, ds_address = ?, ds_complement = ?, ds_city = ?, "
+                    . "ds_neighborhood = ? "
                     . "WHERE sq_address = ?");
 
             $stmt->execute([
@@ -331,44 +363,8 @@ class UserModel extends MasterModel
                 $data->ds_address,
                 $data->ds_complement,
                 $data->ds_city,
+                $data->ds_neighborhood,
                 $data->sq_address
-            ]);
-
-            return $this->_conn->commit();
-        } catch (Exception $ex) {
-
-            $this->_conn->rollBack();
-
-            throw $ex;
-        }
-    }
-
-    /**
-     * Method for add address
-     * @name addAddress
-     * @author Victor Eduardo Barreto
-     * @param Object $data Data user
-     * @return bool Result of procedure
-     * @date Jul 30, 2015
-     * @version 1.0
-     */
-    public function addAddress (& $data)
-    {
-        try {
-
-            $this->_conn->beginTransaction();
-
-            $stmt = $this->_conn->prepare("INSERT INTO fulo.address "
-                    . "(sq_person, nu_postcode, ac_state, ds_address, ds_complement, ds_city) "
-                    . "VALUES (?,?,?,?,?,?)");
-
-            $stmt->execute([
-                $data->sq_person,
-                $data->nu_postcode,
-                $data->ac_state,
-                $data->ds_address,
-                $data->ds_complement,
-                $data->ds_city
             ]);
 
             return $this->_conn->commit();

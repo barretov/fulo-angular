@@ -2,99 +2,373 @@
 
 <div ng-init="getUser()">
 
-    <!--presentation-->
-    <h1><span class="text-primary hidden-xs" ng-bind="row.ds_name"></span></h1>
-    <h2><span class="text-primary hidden-sm hidden-md hidden-lg" ng-bind="row.ds_name"></span></h2>
+    <!--tabs-->
+    <div role="tabpanel">
 
-    <form name="formPessoal" class="form-horizontal" ng-show="row != null">
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
 
-        <!--sq_person hidden-->
-        <input name="sq_person" type="hidden" ng-model="row.sq_person" />
-        <!--sq_person hidden-->
+            <li id="tabPessoal" role="presentation" class="active" ng-click="$('#tabPessoal a').tab('show')">
+                <a href=".pessoal" aria-controls="home" role="tab" data-toggle="tab">Pessoal</a>
+            </li>
 
-        <!--field name-->
-        <div class="form-group">
-            <label class="col-sm-2 control-label">name</label>
+            <li id="tabLocalizacao" role="presentation" ng-click="$('#tabLocalizacao a').tab('show')">
+                <a href=".localizacao" aria-controls="profile" role="tab" data-toggle="tab">Localização</a>
+            </li>
 
-            <div class="col-xs-12 col-sm-6 col-md-6">
-                <input class="form-control"
-                       placeholder="name e sobrename"
-                       name="ds_name"
-                       type="text"
-                       ng-maxlength="50"
-                       maxlength="50"
-                       ng-model="row.ds_name"
-                       required/>
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+
+            <!--content of the tab user data-->
+            <div role="tabpanel" class="tab-pane fade in active pessoal">
+
+                <!--presentation-->
+                <h1><span class="text-primary hidden-xs" ng-bind="row.ds_name"></span></h1>
+                <h2><span class="text-primary hidden-sm hidden-md hidden-lg" ng-bind="row.ds_name"></span></h2>
+
+                <form name="formPessoal" class="form-horizontal" ng-show="row != null">
+
+                    <!--sq_person hidden-->
+                    <input name="sq_person" type="hidden" ng-model="row.sq_person" />
+                    <!--sq_person hidden-->
+
+                    <!--field name-->
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Nome<span class="text-danger">*</span></label>
+
+                        <div class="col-xs-12 col-sm-6 col-md-6">
+                            <input class="form-control"
+                                   placeholder="name e sobrename"
+                                   name="ds_name"
+                                   type="text"
+                                   ng-maxlength="50"
+                                   maxlength="50"
+                                   ng-model="row.ds_name"
+                                   required/>
+                        </div>
+
+                        <div class="help-block-input col-xs-12 col-sm-4 col-md-4">
+                            <span class="text-danger" ng-show="formPessoal.ds_name.$dirty && formPessoal.ds_name.$invalid">
+                                <i class="glyphicon glyphicon-remove-sign"></i>
+                                <span ng-show="formPessoal.ds_name.$error.required">field obrigatório</span>
+                                <span ng-show="formPessoal.ds_name.$error.maxlength">Máximo de cinquenta caracteres</span>
+                            </span>
+
+                        </div>
+                    </div>
+                    <!--field name-->
+
+                    <!--field email-->
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">E-mail<span class="text-danger">*</span></label>
+
+                        <div class="col-xs-12 col-sm-6 col-md-6">
+                            <input class="form-control text-lowercase"
+                                   placeholder="E-mail"
+                                   name="ds_email"
+                                   type="email"
+                                   ng-model="row.ds_email"
+                                   maxlength="50"
+                                   ng-maxlength="50"
+                                   required/>
+                        </div>
+
+                        <div class="help-block-input col-xs-12 col-sm-4 col-md-4">
+
+                            <span class="text-danger" ng-show="formPessoal.ds_email.$dirty && formPessoal.ds_email.$invalid">
+                                <i class="glyphicon glyphicon-remove-sign"></i>
+                                <span ng-show="formPessoal.ds_email.$error.required">field obrigatório</span>
+                                <span ng-show="formPessoal.ds_email.$error.email">Email inválido</span>
+                                <span ng-show="formPessoal.ds_email.$error.maxlength">Máximo de cinquenta caracteres</span>
+                            </span>
+
+                        </div>
+                    </div>
+                    <!--field email-->
+
+                    <!--field phone-->
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Telefone<span class="text-danger">*</span></label>
+
+
+                        <div class="col-xs-12 col-sm-6 col-md-6">
+                            <input class="form-control"
+                                   placeholder="Informe o telefone Ex: 6122233345"
+                                   name="phone"
+                                   type="text"
+                                   ng-model="row.nu_phone"
+                                   maxlength="11"
+                                   ng-maxlength="11"
+                                   ng-minlength="10"
+                                   pattern="[0-9]+$"
+                                   />
+                        </div>
+
+                        <div class="help-block-input col-xs-12 col-sm-4 col-md-4">
+
+                            <span class="text-danger" ng-show="formPessoal.phone.$dirty && formPessoal.phone.$invalid">
+                                <i class="glyphicon glyphicon-remove-sign"></i>
+                                <span ng-show="formPessoal.phone.$error.maxlength">Máximo de onze caracteres.</span>
+                                <span ng-show="formPessoal.phone.$error.minlength">Minimo de dez caracteres.</span>
+                                <span ng-show="formPessoal.phone.$error.pattern">Somente números.</span>
+                            </span>
+
+                        </div>
+                    </div>
+                    <!--field phone-->
+
+                    <!--field profile-->
+                    <div class="form-group" ng-init="teste = getProfiles()">
+
+                        <label class="col-xs-2 col-sm-2 col-md-2 col-lg-2 control-label">Perfil<span class="text-danger">*</span></label>
+
+                        <div class="radio radio-inline radio-center" ng-repeat="prof in profiles">
+                            <label>
+                                <input type="radio" name="sq_profile" value="{{prof.sq_profile}}" ng-model="row.sq_profile" required/> {{prof.ds_profile}}
+                            </label>
+                        </div>
+
+                    </div>
+                    <!--field profile-->
+
+                    <!--buttons-->
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+
+                            <button type="submit" class="btn btn-primary btn-sm" ng-click="upUser()" ng-Disabled="formPessoal.$invalid">Salvar
+                                <i class="glyphicon glyphicon-save"></i>
+                            </button>
+
+                            <a class="btn btn-default btn-sm" href="#/user/listUser">Voltar
+                                <i class="glyphicon glyphicon-arrow-left"></i>
+                            </a>
+
+                        </div>
+                    </div>
+
+                </form>
+
             </div>
 
-            <div class="help-block-input col-xs-12 col-sm-4 col-md-4">
-                <span class="text-danger" ng-show="formPessoal.ds_name.$dirty && formPessoal.ds_name.$invalid">
-                    <i class="glyphicon glyphicon-remove-sign"></i>
-                    <span ng-show="formPessoal.ds_name.$error.required">field obrigatório</span>
-                    <span ng-show="formPessoal.ds_name.$error.maxlength">Máximo de cinquenta caracteres</span>
-                </span>
+            <!--content of the tab localization data-->
+            <div role="tabpanel" class="tab-pane fade in localizacao">
+
+                <br />
+
+                <form name="formLocal" class="form-horizontal">
+
+                    <!--field postal code-->
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">CEP<span class="text-danger">*</span></label>
+
+                        <div class="col-xs-12 col-sm-6 col-md-6">
+
+                            <input class="form-control"
+                                   placeholder="Informe o CEP"
+                                   name="zip"
+                                   type="text"
+                                   maxlength="8"
+                                   ng-maxlength="8"
+                                   ng-minlength="8"
+                                   ng-model="row.nu_postcode"
+                                   pattern="[0-9 -]+$"
+                                   ng-blur="getAddressByZip(row.nu_postcode)"
+                                   required/>
+                        </div>
+
+                        <div class="help-block-input col-xs-12 col-sm-4 col-md-4">
+
+                            <span class="text-danger" ng-show="formLocal.zip.$dirty && formLocal.zip.$invalid">
+                                <i class="glyphicon glyphicon-remove-sign"></i>
+                                <span ng-show="formLocal.zip.$error.required">Campo obrigatório.</span>
+                                <span ng-show="formLocal.zip.$error.maxlength">Máximo de oito caracteres.</span>
+                                <span ng-show="formLocal.zip.$error.minlength">Mínimo de oito caracteres.</span>
+                                <span ng-show="formLocal.zip.$error.pattern">Somente números.</span>
+                            </span>
+
+                        </div>
+                    </div>
+                    <!--field postal code-->
+
+                    <!--field state-->
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">UF<span class="text-danger">*</span></label>
+
+                        <div class="col-xs-12 col-sm-6 col-md-6">
+
+                            <input class="form-control"
+                                   placeholder="Informe a UF"
+                                   name="province"
+                                   type="text"
+                                   maxlength="2"
+                                   ng-maxlength="2"
+                                   ng-minlength="2"
+                                   ng-model="row.ac_state"
+                                   required/>
+                        </div>
+
+                        <div class="help-block-input col-xs-12 col-sm-4 col-md-4">
+
+                            <span class="text-danger" ng-show="formLocal.province.$dirty && formLocal.province.$invalid">
+                                <i class="glyphicon glyphicon-remove-sign"></i>
+                                <span ng-show="formLocal.province.$error.required">Campo obrigatório</span>
+                                <span ng-show="formLocal.province.$error.maxlength">Máximo de dois caracteres</span>
+                                <span ng-show="formLocal.province.$error.minlength">Mínimo de dois caracteres</span>
+                            </span>
+
+                        </div>
+                    </div>
+                    <!--field state-->
+
+                    <!--field city-->
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Cidade<span class="text-danger">*</span></label>
+
+                        <div class="col-xs-12 col-sm-6 col-md-6">
+
+                            <input class="form-control"
+                                   placeholder="Informe a cidade"
+                                   name="city"
+                                   type="text"
+                                   maxlength="100"
+                                   ng-maxlength="100"
+                                   ng-minlength="2"
+                                   ng-model="row.ds_city"
+                                   required/>
+                        </div>
+
+                        <div class="help-block-input col-xs-12 col-sm-4 col-md-4">
+
+                            <span class="text-danger" ng-show="formLocal.city.$dirty && formLocal.city.$invalid">
+                                <i class="glyphicon glyphicon-remove-sign"></i>
+                                <span ng-show="formLocal.city.$error.required">Campo obrigatório</span>
+                                <span ng-show="formLocal.city.$error.maxlength">Máximo de cem caracteres</span>
+                                <span ng-show="formLocal.city.$error.minlength">Mínimo de dois caracteres</span>
+                            </span>
+
+                        </div>
+                    </div>
+                    <!--field city-->
+
+                    <!--field neighborhood-->
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Bairro<span class="text-danger">*</span></label>
+
+                        <div class="col-xs-12 col-sm-6 col-md-6">
+
+                            <input class="form-control"
+                                   placeholder="Informe o bairro"
+                                   name="neighborhood"
+                                   type="text"
+                                   maxlength="100"
+                                   ng-maxlength="100"
+                                   ng-minlength="2"
+                                   ng-model="row.ds_neighborhood"
+                                   required/>
+                        </div>
+
+                        <div class="help-block-input col-xs-12 col-sm-4 col-md-4">
+
+                            <span class="text-danger" ng-show="formLocal.neighborhood.$dirty && formLocal.neighborhood.$invalid">
+                                <i class="glyphicon glyphicon-remove-sign"></i>
+                                <span ng-show="formLocal.neighborhood.$error.required">Campo obrigatório</span>
+                                <span ng-show="formLocal.neighborhood.$error.maxlength">Máximo de cem caracteres</span>
+                                <span ng-show="formLocal.neighborhood.$error.minlength">Mínimo de dois caracteres</span>
+                            </span>
+
+                        </div>
+                    </div>
+                    <!--field neighborhood-->
+
+                    <!--field address-->
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Endereço<span class="text-danger">*</span></label>
+
+                        <div class="col-xs-12 col-sm-6 col-md-6">
+
+                            <input class="form-control"
+                                   placeholder="Informe o endereço"
+                                   name="address"
+                                   type="address"
+                                   maxlength="100"
+                                   ng-maxlength="100"
+                                   ng-minlength="4"
+                                   ng-model="row.ds_address"
+                                   required/>
+                        </div>
+
+                        <div class="help-block-input col-xs-12 col-sm-4 col-md-4">
+
+                            <span class="text-danger" ng-show="formLocal.address.$dirty && formLocal.address.$invalid">
+                                <i class="glyphicon glyphicon-remove-sign"></i>
+                                <span ng-show="formLocal.address.$error.required">Campo obrigatório</span>
+                                <span ng-show="formLocal.address.$error.maxlength">Máximo de cem caracteres</span>
+                                <span ng-show="formLocal.address.$error.minlength">Mínimo de quatro caracteres</span>
+                            </span>
+
+                        </div>
+                    </div>
+                    <!--field address-->
+
+                    <!--field complement-->
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Complemento</label>
+
+                        <div class="col-xs-12 col-sm-6 col-md-6">
+
+                            <input class="form-control"
+                                   placeholder="Complemento. Ex: Ap 01, casa 01, lote 01."
+                                   name="complement"
+                                   type="text"
+                                   maxlength="100"
+                                   ng-maxlength="100"
+                                   ng-model="row.ds_complement"
+                                   pattern="[A-Z a-z 0-9]+$"
+                                   />
+                        </div>
+
+                        <div class="help-block-input col-xs-12 col-sm-4 col-md-4">
+
+                            <span class="text-danger" ng-show="formLocal.complement.$dirty && formLocal.complement.$invalid">
+                                <i class="glyphicon glyphicon-remove-sign"></i>
+                                <span ng-show="formLocal.complement.$error.pattern">Não é permitido caracteres especiais.</span>
+                            </span>
+
+                        </div>
+
+                    </div>
+                    <!--field complement-->
+
+                    <!--buttons-->
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+
+                            <button
+                                type="submit"
+                                class="btn btn-primary btn-sm"
+                                ng-click="upAddress()"
+                                ng-Disabled="formLocal.$invalid">
+                                Salvar
+                                <i class="glyphicon glyphicon-save"></i>
+                            </button>
+
+                            <a class="btn btn-default btn-sm" href="#/user/listUser">Voltar
+                                <i class="glyphicon glyphicon-arrow-left"></i>
+                            </a>
+
+                        </div>
+                    </div>
+                    <!--buttons-->
+
+                </form>
 
             </div>
+            <!--content of the tab localization data-->
+
         </div>
-        <!--field name-->
 
-        <!--field email-->
-        <div class="form-group">
-            <label class="col-sm-2 control-label">E-mail</label>
-
-            <div class="col-xs-12 col-sm-6 col-md-6">
-                <input class="form-control text-lowercase"
-                       placeholder="E-mail"
-                       name="ds_email"
-                       type="email"
-                       ng-model="row.ds_email"
-                       maxlength="50"
-                       ng-maxlength="50"
-                       required/>
-            </div>
-
-            <div class="help-block-input col-xs-12 col-sm-4 col-md-4">
-
-                <span class="text-danger" ng-show="formPessoal.ds_email.$dirty && formPessoal.ds_email.$invalid">
-                    <i class="glyphicon glyphicon-remove-sign"></i>
-                    <span ng-show="formPessoal.ds_email.$error.required">field obrigatório</span>
-                    <span ng-show="formPessoal.ds_email.$error.email">Email inválido</span>
-                    <span ng-show="formPessoal.ds_email.$error.maxlength">Máximo de cinquenta caracteres</span>
-                </span>
-
-            </div>
-        </div>
-        <!--field email-->
-
-        <!--field profile-->
-        <div class="form-group" ng-init="teste = getProfiles()">
-
-            <label class="col-xs-2 col-sm-2 col-md-2 col-lg-2 control-label">Perfil</label>
-
-            <div class="radio radio-inline radio-center" ng-repeat="prof in profiles">
-                <label>
-                    <input type="radio" name="sq_profile" value="{{prof.sq_profile}}" ng-model="row.sq_profile" required/> {{prof.ds_profile}}
-                </label>
-            </div>
-
-        </div>
-        <!--field profile-->
-
-        <!--buttons-->
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-
-                <button type="submit" class="btn btn-primary btn-sm" ng-click="upUser()" ng-Disabled="formPessoal.$invalid">Salvar
-                    <i class="glyphicon glyphicon-save"></i>
-                </button>
-
-                <a class="btn btn-default btn-sm" href="#/user/listUser">Voltar
-                    <i class="glyphicon glyphicon-remove"></i>
-                </a>
-
-            </div>
-        </div>
-
-    </form>
+    </div>
 
 </div>

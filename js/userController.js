@@ -119,7 +119,7 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
         $param = $scope.configParam($scope.row);
 
         // validate passwords
-        if ($scope.row.ds_re_password === null || $scope.row.ds_password === $scope.row.re_password) {
+        if ($scope.row.ds_password === $scope.row.re_password) {
 
             $http.post($scope.server("/addUser"), $param).success(function ($return) {
 
@@ -231,51 +231,6 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
     };
 
     /**
-     * Method for add customer
-     * @name addCustomer
-     * @author Victor Eduardo Barreto
-     * @date Jun 10, 2015
-     * @version 1.0
-     */
-    $scope.addCustomer = function () {
-
-        $scope.showLoader();
-
-        // validate passwords
-        if ($scope.row.ds_re_password === null || $scope.row.ds_password === $scope.row.re_senha) {
-
-            // adjust parameters and add origin data.
-            $param = $scope.configParam($scope.row);
-
-            $http.post($scope.server("/addCustomer/"), $param).success(function ($return) {
-
-                // verify return data.
-                $scope.securityReponse($return);
-
-                // verify if email already exists.
-                if ($return === "email-already") {
-
-                    $scope.hideLoader();
-
-                    $scope.showFlashmessage('alert-warning', $scope.constant.MSG0002);
-
-                } else {
-
-                    $scope.hideLoader();
-
-                    // do the login.
-                    $scope.login($scope.row);
-
-                    $location.path("/");
-                }
-            });
-
-        } else {
-            $scope.showFlashmessage("alert-warning", $scope.constant.MSG0003);
-        }
-    };
-
-    /**
      * Method for get user profile
      * @name getProfiles
      * @author Victor Eduardo Barreto
@@ -295,4 +250,32 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
             $scope.profiles = $return;
         });
     };
+
+    /**
+     * Method for up address
+     * @name upAddress
+     * @author Victor Eduardo Barreto
+     * @date Jul 29, 2015
+     * @version 1.0
+     */
+    $scope.upAddress = function () {
+
+        $scope.showLoader();
+
+        // adjust parameters and add origin data.
+        $param = $scope.configParam($scope.row);
+
+        $http.post($scope.server("/upAddress"), $param).success(function ($return) {
+
+            // verify return data.
+            $scope.securityReponse($return);
+
+            // insert current data in session and user variable.
+            sessionStorage.setItem('user', JSON.stringify($scope.user));
+            $scope.hideLoader();
+            $scope.showFlashmessage('alert-success', $scope.constant.MSG0001);
+            $location.path("/user/listUser");
+        });
+    };
+
 });

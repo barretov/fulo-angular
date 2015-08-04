@@ -36,7 +36,7 @@
 
                     <!--field name-->
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">Nome</label>
+                        <label class="col-sm-2 control-label">Nome<span class="text-danger">*</span></label>
 
                         <div class="col-xs-12 col-sm-6 col-md-6">
                             <input class="form-control"
@@ -62,8 +62,7 @@
 
                     <!--field email-->
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">E-mail</label>
-
+                        <label class="col-sm-2 control-label">E-mail<span class="text-danger">*</span></label>
 
                         <div class="col-xs-12 col-sm-6 col-md-6">
                             <input class="form-control text-lowercase"
@@ -88,6 +87,37 @@
                         </div>
                     </div>
                     <!--field email-->
+
+                    <!--field phone-->
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Telefone</label>
+
+
+                        <div class="col-xs-12 col-sm-6 col-md-6">
+                            <input class="form-control"
+                                   placeholder="Informe o telefone Ex: 6122233345"
+                                   name="phone"
+                                   type="text"
+                                   ng-model="user.nu_phone"
+                                   maxlength="11"
+                                   ng-maxlength="11"
+                                   ng-minlength="10"
+                                   pattern="[0-9]+$"
+                                   />
+                        </div>
+
+                        <div class="help-block-input col-xs-12 col-sm-4 col-md-4">
+
+                            <span class="text-danger" ng-show="formPessoal.phone.$dirty && formPessoal.phone.$invalid">
+                                <i class="glyphicon glyphicon-remove-sign"></i>
+                                <span ng-show="formPessoal.phone.$error.maxlength">Máximo de onze caracteres.</span>
+                                <span ng-show="formPessoal.phone.$error.minlength">Minimo de dez caracteres.</span>
+                                <span ng-show="formPessoal.phone.$error.pattern">Somente números.</span>
+                            </span>
+
+                        </div>
+                    </div>
+                    <!--field phone-->
 
                     <!--newsletter-->
                     <div class="form-group">
@@ -117,7 +147,7 @@
                     <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-10">
 
-                            <button type="submit" class="btn btn-primary btn-sm" ng-click="upCustomer()" ng-Disabled="formPessoal.$invalid">
+                            <button type="submit" class="btn btn-primary btn-sm" ng-click="upUser()" ng-Disabled="formPessoal.$invalid">
                                 Salvar
                                 <i class="glyphicon glyphicon-save"></i>
                             </button>
@@ -140,7 +170,7 @@
 
                 </form>
 
-            </div>
+            </div
 
             <!--content of the tab access data user-->
             <div role="tabpanel" class="tab-pane fade in acesso">
@@ -151,13 +181,13 @@
 
                     <!--field password-->
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">Senha</label>
+                        <label class="col-sm-2 control-label">Nova Senha<span class="text-danger">*</span></label>
 
 
                         <div class="col-xs-12 col-sm-6 col-md-6">
 
                             <input class="form-control"
-                                   placeholder="Senha"
+                                   placeholder="Informe a nova senha"
                                    name="password"
                                    type="password"
                                    maxlength="20"
@@ -182,7 +212,7 @@
 
                     <!--field re password-->
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">Repita a senha</label>
+                        <label class="col-sm-2 control-label">Repita a senha<span class="text-danger">*</span></label>
 
 
                         <div class="col-xs-12 col-sm-6 col-md-6">
@@ -241,7 +271,7 @@
 
                     <!--field postal code-->
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">CEP</label>
+                        <label class="col-sm-2 control-label">CEP<span class="text-danger">*</span></label>
 
                         <div class="col-xs-12 col-sm-6 col-md-6">
 
@@ -249,11 +279,12 @@
                                    placeholder="Informe o CEP"
                                    name="zip"
                                    type="text"
-                                   maxlength="9"
+                                   maxlength="8"
                                    ng-maxlength="8"
                                    ng-minlength="8"
                                    ng-model="user.nu_postcode"
                                    pattern="[0-9 -]+$"
+                                   ng-blur="getAddressByZip(user.nu_postcode)"
                                    required/>
                         </div>
 
@@ -273,7 +304,7 @@
 
                     <!--field state-->
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">UF</label>
+                        <label class="col-sm-2 control-label">UF<span class="text-danger">*</span></label>
 
                         <div class="col-xs-12 col-sm-6 col-md-6">
 
@@ -303,7 +334,7 @@
 
                     <!--field city-->
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">Cidade</label>
+                        <label class="col-sm-2 control-label">Cidade<span class="text-danger">*</span></label>
 
                         <div class="col-xs-12 col-sm-6 col-md-6">
 
@@ -311,8 +342,8 @@
                                    placeholder="Informe a cidade"
                                    name="city"
                                    type="text"
-                                   maxlength="50"
-                                   ng-maxlength="50"
+                                   maxlength="100"
+                                   ng-maxlength="100"
                                    ng-minlength="2"
                                    ng-model="user.ds_city"
                                    required/>
@@ -323,7 +354,7 @@
                             <span class="text-danger" ng-show="formLocal.city.$dirty && formLocal.city.$invalid">
                                 <i class="glyphicon glyphicon-remove-sign"></i>
                                 <span ng-show="formLocal.city.$error.required">Campo obrigatório</span>
-                                <span ng-show="formLocal.city.$error.maxlength">Máximo de cinquenta caracteres</span>
+                                <span ng-show="formLocal.city.$error.maxlength">Máximo de cem caracteres</span>
                                 <span ng-show="formLocal.city.$error.minlength">Mínimo de dois caracteres</span>
                             </span>
 
@@ -331,9 +362,39 @@
                     </div>
                     <!--field city-->
 
+                    <!--field neighborhood-->
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Bairro<span class="text-danger">*</span></label>
+
+                        <div class="col-xs-12 col-sm-6 col-md-6">
+
+                            <input class="form-control"
+                                   placeholder="Informe o bairro"
+                                   name="neighborhood"
+                                   type="text"
+                                   maxlength="100"
+                                   ng-maxlength="100"
+                                   ng-minlength="2"
+                                   ng-model="user.ds_neighborhood"
+                                   required/>
+                        </div>
+
+                        <div class="help-block-input col-xs-12 col-sm-4 col-md-4">
+
+                            <span class="text-danger" ng-show="formLocal.neighborhood.$dirty && formLocal.neighborhood.$invalid">
+                                <i class="glyphicon glyphicon-remove-sign"></i>
+                                <span ng-show="formLocal.neighborhood.$error.required">Campo obrigatório</span>
+                                <span ng-show="formLocal.neighborhood.$error.maxlength">Máximo de cem caracteres</span>
+                                <span ng-show="formLocal.neighborhood.$error.minlength">Mínimo de dois caracteres</span>
+                            </span>
+
+                        </div>
+                    </div>
+                    <!--field neighborhood-->
+
                     <!--field address-->
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">Endereço</label>
+                        <label class="col-sm-2 control-label">Endereço<span class="text-danger">*</span></label>
 
                         <div class="col-xs-12 col-sm-6 col-md-6">
 
@@ -368,7 +429,7 @@
                         <div class="col-xs-12 col-sm-6 col-md-6">
 
                             <input class="form-control"
-                                   placeholder="Informe o endereço"
+                                   placeholder="Complemento. Ex: Ap 01, casa 01, lote 01."
                                    name="complement"
                                    type="text"
                                    maxlength="100"
@@ -397,7 +458,7 @@
                             <button
                                 type="submit"
                                 class="btn btn-primary btn-sm"
-                                ng-click="(user.sq_address) ? upAddress() : addAddress()"
+                                ng-click="upAddress()"
                                 ng-Disabled="formLocal.$invalid">
                                 Salvar
                                 <i class="glyphicon glyphicon-save"></i>

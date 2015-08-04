@@ -160,10 +160,10 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	 src-table="fulo.log"
 	 dst-table="fulo.user"/>
 
-<table name="address" oids="false">
+<table name="address" oids="true">
 	<schema name="fulo"/>
 	<comment>table of address</comment>
-	<position x="794" y="1"/>
+	<position x="796" y="4"/>
 	<column name="sq_address" not-null="true">
 		<type name="serial" spatial-type="POINT" variation="0"/>
 		<comment>identifier of address</comment>
@@ -172,25 +172,29 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="integer" spatial-type="POINT" variation="0"/>
 		<comment>identifier of person</comment>
 	</column>
-	<column name="nu_postcode" not-null="true">
+	<column name="nu_postcode">
 		<type name="numeric" length="8" spatial-type="POINT" variation="0"/>
 		<comment>number of postcode</comment>
 	</column>
-	<column name="ac_state" not-null="true">
+	<column name="ac_state">
 		<type name="varchar" length="2" spatial-type="POINT" variation="0"/>
 		<comment>acronym of state</comment>
 	</column>
-	<column name="ds_address" not-null="true">
+	<column name="ds_address">
 		<type name="varchar" length="100" spatial-type="POINT" variation="0"/>
 		<comment>description of address</comment>
+	</column>
+	<column name="ds_city">
+		<type name="varchar" length="100" spatial-type="POINT" variation="0"/>
+		<comment>description of city</comment>
+	</column>
+	<column name="ds_neighborhood">
+		<type name="varchar" length="100" spatial-type="POINT" variation="0"/>
+		<comment>description of neighborhood</comment>
 	</column>
 	<column name="ds_complement">
 		<type name="varchar" length="100" spatial-type="POINT" variation="0"/>
 		<comment>complement of address</comment>
-	</column>
-	<column name="ds_city" not-null="true">
-		<type name="varchar" length="100" spatial-type="POINT" variation="0"/>
-		<comment>description of city</comment>
 	</column>
 	<constraint name="pk_address" type="pk-constr" factor="10" table="fulo.address">
 		<columns names="sq_address" ref-type="src-columns"/>

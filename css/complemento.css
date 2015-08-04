@@ -186,9 +186,9 @@ body {
     left: 4px;
     width: 18px;
     height: 18px;
-    background: white;
+    background: black;
     border-radius: 10px;
-    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.25);
     background-image: -webkit-linear-gradient(top, white 40%, #f0f0f0);
     background-image: -moz-linear-gradient(top, white 40%, #f0f0f0);
     background-image: -o-linear-gradient(top, white 40%, #f0f0f0);
@@ -208,15 +208,15 @@ body {
     height: 12px;
     background: #f9f9f9;
     border-radius: 6px;
-    box-shadow: inset 0 1px rgba(0, 0, 0, 0.02);
+    box-shadow: inset 0 1px rgba(0, 0, 0, 0.10);
     background-image: -webkit-linear-gradient(top, #eeeeee, white);
     background-image: -moz-linear-gradient(top, #eeeeee, white);
     background-image: -o-linear-gradient(top, #eeeeee, white);
     background-image: linear-gradient(to bottom, #eeeeee, white);
 }
 .switch-input:checked ~ .switch-handle {
-    left: 40px;
-    box-shadow: -1px 1px 5px rgba(0, 0, 0, 0.2);
+    left: 34px;
+    box-shadow: -1px 1px 5px rgba(0, 0, 0, 0.30);
 }
 
 .switch-green > .switch-input:checked ~ .switch-label {

@@ -130,10 +130,15 @@ class UserBusiness extends MasterBusiness
             # remove special char and spaces.
             $this->removeSpecialChar($data);
 
+            # adjust phone value.
+            empty($data->nu_phone) ? $data->nu_phone = null : '';
+
             # verify if profile is customer and adjust data.
             if ($data->origin_sq_profile === PROFILE_CUSTOMER) {
 
-                $data->sq_person = $data_origin_sq_person;
+                $data->sq_person = $data->origin_sq_person;
+                $data->sq_user = $data->origin_sq_user;
+                $data->sq_profile = $data->origin_sq_profile;
             }
 
             # send to the model of user for update and return for controller.
@@ -377,54 +382,6 @@ class UserBusiness extends MasterBusiness
             }
 
             return $this->_userModel->upAddress($data);
-        } catch (Exception $ex) {
-
-            throw $ex;
-        }
-    }
-
-    /**
-     * Method for business of add address
-     * @name addAddress
-     * @author Victor Eduardo Barreto
-     * @param Object $data Data user
-     * @return bool Result of procedure
-     * @date Jul 30, 2015
-     * @version 1.0
-     */
-    public function addAddress (& $data)
-    {
-        try {
-
-            # validade secret
-            $this->validateSecret($data);
-
-            # verify if profile is administrator and verify if already exists address.
-            if ($data->origin_sq_profile === PROFILE_ADMINISTRATOR) {
-
-                $dataUser = $this->_userModel->getDataByIdentity($data->sq_person);
-
-                if ($dataUser->sq_address) {
-
-                    # stop the request.
-                    echo json_encode('Address Already');
-                    \Slim\Slim::getInstance()->stop();
-                }
-
-                # verify if profile is customer and verify if already exists address.
-            } elseif ($data->origin_sq_profile === PROFILE_CUSTOMER) {
-
-                $dataUser = $this->_userModel->getDataByIdentity($data->origin_sq_person);
-
-                if ($dataUser->sq_address) {
-
-                    # stop the request.
-                    echo json_encode('Address Already');
-                    \Slim\Slim::getInstance()->stop();
-                }
-            }
-
-            return $this->_userModel->addAddress($data);
         } catch (Exception $ex) {
 
             throw $ex;
