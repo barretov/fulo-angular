@@ -49,7 +49,7 @@ $app.controller('customerController', function ($scope, $http, $location) {
             $http.post($scope.server("/upDataAccesss"), $param).success(function ($return) {
 
                 // verify return data.
-                $scope.securityReponse($return);
+                $scope.checkResponse($return);
 
                 $scope.hideLoader();
 
@@ -65,12 +65,12 @@ $app.controller('customerController', function ($scope, $http, $location) {
 
     /**
      * Method for update data user
-     * @name upUser
+     * @name upCustomer
      * @author Victor Eduardo Barreto
      * @date May 09, 2015
      * @version 1.0
      */
-    $scope.upUser = function () {
+    $scope.upCustomer = function () {
 
         $scope.showLoader();
 
@@ -79,26 +79,16 @@ $app.controller('customerController', function ($scope, $http, $location) {
         $http.post($scope.server("/upUser"), $param).success(function ($return) {
 
             // verify return data.
-            $scope.securityReponse($return);
+            $scope.checkResponse($return);
 
-            // verify if email already exists.
-            if ($return === "email-already") {
+            // update data in session.
+            sessionStorage.setItem('user', JSON.stringify($scope.user));
 
-                $scope.hideLoader();
+            $scope.hideLoader();
 
-                $scope.showFlashmessage('alert-warning', $scope.constant.MSG0002);
+            $location.path("/");
 
-            } else {
-
-                // update data in session.
-                sessionStorage.setItem('user', JSON.stringify($scope.user));
-
-                $scope.hideLoader();
-
-                $location.path("/");
-
-                $scope.showFlashmessage("alert-success", $scope.constant.MSG0001);
-            }
+            $scope.showFlashmessage("alert-success", $scope.constant.MSG0001);
         });
     };
 
@@ -119,27 +109,18 @@ $app.controller('customerController', function ($scope, $http, $location) {
             // adjust parameters and add origin data.
             $param = $scope.configParam($scope.row);
 
-            $http.post($scope.server("/addCustomer/"), $param).success(function ($return) {
+            $http.post($scope.server("/addUser"), $param).success(function ($return) {
 
                 // verify return data.
-                $scope.securityReponse($return);
+                $scope.checkResponse($return);
 
-                // verify if email already exists.
-                if ($return === "email-already") {
+                $scope.hideLoader();
 
-                    $scope.hideLoader();
+                // do the login.
+                $scope.login($scope.row);
 
-                    $scope.showFlashmessage('alert-warning', $scope.constant.MSG0002);
+                $location.path("/");
 
-                } else {
-
-                    $scope.hideLoader();
-
-                    // do the login.
-                    $scope.login($scope.row);
-
-                    $location.path("/");
-                }
             });
 
         } else {
@@ -164,7 +145,7 @@ $app.controller('customerController', function ($scope, $http, $location) {
         $http.post($scope.server("/upAddress"), $param).success(function ($return) {
 
             // verify return data.
-            $scope.securityReponse($return);
+            $scope.checkResponse($return);
 
             // insert current data in session and user variable.
             sessionStorage.setItem('user', JSON.stringify($scope.user));
@@ -191,7 +172,7 @@ $app.controller('customerController', function ($scope, $http, $location) {
         $http.get($scope.server("/getAddressByZip"), {params: $param}).success(function ($return) {
 
             // verify return data.
-            $scope.securityReponse($return);
+            $scope.checkResponse($return);
 
             // update user data.
             $scope.user.ds_city = $return.cidade;

@@ -41,26 +41,12 @@ class MasterBusiness
 
         try {
 
-            # verify the type of variable.
-            # array.
-            if (is_array($data)) {
-
-                foreach ($data as $key => $value) {
-                    $data->$key = preg_replace("/[^a-zA-Z0-9_@.,áàãâéêíóôõúüçÁÀÃÂÉÊÍÓÔÕÚÜÇ ]/", "", $value);
-                }
-
-                # object.
-            } elseif (is_object($data)) {
-
-                foreach ($data as $key => $value) {
-                    $data->$key = preg_replace("/[^a-zA-Z0-9_@.,áàãâéêíóôõúüçÁÀÃÂÉÊÍÓÔÕÚÜÇ ]/", "", $value);
-                }
-
-                # other types.
-            } else {
-
-                $data = preg_replace("/[^a-zA-Z0-9_@.,áàãâéêíóôõúüçÁÀÃÂÉÊÍÓÔÕÚÜÇ ]/", "", $data);
+            foreach ($data as $key => $value) {
+                $data->$key = preg_replace("/[^a-zA-Z0-9_@.,áàãâéêíóôõúüçÁÀÃÂÉÊÍÓÔÕÚÜÇ ]/", "", $value);
             }
+
+            # set email to lower case.
+            (!empty($data->ds_email) ? $data->ds_email = strtolower($data->ds_email) : '');
         } catch (Exception $ex) {
 
             throw $ex;
@@ -107,7 +93,7 @@ class MasterBusiness
             if (empty($data->secret) || crypt($_SERVER['REMOTE_ADDR'] . $_SERVER['SERVER_ADDR'], ENCRYPT_SALT) != $data->secret) {
 
                 # stop the request.
-                echo json_encode('Access Denied');
+                echo json_encode(ACCESS_DENIED);
                 \Slim\Slim::getInstance()->stop();
             }
         } catch (Exception $ex) {

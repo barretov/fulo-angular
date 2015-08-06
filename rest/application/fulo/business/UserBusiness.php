@@ -67,16 +67,21 @@ class UserBusiness extends MasterBusiness
 
         try {
 
-            # validade secret
-            $this->validateSecret($data);
+            # verify it's administrator or customer.
+            if (empty($data->origin)) {
 
-            # set email to lower case.
-            $data->ds_email = strtolower($data->ds_email);
+                # set user perfil sq_profile as customer.
+                $data->sq_profile = PROFILE_CUSTOMER;
+            } else {
+
+                # validade secret
+                $this->validateSecret($data);
+            }
 
             # verify if e-mail already exists.
-            if ($this->verifyEmailExists($data->ds_email)) {
+            if (!$this->verifyEmailExists($data)) {
 
-                return "email-already";
+                return EMAIL_ALREADY;
             }
 
             # remove special char and spaces.
@@ -111,24 +116,14 @@ class UserBusiness extends MasterBusiness
             # validade secret
             $this->validateSecret($data);
 
-            # set email to lower case.
-            $data->ds_email = strtolower($data->ds_email);
-
-            # verify if e-mail already exists.
-            if ($this->verifyEmailExists($data->ds_email)) {
-
-                # get current email in the base.
-                $currentEmail = $this->_userModel->getDataByIdentity($data->sq_person);
-
-                # if don't change email, do the update.
-                if ($data->ds_email != $currentEmail->ds_email) {
-
-                    return "email-already";
-                }
-            }
-
             # remove special char and spaces.
             $this->removeSpecialChar($data);
+
+            # verify if e-mail already exists.
+            if (!$this->verifyEmailExists($data)) {
+
+                return EMAIL_ALREADY;
+            }
 
             # adjust phone value.
             empty($data->nu_phone) ? $data->nu_phone = null : '';
@@ -208,27 +203,39 @@ class UserBusiness extends MasterBusiness
      * @name verifyEmailExists
      * @author Victor Eduardo Barreto
      * @package fulo\business
-     * @param string $ds_email Email of user
+     * @param string $data Data user
      * @return bool Result of procedure
      * @date Apr 12, 2015
      * @version 1.0
      */
-    public function verifyEmailExists ($ds_email)
+    public function verifyEmailExists (& $data)
     {
 
         try {
 
             # get user data.
-            $userData = $this->_userModel->getDataByEmail($ds_email);
+            $userData = $this->_userModel->getDataByEmail($data->ds_email);
 
-            # compare the email.
-            if (!empty($userData) && $userData->ds_email === $ds_email) {
+            if ($userData) {
 
-                return true;
-            } else {
+                # if has email get current email in the base if has user loged.
+                if (!empty($data->sq_person)) {
 
+                    $currentEmail = $this->_userModel->getDataByIdentity($data->sq_person);
+
+                    # if don't change email, can do the update.
+                    if ($data->ds_email === $currentEmail->ds_email) {
+
+                        return $data;
+                    }
+                }
+
+                # Exist email, but user isn't loged.
                 return false;
             }
+
+            # Don't exist email.
+            return $data;
         } catch (Exception $ex) {
 
             throw $ex;
@@ -261,47 +268,6 @@ class UserBusiness extends MasterBusiness
 
             # send to the model of user for update and return for controller.
             return $this->_userModel->updateDataAccess($data);
-        } catch (Exception $ex) {
-
-            throw $ex;
-        }
-    }
-
-    /**
-     * Method for business of add Customer
-     * @name addCustomer
-     * @author Victor Eduardo Barreto
-     * @package fulo\business
-     * @param array $data User data
-     * @return bool Result of procedure
-     * @date Jun 10, 2015
-     * @version 1.0
-     */
-    public function addCustomer (& $data)
-    {
-
-        try {
-
-            # set email to lower case.
-            $data->ds_email = strtolower($data->ds_email);
-
-            # verify if e-mail already exists.
-            if ($this->verifyEmailExists($data->ds_email)) {
-
-                return "email-already";
-            }
-
-            # remove special char and spaces.
-            $this->removeSpecialChar($data);
-
-            #cript password.
-            $data->ds_password = crypt($data->ds_password);
-
-            # set user perfil sq_profile as customer.
-            $data->sq_profile = PROFILE_CUSTOMER;
-
-            # send to the model of user for add and return for controller.
-            return $this->_userModel->addUser($data);
         } catch (Exception $ex) {
 
             throw $ex;

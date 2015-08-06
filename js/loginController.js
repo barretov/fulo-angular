@@ -97,7 +97,7 @@ $app.controller('loginController', function ($scope, $rootScope, $http, $locatio
         $http.post($scope.server("/logoff"), $param).success(function ($return) {
 
             // verify return data.
-            $scope.securityReponse($return);
+            $scope.checkResponse($return);
 
             // remove user data of the session.
             $rootScope.user = sessionStorage.removeItem('user');

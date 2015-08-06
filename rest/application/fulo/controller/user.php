@@ -142,30 +142,6 @@ $app->post("/upDataAccesss", function () {
 });
 
 /**
- * Method for add customer
- * @name addCustomer
- * @author Victor Eduardo Barreto
- * @param json User data
- * @return bool Result of procedure
- * @date Jun 10, 2015
- * @version 1.0
- */
-$app->post("/addCustomer/", function () {
-
-    try {
-
-        $business = MasterController::getUserBusiness();
-
-        $data = json_decode(\Slim\Slim::getInstance()->request()->getBody());
-
-        echo json_encode($business->addCustomer($data));
-    } catch (Exception $ex) {
-
-        throw $ex;
-    }
-});
-
-/**
  * Method for inactivate user
  * @name inactivateUser
  * @author Victor Eduardo Barreto

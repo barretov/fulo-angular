@@ -64,7 +64,7 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
         $http.get($scope.server("/getUsers"), {params: $param}).success(function ($return) {
 
             // verify return data.
-            $scope.securityReponse($return);
+            $scope.checkResponse($return);
 
             $scope.rows = $return;
             $scope.hideLoader();
@@ -90,7 +90,7 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
             $http.get($scope.server("/getUser"), {params: $param}).success(function ($return) {
 
                 // verify return data.
-                $scope.securityReponse($return);
+                $scope.checkResponse($return);
 
                 $scope.row = $return;
                 $scope.hideLoader();
@@ -124,16 +124,7 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
             $http.post($scope.server("/addUser"), $param).success(function ($return) {
 
                 // verify return data.
-                $scope.securityReponse($return);
-
-                // verify if email already exists.
-                if ($return === "email-already") {
-
-                    $scope.hideLoader();
-
-                    $scope.showFlashmessage('alert-warning', $scope.constant.MSG0002);
-
-                } else {
+                if ($scope.checkResponse($return)) {
 
                     $scope.hideLoader();
 
@@ -151,7 +142,6 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
      * Method for update data user
      * @name upUser
      * @author Victor Eduardo Barreto
-     * @param {String} $form Define what form sended data
      * @date May 09, 2015
      * @version 1.0
      */
@@ -164,23 +154,15 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
         $http.post($scope.server("/upUser"), $param).success(function ($return) {
 
             // verify return data.
-            $scope.securityReponse($return);
+            $scope.checkResponse($return);
+//            if ($scope.checkResponse($return)) {
 
-            // verify if email already exists.
-            if ($return === "email-already") {
+            $scope.hideLoader();
 
-                $scope.hideLoader();
+            $location.path("/user/listUser");
 
-                $scope.showFlashmessage('alert-warning', $scope.constant.MSG0002);
-
-            } else {
-
-                $scope.hideLoader();
-
-                $location.path("/user/listUser");
-
-                $scope.showFlashmessage("alert-success", $scope.constant.MSG0001);
-            }
+            $scope.showFlashmessage("alert-success", $scope.constant.MSG0001);
+//            }
         });
 
     };
@@ -201,7 +183,7 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
         $http.post($scope.server("/inactivateUser"), $param).success(function ($return) {
 
             // verify return data.
-            $scope.securityReponse($return);
+            $scope.checkResponse($return);
 
             /* if the customer deactivate his account, do logoff */
             if ($sq_user == $scope.user.sq_user) {
@@ -226,7 +208,7 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
         $http.post($scope.server("/activateUser"), $param).success(function ($return) {
 
             // verify return data.
-            $scope.securityReponse($return);
+            $scope.checkResponse($return);
         });
     };
 
@@ -245,7 +227,7 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
         $http.get($scope.server("/getProfiles"), {params: $param}).success(function ($return) {
 
             // verify return data.
-            $scope.securityReponse($return);
+            $scope.checkResponse($return);
 
             $scope.profiles = $return;
         });
@@ -268,7 +250,7 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
         $http.post($scope.server("/upAddress"), $param).success(function ($return) {
 
             // verify return data.
-            $scope.securityReponse($return);
+            $scope.checkResponse($return);
 
             // insert current data in session and user variable.
             sessionStorage.setItem('user', JSON.stringify($scope.user));

@@ -113,7 +113,7 @@ $app.run(['$rootScope', '$location', '$http', function ($rootScope, $location, $
                     break;
             }
 
-            $('#flashmessage').fadeIn().delay(1500).fadeOut('slow');
+            $('#flashmessage').fadeIn().delay(1500).fadeOut('fast');
 
         };
 
@@ -131,36 +131,42 @@ $app.run(['$rootScope', '$location', '$http', function ($rootScope, $location, $
         };
 
         /**
-         * Method for verify if exist errors about security
-         * @name securityReponse
+         * Method for verify the response problems
+         * @name checkResponse
          * @author Victor Eduardo Barreto
          * @param {obj} $response Data of response
          * @return Data of response
          * @date Jun 19, 2015
          * @version 1.0
          */
-        $rootScope.securityReponse = function ($response) {
+        $rootScope.checkResponse = function ($response) {
 
             switch ($response) {
 
-                case "ip_changed":
+                case $rootScope.constant.ACCESS_DENIED:
 
-                    // remove user data of the session.
-                    $rootScope.user = sessionStorage.removeItem('user');
-                    $rootScope.origin = sessionStorage.removeItem('origin');
+                    this.hideLoader();
+                    this.showFlashmessage('alert-danger', $rootScope.constant.MSG0004);
 
-                    // change screen and show message to user.
-                    $location.path("/");
-                    this.showFlashmessage('alert-danger', 'Seu Ip mudou.');
+                    //@TODO
+                    merda();
 
                     break;
 
-                default:
+                case $rootScope.constant.EMAIL_ALREADY:
+
+                    this.hideLoader();
+                    this.showFlashmessage('alert-warning', $rootScope.constant.MSG0002);
+
+                    //@TODO
+                    merda();
+
+                default :
 
                     return $response;
-
                     break;
             }
+
         };
 
         /**
