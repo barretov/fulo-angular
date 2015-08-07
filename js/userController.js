@@ -155,14 +155,12 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
 
             // verify return data.
             $scope.checkResponse($return);
-//            if ($scope.checkResponse($return)) {
 
             $scope.hideLoader();
 
             $location.path("/user/listUser");
 
             $scope.showFlashmessage("alert-success", $scope.constant.MSG0001);
-//            }
         });
 
     };

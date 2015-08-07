@@ -129,6 +129,9 @@ class UserModel extends MasterModel
                 $data->sq_person,
             ]);
 
+            # save log operation.
+            $this->saveLog($data->origin_sq_user, OP_UP_USER, $data->sq_person);
+
             return $this->_conn->commit();
         } catch (Exception $ex) {
 
@@ -244,14 +247,14 @@ class UserModel extends MasterModel
 
     /**
      * Method for update user data access
-     * @name updateDataAccess
+     * @name upAccess
      * @author Victor Eduardo Barreto
      * @param array $data User data
      * @return bool Result of procedure
      * @date May 19, 2015
      * @version 1.0
      */
-    public function updateDataAccess (& $data)
+    public function upAccess (& $data)
     {
 
         try {

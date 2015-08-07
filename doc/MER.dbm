@@ -160,7 +160,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	 src-table="fulo.log"
 	 dst-table="fulo.user"/>
 
-<table name="address" oids="true">
+<table name="address" oids="false">
 	<schema name="fulo"/>
 	<comment>table of address</comment>
 	<position x="796" y="4"/>
@@ -205,7 +205,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="phone" oids="false">
 	<schema name="fulo"/>
 	<comment>table of phone</comment>
-	<position x="38" y="27"/>
+	<position x="39" y="27"/>
 	<column name="sq_phone" not-null="true">
 		<type name="serial" spatial-type="POINT" variation="0"/>
 		<comment>identifier of phone</comment>
@@ -214,8 +214,8 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="integer" spatial-type="POINT" variation="0"/>
 		<comment>identifier of user</comment>
 	</column>
-	<column name="nu_phone" default-value="null">
-		<type name="numeric" length="11" spatial-type="POINT" variation="0"/>
+	<column name="nu_phone">
+		<type name="varchar" length="11" spatial-type="POINT" variation="0"/>
 		<comment>number of phone</comment>
 	</column>
 	<constraint name="pk_phone" type="pk-constr" factor="10" table="fulo.phone">

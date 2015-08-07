@@ -180,14 +180,30 @@
                                         <li><a href="#">Como tudo começou</a></li>
                                         <li><a href="#">Cuidados especiais</a></li>
                                         <li><a href="#">História do patchwork</a></li>
-                                        <li><a href="#/user/listUser">Usuários</a></li>
-                                        <li><a href="#/funcionarios">Funcionários</a></li>
-                                        <li><a href="#/transportadoras">Transportadoras</a></li>
 
                                     </ul>
 
                                 </li>
                                 <!--dropdown institucional-->
+
+                                <!--dropdown administration-->
+
+                                <li class="dropdown thumb-dropdown" ng-show="user.sq_profile == constant.PROFILE_ADMINISTRATOR">
+
+                                    <a href="" class="dropdown-toggle" data-toggle="dropdown">
+                                        <i class="glyphicon glyphicon-king"></i> Administração<span class="caret"></span>
+                                    </a>
+
+                                    <ul class="dropdown-menu" role="menu">
+
+                                        <li><a href="#/user/listProduct">Produtos</a></li>
+                                        <li><a href="#/user/listUser">Usuários</a></li>
+
+                                    </ul>
+
+                                </li>
+
+                                <!--dropdown administration-->
 
                                 <!--identifier of logged user-->
                                 <li>
@@ -370,6 +386,7 @@
                 <div class="form-group">
 
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
                         <input type="email"
                                name="ds_email"
                                class="form-control
@@ -379,15 +396,18 @@
                                maxlength="50"
                                ng-maxlength="50"
                                required/>
+
                     </div>
 
                     <div id="div-email" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
                         <span class="text-white" ng-show="form.ds_email.$dirty && form.ds_email.$invalid">
                             <i class="glyphicon glyphicon-remove-sign"></i>
                             <span ng-show="form.ds_email.$error.required">campo obrigatório</span>
                             <span ng-show="form.ds_email.$error.email">Email inválido</span>
                             <span ng-show="form.ds_email.$error.maxlength">Máximo de cinquenta caracteres</span>
                         </span>
+
                     </div>
 
                 </div>
@@ -395,24 +415,37 @@
 
                 <!-- field password-->
                 <div class="form-group">
-                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                        <input class="form-control"
-                               placeholder="Senha"
-                               id="ds_password"
-                               name="ds_password"
-                               type="password"
-                               maxlength="20"
-                               ng-maxlength="20"
-                               ng-model="row.ds_password"
-                               required/>
-                    </div>
 
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                        <span class="text-white" ng-show="form.ds_password.$dirty && form.ds_password.$invalid">
-                            <i class="glyphicon glyphicon-remove-sign"></i>
-                            <span ng-show="form.ds_password.$error.required">Campo obrigatório</span>
-                            <span ng-show="form.ds_password.$error.maxlength">Máximo de vinte caracteres</span>
-                        </span>
+
+                        <div class="input-group">
+
+                            <input class="form-control password"
+                                   placeholder="Senha"
+                                   id="ds_password"
+                                   name="ds_password"
+                                   type="password"
+                                   maxlength="20"
+                                   ng-maxlength="20"
+                                   ng-model="row.ds_password"
+                                   required/>
+
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" ng-click="showhidePass()">
+                                    <i id="switchPass" class="glyphicon glyphicon-eye-close"></i>
+                                </button>
+                            </span>
+
+                        </div>
+
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <span class="text-white" ng-show="form.ds_password.$dirty && form.ds_password.$invalid">
+                                <i class="glyphicon glyphicon-remove-sign"></i>
+                                <span ng-show="form.ds_password.$error.required">Campo obrigatório</span>
+                                <span ng-show="form.ds_password.$error.maxlength">Máximo de vinte caracteres</span>
+                            </span>
+                        </div>
+
                     </div>
 
                 </div>

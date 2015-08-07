@@ -217,6 +217,31 @@ $app.run(['$rootScope', '$location', '$http', function ($rootScope, $location, $
             $rootScope.constant = $return;
         });
 
+        /**
+         * Method to show or hide passowrd field and change button
+         * @name showhidePass
+         * @author Victor Eduardo Barreto
+         * @date Alg 7, 2015
+         * @version 1.0
+         */
+        $rootScope.showhidePass = function () {
+
+            var $type = $('.password').prop('type');
+
+            if ($type === 'password') {
+
+                $('.password').prop('type', 'text');
+                $('#switchPass').removeClass('glyphicon-eye-close');
+                $('#switchPass').addClass('glyphicon-eye-open');
+
+            } else {
+
+                $('.password').prop('type', 'password');
+                $('#switchPass').removeClass('glyphicon-eye-open');
+                $('#switchPass').addClass('glyphicon-eye-close');
+            }
+        };
+
     }]);
 
 //We already have a limitTo filter built-in to angular,

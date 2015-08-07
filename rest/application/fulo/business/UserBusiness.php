@@ -125,9 +125,6 @@ class UserBusiness extends MasterBusiness
                 return EMAIL_ALREADY;
             }
 
-            # adjust phone value.
-            empty($data->nu_phone) ? $data->nu_phone = null : '';
-
             # verify if profile is customer and adjust data.
             if ($data->origin_sq_profile === PROFILE_CUSTOMER) {
 
@@ -267,7 +264,7 @@ class UserBusiness extends MasterBusiness
             $data->ds_password = crypt($data->ds_password);
 
             # send to the model of user for update and return for controller.
-            return $this->_userModel->updateDataAccess($data);
+            return $this->_userModel->upAccess($data);
         } catch (Exception $ex) {
 
             throw $ex;
