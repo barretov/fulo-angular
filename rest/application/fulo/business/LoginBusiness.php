@@ -62,15 +62,12 @@ class LoginBusiness extends MasterBusiness
      * @date Apr 14, 2015
      * @version 1.0
      */
-    public function doLogin (& $data)
+    public function doLogin ()
     {
 
         try {
 
-            $this->validateSecret($data);
-
-            # remove special char and spaces.
-            $this->removeSpecialChar($data);
+            $data = $this->getRequestData();
 
             # get user data.
             $dataUser = $this->_userModel->getDataByEmail($data->ds_email);
@@ -90,6 +87,9 @@ class LoginBusiness extends MasterBusiness
                 $dataUser->origin = $this->encrypt(json_encode($origin));
 
                 unset($dataUser->ds_password);
+
+                # save log operation.
+                $this->_userModel->saveLog($dataUser->sq_user, $dataUser->sq_user);
 
                 return $dataUser;
             }
@@ -111,17 +111,15 @@ class LoginBusiness extends MasterBusiness
      * @date jun 15, 2015
      * @version 1.0
      */
-    public function doLogoff (& $data)
+    public function doLogoff ()
     {
 
         try {
 
-            $this->validateSecret($data);
+            $data = $this->getRequestData();
 
-            # remove special char and spaces.
-            $this->removeSpecialChar($data);
-
-            # TODO write in logoff.
+            # save log operation.
+            $this->_userModel->saveLog($data->sq_user, $data->sq_user);
 
             return true;
         } catch (Exception $ex) {

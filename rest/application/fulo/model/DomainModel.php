@@ -42,16 +42,12 @@ class DomainModel extends MasterModel
 
         try {
 
-            $this->_conn->beginTransaction();
-
             $stmt = $this->_conn->prepare("SELECT * FROM fulo.profile");
 
             $stmt->execute();
 
             return $stmt->fetchAll();
         } catch (Exception $ex) {
-
-            $this->_conn->rollback();
 
             throw $ex;
         }
@@ -71,8 +67,6 @@ class DomainModel extends MasterModel
 
         try {
 
-            $this->_conn->beginTransaction();
-
             $stmt = $this->_conn->prepare("SELECT "
                     . "log_logradouro.log_no as logradouro, log_logradouro.log_tipo_logradouro, "
                     . "log_bairro.bai_no as bairro, log_localidade.loc_no as cidade, log_localidade.ufe_sg as uf, "
@@ -89,7 +83,38 @@ class DomainModel extends MasterModel
             return $stmt->fetch();
         } catch (Exception $ex) {
 
-            $this->_conn->rollback();
+            throw $ex;
+        }
+    }
+
+    /**
+     * Method for validate acl rules
+     * @name validateRuleAcl
+     * @author Victor Eduardo Barreto
+     * @param string $operation Route accessed
+     * @param object $data User data
+     * @return Object Rules of system
+     * @date Alg 11, 2015
+     * @version 1.0
+     */
+    public function validateRuleAcl (& $operation, & $data)
+    {
+
+        try {
+
+            $stmt = $this->_conn->prepare("SELECT sq_acl "
+                    . "FROM fulo.acl "
+                    . "JOIN fulo.operation "
+                    . "ON (acl.sq_operation = operation.sq_operation) "
+                    . "WHERE operation.ds_operation = ? AND acl.sq_profile = ?");
+
+            $stmt->execute([
+                $operation,
+                $data->origin_sq_profile
+            ]);
+
+            return $stmt->fetchAll();
+        } catch (Exception $ex) {
 
             throw $ex;
         }

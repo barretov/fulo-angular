@@ -16,9 +16,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
- * Init composer autoload
- */
+# start session.
+session_start();
+
+# Init composer autoload
 require_once './vendor/autoload.php';
 
 /*
@@ -27,37 +28,47 @@ require_once './vendor/autoload.php';
  */
 $app = new \Slim\Slim(array(
     'debug' => true
-    )
+        )
 );
 
+# Middlewares #
+# Secret.
+$app->add(new \fulo\middleware\Secret());
+
+# ACL Middleware.
+$app->add(new \fulo\middleware\Acl());
+
+# Options.
 $app->contentType("application/json");
 $app->response->headers->set('Access-Control-Allow-Origin', '*');
-$app->options('/(:name+)', function() use($app) {
-    $response = $app->response();
-    $app->response()->status(200);
-    $response->header('Access-Control-Allow-Headers', 'Content-Type, X-Requested-With, X-authentication, X-client');
-    $response->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-});
 
 $app->error(function ( Exception $e = null) use ($app) {
     echo '{"error":{"text":"' . $e->getMessage() . '"}}';
 });
 
 /*
- * Include controllers
- * @var $directoryController Variable to recive files of controller directory
+ * Include files of controller and middleware
+ * @var $directories array Variable to recive url of files
  */
-$directoryController = \opendir("./application/fulo/controller/");
+$directories = [
+    './application/fulo/controller/',
+];
 
-while (($file = readdir($directoryController)) !== false) {
+# include files of directories.
+foreach ($directories as $key => $directory) {
 
-    if (strpos($file, ".php")) {
+    $dir = \opendir($directory);
 
-        include_once("./application/fulo/controller/" . $file);
+    while (($file = readdir($dir)) !== false) {
+
+        if (strpos($file, ".php")) {
+
+            include_once($directory . $file);
+        }
     }
-}
 
-closedir($directoryController);
+    closedir($dir);
+}
 
 /*
  * Generate constants

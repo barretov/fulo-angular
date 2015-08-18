@@ -77,7 +77,7 @@ class MasterController
             }
 
             return self::$_userBusiness;
-        } catch (PDOException $ex) {
+        } catch (Exception $ex) {
 
             throw $ex;
         }
@@ -102,7 +102,7 @@ class MasterController
             }
 
             return self::$_domainBusiness;
-        } catch (PDOException $ex) {
+        } catch (Exception $ex) {
 
             throw $ex;
         }
@@ -127,7 +127,7 @@ class MasterController
             }
 
             return self::$_loginBusiness;
-        } catch (PDOException $ex) {
+        } catch (Exception $ex) {
 
             throw $ex;
         }

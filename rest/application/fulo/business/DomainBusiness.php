@@ -56,16 +56,13 @@ class DomainBusiness extends MasterBusiness
      * Method for get domain profiles
      * @name getProfiles
      * @author Victor Eduardo Barreto
-     * @patam Object $data Data of origin
      * @return Data of profiles
      * @date June 19, 2015
      * @version 1.0
      */
-    public function getProfiles (& $data)
+    public function getProfiles ()
     {
         try {
-
-            $this->validateSecret($data);
 
             return $this->_domainModel->getProfiles();
         } catch (Exception $ex) {
@@ -75,46 +72,30 @@ class DomainBusiness extends MasterBusiness
     }
 
     /**
-     * Method for get secret
-     * @name getSecret
+     * Method for get secret and constants
+     * @name getBasic
      * @author Victor Eduardo Barreto
-     * @return json Data of users
+     * @return json Secret and constants
      * @date Jul 8, 2015
      * @version 1.0
      */
-    public function getSecret ()
+    public function getBasic ()
     {
 
         try {
 
-            return crypt($_SERVER['REMOTE_ADDR'] . $_SERVER['SERVER_ADDR'], ENCRYPT_SALT);
-        } catch (Exception $ex) {
-
-            throw $ex;
-        }
-    }
-
-    /**
-     * Method for get constants
-     * @name getConstants
-     * @author Victor Eduardo Barreto
-     * @patam Object $data Data of origin
-     * @return array Constants
-     * @date Jul 8, 2015
-     * @version 1.0
-     */
-    public function getConstants (& $data)
-    {
-
-        try {
-
-            $this->validateSecret($data);
-
-            # load constants file
+            # read constants.
             $constant = parse_ini_file('./application/config/constants.ini', true);
 
-            # merge constants for frontend.
-            return $constants = array_merge($constant['frontend'], $constant['both']);
+            # merge constants.
+            $constants = array_merge($constant['frontend'], $constant['both']);
+
+            # return constants and encrypted secret.
+            return $array = [
+                'secret' => crypt(\Slim\Slim::getInstance()->request()->getIp() .
+                        \Slim\Slim::getInstance()->request()->getUserAgent(), ENCRYPT_SALT),
+                'constants' => $constants
+            ];
         } catch (Exception $ex) {
 
             throw $ex;
@@ -125,21 +106,55 @@ class DomainBusiness extends MasterBusiness
      * Method for business of get postal data by zip code
      * @name getAddressByZip
      * @author Victor Eduardo Barreto
-     * @param String $data User data
      * @return Object Data address
      * @date Jul 31, 2015
      * @version 1.0
      */
-    public function getAddressByZip (& $data)
+    public function getAddressByZip ()
     {
 
         try {
 
-            $this->validateSecret($data);
+            $data = $this->getRequestData();
 
             $this->removeSpecialChar($data);
 
             return $this->_domainModel->getAddressByZip($data);
+        } catch (Exception $ex) {
+
+            throw $ex;
+        }
+    }
+
+    /**
+     * Method for business for validate acl rules
+     * @name validateRuleAcl
+     * @author Victor Eduardo Barreto
+     * @param string $operation Route accessed
+     * @param string $sq_profile
+     * @return Object Rules of system
+     * @date Alg 11, 2015
+     * @version 1.0
+     */
+    public function validateRuleAcl ()
+    {
+
+        try {
+
+            # get current route and remove the '\'.
+            $operation = substr(\Slim\Slim::getInstance()->request()->getPathInfo(), 1);
+
+            # get data.
+            $data = $this->getRequestData();
+
+            # verify if don't have profile.
+            if (empty($data->origin_sq_profile)) {
+
+                # set guest profile.
+                $data->origin_sq_profile = PROFILE_GUEST;
+            }
+
+            return $this->_domainModel->validateRuleAcl($operation, $data);
         } catch (Exception $ex) {
 
             throw $ex;

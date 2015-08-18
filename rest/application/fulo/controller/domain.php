@@ -40,9 +40,7 @@ $app->get("/getProfiles", function () {
 
         $business = MasterController::getDomainBusiness();
 
-        $data = \Slim\Slim::getInstance()->request()->params();
-
-        echo json_encode($business->getProfiles($data));
+        echo json_encode($business->getProfiles());
     } catch (Exception $ex) {
 
         throw $ex;
@@ -50,43 +48,20 @@ $app->get("/getProfiles", function () {
 });
 
 /**
- * Method for get constants for frontend
- * @name getConstants
+ * Method for get secret and constants
+ * @name getBasic
  * @author Victor Eduardo Barreto
- * @return json Data of users
- * @date Jul 5, 2015
- * @version 1.0
- */
-$app->get("/getConstants", function () {
-
-    try {
-
-        $business = MasterController::getDomainBusiness();
-
-        $data = \Slim\Slim::getInstance()->request()->params();
-
-        echo json_encode($business->getConstants($data));
-    } catch (Exception $ex) {
-
-        throw $ex;
-    }
-});
-
-/**
- * Method for get secret
- * @name getSecret
- * @author Victor Eduardo Barreto
- * @return json Secret
+ * @return json Secret and constants
  * @date Jul 8, 2015
  * @version 1.0
  */
-$app->get("/getSecret", function () {
+$app->get("/getBasic", function () {
 
     try {
 
         $business = MasterController::getDomainBusiness();
 
-        echo json_encode($business->getSecret());
+        echo json_encode($business->getBasic());
     } catch (Exception $ex) {
 
         throw $ex;
@@ -107,12 +82,9 @@ $app->get("/getAddressByZip", function () {
 
         $business = MasterController::getDomainBusiness();
 
-        $data = \Slim\Slim::getInstance()->request()->params();
-
-        echo json_encode($business->getAddressByZip($data));
+        echo json_encode($business->getAddressByZip());
     } catch (Exception $ex) {
 
         throw $ex;
     }
 });
-

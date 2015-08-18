@@ -205,17 +205,19 @@
 
                             </div>
 
-                            <div class="help-block-input col-xs-12 col-sm-4 col-md-4">
-
-                                <span class="text-danger" ng-show="formAcesso.password.$dirty && formAcesso.password.$invalid">
-                                    <i class="glyphicon glyphicon-remove-sign"></i>
-                                    <span ng-show="formAcesso.password.$error.required">Campo obrigatório</span>
-                                    <span ng-show="formAcesso.password.$error.minlength">Mínimo de quatro caracteres</span>
-                                    <span ng-show="formAcesso.password.$error.maxlength">Máximo de vinte caracteres</span>
-                                </span>
-
-                            </div>
                         </div>
+
+                        <div class="help-block-input col-xs-12 col-sm-4 col-md-4">
+
+                            <span class="text-danger" ng-show="formAcesso.password.$dirty && formAcesso.password.$invalid">
+                                <i class="glyphicon glyphicon-remove-sign"></i>
+                                <span ng-show="formAcesso.password.$error.required">Campo obrigatório</span>
+                                <span ng-show="formAcesso.password.$error.minlength">Mínimo de quatro caracteres</span>
+                                <span ng-show="formAcesso.password.$error.maxlength">Máximo de vinte caracteres</span>
+                            </span>
+
+                        </div>
+
                     </div>
                     <!--field password-->
 
@@ -254,7 +256,7 @@
                     <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-10">
 
-                            <button type="submit" class="btn btn-primary btn-sm" ng-click="upDataAccesss()" ng-Disabled="formAcesso.$invalid">Salvar
+                            <button type="submit" class="btn btn-primary btn-sm" ng-click="upAccess()" ng-Disabled="formAcesso.$invalid">Salvar
                                 <i class="glyphicon glyphicon-save"></i>
                             </button>
 

@@ -57,29 +57,26 @@ class MasterModel
      * @name saveLog
      * @author Victor Eduardo Barreto
      * @param int $sq_user Identifier of user
-     * @param int $sq_operation Identifier of operation
      * @param int $nu_target Identifier of target
      * @return bool Result of procedure
      * @date Jun 19, 2015
      * @version 1.0
      */
-    public function saveLog ($sq_user, $sq_operation, $nu_target)
+    public function saveLog ($sq_user, $nu_target)
     {
 
         try {
 
             $stmt = $this->_conn->prepare("INSERT INTO fulo.log "
-                    . "(sq_user, sq_operation, nu_target, nu_date_time) VALUES (?,?,?,?)");
+                    . "(sq_user, ds_operation, nu_target, nu_date_time) VALUES (?,?,?,?)");
 
             $stmt->execute(array(
                 $sq_user,
-                $sq_operation,
+                substr(\Slim\Slim::getInstance()->request()->getPathInfo(), 1),
                 $nu_target,
                 date("Y-m-d H:i:s")
             ));
         } catch (Exception $ex) {
-
-            $this->_conn->rollback();
 
             throw $ex;
         }

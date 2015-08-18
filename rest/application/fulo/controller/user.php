@@ -36,9 +36,7 @@ $app->get("/getUsers", function () {
 
         $business = MasterController::getUserBusiness();
 
-        $data = \Slim\Slim::getInstance()->request()->params();
-
-        echo json_encode($business->getUsers($data));
+        echo json_encode($business->getUsers());
     } catch (Exception $ex) {
 
         throw $ex;
@@ -60,9 +58,7 @@ $app->get("/getUser", function () {
 
         $business = MasterController::getUserBusiness();
 
-        $data = \Slim\Slim::getInstance()->request()->params();
-
-        echo json_encode($business->getUser($data));
+        echo json_encode($business->getUser());
     } catch (Exception $ex) {
 
         throw $ex;
@@ -84,9 +80,7 @@ $app->post("/addUser", function () {
 
         $business = MasterController::getUserBusiness();
 
-        $data = json_decode(\Slim\Slim::getInstance()->request()->getBody());
-
-        echo json_encode($business->addUser($data));
+        echo json_encode($business->addUser());
     } catch (Exception $ex) {
 
         throw $ex;
@@ -108,9 +102,7 @@ $app->post("/upUser", function () {
 
         $business = MasterController::getUserBusiness();
 
-        $data = json_decode(\Slim\Slim::getInstance()->request()->getBody());
-
-        echo json_encode($business->upUser($data));
+        echo json_encode($business->upUser());
     } catch (Exception $ex) {
 
         throw $ex;
@@ -119,22 +111,20 @@ $app->post("/upUser", function () {
 
 /**
  * Method for update user data access
- * @name upDataAccesss
+ * @name upAccess
  * @author Victor Eduardo Barreto
  * @param json Data access of user
  * @return bool Result of procedure
  * @date May 19, 2015
  * @version 1.0
  */
-$app->post("/upDataAccesss", function () {
+$app->post("/upAccess", function () {
 
     try {
 
         $business = MasterController::getUserBusiness();
 
-        $data = json_decode(\Slim\Slim::getInstance()->request()->getBody());
-
-        echo json_encode($business->upDataAccesss($data));
+        echo json_encode($business->upAccess());
     } catch (Exception $ex) {
 
         throw $ex;
@@ -155,9 +145,7 @@ $app->post("/inactivateUser", function () {
 
         $business = MasterController::getUserBusiness();
 
-        $data = json_decode(\Slim\Slim::getInstance()->request()->getBody());
-
-        echo json_encode($business->inactivateUser($data));
+        echo json_encode($business->inactivateUser());
     } catch (Exception $ex) {
 
         throw $ex;
@@ -178,9 +166,7 @@ $app->post("/activateUser", function () {
 
         $business = MasterController::getUserBusiness();
 
-        $data = json_decode(\Slim\Slim::getInstance()->request()->getBody());
-
-        echo json_encode($business->activateUser($data));
+        echo json_encode($business->activateUser());
     } catch (Exception $ex) {
 
         throw $ex;
@@ -201,9 +187,7 @@ $app->post("/upAddress", function () {
 
         $business = MasterController::getUserBusiness();
 
-        $data = json_decode(\Slim\Slim::getInstance()->request()->getBody());
-
-        echo json_encode($business->upAddress($data));
+        echo json_encode($business->upAddress());
     } catch (Exception $ex) {
 
         throw $ex;
@@ -224,9 +208,7 @@ $app->post("/addAddress", function () {
 
         $business = MasterController::getUserBusiness();
 
-        $data = json_decode(\Slim\Slim::getInstance()->request()->getBody());
-
-        echo json_encode($business->addAddress($data));
+        echo json_encode($business->addAddress());
     } catch (Exception $ex) {
 
         throw $ex;

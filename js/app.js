@@ -19,6 +19,14 @@ $app.config(['$routeProvider', '$httpProvider', function ($routeProvider, $httpP
                 when('/user/listUser', {templateUrl: 'view/user/listUser.html', controller: 'userController'}).
                 otherwise({redirectTo: '/'});
 
+        /*
+         * Remove cors.
+         * $httpProvider.defaults.headers.common = {};
+         * $httpProvider.defaults.headers.put = {};
+         * $httpProvider.defaults.headers.patch = {};
+         */
+        $httpProvider.defaults.headers.post = {};
+
         //configura o RESPONSE interceptor, usado para exibir o ícone de acesso ao servidor
         // e a exibir uma mensagem de erro caso o servidor retorne algum erro
         $httpProvider.interceptors.push(function ($q, $rootScope) {
@@ -147,19 +155,16 @@ $app.run(['$rootScope', '$location', '$http', function ($rootScope, $location, $
 
                     this.hideLoader();
                     this.showFlashmessage('alert-danger', $rootScope.constant.MSG0004);
-
-                    //@TODO
-                    merda();
-
+                    $location.path("/");
+                    throw Error("Access Denied");
                     break;
 
                 case $rootScope.constant.EMAIL_ALREADY:
 
                     this.hideLoader();
                     this.showFlashmessage('alert-warning', $rootScope.constant.MSG0002);
-
-                    //@TODO
-                    merda();
+                    throw Error("Email Already");
+                    break;
 
                 default :
 
@@ -167,6 +172,7 @@ $app.run(['$rootScope', '$location', '$http', function ($rootScope, $location, $
                     break;
             }
 
+            return false;
         };
 
         /**
@@ -191,30 +197,21 @@ $app.run(['$rootScope', '$location', '$http', function ($rootScope, $location, $
         };
 
         /**
-         * Method to get server secret
-         * @name getSecret
+         * Method to get server secret and constants
+         * @name getBasic
          * @author Victor Eduardo Barreto
-         * @param {string} $return Object with secret
+         * @param {string} $return Object with secret and constants
          * @date Jul 8, 2015
          * @version 1.0
          */
-        $http.get($rootScope.server("/getSecret")).success(function ($return) {
+        $http.get($rootScope.server("/getBasic")).success(function ($return) {
 
             // save secret in session.
-            sessionStorage.setItem('secret', $return);
-        });
+            sessionStorage.setItem('secret', $return.secret);
 
-        /**
-         * Method to get in the server and set constants for system
-         * @name getConstants
-         * @author Victor Eduardo Barreto
-         * @param {obj} $return Object with constants
-         * @date Jul 5, 2015
-         * @version 1.0
-         */
-        $http.get($rootScope.server("/getConstants"), {params: $rootScope.configParam()}).success(function ($return) {
+            // save constants in variable.
+            $rootScope.constant = $return.constants;
 
-            $rootScope.constant = $return;
         });
 
         /**

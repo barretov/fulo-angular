@@ -57,25 +57,22 @@ class UserBusiness extends MasterBusiness
      * @name addUser
      * @author Victor Eduardo Barreto
      * @package fulo\business
-     * @param array $data User data
      * @return bool Result of procedure
      * @date Apr 8, 2015
      * @version 1.0
      */
-    public function addUser (& $data)
+    public function addUser ()
     {
 
         try {
+
+            $data = $this->getRequestData();
 
             # verify it's administrator or customer.
             if (empty($data->origin)) {
 
                 # set user perfil sq_profile as customer.
                 $data->sq_profile = PROFILE_CUSTOMER;
-            } else {
-
-                # validade secret
-                $this->validateSecret($data);
             }
 
             # verify if e-mail already exists.
@@ -83,9 +80,6 @@ class UserBusiness extends MasterBusiness
 
                 return EMAIL_ALREADY;
             }
-
-            # remove special char and spaces.
-            $this->removeSpecialChar($data);
 
             #cript password.
             $data->ds_password = crypt($data->ds_password);
@@ -103,21 +97,16 @@ class UserBusiness extends MasterBusiness
      * @name upUser
      * @author Victor Eduardo Barreto
      * @package fulo\business
-     * @param array $data User data
      * @return bool Result of procedure
      * @date Apr 8, 2015
      * @version 1.0
      */
-    public function upUser (& $data)
+    public function upUser ()
     {
 
         try {
 
-            # validade secret
-            $this->validateSecret($data);
-
-            # remove special char and spaces.
-            $this->removeSpecialChar($data);
+            $data = $this->getRequestData();
 
             # verify if e-mail already exists.
             if (!$this->verifyEmailExists($data)) {
@@ -146,18 +135,16 @@ class UserBusiness extends MasterBusiness
      * @name getUsers
      * @author Victor Eduardo Barreto
      * @package fulo\business
-     * @param object $data User data
      * @return array Data of users
      * @date Apr 8, 2015
      * @version 1.0
      */
-    public function getUsers ($data)
+    public function getUsers ()
     {
 
         try {
 
-            # validade secret
-            $this->validateSecret($data);
+            $data = $this->getRequestData();
 
             return $this->_userModel->getUsers($data->origin_sq_user);
         } catch (Exception $ex) {
@@ -171,17 +158,15 @@ class UserBusiness extends MasterBusiness
      * @name getUser
      * @author Victor Eduardo Barreto
      * @package fulo\business
-     * @param int $sq_person Identifier of user
      * @return array Data of user selected
      * @date Apr 8, 2015
      * @version 1.0
      */
-    public function getUser (& $data)
+    public function getUser ()
     {
         try {
 
-            # validade secret
-            $this->validateSecret($data);
+            $data = $this->getRequestData();
 
             $return = $this->_userModel->getDataByIdentity($data->sq_person);
 
@@ -200,15 +185,16 @@ class UserBusiness extends MasterBusiness
      * @name verifyEmailExists
      * @author Victor Eduardo Barreto
      * @package fulo\business
-     * @param string $data Data user
      * @return bool Result of procedure
      * @date Apr 12, 2015
      * @version 1.0
      */
-    public function verifyEmailExists (& $data)
+    public function verifyEmailExists ()
     {
 
         try {
+
+            $data = $this->getRequestData();
 
             # get user data.
             $userData = $this->_userModel->getDataByEmail($data->ds_email);
@@ -241,21 +227,19 @@ class UserBusiness extends MasterBusiness
 
     /**
      * Method for business of update data access user
-     * @name upDataAccesss
+     * @name upAccess
      * @author Victor Eduardo Barreto
      * @package fulo\business
-     * @param array $data Data access for user
      * @return bool Result of procedure
      * @date May 19, 2015
      * @version 1.0
      */
-    public function upDataAccesss (& $data)
+    public function upAccess ()
     {
 
         try {
 
-            # validade secret
-            $this->validateSecret($data);
+            $data = $this->getRequestData();
 
             # remove special char and spaces.
             $this->removeSpecialChar($data);
@@ -276,19 +260,17 @@ class UserBusiness extends MasterBusiness
      * @name inactivateUser
      * @author Victor Eduardo Barreto
      * @package fulo\business
-     * @param int $data User data
      * @return bool Result of procedure
      * @date Jul 23, 2015
      * @version 1.0
      */
-    public function inactivateUser (& $data)
+    public function inactivateUser ()
     {
         try {
 
-            # validade secret
-            $this->validateSecret($data);
+            $data = $this->getRequestData();
 
-            return $this->_userModel->inactivateUser($data->sq_user);
+            return $this->_userModel->inactivateUser($data);
         } catch (Exception $ex) {
 
             throw $ex;
@@ -300,19 +282,17 @@ class UserBusiness extends MasterBusiness
      * @name activateUser
      * @author Victor Eduardo Barreto
      * @package fulo\business
-     * @param int $data User data
      * @return bool Result of procedure
      * @date Jul 23, 2015
      * @version 1.0
      */
-    public function activateUser (& $data)
+    public function activateUser ()
     {
         try {
 
-            # validade secret
-            $this->validateSecret($data);
+            $data = $this->getRequestData();
 
-            return $this->_userModel->activateUser($data->sq_user);
+            return $this->_userModel->activateUser($data);
         } catch (Exception $ex) {
 
             throw $ex;
@@ -323,17 +303,15 @@ class UserBusiness extends MasterBusiness
      * Method for business of update address
      * @name upAddress
      * @author Victor Eduardo Barreto
-     * @param Object $data Data user
      * @return bool Result of procedure
      * @date Jul 30, 2015
      * @version 1.0
      */
-    public function upAddress (& $data)
+    public function upAddress ()
     {
         try {
 
-            # validade secret
-            $this->validateSecret($data);
+            $data = $this->getRequestData();
 
             # remove special char.
             $this->removeSpecialChar($data);

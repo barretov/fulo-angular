@@ -77,6 +77,15 @@ class UserModel extends MasterModel
                 null
             ]);
 
+            # if was sigin of customer set data origin.
+            if (empty($data->origin_sq_user)) {
+
+                $data->origin_sq_user = $this->_conn->lastInsertId('fulo.person_sq_person_seq');
+            }
+
+            # save log operation.
+            $this->saveLog($data->origin_sq_user, $this->_conn->lastInsertId('fulo.person_sq_person_seq'));
+
             return $this->_conn->commit();
         } catch (Exception $ex) {
 
@@ -130,7 +139,7 @@ class UserModel extends MasterModel
             ]);
 
             # save log operation.
-            $this->saveLog($data->origin_sq_user, OP_UP_USER, $data->sq_person);
+            $this->saveLog($data->origin_sq_user, $data->sq_user);
 
             return $this->_conn->commit();
         } catch (Exception $ex) {
@@ -268,6 +277,9 @@ class UserModel extends MasterModel
                 $data->origin_sq_person,
             ]);
 
+            # save log operation.
+            $this->saveLog($data->origin_sq_user, $data->sq_user);
+
             return $this->_conn->commit();
         } catch (Exception $ex) {
 
@@ -281,12 +293,12 @@ class UserModel extends MasterModel
      * Method for inactivate user
      * @name inactivateUser
      * @author Victor Eduardo Barreto
-     * @param int $sq_user User identifier
+     * @param object $data User data
      * @return bool Result of procedure
      * @date Jul 23, 2015
      * @version 1.0
      */
-    public function inactivateUser (& $sq_user)
+    public function inactivateUser (& $data)
     {
         try {
 
@@ -296,8 +308,11 @@ class UserModel extends MasterModel
 
             $stmt->execute([
                 STATUS_INACTIVE,
-                $sq_user
+                $data->sq_user
             ]);
+
+            # save log operation.
+            $this->saveLog($data->origin_sq_user, $data->sq_user);
 
             return $this->_conn->commit();
         } catch (Exception $ex) {
@@ -312,12 +327,12 @@ class UserModel extends MasterModel
      * Method for activate user
      * @name activateUser
      * @author Victor Eduardo Barreto
-     * @param int $sq_user User identifier
+     * @param object $data User data
      * @return bool Result of procedure
      * @date Jul 23, 2015
      * @version 1.0
      */
-    public function activateUser (& $sq_user)
+    public function activateUser (& $data)
     {
         try {
 
@@ -327,8 +342,11 @@ class UserModel extends MasterModel
 
             $stmt->execute([
                 STATUS_ACTIVE,
-                $sq_user
+                $data->sq_user
             ]);
+
+            # save log operation.
+            $this->saveLog($data->origin_sq_user, $data->sq_user);
 
             return $this->_conn->commit();
         } catch (Exception $ex) {
@@ -369,6 +387,9 @@ class UserModel extends MasterModel
                 $data->ds_neighborhood,
                 $data->sq_address
             ]);
+
+            # save log operation.
+            $this->saveLog($data->origin_sq_user, $data->sq_user);
 
             return $this->_conn->commit();
         } catch (Exception $ex) {

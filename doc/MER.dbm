@@ -118,10 +118,10 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</constraint>
 </table>
 
-<table name="log" oids="true">
+<table name="log" oids="false">
 	<schema name="fulo"/>
 	<comment>table of log</comment>
-	<position x="807" y="179"/>
+	<position x="807" y="178"/>
 	<column name="sq_log" not-null="true">
 		<type name="serial" spatial-type="POINT" variation="0"/>
 		<comment>identifier of log</comment>
@@ -130,9 +130,9 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="integer" spatial-type="POINT" variation="0"/>
 		<comment>identifier of user</comment>
 	</column>
-	<column name="sq_operation" not-null="true">
-		<type name="integer" spatial-type="POINT" variation="0"/>
-		<comment>identifier operation type</comment>
+	<column name="ds_operation" not-null="true">
+		<type name="varchar" length="50" spatial-type="POINT" variation="0"/>
+		<comment>description operation type</comment>
 	</column>
 	<column name="nu_target" not-null="true">
 		<type name="integer" spatial-type="POINT" variation="0"/>
@@ -251,7 +251,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="product" oids="false">
 	<schema name="fulo"/>
 	<comment>table of product</comment>
-	<position x="14" y="240"/>
+	<position x="18" y="278"/>
 	<column name="sq_product" not-null="true">
 		<type name="serial" spatial-type="POINT" variation="0"/>
 		<comment>identifier of product</comment>
@@ -293,7 +293,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="type" oids="false">
 	<schema name="fulo"/>
 	<comment>table of types</comment>
-	<position x="36" y="469"/>
+	<position x="51" y="475"/>
 	<column name="sq_type" not-null="true">
 		<type name="serial" spatial-type="POINT" variation="0"/>
 		<comment>identifier of product_type</comment>
@@ -352,8 +352,8 @@ CAUTION: Do not modify this file unless you know what you are doing.
 
 <constraint name="fk_log_operation" type="fk-constr"	 comparison-type="MATCH FULL"
 	 upd-action="CASCADE" del-action="CASCADE" ref-table="fulo.operation" table="fulo.log">
-	<columns names="sq_operation" ref-type="src-columns"/>
-	<columns names="sq_operation" ref-type="dst-columns"/>
+	<columns names="ds_operation" ref-type="src-columns"/>
+	<columns names="ds_operation" ref-type="dst-columns"/>
 		<comment>foreign key of operation</comment>
 </constraint>
 <relationship name="rel_log_operation"

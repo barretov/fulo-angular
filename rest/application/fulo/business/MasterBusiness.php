@@ -36,7 +36,7 @@ class MasterBusiness
      * @date Apr 12, 2015
      * @version 1.0
      */
-    protected function removeSpecialChar (& $data)
+    public function removeSpecialChar (& $data)
     {
 
         try {
@@ -54,55 +54,6 @@ class MasterBusiness
     }
 
     /**
-     * Method for validate the credential and ip of user
-     * @name validateOrigin
-     * @author Victor Eduardo Barreto
-     * @param object $data Data of request
-     * @return bool FALSE case the data is fake
-     * @date June 15, 2015
-     * @version 1.0
-     */
-    protected function validateSecret (& $data)
-    {
-
-        try {
-
-            # verify if arrived is array.
-            if (is_array($data) && !empty($data)) {
-
-                $data = json_encode($data);
-                $data = json_decode($data);
-            }
-
-            if (!empty($data->origin) && $data->origin != "undefined") {
-
-                # decrypt data secret.
-                $origin = $this->decrypt($data->origin);
-
-                # remove origin hash.
-                unset($data->origin);
-
-                # add decrypted secret in data.
-                foreach (json_decode($origin) as $key => $value) {
-
-                    $data->$key = $value;
-                }
-            }
-
-            # validate origin secret.
-            if (empty($data->secret) || crypt($_SERVER['REMOTE_ADDR'] . $_SERVER['SERVER_ADDR'], ENCRYPT_SALT) != $data->secret) {
-
-                # stop the request.
-                echo json_encode(ACCESS_DENIED);
-                \Slim\Slim::getInstance()->stop();
-            }
-        } catch (Exception $ex) {
-
-            throw $ex;
-        }
-    }
-
-    /**
      * Method for encrypt data
      * @name encrypt
      * @author Victor Eduardo Barreto
@@ -111,7 +62,7 @@ class MasterBusiness
      * @date Jul 08, 2015
      * @version 1.0
      */
-    protected function encrypt ($data)
+    public function encrypt ($data)
     {
 
         try {
@@ -142,7 +93,7 @@ class MasterBusiness
      * @date Jul 08, 2015
      * @version 1.0
      */
-    protected function decrypt ($data)
+    public function decrypt ($data)
     {
 
         try {
@@ -158,6 +109,89 @@ class MasterBusiness
             );
         } catch (Exception $ex) {
 
+            throw $ex;
+        }
+    }
+
+    /**
+     * Method for transform array in object
+     * @name arrayToObject
+     * @author Victor Eduardo Barreto
+     * @param array $data Data of request
+     * @return object Data of request
+     * @date Alg 12, 2015
+     * @version 1.0
+     */
+    public function arrayToObject (& $data)
+    {
+
+        try {
+
+            $object = new \stdClass();
+
+            if (!empty($data)) {
+
+                foreach ($data as $key => $value) {
+
+                    $object->$key = $value;
+                }
+            }
+
+            $data = $object;
+
+            return $data;
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+    }
+
+    /**
+     * Method for request data
+     * @name arrayToObject
+     * @author Victor Eduardo Barreto
+     * @return object Data of request
+     * @date Alg 13, 2015
+     * @version 1.0
+     */
+    public function getRequestData ()
+    {
+
+        try {
+
+            # get request method and get data of request.
+            switch (\Slim\Slim::getInstance()->request()->getMethod()) {
+
+                case "GET":
+
+                    $data = \Slim\Slim::getInstance()->request->params();
+                    $this->arrayToObject($data);
+                    break;
+
+                case "POST":
+
+                    $data = json_decode(\Slim\Slim::getInstance()->request()->getBody());
+                    break;
+            }
+
+            if (!empty($data->origin) && $data->origin != "undefined") {
+
+                # decrypt data secret.
+                $origin = $this->decrypt($data->origin);
+
+                # remove origin hash.
+                unset($data->origin);
+
+                # add decrypted secret in data.
+                foreach (json_decode($origin) as $key => $value) {
+
+                    $data->$key = $value;
+                }
+            }
+
+            $this->removeSpecialChar($data);
+
+            return $data;
+        } catch (Exception $ex) {
             throw $ex;
         }
     }

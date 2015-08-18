@@ -37,9 +37,7 @@ $app->post("/login", function () {
 
         $business = new LoginBusiness();
 
-        $data = json_decode(\Slim\Slim::getInstance()->request()->getBody());
-
-        echo json_encode($business->doLogin($data));
+        echo json_encode($business->doLogin());
     } catch (Exception $ex) {
 
         throw $ex;
@@ -60,9 +58,7 @@ $app->post("/logoff", function () {
 
         $business = new LoginBusiness();
 
-        $data = json_decode(\Slim\Slim::getInstance()->request()->getBody());
-
-        echo json_encode($business->doLogoff($data));
+        echo json_encode($business->doLogoff());
     } catch (Exception $ex) {
 
         throw $ex;

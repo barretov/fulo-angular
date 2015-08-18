@@ -31,12 +31,12 @@ $app.controller('customerController', function ($scope, $http, $location) {
 
     /**
      * Method for update user data access
-     * @name upDataAccesss
+     * @name upAccess
      * @author Victor Eduardo Barreto
      * @date May 9, 2015
      * @version 1.0
      */
-    $scope.upDataAccesss = function () {
+    $scope.upAccess = function () {
 
         $scope.showLoader();
 
@@ -46,16 +46,17 @@ $app.controller('customerController', function ($scope, $http, $location) {
             // adjust parameters and add origin data.
             $param = $scope.configParam($scope.user);
 
-            $http.post($scope.server("/upDataAccesss"), $param).success(function ($return) {
+            $http.post($scope.server("/upAccess"), $param).success(function ($return) {
 
                 // verify return data.
-                $scope.checkResponse($return);
+                $scope.checkResponse($return)
 
                 $scope.hideLoader();
 
                 $location.path("/");
 
                 $scope.showFlashmessage("alert-success", $scope.constant.MSG0001);
+
             });
 
         } else {
