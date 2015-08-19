@@ -17,6 +17,9 @@ $app.config(['$routeProvider', '$httpProvider', function ($routeProvider, $httpP
                 when('/user/addUser', {templateUrl: 'app/view/user/addUser.html', controller: 'userController'}).
                 when('/user/upUser/:id', {templateUrl: 'app/view/user/upUser.html', controller: 'userController'}).
                 when('/user/listUser', {templateUrl: 'app/view/user/listUser.html', controller: 'userController'}).
+                when('/product/listProduct', {templateUrl: 'app/view/product/listProduct.html', controller: 'productController'}).
+                when('/product/addProduct', {templateUrl: 'app/view/product/addProduct.html', controller: 'productController'}).
+                when('/product/upProduct', {templateUrl: 'app/view/product/upProduct.html', controller: 'productController'}).
                 otherwise({redirectTo: '/'});
 
         /*
@@ -29,41 +32,41 @@ $app.config(['$routeProvider', '$httpProvider', function ($routeProvider, $httpP
 
         //configura o RESPONSE interceptor, usado para exibir o ícone de acesso ao servidor
         // e a exibir uma mensagem de erro caso o servidor retorne algum erro
-        $httpProvider.interceptors.push(function ($q, $rootScope) {
-
-            return function (promise) {
-
-                //Always disable loader
-                $rootScope.hideLoader();
-
-                return promise.then(function (response) {
-
-                    // do something on success
-                    return(response);
-                },
-                        function (response) {
-
-                            // do something on error
-                            $data = response.data;
-
-                            $error = $data.error;
-
-                            console.error($data);
-
-                            if ($error && $error.text)
-                                alert("ERROR: " + $error.text);
-                            else {
-
-                                if (response.status = 404)
-                                    alert("Erro ao acessar servidor. Página não encontrada. Veja o log de erros para maiores detalhes");
-                                else
-                                    alert("ERROR! See log console");
-                            }
-
-                            return $q.reject(response);
-                        });
-            };
-        });
+//        $httpProvider.interceptors.push(function ($q, $rootScope) {
+//
+//            return function (promise) {
+//
+//                //Always disable loader
+//                $rootScope.hideLoader();
+//
+//                return promise.then(function (response) {
+//
+//                    // do something on success
+//                    return(response);
+//                },
+//                        function (response) {
+//
+//                            // do something on error
+//                            $data = response.data;
+//
+//                            $error = $data.error;
+//
+//                            console.error($data);
+//
+//                            if ($error && $error.text)
+//                                alert("ERROR: " + $error.text);
+//                            else {
+//
+//                                if (response.status = 404)
+//                                    alert("Erro ao acessar servidor. Página não encontrada. Veja o log de erros para maiores detalhes");
+//                                else
+//                                    alert("ERROR! See log console");
+//                            }
+//
+//                            return $q.reject(response);
+//                        });
+//            };
+//        });
     }]);
 
 $app.run(['$rootScope', '$location', '$http', function ($rootScope, $location, $http) {

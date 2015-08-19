@@ -241,9 +241,6 @@ class UserBusiness extends MasterBusiness
 
             $data = $this->getRequestData();
 
-            # remove special char and spaces.
-            $this->removeSpecialChar($data);
-
             #cript password.
             $data->ds_password = crypt($data->ds_password);
 
@@ -312,9 +309,6 @@ class UserBusiness extends MasterBusiness
         try {
 
             $data = $this->getRequestData();
-
-            # remove special char.
-            $this->removeSpecialChar($data);
 
             # verify if profile is customer and ajust data.
             if ($data->origin_sq_profile === PROFILE_CUSTOMER) {

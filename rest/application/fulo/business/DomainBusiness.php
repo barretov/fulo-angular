@@ -117,8 +117,6 @@ class DomainBusiness extends MasterBusiness
 
             $data = $this->getRequestData();
 
-            $this->removeSpecialChar($data);
-
             return $this->_domainModel->getAddressByZip($data);
         } catch (Exception $ex) {
 

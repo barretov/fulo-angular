@@ -64,7 +64,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="profile" oids="false">
 	<schema name="fulo"/>
 	<comment>data of profiles</comment>
-	<position x="431" y="323"/>
+	<position x="577" y="313"/>
 	<column name="sq_profile" not-null="true">
 		<type name="serial" spatial-type="POINT" variation="0"/>
 		<comment>identifier of profile</comment>
@@ -251,12 +251,12 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="product" oids="false">
 	<schema name="fulo"/>
 	<comment>table of product</comment>
-	<position x="18" y="278"/>
+	<position x="17" y="275"/>
 	<column name="sq_product" not-null="true">
 		<type name="serial" spatial-type="POINT" variation="0"/>
 		<comment>identifier of product</comment>
 	</column>
-	<column name="sq_type" not-null="true">
+	<column name="sq_product_type" not-null="true">
 		<type name="integer" spatial-type="POINT" variation="0"/>
 		<comment>type of product</comment>
 	</column>
@@ -284,41 +284,45 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="timestamp" spatial-type="POINT" variation="0"/>
 		<comment>date of register</comment>
 	</column>
+	<column name="nu_production" not-null="true" default-value="5">
+		<type name="numeric" length="4" spatial-type="POINT" variation="0"/>
+		<comment>production time for the item</comment>
+	</column>
 	<constraint name="pk_product" type="pk-constr" factor="10" table="fulo.product">
 		<columns names="sq_product" ref-type="src-columns"/>
 		<comment>primary key of product</comment>
 	</constraint>
 </table>
 
-<table name="type" oids="false">
+<table name="product_type" oids="false">
 	<schema name="fulo"/>
 	<comment>table of types</comment>
-	<position x="51" y="475"/>
-	<column name="sq_type" not-null="true">
+	<position x="21" y="516"/>
+	<column name="sq_product_type" not-null="true">
 		<type name="serial" spatial-type="POINT" variation="0"/>
 		<comment>identifier of product_type</comment>
 	</column>
-	<column name="ds_type" not-null="true">
+	<column name="ds_product_type" not-null="true">
 		<type name="varchar" length="50" spatial-type="POINT" variation="0"/>
 		<comment>description of product_type</comment>
 	</column>
-	<constraint name="pk_type" type="pk-constr" factor="10" table="fulo.type">
-		<columns names="sq_type" ref-type="src-columns"/>
+	<constraint name="pk_product_type" type="pk-constr" factor="10" table="fulo.product_type">
+		<columns names="sq_product_type" ref-type="src-columns"/>
 		<comment>primary key of table</comment>
 	</constraint>
 </table>
 
 <constraint name="fk_product_type" type="fk-constr"	 comparison-type="MATCH FULL"
-	 upd-action="CASCADE" del-action="CASCADE" ref-table="fulo.type" table="fulo.product">
-	<columns names="sq_type" ref-type="src-columns"/>
-	<columns names="sq_type" ref-type="dst-columns"/>
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="fulo.product_type" table="fulo.product">
+	<columns names="sq_product_type" ref-type="src-columns"/>
+	<columns names="sq_product_type" ref-type="dst-columns"/>
 		<comment>foreign key of product_type</comment>
 </constraint>
 <relationship name="rel_product_type"
 	 type="relfk"
 	 src-required="false" dst-required="false"
 	 src-table="fulo.product"
-	 dst-table="fulo.type"/>
+	 dst-table="fulo.product_type"/>
 
 <constraint name="fk_user_status" type="fk-constr"	 comparison-type="MATCH FULL"
 	 upd-action="CASCADE" del-action="CASCADE" ref-table="fulo.status" table="fulo.user">
@@ -335,7 +339,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="operation" oids="false">
 	<schema name="fulo"/>
 	<comment>table of operations</comment>
-	<position x="807" y="461"/>
+	<position x="810" y="467"/>
 	<column name="sq_operation" not-null="true">
 		<type name="serial" spatial-type="POINT" variation="0"/>
 		<comment>identifier of operation</comment>
@@ -365,7 +369,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="acl" oids="false">
 	<schema name="public"/>
 	<comment>table of access rules</comment>
-	<position x="439" y="457"/>
+	<position x="586" y="466"/>
 	<column name="sq_acl" not-null="true">
 		<type name="serial" spatial-type="POINT" variation="0"/>
 		<comment>identifier of rule</comment>
@@ -431,5 +435,51 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	 src-required="false" dst-required="false"
 	 src-table="fulo.product"
 	 dst-table="fulo.status"/>
+
+<table name="wishlist" oids="false">
+	<schema name="public"/>
+	<comment>table of wishlist</comment>
+	<position x="360" y="305"/>
+	<column name="sq_wishlist" not-null="true">
+		<type name="serial" spatial-type="POINT" variation="0"/>
+		<comment>identifier of wishlist</comment>
+	</column>
+	<column name="sq_user" not-null="true">
+		<type name="integer" spatial-type="POINT" variation="0"/>
+		<comment>identifier of user</comment>
+	</column>
+	<column name="sq_product" not-null="true">
+		<type name="integer" spatial-type="POINT" variation="0"/>
+		<comment>identifier of product</comment>
+	</column>
+	<constraint name="pk_wishlist" type="pk-constr" factor="10" table="public.wishlist">
+		<columns names="sq_wishlist" ref-type="src-columns"/>
+		<comment>primary key of table</comment>
+	</constraint>
+</table>
+
+<constraint name="fk_wishlist_user" type="fk-constr"	 comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="fulo.user" table="public.wishlist">
+	<columns names="sq_user" ref-type="src-columns"/>
+	<columns names="sq_user" ref-type="dst-columns"/>
+		<comment>foreign key of user</comment>
+</constraint>
+<constraint name="fk_wishlist_product" type="fk-constr"	 comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="fulo.product" table="public.wishlist">
+	<columns names="sq_product" ref-type="src-columns"/>
+	<columns names="sq_product" ref-type="dst-columns"/>
+		<comment>foreign key of product</comment>
+</constraint>
+<relationship name="rel_wishlist_user"
+	 type="relfk"
+	 src-required="false" dst-required="false"
+	 src-table="public.wishlist"
+	 dst-table="fulo.user"/>
+
+<relationship name="rel_wishlist_product"
+	 type="relfk"
+	 src-required="false" dst-required="false"
+	 src-table="public.wishlist"
+	 dst-table="fulo.product"/>
 
 </dbmodel>

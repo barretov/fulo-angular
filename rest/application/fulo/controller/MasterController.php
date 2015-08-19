@@ -21,9 +21,10 @@ namespace fulo\controller;
 /**
  * alias for business class
  */
-use \fulo\business\UserBusiness as UserBusiness;
 use \fulo\business\DomainBusiness as DomainBusiness;
 use \fulo\business\LoginBusiness as LoginBusiness;
+use \fulo\business\ProductBusiness as ProductBusiness;
+use \fulo\business\UserBusiness as UserBusiness;
 
 /**
  * Master class for controllers
@@ -38,13 +39,15 @@ class MasterController
 
     /**
      *
-     * @var object $_userBusiness Variable to recive instance of UserBusiness
-     * @var object $_domainBusiness Variable to recive instance of UserBusiness
+     * @var object $_userBusiness Variable to recive instance of DomainBusiness
+     * @var object $_domainBusiness Variable to recive instance of LoginBusiness
+     * @var object $_loginBusiness Variable to recive instance of ProductBusiness
      * @var object $_loginBusiness Variable to recive instance of UserBusiness
      */
-    public static $_userBusiness;
     protected static $_domainBusiness;
     protected static $_loginBusiness;
+    protected static $_productBusiness;
+    public static $_userBusiness;
 
     /**
      * Method constructor
@@ -56,31 +59,6 @@ class MasterController
     private function __construct ()
     {
         # prevent instance.
-    }
-
-    /**
-     * Method for get instance of user business
-     * @name getUserBusiness
-     * @author Victor Eduardo Barreto
-     * @return object User business
-     * @date Jul 8, 2015
-     * @version 1.0
-     */
-    public static function getUserBusiness ()
-    {
-
-        try {
-
-            if (!isset(self::$_userBusiness)) {
-
-                self::$_userBusiness = new UserBusiness();
-            }
-
-            return self::$_userBusiness;
-        } catch (Exception $ex) {
-
-            throw $ex;
-        }
     }
 
     /**
@@ -127,6 +105,56 @@ class MasterController
             }
 
             return self::$_loginBusiness;
+        } catch (Exception $ex) {
+
+            throw $ex;
+        }
+    }
+
+    /**
+     * Method for get instance of user business
+     * @name getUserBusiness
+     * @author Victor Eduardo Barreto
+     * @return object User business
+     * @date Jul 8, 2015
+     * @version 1.0
+     */
+    public static function getUserBusiness ()
+    {
+
+        try {
+
+            if (!isset(self::$_userBusiness)) {
+
+                self::$_userBusiness = new UserBusiness();
+            }
+
+            return self::$_userBusiness;
+        } catch (Exception $ex) {
+
+            throw $ex;
+        }
+    }
+
+    /**
+     * Method for get instance of product business
+     * @name getProductBusiness
+     * @author Victor Eduardo Barreto
+     * @return object Product business
+     * @date Alg 18, 2015
+     * @version 1.0
+     */
+    public static function getProductBusiness ()
+    {
+
+        try {
+
+            if (!isset(self::$_productBusiness)) {
+
+                self::$_productBusiness = new ProductBusiness();
+            }
+
+            return self::$_productBusiness;
         } catch (Exception $ex) {
 
             throw $ex;

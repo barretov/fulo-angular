@@ -33,6 +33,7 @@ var Geral = {
     geral: function () {
         Geral.voltarTopo();
         Geral.niceScroll();
+        Geral.inputFile();
     },
     /**
      * Método responsável pelo funcionamento do botão de voltar ao topo da página.
@@ -76,6 +77,29 @@ var Geral = {
             cursorcolor: "#424242",
             cursorwidth: "7px",
             hwacceleration: true
+        });
+    },
+    /**
+     * Method for adjust style of input file button
+     * @name inputFile
+     * @author Victor Eduardo Barreto
+     * @date Alg 18, 2015
+     * @version 1.0
+     */
+    inputFile: function () {
+
+        $(document).on('change', '.btn-file :file', function () {
+
+            var input = $(this),
+                    numFiles = input.get(0).files ? input.get(0).files.length : 1,
+                    label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+            input.trigger('fileselect', [numFiles, label]);
+
+            var input = $(this).parents('.input-group').find(':text'),
+                    log = numFiles > 1 ? numFiles + ' files selected' : label;
+
+            input.val(log);
+
         });
     }
 };

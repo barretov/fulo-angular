@@ -57,7 +57,6 @@ class LoginBusiness extends MasterBusiness
      * @name doLogin
      * @author Victor Eduardo Barreto
      * @package fulo\business
-     * @param array $data Data for user
      * @return bool Result of procedure
      * @date Apr 14, 2015
      * @version 1.0
@@ -106,7 +105,6 @@ class LoginBusiness extends MasterBusiness
      * @name doLogoff
      * @author Victor Eduardo Barreto
      * @package fulo\business
-     * @param array $data Data for user
      * @return bool Result of procedure
      * @date jun 15, 2015
      * @version 1.0
@@ -119,9 +117,7 @@ class LoginBusiness extends MasterBusiness
             $data = $this->getRequestData();
 
             # save log operation.
-            $this->_userModel->saveLog($data->sq_user, $data->sq_user);
-
-            return true;
+            return $this->_userModel->saveLog($data->sq_user, $data->sq_user);
         } catch (Exception $ex) {
 
             throw $ex;

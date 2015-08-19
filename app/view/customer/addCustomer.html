@@ -1,8 +1,12 @@
 <legend>Cadastro de cliente</legend>
 
 <!--presentation-->
-<h1><span class="text-primary hidden-xs" ng-bind="row.ds_name"></span></h1>
-<h2><span class="text-primary hidden-sm hidden-md hidden-lg" ng-bind="row.ds_name"></span></h2>
+<div class="col-xs-offset-2 col-sm-offset-2 col-md-offset-2 col-lg-offset-2">
+
+    <h1><span class="text-primary hidden-xs" ng-bind="row.ds_name"></span></h1>
+    <h2><span class="text-primary hidden-sm hidden-md hidden-lg" ng-bind="row.ds_name"></span></h2>
+
+</div>
 
 <form name="form" class="form-horizontal">
 
@@ -11,7 +15,7 @@
         <label class="col-sm-2 control-label">Nome<span class="text-danger">*</span></label>
 
         <div class="col-xs-12 col-sm-6 col-md-6">
-            <input class="form-control"
+           <input class="form-control input-sm"
                    placeholder="Nome e sobrenome"
                    name="ds_name"
                    type="text"
@@ -37,7 +41,8 @@
         <label class="col-sm-2 control-label">E-mail<span class="text-danger">*</span></label>
 
         <div class="col-xs-12 col-sm-6 col-md-6">
-            <input class="form-control text-lowercase"
+            
+            <input class="form-control input-sm text-lowercase"
                    placeholder="E-mail"
                    name="ds_email"
                    type="email"
@@ -66,7 +71,7 @@
 
         <div class="col-xs-12 col-sm-6 col-md-6">
 
-            <input class="form-control"
+           <input class="form-control input-sm"
                    placeholder="Senha"
                    name="ds_password"
                    type="password"
@@ -97,7 +102,7 @@
 
         <div class="col-xs-12 col-sm-6 col-md-6">
 
-            <input class="form-control"
+           <input class="form-control input-sm"
                    placeholder="Repita a senha"
                    name="re_password"
                    type="password"

@@ -20,21 +20,21 @@
 use fulo\controller\MasterController as MasterController;
 
 /**
- * Method for login in the system
- * @name login
+ * Method for get products
+ * @name getProducts
  * @author Victor Eduardo Barreto
  * @var $app object Slim instance
- * @return bool Result of procedure
- * @date Apr 17, 2015
+ * @return object Data products
+ * @date Alg 18, 2015
  * @version 1.0
  */
-$app->post("/login", function () {
+$app->get("/getProducts", function () {
 
     try {
 
-        $business = MasterController::getLoginBusiness();
+        $business = MasterController::getProductBusiness();
 
-        echo json_encode($business->doLogin());
+        echo json_encode($business->getProducts());
     } catch (Exception $ex) {
 
         throw $ex;
@@ -42,21 +42,43 @@ $app->post("/login", function () {
 });
 
 /**
- * Method for logoff in the system
- * @name logoff
+ * Method for get product types
+ * @name getProductTypes
  * @author Victor Eduardo Barreto
  * @var $app object Slim instance
- * @return bool Result of procedure
- * @date Apr 17, 2015
+ * @return object Data product types
+ * @date Alg 19, 2015
  * @version 1.0
  */
-$app->post("/logoff", function () {
+$app->get("/getProductTypes", function () {
 
     try {
 
-        $business = MasterController::getLoginBusiness();
+        $business = MasterController::getProductBusiness();
 
-        echo json_encode($business->doLogoff());
+        echo json_encode($business->getProductTypes());
+    } catch (Exception $ex) {
+
+        throw $ex;
+    }
+});
+
+/**
+ * Method for add product
+ * @name addProduct
+ * @author Victor Eduardo Barreto
+ * @var $app object Slim instance
+ * @return bool Result of procedure
+ * @date Alg 19, 2015
+ * @version 1.0
+ */
+$app->post("/addProduct", function () {
+
+    try {
+
+        $business = MasterController::getProductBusiness();
+
+        echo json_encode($business->addProduct());
     } catch (Exception $ex) {
 
         throw $ex;
