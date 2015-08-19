@@ -110,9 +110,13 @@ class ProductBusiness extends MasterBusiness
 
             $data = $this->getRequestData();
 
-
-
             var_dump($data);
+
+            $dir = fopen("/media/victor/data/projects/fulo-angular/rest/application/images/product/teste.bin", 'wb');
+            fwrite($dir, $data->ds_image);
+            fclose($dir);
+
+            $data->ds_image = $dir . "teste.bin";
 
             return $this->_productModel->addProduct($data);
         } catch (Exception $ex) {

@@ -242,6 +242,24 @@ $app.run(['$rootScope', '$location', '$http', function ($rootScope, $location, $
             }
         };
 
+        /**
+         * Method to upload file
+         * @name uploadFile
+         * @author Victor Eduardo Barreto
+         * @date Alg 19, 2015
+         * @version 1.0
+         */
+        $rootScope.uploadFile = function () {
+
+            $scope.data = 'none';
+
+            var f = document.getElementById('file').files[0], r = new FileReader();
+
+            r.onloadend = function (e) {
+                $scope.data = e.target.result;
+            }
+            r.readAsBinaryString(f);
+        }
     }]);
 
 //We already have a limitTo filter built-in to angular,

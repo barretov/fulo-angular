@@ -42,6 +42,7 @@ class MasterBusiness
         try {
 
             foreach ($data as $key => $value) {
+
                 $data->$key = preg_replace("/[^a-zA-Z0-9_@.,áàãâéêíóôõúüçÁÀÃÂÉÊÍÓÔÕÚÜÇ ]/", "", $value);
             }
 

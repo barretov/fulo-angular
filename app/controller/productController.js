@@ -85,18 +85,74 @@ $app.controller('productController', function ($scope, $http, $location) {
 
         $scope.showLoader();
 
-        $param = $scope.configParam($scope.row);
+        var input = document.getElementById("file");
+        var fReader = new FileReader();
+        fReader.readAsDataURL(input.files[0]);
 
-        $http.post($scope.server("/addProduct"), $param).success(function ($return) {
+        fReader.onloadend = function (event) {
+//            var img = document.getElementById("img");
+//            console.log(event.target.result);
+//            img.src = event.target.result;
 
-            // verify return data.
-            $scope.checkResponse($return);
+            $param = $scope.configParam($scope.row);
 
-            $scope.hideLoader();
+            $param.ds_image = event.target.result;
 
-            $location.path("/product/listProduct/");
+            $http.post($scope.server("/addProduct"), $param).success(function ($return) {
 
-            $scope.showFlashmessage("alert-success", $scope.constant.MSG0001);
-        });
+                // verify return data.
+                $scope.checkResponse($return);
+
+                $scope.hideLoader();
+
+                $location.path("/product/listProduct/");
+
+                $scope.showFlashmessage("alert-success", $scope.constant.MSG0001);
+            });
+
+        };
     };
+
+    /**
+     * convertImgToBase64
+     * @param  {String}   url
+     * @param  {Function} callback
+     * @param  {String}   [outputFormat='image/png']
+     * @author HaNdTriX
+     * @example
+     convertImgToBase64('http://goo.gl/AOxHAL', function(base64Img){
+     console.log('IMAGE:',base64Img);
+     })
+     */
+    function convertImgToBase64(url, callback, outputFormat) {
+        var img = new Image();
+        img.crossOrigin = 'Anonymous';
+        img.onload = function () {
+            var canvas = document.createElement('CANVAS');
+            var ctx = canvas.getContext('2d');
+            canvas.height = this.height;
+            canvas.width = this.width;
+            ctx.drawImage(this, 0, 0);
+            var dataURL = canvas.toDataURL(outputFormat || 'image/png');
+            callback(dataURL);
+            canvas = null;
+        };
+        img.src = url;
+    }
+
+    function nada() {
+
+        var input = document.getElementById("file");
+        var fReader = new FileReader();
+        fReader.readAsDataURL(input.files[0]);
+
+        fReader.onloadend = function (event) {
+            var img = document.getElementById("img");
+//            console.log(event.target.result);
+
+            img.src = event.target.result;
+        };
+    }
+    ;
+
 });

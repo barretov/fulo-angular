@@ -13,3 +13,15 @@ To active mcrypt in nginx
 4 - sudo service nginx restart
 ----
 
+post limit.
+-------------
+aumentar upload PHP.
+1 - upload_max_filesize = 10M
+
+aumentar o post no nginx. vhost.
+2- 
+server {
+    client_max_body_size 10M;
+}
+-------------
+
