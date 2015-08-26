@@ -42,6 +42,28 @@ $app->get("/getProducts", function () {
 });
 
 /**
+ * Method for get product
+ * @name getProduct
+ * @author Victor Eduardo Barreto
+ * @var $app object Slim instance
+ * @return object Data products
+ * @date Alg 24, 2015
+ * @version 1.0
+ */
+$app->get("/getProduct", function () {
+
+    try {
+
+        $business = MasterController::getProductBusiness();
+
+        echo json_encode($business->getProduct());
+    } catch (Exception $ex) {
+
+        throw $ex;
+    }
+});
+
+/**
  * Method for get product types
  * @name getProductTypes
  * @author Victor Eduardo Barreto

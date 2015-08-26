@@ -43,7 +43,10 @@ class MasterBusiness
 
             foreach ($data as $key => $value) {
 
-                $data->$key = preg_replace("/[^a-zA-Z0-9_@.,áàãâéêíóôõúüçÁÀÃÂÉÊÍÓÔÕÚÜÇ ]/", "", $value);
+                if ($key != "im_image") {
+
+                    $data->$key = \preg_replace("/[^a-zA-Z0-9_@.,áàãâéêíóôõúüçÁÀÃÂÉÊÍÓÔÕÚÜÇ ]/", "", $value);
+                }
             }
 
             # set email to lower case.

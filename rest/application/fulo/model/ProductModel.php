@@ -19,6 +19,8 @@
 
 namespace fulo\model;
 
+use PDO;
+
 /**
  * Model class for product
  * @name ProductModel
@@ -43,15 +45,54 @@ class ProductModel extends MasterModel
         try {
 
             $stmt = $this->_conn->prepare("SELECT "
-                    . "* "
+                    . "product.sq_product, product.sq_product_type, sq_status_product, ds_product, nu_value, nu_quantity, "
+                    . "im_product_image "
                     . "FROM fulo.product "
-                    . "JOIN fulo.type "
-                    . "ON (type.sq_type = sq_type)"
+                    . "JOIN fulo.product_type "
+                    . "ON (product_type.sq_product_type = product.sq_product_type) "
+                    . "JOIN fulo.product_image "
+                    . "ON (product_image.sq_product = product.sq_product)"
             );
 
             $stmt->execute();
 
-            return $stmt->fetchAll();
+            return $stmt->fetchAll(PDO::FETCH_OBJ);
+        } catch (Exception $ex) {
+
+            throw $ex;
+        }
+    }
+
+    /**
+     * Method for get product
+     * @name getProduct
+     * @author Victor Eduardo Barreto
+     * @param int $data Data user and product
+     * @return Object Data product
+     * @date Alg 24, 2015
+     * @version 1.0
+     */
+    public function getProduct (& $data)
+    {
+
+        try {
+
+            $stmt = $this->_conn->prepare("SELECT "
+                    . "product.sq_product, product.sq_product_type, sq_status_product, ds_product, nu_value, nu_quantity, nu_production, product_type.ds_product_type, "
+                    . "im_product_image "
+                    . "FROM fulo.product "
+                    . "JOIN fulo.product_type "
+                    . "ON (product_type.sq_product_type = product.sq_product_type) "
+                    . "JOIN fulo.product_image "
+                    . "ON (product_image.sq_product = product.sq_product)"
+                    . "WHERE product.sq_product = ?"
+            );
+
+            $stmt->execute([
+                $data->sq_product
+            ]);
+
+            return $stmt->fetchObject();
         } catch (Exception $ex) {
 
             throw $ex;
@@ -76,7 +117,7 @@ class ProductModel extends MasterModel
 
             $stmt->execute();
 
-            return $stmt->fetchAll();
+            return $stmt->fetchAll(PDO::FETCH_OBJ);
         } catch (Exception $ex) {
 
             throw $ex;
@@ -98,25 +139,36 @@ class ProductModel extends MasterModel
 
         try {
 
-            $stmt = $this->_conn->prepare("INSERT INTO fulo.product "
-                    . "(sq_product_type, ds_product, nu_value, nu_quatity, ds_image, nu_date_time, nu_production) "
-                    . "VALUES (?,?,?,?,?,?,?)"
+            $this->_conn->beginTransaction();
+
+            $stmtProduct = $this->_conn->prepare("INSERT INTO fulo.product "
+                    . "(sq_product_type, ds_product, nu_value, nu_quantity, nu_date_time, nu_production) "
+                    . "VALUES (?,?,?,?,?,?)"
             );
 
-            $stmt->execute([
+            $stmtProduct->execute([
                 $data->sq_product_type,
                 $data->ds_product,
                 $data->nu_value,
                 $data->nu_quantity,
-                $data->ds_image,
                 date("Y-m-d H:i:s"),
                 $data->nu_production
             ]);
 
-            # save log operation.
-            $this->saveLog($data->origin_sq_user, $data->sq_product);
+            $stmtImage = $this->_conn->prepare("INSERT INTO fulo.product_image "
+                    . "(im_product_image, sq_product) "
+                    . "VALUES (?,?)"
+            );
 
-            return $stmt->commit();
+            $stmtImage->execute([
+                $data->im_image,
+                $this->_conn->lastInsertId('fulo.product_sq_product_seq')
+            ]);
+
+            # save log operation.
+            $this->saveLog($data->origin_sq_user, $this->_conn->lastInsertId('fulo.product_sq_product_seq'));
+
+            return $this->_conn->commit();
         } catch (Exception $ex) {
 
             throw $ex;

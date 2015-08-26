@@ -19,6 +19,8 @@
 
 namespace fulo\model;
 
+use PDO;
+
 /**
  * Model class for users
  * @name UserModel
@@ -177,7 +179,7 @@ class UserModel extends MasterModel
                 $sq_user
             ]);
 
-            return $stmt->fetchAll();
+            return $stmt->fetchAll(PDO::FETCH_OBJ);
         } catch (Exception $ex) {
 
             throw $ex;

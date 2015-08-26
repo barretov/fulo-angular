@@ -6,6 +6,9 @@
         }
     },
     "require": {
-        "slim/slim": "2.*"
+        "slim/slim": "2.*",
+        "intervention/image": "2.3.2"
+    },
+    "require-dev": {
     }
 }

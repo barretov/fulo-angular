@@ -25,3 +25,10 @@ server {
 }
 -------------
 
+image | intervention
+--
+sudo apt-get install php5-gd
+sudo php5enmod gd
+
+--
+

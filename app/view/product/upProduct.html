@@ -1,0 +1,235 @@
+<legend>Editar produto</legend>
+
+<div ng-init="getProduct()">
+
+    <!--image-->
+    <div class="row">
+
+        <div class="col-xs-3 col-sm-2 col-md-2 col-lg-2">
+
+            <img src={{row.im_product_image.encoded}} />
+
+        </div>
+
+        <!--presentation-->
+        <div class="col-xs-11 col-sm-10 col-md-10 col-lg-10">
+
+            <h1><span class="text-primary hidden-xs" ng-bind="row.ds_product"></span></h1>
+            <h2><span class="text-primary hidden-sm hidden-md hidden-lg" ng-bind="row.ds_product"></span></h2>
+
+        </div>
+
+    </div>
+
+    <form name="form" class="form-horizontal">
+
+        <!--ds_product hidden-->
+        <input name="ds_product" type="hidden" ng-model="row.ds_product" />
+
+        <!--field name-->
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Nome<span class="text-danger">*</span></label>
+
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+
+                <input class="form-control input-sm"
+                       placeholder="Nome do produto"
+                       name="ds_product"
+                       type="text"
+                       ng-maxlength="100"
+                       maxlength="100"
+                       ng-model="row.ds_product"
+                       required/>
+            </div>
+
+            <div class="help-block-input col-xs-12 col-sm-4 col-md-4">
+                <span class="text-danger" ng-show="form.ds_product.$dirty && form.ds_product.$invalid">
+                    <i class="glyphicon glyphicon-remove-sign"></i>
+                    <span ng-show="form.ds_product.$error.required">Campo obrigatório</span>
+                    <span ng-show="form.ds_product.$error.maxlength">Máximo de cem caracteres</span>
+                </span>
+
+            </div>
+        </div>
+        <!--field name-->
+
+        <!--field class-->
+        <div class="form-group" ng-init="getProductTypes()">
+
+            <label class="col-sm-2 control-label">Classe<span class="text-danger">*</span></label>
+
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+
+                <select class="form-control input-sm"
+                        name="sq_product_type"
+                        ng-model="row.sq_product_type"
+                        required>
+
+                    <option selected="row.sq_product_type">{{row.ds_product_type}}</option>
+
+                    <option
+                        ng-repeat="type in types"
+                        value="{{type.sq_product_type}}">
+                        {{type.ds_product_type}}
+                    </option>
+
+                </select>
+
+            </div>
+
+            <div class="help-block-input col-xs-12 col-sm-4 col-md-4">
+
+                <span class="text-danger" ng-show="form.sq_product_type.$dirty && form.sq_product_type.$invalid">
+                    <i class="glyphicon glyphicon-remove-sign"></i>
+                    <span ng-show="form.sq_product_type.$error.required">Campo obrigatório</span>
+                    <span ng-show="form.sq_product_type.$error.email">Email inválido</span>
+                    <span ng-show="form.sq_product_type.$error.maxlength">Máximo de cinquenta caracteres</span>
+                </span>
+
+            </div>
+        </div>
+
+        <!--field value-->
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Valor<span class="text-danger">*</span></label>
+
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+
+                <input class="form-control input-sm"
+                       placeholder="Valor do produto"
+                       name="nu_value"
+                       type="text"
+                       maxlength="8"
+                       ng-maxlength="8"
+                       ng-minlength="4"
+                       ng-model="row.nu_value"
+                       pattern="[0-9]+$"
+                       required />
+            </div>
+
+            <div class="help-block-input col-xs-12 col-sm-4 col-md-4">
+
+                <span class="text-danger" ng-show="form.nu_value.$dirty && form.nu_value.$invalid">
+                    <i class="glyphicon glyphicon-remove-sign"></i>
+                    <span ng-show="form.nu_value.$error.required">Campo obrigatório.</span>
+                    <span ng-show="form.nu_value.$error.minlength">Mínimo de quatro caracteres.</span>
+                    <span ng-show="form.nu_value.$error.maxlength">Máximo de oito caracteres.</span>
+                    <span ng-show="form.nu_value.$error.pattern">Somente números.</span>
+                </span>
+
+            </div>
+        </div>
+
+        <!--field quantity-->
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Quantidade<span class="text-danger">*</span></label>
+
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+
+                <input class="form-control input-sm"
+                       placeholder="Quantidade"
+                       name="nu_quantity"
+                       type="text"
+                       maxlength="20"
+                       ng-model="row.nu_quantity"
+                       ng-maxlength="20"
+                       ng-minlength="1"
+                       pattern="[0-9]+$"
+                       required/>
+            </div>
+
+            <div class="help-block-input col-xs-12 col-sm-4 col-md-4">
+
+                <span class="text-danger" ng-show="form.nu_quantity.$dirty && form.nu_quantity.$invalid">
+                    <i class="glyphicon glyphicon-remove-sign"></i>
+                    <span ng-show="form.nu_quantity.$error.required">Campo obrigatório.</span>
+                    <span ng-show="form.nu_quantity.$error.minlength">Mínimo de um caracteres.</span>
+                    <span ng-show="form.nu_quantity.$error.maxlength">Máximo de vinte caracteres.</span>
+                    <span ng-show="form.nu_quantity.$error.pattern">Somente números.</span>
+                </span>
+
+            </div>
+        </div>
+
+        <!--field production-->
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Tempo de produção<span class="text-danger">*</span></label>
+
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+
+                <input class="form-control input-sm"
+                       placeholder="Tempo de produção"
+                       name="nu_production"
+                       type="text"
+                       maxlength="4"
+                       ng-model="row.nu_production"
+                       ng-maxlength="20"
+                       ng-minlength="1"
+                       pattern="[0-9]+$"
+                       required/>
+            </div>
+
+            <div class="help-block-input col-xs-12 col-sm-4 col-md-4">
+
+                <span class="text-danger" ng-show="form.nu_production.$dirty && form.nu_production.$invalid">
+                    <i class="glyphicon glyphicon-remove-sign"></i>
+                    <span ng-show="form.nu_production.$error.required">Campo obrigatório</span>
+                    <span ng-show="form.nu_production.$error.minlength">Mínimo de um caracteres</span>
+                    <span ng-show="form.nu_production.$error.maxlength">Máximo de vinte caracteres</span>
+                    <span ng-show="form.nu_production.$error.pattern">Somente números.</span>
+                </span>
+
+            </div>
+        </div>
+
+        <!--field image-->
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Imagem<span class="text-danger">*</span></label>
+
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+
+                <div class="input-group">
+
+                    <span class="input-group-btn">
+
+                        <span class="btn btn-primary btn-file btn-sm">
+                            Arquivo <input id="file" type="file" name="im_image"/>
+
+                            <i class="glyphicon glyphicon-folder-open"></i>
+                        </span>
+
+                    </span>
+
+                    <input type="text" class="form-control input-sm" readonly  />
+                </div>
+
+            </div>
+
+            <div class="help-block-input col-xs-12 col-sm-4 col-md-4">
+
+                <span class="text-danger" ng-show="form.im_image.$dirty && form.im_image.$invalid">
+                    <i class="glyphicon glyphicon-remove-sign"></i>
+                    <span ng-show="form.im_image.$error.required">Campo obrigatório</span>
+                </span>
+
+            </div>
+        </div>
+
+        <!--buttons-->
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+
+                <button type="submit" class="btn btn-primary btn-sm" ng-click="addProduct()" ng-Disabled="form.$invalid">Salvar
+                    <i class="glyphicon glyphicon-save"></i>
+                </button>
+
+                <a class="btn btn-default btn-sm" href="#/user/listUser">Cancelar
+                    <i class="glyphicon glyphicon-remove"></i>
+                </a>
+
+            </div>
+        </div>
+
+    </form>
+
+</div>

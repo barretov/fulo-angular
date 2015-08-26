@@ -19,6 +19,8 @@
 
 namespace fulo\model;
 
+use PDO;
+
 /**
  * Model class for domain
  * @name DomainModel
@@ -46,7 +48,7 @@ class DomainModel extends MasterModel
 
             $stmt->execute();
 
-            return $stmt->fetchAll();
+            return $stmt->fetchAll(PDO::FETCH_OBJ);
         } catch (Exception $ex) {
 
             throw $ex;
@@ -80,7 +82,7 @@ class DomainModel extends MasterModel
                 $data->nu_postcode
             ]);
 
-            return $stmt->fetch();
+            return $stmt->fetchObject();
         } catch (Exception $ex) {
 
             throw $ex;
@@ -113,7 +115,7 @@ class DomainModel extends MasterModel
                 $data->origin_sq_profile
             ]);
 
-            return $stmt->fetchAll();
+            return $stmt->fetchAll(PDO::FETCH_OBJ);
         } catch (Exception $ex) {
 
             throw $ex;

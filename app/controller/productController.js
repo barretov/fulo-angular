@@ -27,7 +27,7 @@
  * @date Alg 18, 2015
  * @version 1.0
  */
-$app.controller('productController', function ($scope, $http, $location) {
+$app.controller('productController', function ($scope, $http, $location, $routeParams) {
 
     /**
      * Method for get products
@@ -48,6 +48,31 @@ $app.controller('productController', function ($scope, $http, $location) {
             // verify return data.
             $scope.checkResponse($return);
 
+            $scope.rows = $return;
+            $scope.hideLoader();
+        });
+    };
+
+    /**
+     * Method for get products
+     * @name getProducts
+     * @author Victor Eduardo Barreto
+     * @date Alg 18, 2015
+     * @version 1.0
+     */
+    $scope.getProduct = function () {
+
+        $scope.showLoader();
+
+        // adjust parameters and add origin data.
+        $param = $scope.configParam({sq_product: $routeParams.id});
+
+        $http.get($scope.server("/getProduct"), {params: $param}).success(function ($return) {
+
+            // verify return data.
+            $scope.checkResponse($return);
+
+            $scope.row = $return;
             $scope.hideLoader();
         });
     };
@@ -87,16 +112,14 @@ $app.controller('productController', function ($scope, $http, $location) {
 
         var input = document.getElementById("file");
         var fReader = new FileReader();
+
         fReader.readAsDataURL(input.files[0]);
 
         fReader.onloadend = function (event) {
-//            var img = document.getElementById("img");
-//            console.log(event.target.result);
-//            img.src = event.target.result;
+
+            $scope.row.im_image = event.target.result;
 
             $param = $scope.configParam($scope.row);
-
-            $param.ds_image = event.target.result;
 
             $http.post($scope.server("/addProduct"), $param).success(function ($return) {
 
@@ -112,47 +135,4 @@ $app.controller('productController', function ($scope, $http, $location) {
 
         };
     };
-
-    /**
-     * convertImgToBase64
-     * @param  {String}   url
-     * @param  {Function} callback
-     * @param  {String}   [outputFormat='image/png']
-     * @author HaNdTriX
-     * @example
-     convertImgToBase64('http://goo.gl/AOxHAL', function(base64Img){
-     console.log('IMAGE:',base64Img);
-     })
-     */
-    function convertImgToBase64(url, callback, outputFormat) {
-        var img = new Image();
-        img.crossOrigin = 'Anonymous';
-        img.onload = function () {
-            var canvas = document.createElement('CANVAS');
-            var ctx = canvas.getContext('2d');
-            canvas.height = this.height;
-            canvas.width = this.width;
-            ctx.drawImage(this, 0, 0);
-            var dataURL = canvas.toDataURL(outputFormat || 'image/png');
-            callback(dataURL);
-            canvas = null;
-        };
-        img.src = url;
-    }
-
-    function nada() {
-
-        var input = document.getElementById("file");
-        var fReader = new FileReader();
-        fReader.readAsDataURL(input.files[0]);
-
-        fReader.onloadend = function (event) {
-            var img = document.getElementById("img");
-//            console.log(event.target.result);
-
-            img.src = event.target.result;
-        };
-    }
-    ;
-
 });

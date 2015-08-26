@@ -20,6 +20,7 @@
 namespace fulo\business;
 
 use fulo\model\ProductModel as ProductModel;
+use Intervention\Image\ImageManagerStatic as Image;
 
 /**
  * Class of business for Product
@@ -66,7 +67,41 @@ class ProductBusiness extends MasterBusiness
 
         try {
 
-            return $this->_productModel->getProducts();
+            $results = $this->_productModel->getProducts();
+
+            foreach ($results as $key) {
+
+                $key->im_product_image = Image::make($key->im_product_image)->resize(50, 50)->encode('data-url');
+            }
+
+            return $results;
+        } catch (Exception $ex) {
+
+            throw $ex;
+        }
+    }
+
+    /**
+     * Method for get product
+     * @name getProduct
+     * @author Victor Eduardo Barreto
+     * @package fulo\business
+     * @return object Data product
+     * @date Alg 24, 2015
+     * @version 1.0
+     */
+    public function getProduct ()
+    {
+
+        try {
+
+            $data = $this->getRequestData();
+
+            $data = $this->_productModel->getProduct($data);
+
+            $data->im_product_image = Image::make($data->im_product_image)->resize(100, 100)->encode('data-url');
+
+            return $data;
         } catch (Exception $ex) {
 
             throw $ex;
@@ -109,14 +144,6 @@ class ProductBusiness extends MasterBusiness
         try {
 
             $data = $this->getRequestData();
-
-            var_dump($data);
-
-            $dir = fopen("/media/victor/data/projects/fulo-angular/rest/application/images/product/teste.bin", 'wb');
-            fwrite($dir, $data->ds_image);
-            fclose($dir);
-
-            $data->ds_image = $dir . "teste.bin";
 
             return $this->_productModel->addProduct($data);
         } catch (Exception $ex) {

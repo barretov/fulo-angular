@@ -11,6 +11,7 @@ $app.config(['$routeProvider', '$httpProvider', function ($routeProvider, $httpP
         //Configura o route provider
         $routeProvider.
                 when('/', {templateUrl: 'app/view/general/main.html'}).
+                when('/error/systemError', {templateUrl: 'app/view/error/systemError.html'}).
                 when('/contact', {templateUrl: 'app/view/general/contact.html'}).
                 when('/customer/addCustomer', {templateUrl: 'app/view/customer/addCustomer.html', controller: 'customerController'}).
                 when('/customer/upCustomer', {templateUrl: 'app/view/customer/upCustomer.html', controller: 'customerController'}).
@@ -19,7 +20,7 @@ $app.config(['$routeProvider', '$httpProvider', function ($routeProvider, $httpP
                 when('/user/listUser', {templateUrl: 'app/view/user/listUser.html', controller: 'userController'}).
                 when('/product/listProduct', {templateUrl: 'app/view/product/listProduct.html', controller: 'productController'}).
                 when('/product/addProduct', {templateUrl: 'app/view/product/addProduct.html', controller: 'productController'}).
-                when('/product/upProduct', {templateUrl: 'app/view/product/upProduct.html', controller: 'productController'}).
+                when('/product/upProduct/:id', {templateUrl: 'app/view/product/upProduct.html', controller: 'productController'}).
                 otherwise({redirectTo: '/'});
 
         /*
@@ -190,7 +191,7 @@ $app.run(['$rootScope', '$location', '$http', function ($rootScope, $location, $
         $rootScope.configParam = function ($data) {
 
             // if no arrived data, make a new object.
-            (!$data) ? $data = {} : null;
+            (!$data) ? $data = {} : '';
 
             // inset secret and origin data.
             $data.secret = sessionStorage.getItem('secret');
@@ -241,25 +242,6 @@ $app.run(['$rootScope', '$location', '$http', function ($rootScope, $location, $
                 $('#switchPass').addClass('glyphicon-eye-close');
             }
         };
-
-        /**
-         * Method to upload file
-         * @name uploadFile
-         * @author Victor Eduardo Barreto
-         * @date Alg 19, 2015
-         * @version 1.0
-         */
-        $rootScope.uploadFile = function () {
-
-            $scope.data = 'none';
-
-            var f = document.getElementById('file').files[0], r = new FileReader();
-
-            r.onloadend = function (e) {
-                $scope.data = e.target.result;
-            }
-            r.readAsBinaryString(f);
-        }
     }]);
 
 //We already have a limitTo filter built-in to angular,

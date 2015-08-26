@@ -45,6 +45,9 @@ $app.controller('loginController', function ($scope, $rootScope, $http, $locatio
 
         $http.post($scope.server("/login"), $param).success(function ($return) {
 
+            // verify return data.
+            $scope.checkResponse($return);
+
             if ($return) {
 
                 // if exists remove data user of the session browser.

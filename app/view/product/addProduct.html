@@ -173,7 +173,7 @@
 
     <!--field image-->
     <div class="form-group">
-        <label class="col-sm-2 control-label">Foto<span class="text-danger">*</span></label>
+        <label class="col-sm-2 control-label">Imagem<span class="text-danger">*</span></label>
 
         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
 
@@ -182,23 +182,23 @@
                 <span class="input-group-btn">
 
                     <span class="btn btn-primary btn-file btn-sm">
-                        Arquivo <input id="file" type="file" name="ds_image" />
+                        Arquivo <input id="file" type="file" name="im_image"/>
 
                         <i class="glyphicon glyphicon-folder-open"></i>
                     </span>
 
                 </span>
 
-                <input type="text" class="form-control input-sm" readonly />
+                <input type="text" class="form-control input-sm" readonly  />
             </div>
 
         </div>
 
         <div class="help-block-input col-xs-12 col-sm-4 col-md-4">
 
-            <span class="text-danger" ng-show="form.ds_image.$dirty && form.ds_image.$invalid">
+            <span class="text-danger" ng-show="form.im_image.$dirty && form.im_image.$invalid">
                 <i class="glyphicon glyphicon-remove-sign"></i>
-                <span ng-show="form.ds_image.$error.required">Campo obrigatório</span>
+                <span ng-show="form.im_image.$error.required">Campo obrigatório</span>
             </span>
 
         </div>

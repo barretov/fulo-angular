@@ -82,26 +82,22 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
 
         if ($routeParams.id !== null) {
 
-            $scope.showLoader();
-
-            // adjust parameters and add origin data.
-            $param = $scope.configParam({sq_person: $routeParams.id});
-
-            $http.get($scope.server("/getUser"), {params: $param}).success(function ($return) {
-
-                // verify return data.
-                $scope.checkResponse($return);
-
-                $scope.row = $return;
-                $scope.hideLoader();
-            });
-        } else {
-
-            $scope.row = {};
-            $scope.row.sq_person = null;
-            $scope.hideLoader();
+            $location.path("/error/systemError/");
         }
 
+        $scope.showLoader();
+
+        // adjust parameters and add origin data.
+        $param = $scope.configParam({sq_person: $routeParams.id});
+
+        $http.get($scope.server("/getUser"), {params: $param}).success(function ($return) {
+
+            // verify return data.
+            $scope.checkResponse($return);
+
+            $scope.row = $return;
+            $scope.hideLoader();
+        });
     };
 
     /**
