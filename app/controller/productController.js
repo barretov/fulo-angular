@@ -140,4 +140,85 @@ $app.controller('productController', function ($scope, $http, $location, $routeP
 
         };
     };
+
+    /**
+     * Method for up product
+     * @name upProduct
+     * @author Victor Eduardo Barreto
+     * @date Alg 26, 2015
+     * @version 1.0
+     */
+    $scope.upProduct = function () {
+
+        $scope.showLoader();
+
+        var input = document.getElementById("file");
+        var fReader = new FileReader();
+
+        fReader.readAsDataURL(input.files[0]);
+
+        fReader.onloadend = function (event) {
+
+            $scope.row.im_image = event.target.result;
+
+            $param = $scope.configParam($scope.row);
+
+            $http.post($scope.server("/upProduct"), $param).success(function ($return) {
+
+                // verify return data.
+                $scope.checkResponse($return);
+
+                $scope.hideLoader();
+
+                $location.path("/product/listProduct/");
+
+                $scope.showFlashmessage("alert-success", $scope.constant.MSG0001);
+            });
+
+        };
+    };
+
+    /**
+     * Method for activate product
+     * @name activateProduct
+     * @author Victor Eduardo Barreto
+     * @date Alg 26, 2015
+     * @version 1.0
+     */
+    $scope.activateProduct = function () {
+
+        $scope.showLoader();
+
+        $param = $scope.configParam($scope.row);
+
+        $http.post($scope.server("/activateProduct"), $param).success(function ($return) {
+
+            // verify return data.
+            $scope.checkResponse($return);
+
+            $scope.hideLoader();
+        });
+    };
+
+    /**
+     * Method for inactivate product
+     * @name inactivateProduct
+     * @author Victor Eduardo Barreto
+     * @date Alg 26, 2015
+     * @version 1.0
+     */
+    $scope.inactivateProduct = function () {
+
+        $scope.showLoader();
+
+        $param = $scope.configParam($scope.row);
+
+        $http.post($scope.server("/inactivateProduct"), $param).success(function ($return) {
+
+            // verify return data.
+            $scope.checkResponse($return);
+
+            $scope.hideLoader();
+        });
+    };
 });

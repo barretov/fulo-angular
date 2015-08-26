@@ -34,6 +34,7 @@ var Geral = {
         Geral.voltarTopo();
         Geral.niceScroll();
         Geral.inputFile();
+        Geral.initToolTip();
     },
     /**
      * Método responsável pelo funcionamento do botão de voltar ao topo da página.
@@ -101,6 +102,17 @@ var Geral = {
             input.val(log);
 
         });
+    },
+    /**
+     * Method for init bootstrap tooltip
+     * @name initToolTip
+     * @author Victor Eduardo Barreto
+     * @date Alg 26, 2015
+     * @version 1.0
+     */
+    initToolTip: function () {
+
+        $('[data-toggle="tooltip"]').tooltip();
     }
 };
 

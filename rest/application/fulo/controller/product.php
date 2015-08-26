@@ -106,3 +106,69 @@ $app->post("/addProduct", function () {
         throw $ex;
     }
 });
+
+/**
+ * Method for up product
+ * @name upProduct
+ * @author Victor Eduardo Barreto
+ * @var $app object Slim instance
+ * @return bool Result of procedure
+ * @date Alg 26, 2015
+ * @version 1.0
+ */
+$app->post("/upProduct", function () {
+
+    try {
+
+        $business = MasterController::getProductBusiness();
+
+        echo json_encode($business->upProduct());
+    } catch (Exception $ex) {
+
+        throw $ex;
+    }
+});
+
+/**
+ * Method for activate product
+ * @name activateProduct
+ * @author Victor Eduardo Barreto
+ * @var $app object Slim instance
+ * @return bool Result of procedure
+ * @date Alg 26, 2015
+ * @version 1.0
+ */
+$app->post("/activateProduct", function () {
+
+    try {
+
+        $business = MasterController::getProductBusiness();
+
+        echo json_encode($business->activateProduct());
+    } catch (Exception $ex) {
+
+        throw $ex;
+    }
+});
+
+/**
+ * Method for inactivate product
+ * @name inactivateProduct
+ * @author Victor Eduardo Barreto
+ * @var $app object Slim instance
+ * @return bool Result of procedure
+ * @date Alg 26, 2015
+ * @version 1.0
+ */
+$app->post("/inactivateProduct", function () {
+
+    try {
+
+        $business = MasterController::getProductBusiness();
+
+        echo json_encode($business->inactivateProduct());
+    } catch (Exception $ex) {
+
+        throw $ex;
+    }
+});

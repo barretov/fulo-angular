@@ -1,6 +1,7 @@
 <?php
 
-/*
+/**
+ * @license <http://www.gnu.org/licenses/>
  * Copyright (C) 2014
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,8 +29,7 @@ use PDO;
  * @date Alg 18, 2015
  * @version 1.0
  */
-class ProductModel extends MasterModel
-{
+class ProductModel extends MasterModel {
 
     /**
      * Method for get products
@@ -39,19 +39,18 @@ class ProductModel extends MasterModel
      * @date Alg 18, 2015
      * @version 1.0
      */
-    public function getProducts ()
-    {
+    public function getProducts () {
 
         try {
 
             $stmt = $this->_conn->prepare("SELECT "
-                    . "product.sq_product, product.sq_product_type, sq_status_product, ds_product, nu_value, nu_quantity, "
-                    . "im_product_image "
-                    . "FROM fulo.product "
-                    . "JOIN fulo.product_type "
-                    . "ON (product_type.sq_product_type = product.sq_product_type) "
-                    . "JOIN fulo.product_image "
-                    . "ON (product_image.sq_product = product.sq_product)"
+                . "product.sq_product, product.sq_product_type, sq_status_product, ds_product, nu_value, nu_quantity, "
+                . "im_product_image "
+                . "FROM fulo.product "
+                . "JOIN fulo.product_type "
+                . "ON (product_type.sq_product_type = product.sq_product_type) "
+                . "JOIN fulo.product_image "
+                . "ON (product_image.sq_product = product.sq_product)"
             );
 
             $stmt->execute();
@@ -72,20 +71,19 @@ class ProductModel extends MasterModel
      * @date Alg 24, 2015
      * @version 1.0
      */
-    public function getProduct (& $data)
-    {
+    public function getProduct (& $data) {
 
         try {
 
             $stmt = $this->_conn->prepare("SELECT "
-                    . "product.sq_product, product.sq_product_type, sq_status_product, ds_product, nu_value, nu_quantity, nu_production, product_type.ds_product_type, "
-                    . "im_product_image "
-                    . "FROM fulo.product "
-                    . "JOIN fulo.product_type "
-                    . "ON (product_type.sq_product_type = product.sq_product_type) "
-                    . "JOIN fulo.product_image "
-                    . "ON (product_image.sq_product = product.sq_product)"
-                    . "WHERE product.sq_product = ?"
+                . "product.sq_product, product.sq_product_type, sq_status_product, ds_product, nu_value, nu_quantity, nu_production, product_type.ds_product_type, "
+                . "im_product_image "
+                . "FROM fulo.product "
+                . "JOIN fulo.product_type "
+                . "ON (product_type.sq_product_type = product.sq_product_type) "
+                . "JOIN fulo.product_image "
+                . "ON (product_image.sq_product = product.sq_product)"
+                . "WHERE product.sq_product = ?"
             );
 
             $stmt->execute([
@@ -108,8 +106,7 @@ class ProductModel extends MasterModel
      * @date Alg 19, 2015
      * @version 1.0
      */
-    public function getProductTypes ()
-    {
+    public function getProductTypes () {
 
         try {
 
@@ -134,16 +131,15 @@ class ProductModel extends MasterModel
      * @date Alg 19, 2015
      * @version 1.0
      */
-    public function addProduct (& $data)
-    {
+    public function addProduct (& $data) {
 
         try {
 
             $this->_conn->beginTransaction();
 
             $stmtProduct = $this->_conn->prepare("INSERT INTO fulo.product "
-                    . "(sq_product_type, ds_product, nu_value, nu_quantity, nu_date_time, nu_production) "
-                    . "VALUES (?,?,?,?,?,?)"
+                . "(sq_product_type, ds_product, nu_value, nu_quantity, nu_date_time, nu_production) "
+                . "VALUES (?,?,?,?,?,?)"
             );
 
             $stmtProduct->execute([
@@ -156,8 +152,8 @@ class ProductModel extends MasterModel
             ]);
 
             $stmtImage = $this->_conn->prepare("INSERT INTO fulo.product_image "
-                    . "(im_product_image, sq_product) "
-                    . "VALUES (?,?)"
+                . "(im_product_image, sq_product) "
+                . "VALUES (?,?)"
             );
 
             $stmtImage->execute([
@@ -167,6 +163,131 @@ class ProductModel extends MasterModel
 
             # save log operation.
             $this->saveLog($data->origin_sq_user, $this->_conn->lastInsertId('fulo.product_sq_product_seq'));
+
+            return $this->_conn->commit();
+        } catch (Exception $ex) {
+
+            throw $ex;
+        }
+    }
+
+    /**
+     * Model for up product
+     * @name upProduct
+     * @author Victor Eduardo Barreto
+     * @param object $data Data of product
+     * @var $app object Slim instance
+     * @return bool Result of procedure
+     * @date Alg 26, 2015
+     * @version 1.0
+     */
+    public function upProduct (& $data) {
+
+        try {
+
+            $this->_conn->beginTransaction();
+
+            $stmtProduct = $this->_conn->prepare("UPDATE fulo.product "
+                . "(SET sq_product_type = ?, ds_product = ?, nu_value = ?, nu_quantity = ?, nu_production = ?) "
+                . "WHERE sq_product = ?"
+            );
+
+            $stmtProduct->execute([
+                $data->sq_product_type,
+                $data->ds_product,
+                $data->nu_value,
+                $data->nu_quantity,
+                $data->nu_production,
+                $data->sq_product
+            ]);
+
+            if ($data->im_image) {
+
+                $stmtImage = $this->_conn->prepare("UPDATE fulo.product_image "
+                    . "(im_product_image = ?) "
+                    . "WHERE sq_product = ?"
+                );
+
+                $stmtImage->execute([
+                    $data->im_image,
+                    $data->sq_product
+                ]);
+            }
+
+            # save log operation.
+            $this->saveLog($data->origin_sq_user, $data->sq_product);
+
+            return $this->_conn->commit();
+        } catch (Exception $ex) {
+
+            throw $ex;
+        }
+    }
+
+    /**
+     * Model for activate product
+     * @name activateProduct
+     * @author Victor Eduardo Barreto
+     * @param object $data Data of product
+     * @var $app object Slim instance
+     * @return bool Result of procedure
+     * @date Alg 26, 2015
+     * @version 1.0
+     */
+    public function activateProduct (& $data) {
+
+        try {
+
+            $this->_conn->beginTransaction();
+
+            $stmt = $this->_conn->prepare("UPDATE fulo.product "
+                . "(SET sq_status = ?) "
+                . "WHERE sq_product = ?"
+            );
+
+            $stmt->execute([
+                STATUS_ACTIVE,
+                $data->sq_product
+            ]);
+
+            # save log operation.
+            $this->saveLog($data->origin_sq_user, $data->sq_product);
+
+            return $this->_conn->commit();
+        } catch (Exception $ex) {
+
+            throw $ex;
+        }
+    }
+
+    /**
+     * Model for inactivate product
+     * @name inactivateProduct
+     * @author Victor Eduardo Barreto
+     * @param object $data Data of product
+     * @var $app object Slim instance
+     * @return bool Result of procedure
+     * @date Alg 26, 2015
+     * @version 1.0
+     */
+    public function inactivateProduct (& $data) {
+
+        try {
+
+            $this->_conn->beginTransaction();
+
+            $stmt = $this->_conn->prepare("UPDATE fulo.product "
+                . "(SET sq_status = ?) "
+                . "WHERE sq_product = ?"
+            );
+
+            $stmt->execute([
+                STATUS_INACTIVE,
+                $data->sq_product
+            ]);
+
+            # save log operation.
+            $this->saveLog($data->origin_sq_user, $data->sq_product);
 
             return $this->_conn->commit();
         } catch (Exception $ex) {

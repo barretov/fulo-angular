@@ -30,8 +30,7 @@ use Intervention\Image\ImageManagerStatic as Image;
  * @date Alg 18, 2015
  * @version 1.0
  */
-class ProductBusiness extends MasterBusiness
-{
+class ProductBusiness extends MasterBusiness {
 
     /**
      * variable for instance of product model
@@ -48,8 +47,7 @@ class ProductBusiness extends MasterBusiness
      * @date Alg 18, 2015
      * @version 1.0
      */
-    public function __construct ()
-    {
+    public function __construct () {
         $this->_productModel = new ProductModel();
     }
 
@@ -62,8 +60,7 @@ class ProductBusiness extends MasterBusiness
      * @date Alg 18, 2015
      * @version 1.0
      */
-    public function getProducts ()
-    {
+    public function getProducts () {
 
         try {
 
@@ -90,8 +87,7 @@ class ProductBusiness extends MasterBusiness
      * @date Alg 24, 2015
      * @version 1.0
      */
-    public function getProduct ()
-    {
+    public function getProduct () {
 
         try {
 
@@ -117,8 +113,7 @@ class ProductBusiness extends MasterBusiness
      * @date Alg 19, 2015
      * @version 1.0
      */
-    public function getProductTypes ()
-    {
+    public function getProductTypes () {
 
         try {
 
@@ -138,14 +133,79 @@ class ProductBusiness extends MasterBusiness
      * @date Alg 19, 2015
      * @version 1.0
      */
-    public function addProduct ()
-    {
+    public function addProduct () {
 
         try {
 
             $data = $this->getRequestData();
 
             return $this->_productModel->addProduct($data);
+        } catch (Exception $ex) {
+
+            throw $ex;
+        }
+    }
+
+    /**
+     * Method for business of up product
+     * @name upProduct
+     * @author Victor Eduardo Barreto
+     * @var $app object Slim instance
+     * @return bool Result of procedure
+     * @date Alg 26, 2015
+     * @version 1.0
+     */
+    public function upProduct () {
+
+        try {
+
+            $data = $this->getRequestData();
+
+            return $this->_productModel->upProduct($data);
+        } catch (Exception $ex) {
+
+            throw $ex;
+        }
+    }
+
+    /**
+     * Method for business of activate product
+     * @name activateProduct
+     * @author Victor Eduardo Barreto
+     * @var $app object Slim instance
+     * @return bool Result of procedure
+     * @date Alg 26, 2015
+     * @version 1.0
+     */
+    public function activateProduct () {
+
+        try {
+
+            $data = $this->getRequestData();
+
+            return $this->_productModel->activateProduct($data);
+        } catch (Exception $ex) {
+
+            throw $ex;
+        }
+    }
+
+    /**
+     * Method for business of inactivate product
+     * @name inactivateProduct
+     * @author Victor Eduardo Barreto
+     * @var $app object Slim instance
+     * @return bool Result of procedure
+     * @date Alg 26, 2015
+     * @version 1.0
+     */
+    public function inactivateProduct () {
+
+        try {
+
+            $data = $this->getRequestData();
+
+            return $this->_productModel->inactivateProduct($data);
         } catch (Exception $ex) {
 
             throw $ex;
