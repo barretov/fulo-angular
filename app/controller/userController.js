@@ -80,7 +80,7 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
      */
     $scope.getUser = function () {
 
-        if ($routeParams.id !== null) {
+        if ($routeParams.id === null) {
 
             $location.path("/error/systemError/");
         }

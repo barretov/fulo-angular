@@ -62,6 +62,11 @@ $app.controller('productController', function ($scope, $http, $location, $routeP
      */
     $scope.getProduct = function () {
 
+        if ($routeParams.id === null) {
+
+            $location.path("/error/systemError/");
+        }
+
         $scope.showLoader();
 
         // adjust parameters and add origin data.

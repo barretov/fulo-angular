@@ -5,17 +5,12 @@
     <!--image-->
     <div class="row">
 
-        <div class="col-xs-3 col-sm-2 col-md-2 col-lg-2">
+        <div class="col-xs-12 col-sm-offset-2 col-sm-6 col-md-offset-2 col-md-6 col-lg-offset-2 col-lg-6 well well-sm">
 
-            <img src={{row.im_product_image.encoded}} />
+            <!--presentation-->
+            <h1 class="hidden-xs hidden-sm"><img src={{row.im_product_image.encoded}} /> <span class="text-primary" ng-bind="row.ds_product"></span></h1>
 
-        </div>
-
-        <!--presentation-->
-        <div class="col-xs-11 col-sm-10 col-md-10 col-lg-10">
-
-            <h1><span class="text-primary hidden-xs" ng-bind="row.ds_product"></span></h1>
-            <h2><span class="text-primary hidden-sm hidden-md hidden-lg" ng-bind="row.ds_product"></span></h2>
+            <h3 class="hidden-md hidden-lg"><img src={{row.im_product_image.encoded}} /> <span class="text-primary" ng-bind="row.ds_product"></span></h3>
 
         </div>
 
@@ -223,8 +218,8 @@
                     <i class="glyphicon glyphicon-save"></i>
                 </button>
 
-                <a class="btn btn-default btn-sm" href="#/user/listUser">Cancelar
-                    <i class="glyphicon glyphicon-remove"></i>
+                <a class="btn btn-default btn-sm" href="#/product/listProduct">Voltar
+                    <i class="glyphicon glyphicon-arrow-left"></i>
                 </a>
 
             </div>

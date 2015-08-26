@@ -25,10 +25,17 @@
             <div role="tabpanel" class="tab-pane fade in active pessoal">
 
                 <!--presentation-->
-                <div class="col-xs-offset-2 col-sm-offset-2 col-md-offset-2 col-lg-offset-2">
+                <div class="row">
 
-                    <h1><span class="text-primary hidden-xs" ng-bind="row.ds_name"></span></h1>
-                    <h2><span class="text-primary hidden-sm hidden-md hidden-lg" ng-bind="row.ds_name"></span></h2>
+                    <br />
+
+                     <div class="col-xs-12 col-sm-offset-2 col-sm-6 col-md-offset-2 col-md-6 col-lg-offset-2 col-lg-6 well well-sm" ng-show="row.ds_name != null">
+
+                        <h1 class="hidden-xs hidden-sm"><span class="text-primary" ng-bind="row.ds_name"></span></h1>
+
+                        <h3 class="hidden-md hidden-lg"><span class="text-primary" ng-bind="row.ds_name"></span></h3>
+
+                    </div>
 
                 </div>
 
@@ -43,7 +50,7 @@
                         <label class="col-sm-2 control-label">Nome<span class="text-danger">*</span></label>
 
                         <div class="col-xs-12 col-sm-6 col-md-6">
-                           <input class="form-control input-sm"
+                            <input class="form-control input-sm"
                                    placeholder="name e sobrename"
                                    name="ds_name"
                                    type="text"
@@ -98,7 +105,7 @@
 
 
                         <div class="col-xs-12 col-sm-6 col-md-6">
-                           <input class="form-control input-sm"
+                            <input class="form-control input-sm"
                                    placeholder="Informe o telefone Ex: 6122233345"
                                    name="phone"
                                    type="text"
@@ -126,12 +133,20 @@
                     <!--field profile-->
                     <div class="form-group" ng-init="getProfiles()">
 
-                        <label class="col-xs-2 col-sm-2 col-md-2 col-lg-2 control-label">Perfil<span class="text-danger">*</span></label>
+                        <label class="col-xs-2 col-sm-2 col-md-2 col-lg-2 control-label ">Perfil<span class="text-danger">*</span></label>
 
                         <div class="radio radio-inline radio-center" ng-repeat="prof in profiles">
+
                             <label>
-                                <input type="radio" name="sq_profile" value="{{prof.sq_profile}}" ng-model="row.sq_profile" required/> {{prof.ds_profile}}
+                                <input
+                                    type="radio"
+                                    name="sq_profile"
+                                    value="{{prof.sq_profile}}"
+                                    ng-model="row.sq_profile"
+                                    required/>
+                                {{prof.ds_profile}}
                             </label>
+
                         </div>
 
                     </div>
@@ -169,7 +184,7 @@
 
                         <div class="col-xs-12 col-sm-6 col-md-6">
 
-                           <input class="form-control input-sm"
+                            <input class="form-control input-sm"
                                    placeholder="Informe o CEP"
                                    name="zip"
                                    type="text"
@@ -202,7 +217,7 @@
 
                         <div class="col-xs-12 col-sm-6 col-md-6">
 
-                           <input class="form-control input-sm"
+                            <input class="form-control input-sm"
                                    placeholder="Informe a UF"
                                    name="province"
                                    type="text"
@@ -232,7 +247,7 @@
 
                         <div class="col-xs-12 col-sm-6 col-md-6">
 
-                           <input class="form-control input-sm"
+                            <input class="form-control input-sm"
                                    placeholder="Informe a cidade"
                                    name="city"
                                    type="text"
@@ -262,7 +277,7 @@
 
                         <div class="col-xs-12 col-sm-6 col-md-6">
 
-                           <input class="form-control input-sm"
+                            <input class="form-control input-sm"
                                    placeholder="Informe o bairro"
                                    name="neighborhood"
                                    type="text"
@@ -292,7 +307,7 @@
 
                         <div class="col-xs-12 col-sm-6 col-md-6">
 
-                           <input class="form-control input-sm"
+                            <input class="form-control input-sm"
                                    placeholder="Informe o endereço"
                                    name="address"
                                    type="address"
@@ -322,7 +337,7 @@
 
                         <div class="col-xs-12 col-sm-6 col-md-6">
 
-                           <input class="form-control input-sm"
+                            <input class="form-control input-sm"
                                    placeholder="Complemento. Ex: Ap 01, casa 01, lote 01."
                                    name="complement"
                                    type="text"

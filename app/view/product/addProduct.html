@@ -1,17 +1,15 @@
 <legend>Cadastro de produto</legend>
 
-<!--image-->
-<!--    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+<div class="row">
 
-        <img src="/img/logo.png" alt="..." class="img-thumbnail">
+        <div class="col-xs-12 col-sm-offset-2 col-sm-6 col-md-offset-2 col-md-6 col-lg-offset-2 col-lg-6 well well-sm" ng-show="row.ds_product != null">
 
-    </div>-->
+        <!--presentation-->
+        <h1 class="hidden-xs hidden-sm"><span class="text-primary" ng-bind="row.ds_product"></span></h1>
 
-<!--presentation-->
-<div class="col-xs-offset-2 col-sm-offset-2 col-md-offset-2 col-lg-offset-2">
+        <h3 class="hidden-md hidden-lg"><span class="text-primary" ng-bind="row.ds_product"></span></h3>
 
-    <h1><span class="text-primary hidden-xs" ng-bind="row.ds_product"></span></h1>
-    <h2><span class="text-primary hidden-sm hidden-md hidden-lg" ng-bind="row.ds_product"></span></h2>
+    </div>
 
 </div>
 
@@ -212,8 +210,8 @@
                 <i class="glyphicon glyphicon-save"></i>
             </button>
 
-            <a class="btn btn-default btn-sm" href="#/user/listUser">Cancelar
-                <i class="glyphicon glyphicon-remove"></i>
+            <a class="btn btn-default btn-sm" href="#/product/listProduct">Voltar
+                <i class="glyphicon glyphicon-arrow-left"></i>
             </a>
 
         </div>
