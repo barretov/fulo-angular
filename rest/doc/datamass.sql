@@ -59,10 +59,10 @@ insert into fulo.acl (sq_operation, sq_profile) values
 (14,1), (14,2),
 
     --getProducts
-(15,1),
+(15,1), (15,2), (15,3),
 
     --getProduct
-(16,1),
+(16,1), (16,2), (16,3),
 
     --addProduct
 (17,1),
