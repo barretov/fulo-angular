@@ -405,6 +405,7 @@
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 
                         <input class="form-control input-sm text-lowercase"
+                               accesskey="U"
                                type="email"
                                name="ds_email"
                                placeholder="usuario@email.com"
@@ -437,6 +438,7 @@
                         <div class="input-group">
 
                             <input class="form-control input-sm password"
+                                   accesskey="S"
                                    placeholder="Senha"
                                    id="ds_password"
                                    name="ds_password"
@@ -471,7 +473,13 @@
                 <div class="form-group">
                     <div class="col-sm-12">
 
-                        <button id="entrar" class="btn btn-primary" ng-click="login()" ng-Disabled="form.$invalid">Entrar
+                        <button
+                            accesskey="E"
+                            id="entrar"
+                            class="btn btn-primary"
+                            ng-Disabled="form.$invalid"
+                            ng-click="login()">
+                            <u>E</u>ntrar
                             <i class="glyphicon glyphicon-log-in"></i>
                         </button>
 
