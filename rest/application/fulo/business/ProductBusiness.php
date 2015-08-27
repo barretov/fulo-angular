@@ -30,7 +30,8 @@ use Intervention\Image\ImageManagerStatic as Image;
  * @date Alg 18, 2015
  * @version 1.0
  */
-class ProductBusiness extends MasterBusiness {
+class ProductBusiness extends MasterBusiness
+{
 
     /**
      * variable for instance of product model
@@ -47,7 +48,8 @@ class ProductBusiness extends MasterBusiness {
      * @date Alg 18, 2015
      * @version 1.0
      */
-    public function __construct () {
+    public function __construct ()
+    {
         $this->_productModel = new ProductModel();
     }
 
@@ -60,15 +62,22 @@ class ProductBusiness extends MasterBusiness {
      * @date Alg 18, 2015
      * @version 1.0
      */
-    public function getProducts () {
+    public function getProducts ()
+    {
 
         try {
 
             $results = $this->_productModel->getProducts();
 
-            foreach ($results as $key) {
+            # verify the route to set correct image size.
 
-                $key->im_product_image = Image::make($key->im_product_image)->resize(50, 50)->encode('data-url');
+            if () {
+
+
+                foreach ($results as $key) {
+
+                    $key->im_product_image = Image::make($key->im_product_image)->fit(320)->encode('data-url');
+                }
             }
 
             return $results;
@@ -87,7 +96,8 @@ class ProductBusiness extends MasterBusiness {
      * @date Alg 24, 2015
      * @version 1.0
      */
-    public function getProduct () {
+    public function getProduct ()
+    {
 
         try {
 
@@ -113,7 +123,8 @@ class ProductBusiness extends MasterBusiness {
      * @date Alg 19, 2015
      * @version 1.0
      */
-    public function getProductTypes () {
+    public function getProductTypes ()
+    {
 
         try {
 
@@ -133,7 +144,8 @@ class ProductBusiness extends MasterBusiness {
      * @date Alg 19, 2015
      * @version 1.0
      */
-    public function addProduct () {
+    public function addProduct ()
+    {
 
         try {
 
@@ -155,7 +167,8 @@ class ProductBusiness extends MasterBusiness {
      * @date Alg 26, 2015
      * @version 1.0
      */
-    public function upProduct () {
+    public function upProduct ()
+    {
 
         try {
 
@@ -177,7 +190,8 @@ class ProductBusiness extends MasterBusiness {
      * @date Alg 26, 2015
      * @version 1.0
      */
-    public function activateProduct () {
+    public function activateProduct ()
+    {
 
         try {
 
@@ -199,7 +213,8 @@ class ProductBusiness extends MasterBusiness {
      * @date Alg 26, 2015
      * @version 1.0
      */
-    public function inactivateProduct () {
+    public function inactivateProduct ()
+    {
 
         try {
 
