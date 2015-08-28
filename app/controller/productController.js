@@ -182,14 +182,15 @@ $app.controller('productController', function ($scope, $http, $location, $routeP
      * Method for activate product
      * @name activateProduct
      * @author Victor Eduardo Barreto
+     * @param {int} $sq_product Product identifier
      * @date Alg 26, 2015
      * @version 1.0
      */
-    $scope.activateProduct = function () {
+    $scope.activateProduct = function ($sq_product) {
 
         $scope.showLoader();
 
-        $param = $scope.configParam($scope.row);
+        $param = $scope.configParam({sq_product: $sq_product});
 
         $http.post($scope.server("/activateProduct"), $param).success(function ($return) {
 
@@ -204,20 +205,46 @@ $app.controller('productController', function ($scope, $http, $location, $routeP
      * Method for inactivate product
      * @name inactivateProduct
      * @author Victor Eduardo Barreto
+     * @param {int} $sq_product Product identifier
      * @date Alg 26, 2015
      * @version 1.0
      */
-    $scope.inactivateProduct = function () {
+    $scope.inactivateProduct = function ($sq_product) {
 
         $scope.showLoader();
 
-        $param = $scope.configParam($scope.row);
+        $param = $scope.configParam({sq_product: $sq_product});
 
         $http.post($scope.server("/inactivateProduct"), $param).success(function ($return) {
 
             // verify return data.
             $scope.checkResponse($return);
 
+            $scope.hideLoader();
+        });
+    };
+
+    /**
+     * Method for get products by filter
+     * @name getProductsByFilter
+     * @author Victor Eduardo Barreto
+     * @date Alg 27, 2015
+     * @version 1.0
+     */
+    $scope.getProductsByFilter = function () {
+
+        $scope.showLoader();
+
+        // adjust parameters and add origin data.
+        $param = $scope.configParam({sq_product_type: $routeParams.id});
+
+
+        $http.get($scope.server("/getProductsByFilter"), {params: $param}).success(function ($return) {
+
+            // verify return data.
+            $scope.checkResponse($return);
+
+            $scope.rows = $return;
             $scope.hideLoader();
         });
     };

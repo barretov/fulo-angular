@@ -30,7 +30,8 @@ use Intervention\Image\ImageManagerStatic as Image;
  * @date Alg 18, 2015
  * @version 1.0
  */
-class ProductBusiness extends MasterBusiness {
+class ProductBusiness extends MasterBusiness
+{
 
     /**
      * variable for instance of product model
@@ -47,7 +48,8 @@ class ProductBusiness extends MasterBusiness {
      * @date Alg 18, 2015
      * @version 1.0
      */
-    public function __construct () {
+    public function __construct ()
+    {
         $this->_productModel = new ProductModel();
     }
 
@@ -60,17 +62,16 @@ class ProductBusiness extends MasterBusiness {
      * @date Alg 18, 2015
      * @version 1.0
      */
-    public function getProducts () {
+    public function getProducts ()
+    {
 
         try {
 
             $results = $this->_productModel->getProducts();
 
-            # verify the route to set correct image size.
-
             foreach ($results as $key) {
 
-                $key->im_product_image = Image::make($key->im_product_image)->resize(320, 240)->encode('data-url');
+                $key->im_product_image = Image::make($key->im_product_image)->resize(100, 100)->encode('data-url');
             }
 
             return $results;
@@ -89,7 +90,8 @@ class ProductBusiness extends MasterBusiness {
      * @date Alg 24, 2015
      * @version 1.0
      */
-    public function getProduct () {
+    public function getProduct ()
+    {
 
         try {
 
@@ -115,7 +117,8 @@ class ProductBusiness extends MasterBusiness {
      * @date Alg 19, 2015
      * @version 1.0
      */
-    public function getProductTypes () {
+    public function getProductTypes ()
+    {
 
         try {
 
@@ -135,7 +138,8 @@ class ProductBusiness extends MasterBusiness {
      * @date Alg 19, 2015
      * @version 1.0
      */
-    public function addProduct () {
+    public function addProduct ()
+    {
 
         try {
 
@@ -157,7 +161,8 @@ class ProductBusiness extends MasterBusiness {
      * @date Alg 26, 2015
      * @version 1.0
      */
-    public function upProduct () {
+    public function upProduct ()
+    {
 
         try {
 
@@ -179,7 +184,8 @@ class ProductBusiness extends MasterBusiness {
      * @date Alg 26, 2015
      * @version 1.0
      */
-    public function activateProduct () {
+    public function activateProduct ()
+    {
 
         try {
 
@@ -201,13 +207,45 @@ class ProductBusiness extends MasterBusiness {
      * @date Alg 26, 2015
      * @version 1.0
      */
-    public function inactivateProduct () {
+    public function inactivateProduct ()
+    {
 
         try {
 
             $data = $this->getRequestData();
 
             return $this->_productModel->inactivateProduct($data);
+        } catch (Exception $ex) {
+
+            throw $ex;
+        }
+    }
+
+    /**
+     * Method for business of get products by filter
+     * @name getProductsByFilter
+     * @author Victor Eduardo Barreto
+     * @package fulo\business
+     * @return object Data products
+     * @date Alg 27, 2015
+     * @version 1.0
+     */
+    public function getProductsByFilter ()
+    {
+
+        try {
+
+            $data = $this->getRequestData();
+
+            $results = $this->_productModel->getProductsByFilter($data);
+
+            foreach ($results as $key) {
+
+                $key->im_product_image = Image::make($key->im_product_image)->resize(250, 250)->encode('data-url');
+                #@TODO watermark.
+            }
+
+            return $results;
         } catch (Exception $ex) {
 
             throw $ex;

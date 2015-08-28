@@ -29,7 +29,7 @@
                 <tr ng-repeat="row in rows| startFrom: currentPage * pageSize| limitTo: pageSize" id="{{row.sq_product}}">
 
                     <!--image-->
-                    <td><a href='#/product/upProduct/{{row.sq_product}}'><img src={{row.im_product_image.encoded}} /></a></td>
+                    <td><a href='#/product/upProduct/{{row.sq_product}}'><img class="img-responsive" src={{row.im_product_image.encoded}} /></a></td>
 
                     <!--name-->
                     <td>{{row.ds_product}}</td>

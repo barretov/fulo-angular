@@ -1,0 +1,41 @@
+<div ng-init="getProduct()">
+
+    <!--image-->
+    <div class="row">
+
+        <div class="col-xs-12 col-sm-offset-2 col-sm-6 col-md-offset-2 col-md-6 col-lg-offset-2 col-lg-6 well well-sm">
+
+            <!--presentation-->
+            <h1 class="hidden-xs hidden-sm"><img class="img-responsive" src={{row.im_product_image.encoded}} /> <span class="text-primary" ng-bind="row.ds_product"></span></h1>
+
+            <h3 class="hidden-md hidden-lg"><img src={{row.im_product_image.encoded}} /> <span class="text-primary" ng-bind="row.ds_product"></span></h3>
+
+        </div>
+
+    </div>
+
+    <form name="form" class="form-horizontal">
+
+        <!--ds_product hidden-->
+        <input name="sq_product" type="hidden" ng-model="row.sq_product" />
+
+
+
+        <!--buttons-->
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+
+                <button type="submit" class="btn btn-success btn-sm" ng-click="addProduct()" ng-Disabled="form.$invalid">Comprar
+                    <i class="glyphicon glyphicon-save"></i>
+                </button>
+
+                <a class="btn btn-default btn-sm" href="#/product/listProduct">Voltar
+                    <i class="glyphicon glyphicon-arrow-left"></i>
+                </a>
+
+            </div>
+        </div>
+
+    </form>
+
+</div>

@@ -37,7 +37,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<index name="ix_person" table="fulo.person"
 		 concurrent="false" unique="false" fast-update="false"
 		 index-type="btree" factor="10">
-	<idxelement nulls-first="false" asc-order="true">
+	<idxelement nulls-first="false" asc-order="false">
 		<column name="sq_person"/>
 	</idxelement>
 	</index>
@@ -69,7 +69,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<index name="ix_user" table="fulo.user"
 		 concurrent="false" unique="false" fast-update="false"
 		 index-type="btree" factor="10">
-	<idxelement nulls-first="false" asc-order="true">
+	<idxelement nulls-first="false" asc-order="false">
 		<column name="sq_user"/>
 	</idxelement>
 	</index>
@@ -93,7 +93,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<index name="ix_profile" table="fulo.profile"
 		 concurrent="false" unique="false" fast-update="false"
 		 index-type="btree" factor="10">
-	<idxelement nulls-first="false" asc-order="true">
+	<idxelement nulls-first="false" asc-order="false">
 		<column name="sq_profile"/>
 	</idxelement>
 	</index>
@@ -140,7 +140,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<index name="ix_status" table="fulo.status"
 		 concurrent="false" unique="false" fast-update="false"
 		 index-type="btree" factor="10">
-	<idxelement nulls-first="false" asc-order="true">
+	<idxelement nulls-first="false" asc-order="false">
 		<column name="sq_status"/>
 	</idxelement>
 	</index>
@@ -177,7 +177,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<index name="ix_log" table="fulo.log"
 		 concurrent="false" unique="false" fast-update="false"
 		 index-type="btree" factor="10">
-	<idxelement nulls-first="false" asc-order="true">
+	<idxelement nulls-first="false" asc-order="false">
 		<column name="sq_log"/>
 	</idxelement>
 	</index>
@@ -238,7 +238,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<index name="ix_address" table="fulo.address"
 		 concurrent="false" unique="false" fast-update="false"
 		 index-type="btree" factor="10">
-	<idxelement nulls-first="false" asc-order="true">
+	<idxelement nulls-first="false" asc-order="false">
 		<column name="sq_address"/>
 	</idxelement>
 	</index>
@@ -267,7 +267,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<index name="ix_phone" table="fulo.phone"
 		 concurrent="false" unique="false" fast-update="false"
 		 index-type="btree" factor="10">
-	<idxelement nulls-first="false" asc-order="true">
+	<idxelement nulls-first="false" asc-order="false">
 		<column name="sq_phone"/>
 	</idxelement>
 	</index>
@@ -340,7 +340,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<index name="ix_product" table="fulo.product"
 		 concurrent="false" unique="false" fast-update="false"
 		 index-type="btree" factor="10">
-	<idxelement nulls-first="false" asc-order="true">
+	<idxelement nulls-first="false" asc-order="false">
 		<column name="sq_product"/>
 	</idxelement>
 	</index>
@@ -365,7 +365,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<index name="ix_product_type" table="fulo.product_type"
 		 concurrent="false" unique="false" fast-update="false"
 		 index-type="btree" factor="10">
-	<idxelement nulls-first="false" asc-order="true">
+	<idxelement nulls-first="false" asc-order="false">
 		<column name="sq_product_type"/>
 	</idxelement>
 	</index>
@@ -417,7 +417,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<index name="ix_operation" table="fulo.operation"
 		 concurrent="false" unique="false" fast-update="false"
 		 index-type="btree" factor="10">
-	<idxelement nulls-first="false" asc-order="true">
+	<idxelement nulls-first="false" asc-order="false">
 		<column name="sq_operation"/>
 	</idxelement>
 	</index>
@@ -446,7 +446,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<index name="ix_acl" table="fulo.acl"
 		 concurrent="false" unique="false" fast-update="false"
 		 index-type="btree" factor="10">
-	<idxelement nulls-first="false" asc-order="true">
+	<idxelement nulls-first="false" asc-order="false">
 		<column name="sq_acl"/>
 	</idxelement>
 	</index>
@@ -523,7 +523,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<index name="ix_wishlist" table="fulo.wishlist"
 		 concurrent="false" unique="false" fast-update="false"
 		 index-type="btree" factor="10">
-	<idxelement nulls-first="false" asc-order="true">
+	<idxelement nulls-first="false" asc-order="false">
 		<column name="sq_wishlist"/>
 	</idxelement>
 	</index>
@@ -576,7 +576,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<index name="ix_product_image" table="fulo.product_image"
 		 concurrent="false" unique="false" fast-update="false"
 		 index-type="btree" factor="10">
-	<idxelement nulls-first="false" asc-order="true">
+	<idxelement nulls-first="false" asc-order="false">
 		<column name="sq_product_image"/>
 	</idxelement>
 	</index>
@@ -625,7 +625,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<index name="ix_sale" table="fulo.sale"
 		 concurrent="false" unique="false" fast-update="false"
 		 index-type="btree" factor="10">
-	<idxelement nulls-first="false" asc-order="true">
+	<idxelement nulls-first="false" asc-order="false">
 		<column name="sq_sale"/>
 	</idxelement>
 	</index>
@@ -682,7 +682,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<index name="ix_cart" table="fulo.cart"
 		 concurrent="false" unique="false" fast-update="false"
 		 index-type="btree" factor="10">
-	<idxelement nulls-first="false" asc-order="true">
+	<idxelement nulls-first="false" asc-order="false">
 		<column name="sq_cart"/>
 	</idxelement>
 	</index>

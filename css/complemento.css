@@ -53,24 +53,6 @@ body {
 }
 /*fonte*/
 
-/*imagem para o dropdown menu*/
-.thumb-dropdown .dropdown-menu > li {
-    position: relative;
-}
-.thumb-dropdown .dropdown-menu > li > a .thumbnail {
-    position: absolute;
-    left: 100%;
-    top: -10px;
-    display: none;
-    width: 350px;
-    height: auto;
-    margin-left: 5px;
-}
-.thumb-dropdown .dropdown-menu > li > a:hover .thumbnail  {
-    display: block;
-}
-/*imagem para o dropdown menu*/
-
 /* Ajusta helpblock */
 .help-block-input {
     margin-top: 7px;

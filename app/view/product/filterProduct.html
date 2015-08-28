@@ -1,0 +1,38 @@
+<!--row-->
+<div class="row">
+
+    <!--thumb-->
+    <div ng-controller="productController">
+        <div ng-init="getProductsByFilter()">
+
+            <div ng-repeat="row in rows" class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+
+                <div class="thumbnail">
+
+                    <div class="caption">
+
+                        <a href="#/product/detailProduct/{{row.sq_product}}">
+                            <p align="center"><img src="{{row.im_product_image.encoded}}" class="img-responsive" /></p>
+                        </a>
+
+                        <p>{{row.ds_product}}</p>
+
+                        <span class="text-gray"><strong>R$ {{row.nu_value}}</strong></span>
+
+                        <div class="pull-right">
+                            <i class="glyphicon glyphicon-shopping-cart text-warning"></i>
+                            <i class="glyphicon glyphicon-heart text-danger"></i>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+<!--row-->
+

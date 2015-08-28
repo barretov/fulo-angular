@@ -172,3 +172,25 @@ $app->post("/inactivateProduct", function () {
         throw $ex;
     }
 });
+
+/**
+ * Method for get products by filter
+ * @name getProductsByFilter
+ * @author Victor Eduardo Barreto
+ * @var $app object Slim instance
+ * @return object Data products
+ * @date Alg 27, 2015
+ * @version 1.0
+ */
+$app->get("/getProductsByFilter", function () {
+
+    try {
+
+        $business = MasterController::getProductBusiness();
+
+        echo json_encode($business->getProductsByFilter());
+    } catch (Exception $ex) {
+
+        throw $ex;
+    }
+});

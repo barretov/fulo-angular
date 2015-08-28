@@ -55,120 +55,10 @@
                                 <!--buttons navbar-->
                                 <li class="active"><a href="#/"><i class="glyphicon glyphicon-home"></i> Home</a></li>
 
-                                <!--menu dropdown-->
-                                <li class="dropdown thumb-dropdown">
-
-                                    <a href="" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-th"></i> Produtos<span class="caret"></span></a>
-
-                                    <ul class="dropdown-menu" role="menu">
-
-                                        <li class="dropdown-header">Casa</li>
-
-                                        <li>
-                                            <a href="#">
-                                                Acessórios para Cozinha
-                                                <div class="thumbnail hidden-xs">
-                                                    <img class="img-responsive" src="img/dropdown_menu/acessoriocozinha.png" width="400" height="400"/>
-                                                </div>
-                                            </a>
-                                        </li>
-
-                                        <li>
-                                            <a href="#">
-                                                Almofadas
-                                                <div class="thumbnail hidden-xs">
-                                                    <img class="img-responsive" src="img/dropdown_menu/almofadas.png" width="400" height="400"/>
-                                                </div>
-                                            </a>
-                                        </li>
-
-                                        <li>
-                                            <a href="#">
-                                                Bolsas
-                                                <div class="thumbnail hidden-xs">
-                                                    <img class="img-responsive" src="img/dropdown_menu/bolsas.png" width="400" height="400"/>
-                                                </div>
-                                            </a>
-                                        </li>
-
-                                        <li class="divider"></li>
-                                        <li class="dropdown-header">Infatil</li>
-
-                                        <li>
-                                            <a href="#">
-                                                Cobreleitos
-                                                <div class="thumbnail hidden-xs">
-                                                    <img class="img-responsive" src="img/dropdown_menu/cobreleitos.png" width="400" height="400"/>
-                                                </div>
-                                            </a>
-                                        </li>
-
-                                        <li>
-                                            <a href="#">
-                                                Kit Bebê
-                                                <div class="thumbnail hidden-xs">
-                                                    <img class="img-responsive" src="img/dropdown_menu/kitbebe.png" width="400" height="400" />
-                                                </div>
-                                            </a>
-                                        </li>
-
-                                        <li>
-                                            <a href="#">
-                                                Mantos para Sofá
-                                                <div class="thumbnail hidden-xs">
-                                                    <img class="img-responsive" src="img/dropdown_menu/mantossofa.png" width="400" height="400"/>
-                                                </div>
-                                            </a>
-                                        </li>
-
-                                        <li>
-                                            <a href="#">
-                                                Mimos
-                                                <div class="thumbnail hidden-xs">
-                                                    <img class="img-responsive" src="img/dropdown_menu/mimos.png" width="400" height="400"/>
-                                                </div>
-                                            </a>
-                                        </li>
-
-                                        <li>
-                                            <a href="#">
-                                                Panôs
-                                                <div class="thumbnail hidden-xs">
-                                                    <img class="img-responsive" src="img/dropdown_menu/panos.png" width="400" height="400"/>
-                                                </div>
-                                            </a>
-                                        </li>
-
-                                        <li>
-                                            <a href="#">
-                                                Peso de Porta
-                                                <div class="thumbnail hidden-xs">
-                                                    <img class="img-responsive" src="img/dropdown_menu/pesoporta.png" width="400" height="400"/>
-                                                </div>
-                                            </a>
-                                        </li>
-
-                                        <li>
-                                            <a href="#">
-                                                Porta Trecos
-                                                <div class="thumbnail hidden-xs">
-
-                                                    <img class="img-responsive"
-                                                         src="img/dropdown_menu/portatrecos.png"
-                                                         width="400"
-                                                         height="400"/>
-
-                                                </div>
-                                            </a>
-                                        </li>
-
-                                    </ul>
-                                </li>
-                                <!--end dropdown-->
-
+                                <!--contact-->
                                 <li><a href="#/contact"><i class="glyphicon glyphicon-phone-alt"></i> Contato</a></li>
 
-                                <!--dropdown institucional-->
+                                <!--drop down institucional-->
                                 <li class="dropdown thumb-dropdown">
 
                                     <a href="" class="dropdown-toggle" data-toggle="dropdown">
@@ -184,10 +74,25 @@
                                     </ul>
 
                                 </li>
-                                <!--dropdown institucional-->
 
-                                <!--dropdown administration-->
+                                <!--drop down filter-->
+                                <li class="dropdown thumb-dropdown">
 
+                                    <a href="" class="dropdown-toggle" data-toggle="dropdown">
+                                        <i class="glyphicon glyphicon-filter"></i> Filtros<span class="caret"></span>
+                                    </a>
+
+                                    <ul class="dropdown-menu" role="menu" ng-controller="productController" ng-init="getProductTypes()">
+
+                                        <li ng-repeat="type in types">
+                                            <a href="#/product/filterProduct/{{type.sq_product_type}}">{{type.ds_product_type}}</a>
+                                        </li>
+
+                                    </ul>
+
+                                </li>
+
+                                <!--drop down administration-->
                                 <li class="dropdown thumb-dropdown" ng-show="user.sq_profile == constant.PROFILE_ADMINISTRATOR">
 
                                     <a href="" class="dropdown-toggle" data-toggle="dropdown">
@@ -202,8 +107,6 @@
                                     </ul>
 
                                 </li>
-
-                                <!--dropdown administration-->
 
                                 <!--identifier of logged user-->
                                 <li>
