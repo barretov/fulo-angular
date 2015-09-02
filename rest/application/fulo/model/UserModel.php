@@ -241,8 +241,8 @@ class UserModel extends MasterModel
                     . "ds_neighborhood, nu_phone "
                     . "FROM fulo.person "
                     . "JOIN fulo.user ON (person.sq_person = sq_user) "
-                    . "LEFT JOIN fulo.address ON (person.sq_person = address.sq_person)"
-                    . "JOIN fulo.phone ON (person.sq_person = phone.sq_person)"
+                    . "LEFT JOIN fulo.address ON (person.sq_person = address.sq_person) "
+                    . "JOIN fulo.phone ON (person.sq_person = phone.sq_person) "
                     . "WHERE ds_email = ?");
 
             $stmt->execute([
@@ -397,6 +397,37 @@ class UserModel extends MasterModel
         } catch (Exception $ex) {
 
             $this->_conn->rollBack();
+
+            throw $ex;
+        }
+    }
+
+    /**
+     * Method for get total number of products in wishlist
+     * @name getNuWishList
+     * @author Victor Eduardo Barreto
+     * @package fulo\model
+     * @param object $data Data user
+     * @return int Number of products in wishlist
+     * @date Alg 29, 2015
+     * @version 1.0
+     */
+    public function getNuWishList (& $data)
+    {
+
+        try {
+
+            $stmt = $this->_conn->prepare("SELECT "
+                    . "COUNT(sq_user) as nu_wishlist "
+                    . "FROM fulo.wishlist "
+                    . "WHERE sq_user = ?");
+
+            $stmt->execute([
+                $data->sq_user
+            ]);
+
+            return $stmt->fetchObject();
+        } catch (Exception $ex) {
 
             throw $ex;
         }

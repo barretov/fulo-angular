@@ -117,8 +117,8 @@
                         <span class="text-gray"><strong>R$ {{row.nu_value}}</strong></span>
 
                         <div class="pull-right">
-                            <i class="glyphicon glyphicon-shopping-cart text-warning"></i>
-                            <i class="glyphicon glyphicon-heart text-danger"></i>
+                            <i class="glyphicon glyphicon-shopping-cart text-warning cursor-pointer" ng-click="addCart(row)"></i>
+                            <i class="glyphicon glyphicon-heart text-danger cursor-pointer" ng-click="addWishList(row.sq_product)"></i>
                         </div>
 
                     </div>

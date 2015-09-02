@@ -174,6 +174,13 @@ $app.run(['$rootScope', '$location', '$http', function ($rootScope, $location, $
                     throw Error("Email Already");
                     break;
 
+                case $rootScope.constant.WISHLIST_ALREADY:
+
+                    this.hideLoader();
+                    this.showFlashmessage('alert-warning', $rootScope.constant.MSG0005);
+                    throw Error("Wishlist Already");
+                    break;
+
                 default :
 
                     return $response;
@@ -199,7 +206,7 @@ $app.run(['$rootScope', '$location', '$http', function ($rootScope, $location, $
 
             // inset secret and origin data.
             $data.secret = sessionStorage.getItem('secret');
-            $data.origin = $rootScope.origin;
+            $data.origin = sessionStorage.getItem('origin');
             return $data;
 
         };
@@ -246,6 +253,18 @@ $app.run(['$rootScope', '$location', '$http', function ($rootScope, $location, $
                 $('#switchPass').addClass('glyphicon-eye-close');
             }
         };
+
+        /**
+         * Adjust variable to cart, and get and save data in session.
+         */
+        if (sessionStorage.getItem('cart')) {
+
+            $rootScope.cart = JSON.parse(sessionStorage.getItem('cart'));
+            $rootScope.cart.nu_cart = $rootScope.cart.length;
+        } else {
+            $rootScope.cart = [];
+        }
+
     }]);
 
 //We already have a limitTo filter built-in to angular,

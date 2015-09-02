@@ -3,8 +3,8 @@
 <!--presentation-->
 <div class="col-xs-offset-2 col-sm-offset-2 col-md-offset-2 col-lg-offset-2">
 
-    <h1><span class="text-primary hidden-xs" ng-bind="row.ds_name"></span></h1>
-    <h2><span class="text-primary hidden-sm hidden-md hidden-lg" ng-bind="row.ds_name"></span></h2>
+    <h1><span class="text-primary hidden-xs text-capitalize" ng-bind="row.ds_name"></span></h1>
+    <h2><span class="text-primary hidden-sm hidden-md hidden-lg text-capitalize" ng-bind="row.ds_name"></span></h2>
 
 </div>
 
@@ -15,7 +15,7 @@
         <label class="col-sm-2 control-label">Nome<span class="text-danger">*</span></label>
 
         <div class="col-xs-12 col-sm-6 col-md-6">
-           <input class="form-control input-sm"
+           <input class="form-control input-sm text-capitalize"
                    placeholder="Nome e sobrenome"
                    name="ds_name"
                    type="text"

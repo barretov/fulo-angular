@@ -41,6 +41,14 @@ $app->add(new \fulo\middleware\Acl());
 # Options.
 $app->contentType("application/json");
 $app->response->headers->set('Access-Control-Allow-Origin', '*');
+$app->response->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+
+//$app->options('/(:name+)', function() use($app) {
+//    $response = $app->response();
+//    $app->response()->status(200);
+//    $response->header('Access-Control-Allow-Headers', 'Content-Type, X-Requested-With, X-authentication, X-client');
+//    $response->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+//});
 
 $app->error(function ( Exception $e = null) use ($app) {
     echo '{"error":{"text":"' . $e->getMessage() . '"}}';

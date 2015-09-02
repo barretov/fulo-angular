@@ -117,5 +117,6 @@ var Geral = {
 };
 
 $(document).ready(function () {
+
     Geral.geral();
 });

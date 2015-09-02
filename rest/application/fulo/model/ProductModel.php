@@ -340,4 +340,130 @@ class ProductModel extends MasterModel
         }
     }
 
+    /**
+     * Method for add item in wish list
+     * @name addWishList
+     * @author Victor Eduardo Barreto
+     * @param Object $data Data of product and user
+     * @return bool Result of procedure
+     * @date Alg 28, 2015
+     * @version 1.0
+     */
+    public function addWishList ($data)
+    {
+
+        try {
+
+            $stmtSelect = $this->_conn->prepare("SELECT sq_user "
+                    . "FROM fulo.wishlist "
+                    . "WHERE sq_user = ? "
+                    . "AND sq_product = ? "
+            );
+
+            $stmtSelect->execute([
+                $data->origin_sq_user,
+                $data->sq_product
+            ]);
+
+            if (!$stmtSelect->fetch()) {
+
+                $this->_conn->beginTransaction();
+
+                $stmtAdd = $this->_conn->prepare("INSERT INTO fulo.wishlist "
+                        . "(sq_user, sq_product) "
+                        . "VALUES (?,?)"
+                );
+
+                $stmtAdd->execute([
+                    $data->origin_sq_user,
+                    $data->sq_product
+                ]);
+
+                # save log operation.
+                $this->saveLog($data->origin_sq_user, $data->sq_product);
+
+                $return = $this->_conn->commit();
+            } else {
+
+                $return = WISHLIST_ALREADY;
+            }
+
+            return $return;
+        } catch (Exception $ex) {
+
+            throw $ex;
+        }
+    }
+
+    /**
+     * Method for get item of wish list
+     * @name getWishList
+     * @author Victor Eduardo Barreto
+     * @param Object $data Data of product and user
+     * @return object Data of user wishlist
+     * @date Alg 29, 2015
+     * @version 1.0
+     */
+    public function getWishList ($data)
+    {
+
+        try {
+
+            $stmt = $this->_conn->prepare("SELECT * "
+                    . "FROM fulo.wishlist "
+                    . "JOIN fulo.product "
+                    . "ON (product.sq_product = wishlist.sq_product) "
+                    . "JOIN fulo.product_image "
+                    . "ON (product.sq_product = product_image.sq_product) "
+                    . "WHERE sq_user = ? "
+            );
+
+            $stmt->execute([
+                $data->origin_sq_user,
+            ]);
+
+            return $stmt->fetchAll(PDO::FETCH_OBJ);
+        } catch (Exception $ex) {
+
+            throw $ex;
+        }
+    }
+
+    /**
+     * Method for del item of wish list
+     * @name delWishList
+     * @author Victor Eduardo Barreto
+     * @param Object $data Data of product and user
+     * @return bool Result of procedure
+     * @date Alg 29, 2015
+     * @version 1.0
+     */
+    public function delWishList ($data)
+    {
+
+        try {
+
+            $this->_conn->beginTransaction();
+
+            $stmt = $this->_conn->prepare("DELETE "
+                    . "FROM fulo.wishlist "
+                    . "WHERE sq_user = ? "
+                    . "AND sq_product = ?"
+            );
+
+            $stmt->execute([
+                $data->origin_sq_user,
+                $data->sq_product
+            ]);
+
+            # save log operation.
+            $this->saveLog($data->origin_sq_user, $data->sq_product);
+
+            return $this->_conn->commit();
+        } catch (Exception $ex) {
+
+            throw $ex;
+        }
+    }
+
 }

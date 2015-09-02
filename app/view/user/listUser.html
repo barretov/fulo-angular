@@ -25,7 +25,7 @@
                 <tr ng-repeat="row in rows| startFrom: currentPage * pageSize| limitTo: pageSize" id="{{row.sq_person}}">
 
                     <!--name-->
-                    <td><a href='#/user/upUser/{{row.sq_person}}'>{{row.ds_name}}</a></td>
+                    <td><a class="text-capitalize" href='#/user/upUser/{{row.sq_person}}'>{{row.ds_name}}</a></td>
 
                     <!--email-->
                     <td>{{row.ds_email}}</td>

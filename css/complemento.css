@@ -42,7 +42,7 @@ body {
 }
 /*fim ajuste para navbar fixo*/
 
-/*fonte*/
+/*font*/
 @font-face {
     font-family: "bernhard";
     src: url("../fonts/bernhard.ttf") format("truetype");
@@ -51,7 +51,6 @@ body {
 .bernhard-font{
     font-family: "bernhard";
 }
-/*fonte*/
 
 /* Ajusta helpblock */
 .help-block-input {
@@ -230,3 +229,9 @@ input[readonly] {
     cursor: text !important;
 }
 /*input file*/
+
+/*cursor*/
+.cursor-pointer {
+    cursor: pointer;
+}
+/*cursor*/

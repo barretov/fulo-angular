@@ -1,16 +1,65 @@
-<!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
-<html>
-    <head>
-        <title>TODO supply a title</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
-    <body>
-        <div>TODO write content</div>
-    </body>
-</html>
+<legend><i class="glyphicon glyphicon-shopping-cart text-gray"></i> Carrinho de Compras</legend>
+
+<!--list-->
+<table id="tableData" class="table table-hover table-striped table-responsive">
+
+    <thead>
+
+        <tr>
+            <th>Imagem</th>
+
+            <th>Produto</th>
+
+            <th>Valor</th>
+
+            <th>Estoque</th>
+
+            <th>Ações</th>
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+        <tr ng-repeat="row in cart| startFrom: currentPage * pageSize| limitTo: pageSize" id="{{row.sq_product}}">
+
+            <!--image-->
+            <td id="{{row.sq_product}}">
+
+                <a href='#/product/detailProduct/{{row.sq_product}}'>
+                    <img class="img-responsive" src={{row.im_product_image.encoded}} />
+                </a>
+
+            </td>
+
+            <!--name-->
+            <td class="text-capitalize">{{row.ds_product}}</td>
+
+            <!--value-->
+            <td>R$ {{row.nu_value}}</td>
+
+            <!--quantity-->
+            <td>{{row.nu_quantity}}</td>
+
+            <!--status-->
+            <td>
+
+                <!--buy-->
+                <button class="btn btn-sm btn-success">
+                    Comprar
+                    <i class="glyphicon glyphicon-ok"></i>
+                </button>
+
+                <!--delete wish-->
+                <button class="glyphicon glyphicon-remove btn btn-sm btn-danger" ng-click="delCart(row.sq_product)"></button>
+
+            </td>
+
+        </tr>
+
+    </tbody>
+
+</table>
+<!--list-->
+
+<h4 class="pull-right">Total R$ {{cart.nu_total}}</h4>

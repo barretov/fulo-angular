@@ -27,7 +27,13 @@
  * @date Alg 18, 2015
  * @version 1.0
  */
-$app.controller('productController', function ($scope, $http, $location, $routeParams) {
+$app.controller('productController', function ($scope, $rootScope, $http, $location, $routeParams) {
+
+    /**
+     * variables for pagination.
+     */
+    $scope.currentPage = 0;
+    $scope.pageSize = 10;
 
     /**
      * Method for get products
@@ -54,8 +60,8 @@ $app.controller('productController', function ($scope, $http, $location, $routeP
     };
 
     /**
-     * Method for get products
-     * @name getProducts
+     * Method for get
+     * @name getProduct
      * @author Victor Eduardo Barreto
      * @date Alg 18, 2015
      * @version 1.0
@@ -73,6 +79,34 @@ $app.controller('productController', function ($scope, $http, $location, $routeP
         $param = $scope.configParam({sq_product: $routeParams.id});
 
         $http.get($scope.server("/getProduct"), {params: $param}).success(function ($return) {
+
+            // verify return data.
+            $scope.checkResponse($return);
+
+            $scope.row = $return;
+            $scope.hideLoader();
+        });
+    };
+
+    /* Method for get product detail
+     * @name getProductDetail
+     * @author Victor Eduardo Barreto
+     * @date Alg 28, 2015
+     * @version 1.0
+     */
+    $scope.getProductDetail = function () {
+
+        if ($routeParams.id === null) {
+
+            $location.path("/error/systemError/");
+        }
+
+        $scope.showLoader();
+
+        // adjust parameters and add origin data.
+        $param = $scope.configParam({sq_product: $routeParams.id});
+
+        $http.get($scope.server("/getProductDetail"), {params: $param}).success(function ($return) {
 
             // verify return data.
             $scope.checkResponse($return);
@@ -248,4 +282,203 @@ $app.controller('productController', function ($scope, $http, $location, $routeP
             $scope.hideLoader();
         });
     };
+
+    /**
+     * Method for add item in wish list
+     * @name addWishList
+     * @author Victor Eduardo Barreto
+     * @param {int} $sq_product Product identifier
+     * @date Alg 28, 2015
+     * @version 1.0
+     */
+    $scope.addWishList = function ($sq_product) {
+
+        // verify if user is loged.
+        if (!$scope.user) {
+
+            $('#modalLogin').modal('show');
+            $scope.showFlashmessage("alert-warning", $scope.constant.MSG0007);
+        } else {
+
+            $scope.showLoader();
+
+            $param = $scope.configParam({sq_product: $sq_product});
+
+            $http.post($scope.server("/addWishList"), $param).success(function ($return) {
+
+                // verify return data.
+                $scope.checkResponse($return);
+
+                // ajust quantity of itens and session.
+                $scope.user.nu_wishlist++;
+                sessionStorage.setItem('user', JSON.stringify($scope.user));
+
+                $scope.hideLoader();
+                $scope.showFlashmessage("alert-success", $scope.constant.MSG0001);
+
+            });
+        }
+    };
+
+    /**
+     * Method for get items of wish list
+     * @name getWishList
+     * @author Victor Eduardo Barreto
+     * @date Alg 29, 2015
+     * @version 1.0
+     */
+    $scope.getWishList = function () {
+
+        $scope.showLoader();
+
+        $param = $scope.configParam();
+
+        $http.get($scope.server("/getWishList"), {params: $param}).success(function ($return) {
+
+            // verify return data.
+            $scope.checkResponse($return);
+
+            $scope.rows = $return;
+            $scope.hideLoader();
+        });
+    };
+
+    /**
+     * Method for del items of wish list
+     * @name delWishList
+     * @author Victor Eduardo Barreto
+     * @param {int} $sq_product Product identifier
+     * @date Alg 31, 2015
+     * @version 1.0
+     */
+    $scope.delWishList = function ($sq_product) {
+
+        $scope.showLoader();
+
+        $param = $scope.configParam({sq_product: $sq_product});
+
+        $http.post($scope.server("/delWishList"), $param).success(function ($return) {
+
+            // verify return data.
+            $scope.checkResponse($return);
+
+            // ajust quantity of itens and session.
+            $scope.user.nu_wishlist--;
+            sessionStorage.setItem('user', JSON.stringify($scope.user));
+
+            // remove row in list.
+            $('#' + $sq_product).fadeOut();
+            $scope.hideLoader();
+        });
+    };
+
+    /**
+     * Method for add item in cart
+     * @name addCart
+     * @author Victor Eduardo Barreto
+     * @param {object} $product Product data
+     * @date Alg 31, 2015
+     * @version 1.0
+     */
+    $scope.addCart = function ($product) {
+
+        $scope.showLoader();
+
+        // variable to use as flag, to continue the flow.
+        var $continue = true;
+
+        // verify if exists session data.
+        if (sessionStorage.getItem('cart')) {
+
+            // verify if already exists the new product in the cart.
+            angular.forEach($scope.cart, function ($key) {
+
+                if ($product.sq_product === $key.sq_product) {
+
+                    $scope.hideLoader();
+                    $scope.showFlashmessage("alert-warning", $scope.constant.MSG0006);
+                    $continue = false;
+                }
+            });
+        }
+
+        if ($continue) {
+
+            // insert product in variable cart.
+            $rootScope.cart.push($product);
+
+            // insert cart in session.
+            sessionStorage.setItem('cart', JSON.stringify($scope.cart));
+
+            // update variable through session.
+            $rootScope.cart = JSON.parse(sessionStorage.getItem('cart'));
+
+            // update icon cart value.
+            $rootScope.cart.nu_cart = $scope.cart.length;
+
+            // update total value.
+            this.updateTotal();
+
+            $scope.hideLoader();
+            $scope.showFlashmessage("alert-success", $scope.constant.MSG0001);
+        }
+
+    };
+
+    /**
+     * Method for del items of cart
+     * @name delCart
+     * @author Victor Eduardo Barreto
+     * @param {int} $sq_product Product identifier
+     * @date Alg 31, 2015
+     * @version 1.0
+     */
+    $scope.delCart = function ($sq_product) {
+
+        $scope.showLoader();
+
+        angular.forEach($rootScope.cart, function ($key) {
+
+            if ($sq_product === $key.sq_product) {
+
+                $rootScope.cart.splice($key, 1);
+            }
+        });
+
+        // insert cart in session.
+        sessionStorage.setItem('cart', JSON.stringify($scope.cart));
+
+        // update variable through session.
+        $rootScope.cart = JSON.parse(sessionStorage.getItem('cart'));
+
+        // update icon cart value.
+        $rootScope.cart.nu_cart = $scope.cart.length;
+
+        // update total value.
+        this.updateTotal();
+
+        $scope.hideLoader();
+        $scope.showFlashmessage("alert-success", $scope.constant.MSG0001);
+
+        $scope.hideLoader();
+    };
+
+    /**
+     * Method for update total value products in cart
+     * @name updateTotal
+     * @author Victor Eduardo Barreto
+     * @date Sep 1, 2015
+     * @version 1.0
+     */
+    $scope.updateTotal = function () {
+
+        // sum all products.
+        angular.forEach($rootScope.cart, function ($key) {
+            console.log($key.nu_value);
+
+            $rootScope.cart.nu_total = ($key.nu_value + $key.nu_value);
+        });
+
+    };
+
 });

@@ -1,83 +1,81 @@
-<div ng-init="productController">
-    <div ng-init="getProducts()">
+<div ng-init="getProducts()">
 
-        <legend>Produtos</legend>
+    <legend>Produtos</legend>
 
-        <!--list-->
-        <table id="tableData" class="table table-hover table-striped table-responsive">
+    <!--list-->
+    <table id="tableData" class="table table-hover table-striped table-responsive">
 
-            <thead>
+        <thead>
 
-                <tr>
-                    <th>Imagem</th>
+            <tr>
+                <th>Imagem</th>
 
-                    <th>Nome</th>
+                <th>Nome</th>
 
-                    <th>Tipo</th>
+                <th>Tipo</th>
 
-                    <th>Valor</th>
+                <th>Valor</th>
 
-                    <th>Quantidade</th>
+                <th>Quantidade</th>
 
-                    <th>Ativo</th>
-                </tr>
+                <th>Ativo</th>
+            </tr>
 
-            </thead>
+        </thead>
 
-            <tbody>
+        <tbody>
 
-                <tr ng-repeat="row in rows| startFrom: currentPage * pageSize| limitTo: pageSize" id="{{row.sq_product}}">
+            <tr ng-repeat="row in rows| startFrom: currentPage * pageSize| limitTo: pageSize" id="{{row.sq_product}}">
 
-                    <!--image-->
-                    <td><a href='#/product/upProduct/{{row.sq_product}}'><img class="img-responsive" src={{row.im_product_image.encoded}} /></a></td>
+                <!--image-->
+                <td><a href='#/product/upProduct/{{row.sq_product}}'><img class="img-responsive" src={{row.im_product_image.encoded}} /></a></td>
 
-                    <!--name-->
-                    <td>{{row.ds_product}}</td>
+                <!--name-->
+                <td class="text-capitalize">{{row.ds_product}}</td>
 
-                    <!--type-->
-                    <td>{{row.ds_type}}</td>
+                <!--type-->
+                <td>{{row.ds_type}}</td>
 
-                    <!--value-->
-                    <td>{{row.nu_value}}</td>
+                <!--value-->
+                <td>{{row.nu_value}}</td>
 
-                    <!--quantity-->
-                    <td>{{row.nu_quantity}}</td>
+                <!--quantity-->
+                <td>{{row.nu_quantity}}</td>
 
-                    <!--status-->
-                    <td>
+                <!--status-->
+                <td>
 
-                        <label class="switch">
-                            <input
-                                type="checkbox"
-                                class="switch-input"
-                                id="status_{{row.sq_product}}"
-                                ng-checked="row.sq_status_product == constant.STATUS_ACTIVE"
-                                ng-click="row.sq_status_product == constant.STATUS_ACTIVE ? inactivateProduct(row.sq_product) : activateProduct(row.sq_product)">
-                            <span class="switch-label" data-on="" data-off=""></span>
-                            <span class="switch-handle"></span>
-                        </label>
+                    <label class="switch">
+                        <input
+                            type="checkbox"
+                            class="switch-input"
+                            id="status_{{row.sq_product}}"
+                            ng-checked="row.sq_status_product == constant.STATUS_ACTIVE"
+                            ng-click="row.sq_status_product == constant.STATUS_ACTIVE ? inactivateProduct(row.sq_product) : activateProduct(row.sq_product)">
+                        <span class="switch-label" data-on="" data-off=""></span>
+                        <span class="switch-handle"></span>
+                    </label>
 
-                    </td>
+                </td>
 
-                </tr>
+            </tr>
 
-            </tbody>
+        </tbody>
 
-        </table>
-        <!--list-->
+    </table>
+    <!--list-->
 
-        <!--button new-->
-        <a class="btn btn-primary btn-sm" href="#/product/addProduct">Novo <i class="glyphicon glyphicon-plus"></i></a>
+    <!--button new-->
+    <a class="btn btn-primary btn-sm" href="#/product/addProduct">Novo <i class="glyphicon glyphicon-plus"></i></a>
 
-        <!--pagination-->
-        <button class="btn btn-default btn-sm" ng-click="currentPage = currentPage - 1" ng-disabled="currentPage == 0" >
-            <i class="text-info glyphicon glyphicon-arrow-left"></i>
-        </button>
+    <!--pagination-->
+    <button class="btn btn-default btn-sm" ng-click="currentPage = currentPage - 1" ng-disabled="currentPage == 0" >
+        <i class="text-info glyphicon glyphicon-arrow-left"></i>
+    </button>
 
-        <button class="btn btn-default btn-sm" ng-click="currentPage = currentPage + 1" ng-disabled="currentPage >= rows.length / pageSize - 1">
-            <i class="text-info glyphicon glyphicon-arrow-right"></i>
-        </button>
-        <!--pagination-->
+    <button class="btn btn-default btn-sm" ng-click="currentPage = currentPage + 1" ng-disabled="currentPage >= rows.length / pageSize - 1">
+        <i class="text-info glyphicon glyphicon-arrow-right"></i>
+    </button>
+    <!--pagination-->
 
-    </div>
 </div>

@@ -194,3 +194,91 @@ $app->get("/getProductsByFilter", function () {
         throw $ex;
     }
 });
+
+/**
+ * Method for get product detail
+ * @name getProductDetail
+ * @author Victor Eduardo Barreto
+ * @var $app object Slim instance
+ * @return object Data products
+ * @date Alg 28, 2015
+ * @version 1.0
+ */
+$app->get("/getProductDetail", function () {
+
+    try {
+
+        $business = MasterController::getProductBusiness();
+
+        echo json_encode($business->getProduct());
+    } catch (Exception $ex) {
+
+        throw $ex;
+    }
+});
+
+/**
+ * Method for add item in wish list
+ * @name addWishList
+ * @author Victor Eduardo Barreto
+ * @var $app object Slim instance
+ * @return bool Result of procedure
+ * @date Alg 28, 2015
+ * @version 1.0
+ */
+$app->post("/addWishList", function () {
+
+    try {
+
+        $business = MasterController::getProductBusiness();
+
+        echo json_encode($business->addWishList());
+    } catch (Exception $ex) {
+
+        throw $ex;
+    }
+});
+
+/**
+ * Method for get items of wish list
+ * @name getWishList
+ * @author Victor Eduardo Barreto
+ * @var $app object Slim instance
+ * @return object Data of user wishlist
+ * @date Alg 29, 2015
+ * @version 1.0
+ */
+$app->get("/getWishList", function () {
+
+    try {
+
+        $business = MasterController::getProductBusiness();
+
+        echo json_encode($business->getWishList());
+    } catch (Exception $ex) {
+
+        throw $ex;
+    }
+});
+
+/**
+ * Method for del items of wish list
+ * @name delWishList
+ * @author Victor Eduardo Barreto
+ * @var $app object Slim instance
+ * @return object Data of user wishlist
+ * @date Alg 31, 2015
+ * @version 1.0
+ */
+$app->post("/delWishList", function () {
+
+    try {
+
+        $business = MasterController::getProductBusiness();
+
+        echo json_encode($business->delWishList());
+    } catch (Exception $ex) {
+
+        throw $ex;
+    }
+});

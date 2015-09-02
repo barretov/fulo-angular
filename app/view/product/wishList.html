@@ -1,16 +1,80 @@
-<!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
-<html>
-    <head>
-        <title>TODO supply a title</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
-    <body>
-        <div>TODO write content</div>
-    </body>
-</html>
+<div ng-init="getWishList()">
+
+    <legend><i class="glyphicon glyphicon-heart text-gray"></i> Lista de desejos</legend>
+
+    <!--list-->
+    <table id="tableData" class="table table-hover table-striped table-responsive">
+
+        <thead>
+
+            <tr>
+                <th>Imagem</th>
+
+                <th>Produto</th>
+
+                <th>Valor</th>
+
+                <th>Estoque</th>
+
+                <th>Ações</th>
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            <tr ng-repeat="row in rows| startFrom: currentPage * pageSize| limitTo: pageSize" id="{{row.sq_product}}">
+
+                <!--image-->
+                <td id="{{row.sq_product}}">
+
+                    <a href='#/product/detailProduct/{{row.sq_product}}'>
+                        <img class="img-responsive" src={{row.im_product_image.encoded}} />
+                    </a>
+
+                </td>
+
+                <!--name-->
+                <td class="text-capitalize">{{row.ds_product}}</td>
+
+                <!--value-->
+                <td>R$ {{row.nu_value}}</td>
+
+                <!--quantity-->
+                <td>{{row.nu_quantity}}</td>
+
+                <!--status-->
+                <td>
+
+                    <!--buy-->
+                    <button class="btn btn-sm btn-success">
+                        Comprar
+                        <i class="glyphicon glyphicon-ok"></i>
+                    </button>
+
+                    <!--cart-->
+                    <button class="glyphicon glyphicon-shopping-cart btn btn-sm btn-primary" ng-click="addCart(row)"></button>
+
+                    <!--delete wish-->
+                    <button class="glyphicon glyphicon-remove btn btn-sm btn-danger" ng-click="delWishList(row.sq_product)"></button>
+
+                </td>
+
+            </tr>
+
+        </tbody>
+
+    </table>
+    <!--list-->
+
+    <!--pagination-->
+    <button class="btn btn-default btn-sm" ng-click="currentPage = currentPage - 1" ng-disabled="currentPage == 0" >
+        <i class="text-info glyphicon glyphicon-arrow-left"></i>
+    </button>
+
+    <button class="btn btn-default btn-sm" ng-click="currentPage = currentPage + 1" ng-disabled="currentPage >= rows.length / pageSize - 1">
+        <i class="text-info glyphicon glyphicon-arrow-right"></i>
+    </button>
+    <!--pagination-->
+
+</div>

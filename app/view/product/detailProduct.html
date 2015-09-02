@@ -1,41 +1,105 @@
-<div ng-init="getProduct()">
+<div ng-init="getProductDetail()">
 
     <!--image-->
-    <div class="row">
+    <div class="thumbnail col-xs-12 col-sm-4 col-md-4 col-lg-4">
 
-        <div class="col-xs-12 col-sm-offset-2 col-sm-6 col-md-offset-2 col-md-6 col-lg-offset-2 col-lg-6 well well-sm">
-
-            <!--presentation-->
-            <h1 class="hidden-xs hidden-sm"><img class="img-responsive" src={{row.im_product_image.encoded}} /> <span class="text-primary" ng-bind="row.ds_product"></span></h1>
-
-            <h3 class="hidden-md hidden-lg"><img src={{row.im_product_image.encoded}} /> <span class="text-primary" ng-bind="row.ds_product"></span></h3>
-
-        </div>
+        <!--presentation-->
+        <img class="img-responsive caption" src={{row.im_product_image.encoded}} />
 
     </div>
 
-    <form name="form" class="form-horizontal">
+    <!--product data-->
+    <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8">
 
-        <!--ds_product hidden-->
-        <input name="sq_product" type="hidden" ng-model="row.sq_product" />
+        <!--title-->
+        <legend class="text-success text-capitalize">{{row.ds_product}}</legend>
 
+        <!--data-->
+        <div class="well well">
 
+            <dl class="dl-horizontal">
 
-        <!--buttons-->
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
+                <dt class="text-gray">Preço:</dt>
+                <dd>R$ {{row.nu_value}}</dd>
 
-                <button type="submit" class="btn btn-success btn-sm" ng-click="addProduct()" ng-Disabled="form.$invalid">Comprar
-                    <i class="glyphicon glyphicon-save"></i>
+                <dt class="text-gray">Em estoque:</dt>
+                <dd>{{row.nu_quantity}} Und</dd>
+
+                <dt class="text-gray">¹Tempo de produção:</dt>
+                <dd>{{row.nu_production}} Dias</dd>
+
+            </dl>
+
+            <!--form buy-->
+            <form name="form">
+
+                <dl class="dl-horizontal">
+
+                    <dt class="text-gray">Quantidade<span class="text-danger">*</span></dt>
+
+                </dl>
+
+                <div class="col-xs-4 col-sm-3 col-md-2 col-lg-2">
+
+                    <input
+                        class="form-control input-sm"
+                        type="number"
+                        name="buy_nu_quantity"
+                        ng-model="row.buy_nu_quantity"
+                        maxlength="4"
+                        ng-minlength="1"
+                        ng-maxlength="4"
+                        required
+                        />
+
+                </div>
+
+                <span class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-sm-offset-3 col-md-offset-2 col-lg-offset-2 text-danger" ng-show="form.buy_nu_quantity.$dirty && form.buy_nu_quantity.$invalid">
+                    <i class="glyphicon glyphicon-remove-sign"></i>
+                    <span ng-show="form.buy_nu_quantity.$error.required">Campo obrigatório</span>
+                    <span ng-show="form.buy_nu_quantity.$error.minlength">Mínimo de um caracteres</span>
+                    <span ng-show="form.buy_nu_quantity.$error.maxlength">Máximo de quatro caracteres</span>
+                    <span ng-show="form.buy_nu_quantity.$error.number">Somente Números</span>
+                </span>
+
+                <!--buttons-->
+                <button class="btn btn-success btn-sm" ng-click="buy()" ng-disabled="form.$invalid">Comprar
+                    <i class="glyphicon glyphicon-ok"></i>
                 </button>
 
-                <a class="btn btn-default btn-sm" href="#/product/listProduct">Voltar
-                    <i class="glyphicon glyphicon-arrow-left"></i>
-                </a>
+                <span class="btn btn-primary btn-sm hidden-xs hidden-sm" ng-click="addCart(row)">Por no carrinho
+                    <i class="glyphicon glyphicon-shopping-cart"></i>
+                </span>
 
-            </div>
+                <span class="btn btn-primary btn-sm hidden-md hidden-lg" ng-click="addCart(row)">
+                    <i class="glyphicon glyphicon-shopping-cart"></i>
+                </span>
+
+                <span class="btn btn-danger btn-sm" ng-click="addWishList(row.sq_product)">
+                    <i class="glyphicon glyphicon-heart" ></i>
+                </span>
+
+            </form>
+
         </div>
 
-    </form>
+        <blockquote>
+
+            <footer class="text-justify">
+                [¹] Produtos sem estoque serão produzidos após a confirmação de pagamento de acordo com o tempo de produção informado para cada produto.
+            </footer>
+
+        </blockquote>
+
+        <blockquote>
+
+            <footer class="text-justify">
+                As fotos são para ilustrar o produto.
+                O produto que você escolheu poderá ser enviado com a padronagem do tecido diferente, mas na mesma tonalidade.
+            </footer>
+
+        </blockquote>
+
+    </div>
 
 </div>

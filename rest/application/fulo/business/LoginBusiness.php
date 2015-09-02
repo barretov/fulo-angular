@@ -74,6 +74,10 @@ class LoginBusiness extends MasterBusiness
             # compare user and pass to login in the system.
             if (!empty($dataUser) && $dataUser->ds_email === $data->ds_email && crypt($data->ds_password, $dataUser->ds_password) === $dataUser->ds_password) {
 
+                # get total items of wish list.
+                $data->nu_wishlist = $this->_userModel->getNuWishList($dataUser);
+                $dataUser->nu_wishlist = $data->nu_wishlist->nu_wishlist;
+
                 # make secret.
                 $origin = [
                     'origin_sq_person' => $dataUser->sq_person,

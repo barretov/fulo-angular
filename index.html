@@ -143,6 +143,22 @@
                                 </li>
                                 <!--login-->
 
+                                <!--cart-->
+                                <li data-toggle="tooltip" data-placement="left" title="Carrinho de compras">
+                                    <a href="#/product/cart">
+                                        <i class="glyphicon glyphicon-shopping-cart btn-primary badge"> {{cart.nu_cart}}</i>
+                                    </a>
+                                </li>
+                                <!--cart-->
+
+                                <!--wishlist-->
+                                <li data-toggle="tooltip" data-placement="left" title="Lista de desejos" ng-show="user.sq_user">
+                                    <a href="#/product/wishList">
+                                        <i class="glyphicon glyphicon-heart text-danger badge btn-danger"> {{user.nu_wishlist}}</i>
+                                    </a>
+                                </li>
+                                <!--wishlist-->
+
                                 <!--logout-->
                                 <li ng-show="user.sq_person">
                                     <a href="" data-toggle="modal" data-target="#modalLogoff">
@@ -151,22 +167,6 @@
                                     </a>
                                 </li>
                                 <!--logout-->
-
-                                <!--cart-->
-                                <li data-toggle="tooltip" data-placement="left" title="Carrinho de compras">
-                                    <a href="#/product/cart">
-                                        <i class="glyphicon glyphicon-shopping-cart btn-success badge"> 20</i>
-                                    </a>
-                                </li>
-                                <!--cart-->
-
-                                <!--wishlist-->
-                                <li data-toggle="tooltip" data-placement="left" title="Lista de desejos">
-                                    <a href="#/product/wishList">
-                                        <i class="glyphicon glyphicon-heart text-danger badge btn-danger"> 10</i>
-                                    </a>
-                                </li>
-                                <!--wishlist-->
 
                             </ul>
                             <!--end right buttons-->
