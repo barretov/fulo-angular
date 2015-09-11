@@ -21,7 +21,7 @@ $app.config(['$routeProvider', '$httpProvider', function ($routeProvider, $httpP
                 when('/product/listProduct', {templateUrl: 'app/view/product/listProduct.html', controller: 'productController'}).
                 when('/product/addProduct', {templateUrl: 'app/view/product/addProduct.html', controller: 'productController'}).
                 when('/product/upProduct/:id', {templateUrl: 'app/view/product/upProduct.html', controller: 'productController'}).
-                when('/product/detailProduct/:id', {templateUrl: 'app/view/product/detailProduct.html', controller: 'productController'}).
+                when('/product/detailProduct', {templateUrl: 'app/view/product/detailProduct.html', controller: 'productController'}).
                 when('/product/filterProduct/:id', {templateUrl: 'app/view/product/filterProduct.html', controller: 'productController'}).
                 when('/product/cart', {templateUrl: 'app/view/product/cart.html', controller: 'productController'}).
                 when('/product/wishList', {templateUrl: 'app/view/product/wishList.html', controller: 'productController'}).

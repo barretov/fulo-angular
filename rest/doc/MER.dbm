@@ -14,7 +14,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="person" oids="false">
 	<schema name="fulo"/>
 	<comment>data of persons</comment>
-	<position x="1664" y="449"/>
+	<position x="1400" y="268"/>
 	<column name="sq_person" not-null="true">
 		<type name="serial" spatial-type="POINT" variation="0"/>
 		<comment>identifier of person</comment>
@@ -46,7 +46,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="user" oids="false">
 	<schema name="fulo"/>
 	<comment>data of users</comment>
-	<position x="1426" y="668.889"/>
+	<position x="1393" y="438.889"/>
 	<column name="sq_user" not-null="true">
 		<type name="integer" spatial-type="POINT" variation="0"/>
 		<comment>identifier of user</comment>
@@ -198,7 +198,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="address" oids="false">
 	<schema name="fulo"/>
 	<comment>table of address</comment>
-	<position x="1654" y="209"/>
+	<position x="639" y="241"/>
 	<column name="sq_address" not-null="true">
 		<type name="serial" spatial-type="POINT" variation="0"/>
 		<comment>identifier of address</comment>
@@ -247,7 +247,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="phone" oids="false">
 	<schema name="fulo"/>
 	<comment>table of phone</comment>
-	<position x="2063" y="457"/>
+	<position x="2040" y="385"/>
 	<column name="sq_phone" not-null="true">
 		<type name="serial" spatial-type="POINT" variation="0"/>
 		<comment>identifier of phone</comment>
@@ -556,7 +556,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="product_image" oids="false">
 	<schema name="fulo"/>
 	<comment>table of product image</comment>
-	<position x="641.111" y="880"/>
+	<position x="648.111" y="949"/>
 	<column name="sq_product_image" not-null="true">
 		<type name="serial" spatial-type="POINT" variation="0"/>
 		<comment>identifier of image</comment>
@@ -594,13 +594,13 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	 src-table="fulo.product_image"
 	 dst-table="fulo.product"/>
 
-<table name="sale" oids="false">
+<table name="order" oids="false">
 	<schema name="fulo"/>
-	<comment>table of sales</comment>
-	<position x="1059" y="679"/>
-	<column name="sq_sale" not-null="true">
+	<comment>table of orders</comment>
+	<position x="1055" y="646"/>
+	<column name="sq_order" not-null="true">
 		<type name="serial" spatial-type="POINT" variation="0"/>
-		<comment>identifier of sale</comment>
+		<comment>identifier of order</comment>
 	</column>
 	<column name="sq_user" not-null="true">
 		<type name="integer" spatial-type="POINT" variation="0"/>
@@ -610,41 +610,41 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="integer" spatial-type="POINT" variation="0"/>
 		<comment>identifier of product</comment>
 	</column>
-	<column name="sq_status" not-null="true">
+	<column name="nu_quantity" not-null="true">
 		<type name="integer" spatial-type="POINT" variation="0"/>
-		<comment>status of sale</comment>
+		<comment>quantity of product</comment>
 	</column>
-	<column name="nu_total_value" not-null="true">
-		<type name="numeric" length="8" precision="2" spatial-type="POINT" variation="0"/>
-		<comment>total value of sale</comment>
+	<column name="nu_date_time" not-null="true">
+		<type name="timestamp" spatial-type="POINT" variation="0"/>
+		<comment>date and time of sale</comment>
 	</column>
-	<constraint name="pk_sale" type="pk-constr" factor="10" table="fulo.sale">
-		<columns names="sq_sale" ref-type="src-columns"/>
+	<constraint name="pk_order" type="pk-constr" factor="10" table="fulo.order">
+		<columns names="sq_order" ref-type="src-columns"/>
 		<comment>primary key of table</comment>
 	</constraint>
-	<index name="ix_sale" table="fulo.sale"
+	<index name="ix_order" table="fulo.order"
 		 concurrent="false" unique="false" fast-update="false"
 		 index-type="btree" factor="10">
 	<idxelement nulls-first="false" asc-order="false">
-		<column name="sq_sale"/>
+		<column name="sq_order"/>
 	</idxelement>
 	</index>
 </table>
 
-<constraint name="fk_sale_user" type="fk-constr"	 comparison-type="MATCH FULL"
-	 upd-action="CASCADE" del-action="CASCADE" ref-table="fulo.user" table="fulo.sale">
+<constraint name="fk_order_user" type="fk-constr"	 comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="fulo.user" table="fulo.order">
 	<columns names="sq_user" ref-type="src-columns"/>
 	<columns names="sq_user" ref-type="dst-columns"/>
-		<comment>foreign key of yser</comment>
+		<comment>foreign key of user</comment>
 </constraint>
 <relationship name="rel_sale_user"
 	 type="relfk"
 	 src-required="false" dst-required="false"
-	 src-table="fulo.sale"
+	 src-table="fulo.order"
 	 dst-table="fulo.user"/>
 
-<constraint name="fk_sale_product" type="fk-constr"	 comparison-type="MATCH FULL"
-	 upd-action="CASCADE" del-action="CASCADE" ref-table="fulo.product" table="fulo.sale">
+<constraint name="fk_order_product" type="fk-constr"	 comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="fulo.product" table="fulo.order">
 	<columns names="sq_product" ref-type="src-columns"/>
 	<columns names="sq_product" ref-type="dst-columns"/>
 		<comment>foreign key of product</comment>
@@ -652,77 +652,8 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <relationship name="rel_sale_product"
 	 type="relfk"
 	 src-required="false" dst-required="false"
-	 src-table="fulo.sale"
+	 src-table="fulo.order"
 	 dst-table="fulo.product"/>
-
-<table name="cart" oids="false">
-	<schema name="fulo"/>
-	<comment>table of cart</comment>
-	<position x="1060" y="800.889"/>
-	<column name="sq_cart" not-null="true">
-		<type name="serial" spatial-type="POINT" variation="0"/>
-		<comment>identifier of cart</comment>
-	</column>
-	<column name="sq_user" not-null="true">
-		<type name="integer" spatial-type="POINT" variation="0"/>
-		<comment>identifier of user</comment>
-	</column>
-	<column name="sq_product" not-null="true">
-		<type name="integer" spatial-type="POINT" variation="0"/>
-		<comment>identifier of product</comment>
-	</column>
-	<column name="nu_total_value" not-null="true">
-		<type name="numeric" length="8" precision="2" spatial-type="POINT" variation="0"/>
-		<comment>total value of cart</comment>
-	</column>
-	<constraint name="pk_cart" type="pk-constr" factor="10" table="fulo.cart">
-		<columns names="sq_cart" ref-type="src-columns"/>
-		<comment>primary key of table</comment>
-	</constraint>
-	<index name="ix_cart" table="fulo.cart"
-		 concurrent="false" unique="false" fast-update="false"
-		 index-type="btree" factor="10">
-	<idxelement nulls-first="false" asc-order="false">
-		<column name="sq_cart"/>
-	</idxelement>
-	</index>
-</table>
-
-<constraint name="fk_cart_user" type="fk-constr"	 comparison-type="MATCH FULL"
-	 upd-action="CASCADE" del-action="CASCADE" ref-table="fulo.user" table="fulo.cart">
-	<columns names="sq_user" ref-type="src-columns"/>
-	<columns names="sq_user" ref-type="dst-columns"/>
-		<comment>foreign key of user</comment>
-</constraint>
-<constraint name="fk_cart_product" type="fk-constr"	 comparison-type="MATCH FULL"
-	 upd-action="CASCADE" del-action="CASCADE" ref-table="fulo.product" table="fulo.cart">
-	<columns names="sq_product" ref-type="src-columns"/>
-	<columns names="sq_product" ref-type="dst-columns"/>
-		<comment>foreign key of product</comment>
-</constraint>
-<relationship name="rel_cart_user"
-	 type="relfk"
-	 src-required="false" dst-required="false"
-	 src-table="fulo.cart"
-	 dst-table="fulo.user"/>
-
-<relationship name="rel_cart_product"
-	 type="relfk"
-	 src-required="false" dst-required="false"
-	 src-table="fulo.cart"
-	 dst-table="fulo.product"/>
-
-<constraint name="fk_sale_status" type="fk-constr"	 comparison-type="MATCH FULL"
-	 upd-action="CASCADE" del-action="CASCADE" ref-table="fulo.status" table="fulo.sale">
-	<columns names="sq_status" ref-type="src-columns"/>
-	<columns names="sq_status" ref-type="dst-columns"/>
-		<comment>foreign key of status</comment>
-</constraint>
-<relationship name="rel_sale_status"
-	 type="relfk"
-	 src-required="false" dst-required="false"
-	 src-table="fulo.sale"
-	 dst-table="fulo.status"/>
 
 <constraint name="fk_log_operation" type="fk-constr"	 comparison-type="MATCH FULL"
 	 upd-action="CASCADE" del-action="CASCADE" ref-table="fulo.operation" table="fulo.log">

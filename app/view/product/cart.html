@@ -26,10 +26,12 @@
             <!--image-->
             <td id="{{row.sq_product}}">
 
-                <a href='#/product/detailProduct/{{row.sq_product}}'>
+                <!--                <a href='#/product/detailProduct/{{row.sq_product}}'>
+                                    <img class="img-responsive" src={{row.im_product_image.encoded}} />
+                                </a>-->
+                <a href="" ng-click="detailProduct(row)">
                     <img class="img-responsive" src={{row.im_product_image.encoded}} />
                 </a>
-
             </td>
 
             <!--name-->

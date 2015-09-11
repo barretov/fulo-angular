@@ -96,22 +96,17 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
      */
     $scope.getProductDetail = function () {
 
-        if ($routeParams.id === null) {
-
-            $location.path("/error/systemError/");
-        }
-
         $scope.showLoader();
 
         // adjust parameters and add origin data.
-        $param = $scope.configParam({sq_product: $routeParams.id});
+        $param = $scope.configParam({sq_product: $scope.row.sq_product});
 
         $http.get($scope.server("/getProductDetail"), {params: $param}).success(function ($return) {
 
             // verify return data.
             $scope.checkResponse($return);
 
-            $scope.row = $return;
+            $scope.product = $return;
             $scope.hideLoader();
         });
     };
@@ -474,11 +469,15 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
 
         // sum all products.
         angular.forEach($rootScope.cart, function ($key) {
-            console.log($key.nu_value);
 
-            $rootScope.cart.nu_total = ($key.nu_value + $key.nu_value);
+            $rootScope.cart.nu_total = parseFloat($rootScope.cart.nu_total + $key.nu_value);
         });
 
     };
 
+    $scope.detailProduct = function ($row) {
+
+        $rootScope.row = $row;
+        $location.path("/product/detailProduct");
+    };
 });

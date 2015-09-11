@@ -20,7 +20,6 @@
 namespace fulo\business;
 
 use fulo\model\ProductModel as ProductModel;
-use Intervention\Image\ImageManagerStatic as Image;
 
 /**
  * Class of business for Product
@@ -69,9 +68,10 @@ class ProductBusiness extends MasterBusiness
 
             $results = $this->_productModel->getProducts();
 
+            # adjust images.
             foreach ($results as $key) {
 
-                $key->im_product_image = Image::make($key->im_product_image)->resize(100, 100)->encode('data-url');
+                $this->makeImageOut($key->im_product_image, 250, 250);
             }
 
             return $results;
@@ -99,7 +99,8 @@ class ProductBusiness extends MasterBusiness
 
             $data = $this->_productModel->getProduct($data);
 
-            $data->im_product_image = Image::make($data->im_product_image)->resize(640, 510)->encode('data-url');
+//            $data->im_product_image = Image::make($data->im_product_image)->resize(640, 510)->encode('data-url');
+            $this->makeImageOut($data->im_product_image, 640, 640);
 
             return $data;
         } catch (Exception $ex) {
@@ -144,9 +145,6 @@ class ProductBusiness extends MasterBusiness
         try {
 
             $data = $this->getRequestData();
-
-            # adjust size image.
-            $data->im_image = Image::make($data->im_image)->resize(640, 480)->encode('data-url');
 
             return $this->_productModel->addProduct($data);
         } catch (Exception $ex) {
@@ -242,10 +240,10 @@ class ProductBusiness extends MasterBusiness
 
             $results = $this->_productModel->getProductsByFilter($data);
 
+            # adjust images.
             foreach ($results as $key) {
 
-                $key->im_product_image = Image::make($key->im_product_image)->resize(250, 250)->encode('data-url');
-                #@TODO watermark.
+                $this->makeImageOut($key->im_product_image, 300, 300);
             }
 
             return $results;
@@ -298,8 +296,7 @@ class ProductBusiness extends MasterBusiness
 
             foreach ($results as $key) {
 
-                $key->im_product_image = Image::make($key->im_product_image)->resize(100, 100)->encode('data-url');
-                #@TODO watermark.
+                $this->makeImageOut($key->im_product_image, 100, 100);
             }
 
             return $results;

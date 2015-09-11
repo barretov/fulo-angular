@@ -18,6 +18,8 @@
 
 namespace fulo\business;
 
+use Intervention\Image\ImageManagerStatic as Image;
+
 /**
  * Mater class for business
  * @name MasterBusiness
@@ -43,9 +45,13 @@ class MasterBusiness
 
             foreach ($data as $key => $value) {
 
+
                 if ($key != "im_image") {
 
                     $data->$key = \preg_replace("/[^a-zA-Z0-9_@.,áàãâéêíóôõúüçÁÀÃÂÉÊÍÓÔÕÚÜÇ ]/", "", $value);
+                } else {
+
+                    $data->$key = $this->makeImageIn($value);
                 }
             }
 
@@ -198,6 +204,63 @@ class MasterBusiness
         } catch (Exception $ex) {
             throw $ex;
         }
+    }
+
+    /**
+     * Method for adjust images for send to front
+     * @name makeImageOut
+     * @author Victor Eduardo Barreto
+     * @param string $im_image Image to put watermark
+     * @param int $height Size for height
+     * @param int $width Size for width
+     * @date Sep 10, 2015
+     * @version 1.0
+     */
+    public function makeImageOut (& $im_image, $height, $width)
+    {
+
+        $im_image = Image::make($im_image)->resize($height, $width);
+
+        # adjust position and font size depending of $height.
+        if ($height < 640) {
+
+            $im_image->text('Fulô Patchwork', 100, 100, function($font) {
+
+                $font->file('../fonts/bernhard.ttf');
+                $font->size(30);
+                $font->color([255, 255, 255, 0.9]);
+                $font->align('center');
+                $font->valign('top');
+                $font->angle(40);
+            });
+        } else {
+
+            $im_image->text('Fulô Patchwork', 300, 300, function($font) {
+
+                $font->file('../fonts/bernhard.ttf');
+                $font->size(60);
+                $font->color([255, 255, 255, 0.9]);
+                $font->align('center');
+                $font->valign('top');
+                $font->angle(40);
+            });
+        }
+
+        $im_image->encode('data-url');
+    }
+
+    /**
+     * Method for adjust images to save in the base
+     * @name makeImageIn
+     * @author Victor Eduardo Barreto
+     * @param string $im_image Image to put watermark
+     * @date Sep 11, 2015
+     * @version 1.0
+     */
+    public function makeImageIn ($im_image)
+    {
+
+        return Image::make($im_image)->resize(640, 480)->encode('data-url');
     }
 
 }
