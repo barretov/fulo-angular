@@ -1,104 +1,126 @@
-<!--image-->
-<div class="thumbnail col-xs-12 col-sm-4 col-md-4 col-lg-4">
+<div class="row">
 
-    <!--presentation-->
-    <a class="cursor-pointer" data-toggle="modal" data-target="#modalDetailProduct" ng-click="getProductDetail(row.sq_product)">
-        <img class="img-responsive caption" src={{row.im_product_image.encoded}} height="640" width="640" />
-    </a>
+    <!--image-->
+    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
 
-</div>
+        <!--image-->
+        <a class="cursor-pointer"
+           data-toggle="modal"
+           data-target="#modalDetailProduct"
+           ng-click="getProductDetail(row.sq_product)">
 
-<!--product data-->
-<div class="col-xs-12 col-sm-8 col-md-8 col-lg-8">
+            <img class="img-responsive caption"
+                 src={{row.im_product_image.encoded}}
+                 height="640"
+                 width="640"
+                 />
 
-    <!--title-->
-    <legend class="text-success text-capitalize">{{row.ds_product}}</legend>
-
-    <!--data-->
-    <div class="well well">
-
-        <dl class="dl-horizontal">
-
-            <dt class="text-gray">Preço:</dt>
-            <dd>R$ {{row.nu_value}}</dd>
-
-            <dt class="text-gray">Em estoque:</dt>
-            <dd>{{row.nu_quantity}} Und</dd>
-
-            <dt class="text-gray">¹Tempo de produção:</dt>
-            <dd>{{row.nu_production}} Dias</dd>
-
-        </dl>
-
-        <!--form buy-->
-        <form name="form">
-
-            <dl class="dl-horizontal">
-
-                <dt class="text-gray">Quantidade<span class="text-danger">*</span></dt>
-
-            </dl>
-
-            <div class="col-xs-4 col-sm-3 col-md-2 col-lg-2">
-
-                <input
-                    class="form-control input-sm"
-                    type="number"
-                    name="buy_nu_quantity"
-                    ng-model="row.buy_nu_quantity"
-                    maxlength="4"
-                    ng-minlength="1"
-                    ng-maxlength="4"
-                    required
-                    />
-
-            </div>
-
-            <span class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-sm-offset-3 col-md-offset-2 col-lg-offset-2 text-danger" ng-show="form.buy_nu_quantity.$dirty && form.buy_nu_quantity.$invalid">
-                <i class="glyphicon glyphicon-remove-sign"></i>
-                <span ng-show="form.buy_nu_quantity.$error.required">Campo obrigatório</span>
-                <span ng-show="form.buy_nu_quantity.$error.minlength">Mínimo de um caracteres</span>
-                <span ng-show="form.buy_nu_quantity.$error.maxlength">Máximo de quatro caracteres</span>
-                <span ng-show="form.buy_nu_quantity.$error.number">Somente Números</span>
-            </span>
-
-            <!--buttons-->
-            <button class="btn btn-success btn-sm" ng-click="buy()" ng-disabled="form.$invalid">Comprar
-                <i class="glyphicon glyphicon-ok"></i>
-            </button>
-
-            <span class="btn btn-primary btn-sm hidden-xs hidden-sm" ng-click="addCart(row)">Por no carrinho
-                <i class="glyphicon glyphicon-shopping-cart"></i>
-            </span>
-
-            <span class="btn btn-primary btn-sm hidden-md hidden-lg" ng-click="addCart(row)">
-                <i class="glyphicon glyphicon-shopping-cart"></i>
-            </span>
-
-            <span class="btn btn-danger btn-sm" ng-click="addWishList(row.sq_product)">
-                <i class="glyphicon glyphicon-heart" ></i>
-            </span>
-
-        </form>
+        </a>
 
     </div>
 
-    <blockquote>
+    <!--product data-->
+    <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8">
 
-        <footer class="text-justify">
-            [¹] Produtos sem estoque serão produzidos após a confirmação de pagamento de acordo com o tempo de produção informado para cada produto.
-        </footer>
+        <!--title-->
+        <legend class="text-success text-capitalize">{{row.ds_product}}</legend>
 
-    </blockquote>
+        <!--data-->
+        <div class="well">
 
-    <blockquote>
+            <dl class="dl-horizontal">
 
-        <footer class="text-justify">
-            As fotos são para ilustrar o produto.
-            O produto que você escolheu poderá ser enviado com a padronagem do tecido diferente, mas na mesma tonalidade.
-        </footer>
+                <dt class="text-gray">Preço:</dt>
+                <dd>R$ {{row.nu_value}}</dd>
 
-    </blockquote>
+                <dt class="text-gray">Em estoque:</dt>
+                <dd>{{row.nu_quantity}} Und</dd>
+
+                <dt class="text-gray">¹Tempo de produção:</dt>
+                <dd>{{row.nu_production}} Dia(s)</dd>
+
+            </dl>
+
+            <!--form buy-->
+            <form name="form">
+
+                <dl class="dl-horizontal">
+
+                    <dt class="text-gray">Quantidade<span class="text-danger">*</span></dt>
+
+                </dl>
+
+                <div class="col-xs-4 col-sm-3 col-md-2 col-lg-2">
+
+                    <input
+                        class="form-control input-sm"
+                        type="number"
+                        name="buy_nu_quantity"
+                        ng-model="row.buy_nu_quantity"
+                        maxlength="4"
+                        ng-minlength="1"
+                        ng-maxlength="4"
+                        required
+                        />
+
+                </div>
+
+                <span class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-sm-offset-3 col-md-offset-2 col-lg-offset-2 text-danger" ng-show="form.buy_nu_quantity.$dirty && form.buy_nu_quantity.$invalid">
+                    <i class="glyphicon glyphicon-remove-sign"></i>
+                    <span ng-show="form.buy_nu_quantity.$error.required">Campo obrigatório</span>
+                    <span ng-show="form.buy_nu_quantity.$error.minlength">Mínimo de um caracteres</span>
+                    <span ng-show="form.buy_nu_quantity.$error.maxlength">Máximo de quatro caracteres</span>
+                    <span ng-show="form.buy_nu_quantity.$error.number">Somente Números</span>
+                </span>
+
+                <!--buttons-->
+                <button class="btn btn-success btn-sm" ng-click="buy()" ng-disabled="form.$invalid">Comprar
+                    <i class="glyphicon glyphicon-ok"></i>
+                </button>
+
+                <span class="btn btn-primary btn-sm"
+                      ng-click="addCart(row)"
+                      title="Colocar no carrinho de compras">
+
+                    <i class="glyphicon glyphicon-shopping-cart"></i>
+                </span>
+
+                <span class="btn btn-danger btn-sm"
+                      ng-click="addWishList(row.sq_product)"
+                      title="Colocar na lista de desejos">
+
+                    <i class="glyphicon glyphicon-heart" ></i>
+                </span>
+
+                <span class="btn btn-info btn-sm"
+                      ng-click="share(row.sq_product)"
+                      title="Compatilhar na rede">
+
+                    <i class="glyphicon glyphicon-share" ></i>
+                </span>
+
+            </form>
+
+        </div>
+
+        <blockquote>
+
+            <footer class="text-justify">
+                [¹] Produtos sem estoque serão produzidos após a confirmação de pagamento de acordo com o tempo de produção informado para cada produto.
+            </footer>
+
+        </blockquote>
+
+        <blockquote>
+
+            <footer class="text-justify">
+                As fotos são para ilustrar o produto.
+                O produto que você escolheu poderá ser enviado com a padronagem do tecido diferente, mas na mesma tonalidade.
+            </footer>
+
+        </blockquote>
+
+    </div>
 
 </div>
 

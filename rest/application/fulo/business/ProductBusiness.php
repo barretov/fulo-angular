@@ -71,7 +71,7 @@ class ProductBusiness extends MasterBusiness
             # adjust images.
             foreach ($results as $key) {
 
-                $this->makeImageOut($key->im_product_image, 250, 250);
+                $this->makeImageOut($key->im_product_image, 300, 300);
             }
 
             return $results;
@@ -238,6 +238,15 @@ class ProductBusiness extends MasterBusiness
 
             $data = $this->getRequestData();
 
+            # adjust filter in query if products was filtered.
+            if (empty($data->sq_product_type)) {
+
+                $data->filter = NULL;
+            } else {
+
+                $data->filter = "AND product.sq_product_type = " . $data->sq_product_type;
+            }
+
             $results = $this->_productModel->getProductsByFilter($data);
 
             # adjust images.
@@ -245,6 +254,13 @@ class ProductBusiness extends MasterBusiness
 
                 $this->makeImageOut($key->im_product_image, 300, 300);
             }
+
+            # verify if exist result and send message.
+            if (empty($results)) {
+
+                $results = WITHOUT_RESULT;
+            }
+
 
             return $results;
         } catch (Exception $ex) {
@@ -296,7 +312,7 @@ class ProductBusiness extends MasterBusiness
 
             foreach ($results as $key) {
 
-                $this->makeImageOut($key->im_product_image, 100, 100);
+                $this->makeImageOut($key->im_product_image, 300, 300);
             }
 
             return $results;

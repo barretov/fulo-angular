@@ -82,10 +82,16 @@
                                         <i class="glyphicon glyphicon-filter"></i> Filtros<span class="caret"></span>
                                     </a>
 
-                                    <ul class="dropdown-menu" role="menu" ng-controller="productController" ng-init="getProductTypes()">
+                                    <ul
+                                        class="dropdown-menu"
+                                        role="menu"
+                                        ng-controller="productController"
+                                        ng-init="getProductTypes()">
 
                                         <li ng-repeat="type in types">
-                                            <a href="#/product/filterProduct/{{type.sq_product_type}}">{{type.ds_product_type}}</a>
+                                            <a href="#/product/filterProduct/{{type.sq_product_type}}">
+                                                {{type.ds_product_type}}
+                                            </a>
                                         </li>
 
                                     </ul>
@@ -191,7 +197,7 @@
                     <div class="row">
 
                         <!--flashmessage-->
-                        <div id="flashmessage" class="navbar-fixed-top">
+                        <div id="flashmessage" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 alert navbar-fixed-top">
 
                             <div  class="alert {{flashType}} fade in" role="alert">
                                 <i class="glyphicon {{glyphicon}}"></i>
@@ -283,7 +289,7 @@
                                type="email"
                                name="ds_email"
                                placeholder="usuario@email.com"
-                               ng-model="row.ds_email"
+                               ng-model="rowLogin.ds_email"
                                maxlength="50"
                                ng-maxlength="50"
                                required/>
@@ -319,7 +325,7 @@
                                    type="password"
                                    maxlength="20"
                                    ng-maxlength="20"
-                                   ng-model="row.ds_password"
+                                   ng-model="rowLogin.ds_password"
                                    required/>
 
                             <span class="input-group-btn">
@@ -330,13 +336,24 @@
 
                         </div>
 
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                            <span class="text-white" ng-show="form.ds_password.$dirty && form.ds_password.$invalid">
-                                <i class="glyphicon glyphicon-remove-sign"></i>
-                                <span ng-show="form.ds_password.$error.required">Campo obrigatório</span>
-                                <span ng-show="form.ds_password.$error.maxlength">Máximo de vinte caracteres</span>
-                            </span>
-                        </div>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+                        <span class="text-white" ng-show="form.ds_password.$dirty && form.ds_password.$invalid">
+                            <i class="glyphicon glyphicon-remove-sign"></i>
+                            <span ng-show="form.ds_password.$error.required">Campo obrigatório</span>
+                            <span ng-show="form.ds_password.$error.maxlength">Máximo de vinte caracteres</span>
+                        </span>
+
+                    </div>
+
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <!--forgot password-->
+                        <a
+                            class="text-white"
+                            href="">Esqueci minha senha
+                        </a>
 
                     </div>
 

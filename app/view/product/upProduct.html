@@ -5,12 +5,33 @@
     <!--image-->
     <div class="row">
 
-        <div class="col-xs-12 col-sm-offset-2 col-sm-6 col-md-offset-2 col-md-6 col-lg-offset-2 col-lg-6 well well-sm">
+        <div class="col-xs-12 col-sm-offset-2 col-sm-6 col-md-offset-2 col-md-6 col-lg-offset-2 col-lg-6">
 
             <!--presentation-->
-            <h1 class="hidden-xs hidden-sm"><img class="img-responsive" src={{row.im_product_image.encoded}} width="150" height="150" /> <span class="text-primary" ng-bind="row.ds_product"></span></h1>
+            <h1 class="hidden-xs hidden-sm">
 
-            <h3 class="hidden-md hidden-lg"><img src={{row.im_product_image.encoded}} /> <span class="text-primary" ng-bind="row.ds_product"></span></h3>
+                <img class="img-responsive"
+                     src={{row.im_product_image.encoded}}
+                     width="150"
+                     height="150"/>
+
+                <span class="text-primary"
+                      ng-bind="row.ds_product">
+                </span>
+
+            </h1>
+
+            <h3 class="hidden-md hidden-lg">
+
+                <img class="img-responsive" src={{row.im_product_image.encoded}}
+                     width="150"
+                     height="150"/>
+
+                <span class="text-primary"
+                      ng-bind="row.ds_product">
+                </span>
+
+            </h3>
 
         </div>
 

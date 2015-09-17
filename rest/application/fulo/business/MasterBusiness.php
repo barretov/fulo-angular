@@ -45,7 +45,6 @@ class MasterBusiness
 
             foreach ($data as $key => $value) {
 
-
                 if ($key != "im_image") {
 
                     $data->$key = \preg_replace("/[^a-zA-Z0-9_@.,áàãâéêíóôõúüçÁÀÃÂÉÊÍÓÔÕÚÜÇ ]/", "", $value);
@@ -224,29 +223,23 @@ class MasterBusiness
         # adjust position and font size depending of $height.
         if ($height < 640) {
 
-            $im_image->text('Fulô Patchwork', 100, 100, function($font) {
-
-                $font->file('../fonts/bernhard.ttf');
-                $font->size(30);
-                $font->color([255, 255, 255, 0.9]);
-                $font->align('center');
-                $font->valign('top');
-                $font->angle(40);
-            });
+            $position = 130;
+            $size = 30;
         } else {
 
-            $im_image->text('Fulô Patchwork', 300, 300, function($font) {
-
-                $font->file('../fonts/bernhard.ttf');
-                $font->size(60);
-                $font->color([255, 255, 255, 0.9]);
-                $font->align('center');
-                $font->valign('top');
-                $font->angle(40);
-            });
+            $position = 300;
+            $size = 60;
         }
 
-        $im_image->encode('data-url');
+        $im_image->text('Fulô Patchwork', $position, $position, function($font) use ($size) {
+
+            $font->file('../fonts/bernhard.ttf');
+            $font->size($size);
+            $font->color([255, 255, 255, 0.9]);
+            $font->align('center');
+            $font->valign('top');
+            $font->angle(40);
+        })->encode('data-url');
     }
 
     /**

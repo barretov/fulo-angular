@@ -41,7 +41,7 @@ $app.controller('loginController', function ($scope, $rootScope, $http, $locatio
     $rootScope.login = function ($param) {
 
         // define $scope.row as $param, for get param of function or by variable $scope.row.
-        $param = ($scope.row) ? $scope.configParam($scope.row) : $scope.configParam($param);
+        $param = ($scope.rowLogin) ? $scope.configParam($scope.rowLogin) : $scope.configParam($param);
 
         $http.post($scope.server("/login"), $param).success(function ($return) {
 

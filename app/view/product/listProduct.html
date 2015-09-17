@@ -2,49 +2,48 @@
 
     <legend>Produtos</legend>
 
-    <!--list-->
-    <table id="tableData" class="table table-hover table-striped table-responsive">
+    <!--loop-->
+    <div class="row"
+         ng-repeat="row in rows| startFrom: currentPage * pageSize| limitTo: pageSize"
+         id="{{row.sq_product}}">
 
-        <thead>
+        <!--image-->
+        <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2">
 
-            <tr>
-                <th>Imagem</th>
+            <!--image-->
+            <a href='#/product/upProduct/{{row.sq_product}}'>
 
-                <th>Nome</th>
+                <div class="thumbnail">
+                    <img class="caption img-responsive"
+                         src={{row.im_product_image.encoded}}
+                         height="200"
+                         width="200"
+                         />
+                </div>
 
-                <th>Tipo</th>
+            </a>
 
-                <th>Valor</th>
+        </div>
 
-                <th>Quantidade</th>
+        <!--product data-->
+        <div class="col-xs-12 col-sm-10 col-md-10 col-lg-10">
 
-                <th>Ativo</th>
-            </tr>
+            <!--title-->
+            <legend class="text-success text-capitalize">{{row.ds_product}}</legend>
 
-        </thead>
+            <dl class="dl-horizontal">
 
-        <tbody>
+                <dt class="text-gray">Preço:</dt>
+                <dd>R$ {{row.nu_value}}</dd>
 
-            <tr ng-repeat="row in rows| startFrom: currentPage * pageSize| limitTo: pageSize" id="{{row.sq_product}}">
+                <dt class="text-gray">Em estoque:</dt>
+                <dd>{{row.nu_quantity}} Und</dd>
 
-                <!--image-->
-                <td><a href='#/product/upProduct/{{row.sq_product}}'><img class="img-responsive" src={{row.im_product_image.encoded}} /></a></td>
+                <dt class="text-gray">Tempo de produção:</dt>
+                <dd>{{row.nu_production}} Dia(s)</dd>
 
-                <!--name-->
-                <td class="text-capitalize">{{row.ds_product}}</td>
-
-                <!--type-->
-                <td>{{row.ds_type}}</td>
-
-                <!--value-->
-                <td>{{row.nu_value}}</td>
-
-                <!--quantity-->
-                <td>{{row.nu_quantity}}</td>
-
-                <!--status-->
-                <td>
-
+                <dt class="text-gray">Ativo</dt>
+                <dd>
                     <label class="switch">
                         <input
                             type="checkbox"
@@ -55,15 +54,15 @@
                         <span class="switch-label" data-on="" data-off=""></span>
                         <span class="switch-handle"></span>
                     </label>
+                </dd>
 
-                </td>
+            </dl>
 
-            </tr>
+            <hr />
 
-        </tbody>
+        </div>
 
-    </table>
-    <!--list-->
+    </div>
 
     <!--button new-->
     <a class="btn btn-primary btn-sm" href="#/product/addProduct">Novo <i class="glyphicon glyphicon-plus"></i></a>

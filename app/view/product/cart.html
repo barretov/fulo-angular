@@ -1,67 +1,123 @@
-<legend><i class="glyphicon glyphicon-shopping-cart text-gray"></i> Carrinho de Compras</legend>
+<legend><i class="glyphicon glyphicon-shopping-cart text-gray"></i> Carrinho de compras</legend>
 
-<!--list-->
-<table id="tableData" class="table table-hover table-striped table-responsive">
+<!--loop-->
+<div class="row"
+     ng-repeat="row in cart| startFrom: currentPage * pageSize| limitTo: pageSize"
+     id="{{row.sq_product}}">
 
-    <thead>
+    <!--image-->
+    <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2">
 
-        <tr>
-            <th>Imagem</th>
+        <!--image-->
+        <a href="" ng-click="detailProduct(row)">
 
-            <th>Produto</th>
+            <div class="thumbnail">
+                <img class="caption img-responsive"
+                     src={{row.im_product_image.encoded}}
+                     height="200"
+                     width="200"
+                     />
+            </div>
 
-            <th>Valor</th>
+        </a>
 
-            <th>Estoque</th>
+    </div>
 
-            <th>Ações</th>
-        </tr>
+    <!--product data-->
+    <div class="col-xs-12 col-sm-10 col-md-10 col-lg-10">
 
-    </thead>
+        <!--title-->
+        <legend class="text-success text-capitalize">{{row.ds_product}}</legend>
 
-    <tbody>
+        <dl class="dl-horizontal">
 
-        <tr ng-repeat="row in cart| startFrom: currentPage * pageSize| limitTo: pageSize" id="{{row.sq_product}}">
+            <dt class="text-gray">Preço:</dt>
+            <dd>R$ {{row.nu_value}}</dd>
 
-            <!--image-->
-            <td id="{{row.sq_product}}">
+            <dt class="text-gray">Em estoque:</dt>
+            <dd>{{row.nu_quantity}} Und</dd>
 
-                <!--                <a href='#/product/detailProduct/{{row.sq_product}}'>
-                                    <img class="img-responsive" src={{row.im_product_image.encoded}} />
-                                </a>-->
-                <a href="" ng-click="detailProduct(row)">
-                    <img class="img-responsive" src={{row.im_product_image.encoded}} />
-                </a>
-            </td>
+            <dt class="text-gray">Tempo de produção:</dt>
+            <dd>{{row.nu_production}} Dia(s)</dd>
 
-            <!--name-->
-            <td class="text-capitalize">{{row.ds_product}}</td>
+        </dl>
 
-            <!--value-->
-            <td>R$ {{row.nu_value}}</td>
+        <!--form buy-->
+        <form name="form">
 
-            <!--quantity-->
-            <td>{{row.nu_quantity}}</td>
+            <dl class="dl-horizontal">
 
-            <!--status-->
-            <td>
+                <dt class="text-gray">Quantidade<span class="text-danger">*</span></dt>
 
-                <!--buy-->
-                <button class="btn btn-sm btn-success">
-                    Comprar
-                    <i class="glyphicon glyphicon-ok"></i>
-                </button>
+            </dl>
 
-                <!--delete wish-->
-                <button class="glyphicon glyphicon-remove btn btn-sm btn-danger" ng-click="delCart(row.sq_product)"></button>
+            <div class="col-xs-4 col-sm-3 col-md-2 col-lg-2">
 
-            </td>
+                <input
+                    class="form-control input-sm"
+                    type="number"
+                    name="buy_nu_quantity"
+                    ng-model="row.buy_nu_quantity"
+                    maxlength="4"
+                    ng-minlength="1"
+                    ng-maxlength="4"
+                    required
+                    />
 
-        </tr>
+            </div>
 
-    </tbody>
+            <span class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-sm-offset-3 col-md-offset-2 col-lg-offset-2 text-danger" ng-show="form.buy_nu_quantity.$dirty && form.buy_nu_quantity.$invalid">
+                <i class="glyphicon glyphicon-remove-sign"></i>
+                <span ng-show="form.buy_nu_quantity.$error.required">Campo obrigatório</span>
+                <span ng-show="form.buy_nu_quantity.$error.minlength">Mínimo de um caracteres</span>
+                <span ng-show="form.buy_nu_quantity.$error.maxlength">Máximo de quatro caracteres</span>
+                <span ng-show="form.buy_nu_quantity.$error.number">Somente Números</span>
+            </span>
 
-</table>
-<!--list-->
+            <!--buttons-->
+            <button class="btn btn-success btn-sm" ng-click="buy()" ng-disabled="form.$invalid">Comprar
+                <i class="glyphicon glyphicon-ok"></i>
+            </button>
 
-<h4 class="pull-right">Total R$ {{cart.nu_total}}</h4>
+            <!--add wish-->
+            <span
+                class="btn btn-primary btn-sm"
+                ng-click="addWishList(row.sq_product)"
+                title="Colocar na lista de desejos">
+
+                <i class="glyphicon glyphicon-heart" ></i>
+            </span>
+
+            <!--remove cart-->
+            <span
+                class="btn btn-danger btn-sm"
+                ng-click="delCart(row.sq_product)"
+                title="Remove do carrinho">
+
+                <i class="glyphicon glyphicon-remove"></i>
+            </span>
+
+            <span class="btn btn-info btn-sm"
+                  ng-click="share(row.sq_product)"
+                  title="Compatilhar na rede">
+
+                <i class="glyphicon glyphicon-share" ></i>
+            </span>
+
+        </form>
+
+        <hr />
+
+    </div>
+
+</div>
+
+<!--pagination-->
+<button class="btn btn-default btn-sm" ng-click="currentPage = currentPage - 1" ng-disabled="currentPage == 0" >
+    <i class="text-info glyphicon glyphicon-arrow-left"></i>
+</button>
+
+<button class="btn btn-default btn-sm" ng-click="currentPage = currentPage + 1" ng-disabled="currentPage >= rows.length / pageSize - 1">
+    <i class="text-info glyphicon glyphicon-arrow-right"></i>
+</button>
+<!--pagination-->

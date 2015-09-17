@@ -71,11 +71,12 @@ body {
 #flashmessage {
     display: none;
     z-index: 9999;
+    margin-top: 50px;
 }
 
 /*ajuste modal login*/
 #modalLogin {
-    padding-top: 60px;
+    padding-top: 135px;
 }
 
 /*centraliza a label do radio inline*/
@@ -233,5 +234,9 @@ input[readonly] {
 /*cursor*/
 .cursor-pointer {
     cursor: pointer;
+}
+
+.cursor-default {
+    cursor:default;
 }
 /*cursor*/

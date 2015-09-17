@@ -107,6 +107,7 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
             $scope.checkResponse($return);
 
             $scope.product = $return;
+
             $scope.hideLoader();
         });
     };
@@ -266,7 +267,6 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
 
         // adjust parameters and add origin data.
         $param = $scope.configParam({sq_product_type: $routeParams.id});
-
 
         $http.get($scope.server("/getProductsByFilter"), {params: $param}).success(function ($return) {
 
@@ -475,6 +475,14 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
 
     };
 
+    /**
+     * Method for show details of product
+     * @name detailProduct
+     * @author Victor Eduardo Barreto
+     * @param {object} $row Product data
+     * @date Sep 1, 2015
+     * @version 1.0
+     */
     $scope.detailProduct = function ($row) {
 
         $rootScope.row = $row;

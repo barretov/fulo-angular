@@ -181,6 +181,12 @@ $app.run(['$rootScope', '$location', '$http', function ($rootScope, $location, $
                     throw Error("Wishlist Already");
                     break;
 
+                case $rootScope.constant.WITHOUT_RESULT:
+
+                    this.hideLoader();
+                    this.showFlashmessage('alert-info', $rootScope.constant.MSG0008);
+                    break;
+
                 default :
 
                     return $response;
