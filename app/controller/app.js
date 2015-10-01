@@ -76,6 +76,8 @@ $app.config(['$routeProvider', '$httpProvider', function ($routeProvider, $httpP
 
 $app.run(['$rootScope', '$location', '$http', function ($rootScope, $location, $http) {
 
+//        $rootScope.messages = [];
+
         //Uma flag que define se o ícone de acesso ao servidor deve estar ativado
         $rootScope.showLoaderFlag = false;
 

@@ -488,4 +488,20 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
         $rootScope.row = $row;
         $location.path("/product/detailProduct");
     };
+
+    /**
+     * Method for get fare value
+     * @name getFareValue
+     * @author Victor Eduardo Barreto
+     * @param {int} $nu_postcode Post code
+     * @date Sep 17, 2015
+     * @version 1.0
+     */
+    $scope.getFareValue = function () {
+
+        // @Todo
+        // fazer requisição para o servidor passando todos os produtos do carrinho.
+        // receber o valor do frete para todos os produtos.
+
+    };
 });

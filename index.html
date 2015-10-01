@@ -197,6 +197,12 @@
                     <div class="row">
 
                         <!--flashmessage-->
+
+                        <div class="alert {{message.type}}" role="alert" ng-repeat="message in messages" ng-show="messages.length > 0">
+                            <i class="glyphicon {{message.icon}}"></i>
+                            {{message.text}}
+                        </div>
+
                         <div id="flashmessage" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 alert navbar-fixed-top">
 
                             <div  class="alert {{flashType}} fade in" role="alert">
@@ -348,17 +354,71 @@
 
                     </div>
 
-                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                        <!--forgot password-->
-                        <a
-                            class="text-white"
-                            href="">Esqueci minha senha
-                        </a>
+                </div>
+                <!--field password-->
+
+                <!--forgot password-->
+                <p
+                    class="text-white cursor-pointer"
+                    data-toggle="collapse"
+                    data-target="#forgotPass"
+                    aria-expanded="false"
+                    aria-controls="collapseExample">
+                    Esqueci minha senha
+                </p>
+
+                <div class="collapse" id="forgotPass">
+
+                    <div class="well">
+
+                        <p class="text-info">
+                            Será enviado um email de recuperação de senha para o endereço solicitado.
+                        </p>
+
+                        <!-- field email-->
+                        <div class="form-group">
+
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+                                <div class="input-group">
+
+                                    <input class="form-control input-sm text-lowercase"
+                                           type="email"
+                                           name="ds_forgot_email"
+                                           placeholder="usuario@email.com"
+                                           ng-model="rowForgot.ds_email"
+                                           maxlength="50"
+                                           ng-maxlength="50"
+                                           />
+
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-sm btn-primary" type="button">Enviar
+                                            <i class="glyphicon glyphicon-send"></i>
+                                        </button>
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                            <div id="div-email" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+                                <span class="text-danger" ng-show="form.ds_forgot_email.$dirty && form.ds_forgot_email.$invalid">
+                                    <i class="glyphicon glyphicon-remove-sign"></i>
+                                    <span ng-show="form.ds_forgot_email.$error.required">campo obrigatório</span>
+                                    <span ng-show="form.ds_forgot_email.$error.email">Email inválido</span>
+                                    <span ng-show="form.ds_forgot_email.$error.maxlength">Máximo de cinquenta caracteres</span>
+                                </span>
+
+                            </div>
+
+                        </div>
+                        <!-- field email-->
 
                     </div>
 
                 </div>
-                <!--field password-->
+                <!--forgot password-->
 
                 <!--button submit-->
                 <div class="form-group">
@@ -513,6 +573,15 @@
     <script src="app/controller/customerController.js"></script>
     <script src="app/controller/productController.js"></script>
     <!--Controllers-->
+
+    <!--services-->
+    <script src="app/service/arroz.js"></script>
+    <!--services-->
+
+    <!--directives-->
+    <script src="app/directive/dire.js"></script>
+    <!--directives-->
+
     <!--load scripts-->
 
 </html>

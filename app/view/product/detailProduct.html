@@ -42,7 +42,7 @@
             </dl>
 
             <!--form buy-->
-            <form name="form">
+            <form name="form" ng-show="row.sq_status_product == constant.STATUS_ACTIVE">
 
                 <dl class="dl-horizontal">
 
@@ -100,6 +100,15 @@
                 </span>
 
             </form>
+
+            <!--product inactive-->
+            <div ng-show="row.sq_status_product == constant.STATUS_INACTIVE">
+
+                <!--information-->
+                <button class="btn btn-danger btn-sm cursor-default disabled">Produto Indisponível</button>
+
+            </div>
+            <!--product inactive-->
 
         </div>
 
