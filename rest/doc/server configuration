@@ -32,3 +32,21 @@ sudo php5enmod gd
 
 --
 
+postgreesql
+
+sudo apt-get install php5-pgsql
+
+$ sudo -u postgres psql
+
+# alter user postgres with encrypted password 'postgres';
+
+banco cep
+
+psql -U postgres -W db_joker -f cep_postgres.sql
+
+# mudar de peer para md5 no arquivo sudo kate /etc/postgresql/9.3/main/pg_hba.conf
+local   all             postgres                                md5
+
+
+--
+

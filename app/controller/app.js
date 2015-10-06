@@ -1,7 +1,7 @@
 /* global angular */
 
 //URL de acesso ao servidor RESTful
-SERVER_URL = "http://rest.local";
+SERVER_URL = "http://fulo.rest";
 
 //Criação ao $app que é o modulo que representa toda a aplicação
 var $app = angular.module('app', ['ngRoute']);
