@@ -23,6 +23,9 @@ $app.config(['$routeProvider', '$httpProvider', function ($routeProvider, $httpP
                 when('/product/upProduct/:id', {templateUrl: 'app/view/product/upProduct.html', controller: 'productController'}).
                 when('/product/detailProduct', {templateUrl: 'app/view/product/detailProduct.html', controller: 'productController'}).
                 when('/product/filterProduct/:id', {templateUrl: 'app/view/product/filterProduct.html', controller: 'productController'}).
+                when('/product/listProductType', {templateUrl: 'app/view/product/listProductType.html', controller: 'productController'}).
+                when('/product/addProductType', {templateUrl: 'app/view/product/addProductType.html', controller: 'productController'}).
+                when('/product/upProductType/:id', {templateUrl: 'app/view/product/upProductType.html', controller: 'productController'}).
                 when('/product/cart', {templateUrl: 'app/view/product/cart.html', controller: 'productController'}).
                 when('/product/wishList', {templateUrl: 'app/view/product/wishList.html', controller: 'productController'}).
                 otherwise({redirectTo: '/'});
@@ -187,6 +190,12 @@ $app.run(['$rootScope', '$location', '$http', function ($rootScope, $location, $
 
                     this.hideLoader();
                     this.showFlashmessage('alert-info', $rootScope.constant.MSG0008);
+                    break;
+              
+                case $rootScope.constant.PRODUCT_TYPE_BUSY:
+
+                    this.hideLoader();
+                    this.showFlashmessage('alert-info', $rootScope.constant.MSG0009);
                     break;
 
                 default :

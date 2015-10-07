@@ -338,9 +338,99 @@ class ProductBusiness extends MasterBusiness
 
             $data = $this->getRequestData();
 
-            $results = $this->_productModel->delWishList($data);
+            return $this->_productModel->delWishList($data);
+        } catch (Exception $ex) {
 
-            return $results;
+            throw $ex;
+        }
+    }
+
+    /**
+     * Method for add product type
+     * @name addProductType
+     * @author Victor Eduardo Barreto
+     * @package fulo\business
+     * @return object Data of product type
+     * @date Out 7, 2015
+     * @version 1.0
+     */
+    public function addProductType ()
+    {
+
+        try {
+
+            $data = $this->getRequestData();
+
+            return $this->_productModel->addProductType($data);
+        } catch (Exception $ex) {
+
+            throw $ex;
+        }
+    }
+
+    /**
+     * Method for get product type
+     * @name getProductType
+     * @author Victor Eduardo Barreto
+     * @package fulo\business
+     * @return object Data of product type
+     * @date Out 7, 2015
+     * @version 1.0
+     */
+    public function getProductType ()
+    {
+
+        try {
+
+            $data = $this->getRequestData();
+
+            return $this->_productModel->getProductType($data);
+        } catch (Exception $ex) {
+
+            throw $ex;
+        }
+    }
+
+    /**
+     * Method for up product type
+     * @name upProductType
+     * @author Victor Eduardo Barreto
+     * @package fulo\business
+     * @return object Data of product type
+     * @date Out 7, 2015
+     * @version 1.0
+     */
+    public function upProductType ()
+    {
+
+        try {
+
+            $data = $this->getRequestData();
+
+            return $this->_productModel->upProductType($data);
+        } catch (Exception $ex) {
+
+            throw $ex;
+        }
+    }
+
+    /**
+     * Method for del product type
+     * @name delProductType
+     * @author Victor Eduardo Barreto
+     * @package fulo\business
+     * @return object Data of product type
+     * @date Out 7, 2015
+     * @version 1.0
+     */
+    public function delProductType ()
+    {
+
+        try {
+
+            $data = $this->getRequestData();
+
+            return $this->_productModel->delProductType($data);
         } catch (Exception $ex) {
 
             throw $ex;

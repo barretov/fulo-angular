@@ -1,0 +1,48 @@
+<div ng-init="getProductTypes()">
+
+    <legend>Tipos de Produtos</legend>
+
+    <table class="table table-condensed table-hover table-responsive table-striped">
+
+        <!--loop-->
+        <tr class="row"
+            ng-repeat="row in rows| startFrom: currentPage * pageSize| limitTo: pageSize"
+            id="{{row.sq_product_type}}">
+
+            <!--description-->
+            <td>
+
+                <a href="#/product/upProductType/{{row.sq_product_type}}">{{row.ds_product_type}}</a>
+
+            </td>
+
+            <!--remove-->
+            <td>
+
+                <button
+                    class="btn btn-sm btn-danger"
+                    ng-click="delProductType(row.sq_product_type)">
+                    <i class="glyphicon glyphicon-remove"></i>
+                </button>
+
+            </td>
+
+        </tr>
+        <!--loop-->
+
+    </table>
+
+    <!--button new-->
+    <a class="btn btn-primary btn-sm" href="#/product/addProductType">Novo <i class="glyphicon glyphicon-plus"></i></a>
+
+    <!--pagination-->
+    <button class="btn btn-default btn-sm" ng-click="currentPage = currentPage - 1" ng-disabled="currentPage == 0" >
+        <i class="text-info glyphicon glyphicon-arrow-left"></i>
+    </button>
+
+    <button class="btn btn-default btn-sm" ng-click="currentPage = currentPage + 1" ng-disabled="currentPage >= rows.length / pageSize - 1">
+        <i class="text-info glyphicon glyphicon-arrow-right"></i>
+    </button>
+    <!--pagination-->
+
+</div>

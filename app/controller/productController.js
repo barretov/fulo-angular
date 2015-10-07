@@ -60,7 +60,7 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
     };
 
     /**
-     * Method for get
+     * Method for get product
      * @name getProduct
      * @author Victor Eduardo Barreto
      * @date Alg 18, 2015
@@ -130,6 +130,8 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
             $scope.checkResponse($return);
 
             $scope.types = $return;
+
+            $scope.rows = $return;
 
         });
     };
@@ -503,5 +505,112 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
         // fazer requisição para o servidor passando todos os produtos do carrinho.
         // receber o valor do frete para todos os produtos.
 
+    };
+    
+    /**
+     * Method for add product type
+     * @name addProductType
+     * @author Victor Eduardo Barreto
+     * @date Out 7, 2015
+     * @version 1.0
+     */
+    $scope.addProductType = function () {
+
+        $scope.showLoader();
+
+        $param = $scope.configParam($scope.row);
+
+        $http.post($scope.server("/addProductType"), $param).success(function ($return) {
+
+            // verify return data.
+            $scope.checkResponse($return);
+
+            $scope.hideLoader();
+
+            $location.path("/product/listProductType");
+
+            $scope.showFlashmessage("alert-success", $scope.constant.MSG0001);
+        });
+    };
+
+    /**
+     * Method for get product type
+     * @name getProductType
+     * @author Victor Eduardo Barreto
+     * @date Out7, 2015
+     * @version 1.0
+     */
+    $scope.getProductType = function () {
+
+        if ($routeParams.id === null) {
+
+            $location.path("/error/systemError/");
+        }
+
+        $scope.showLoader();
+
+        // adjust parameters and add origin data.
+        $param = $scope.configParam({sq_product_type: $routeParams.id});
+
+        $http.get($scope.server("/getProductType"), {params: $param}).success(function ($return) {
+
+            // verify return data.
+            $scope.checkResponse($return);
+
+            $scope.row = $return;
+            $scope.hideLoader();
+        });
+    };
+
+    /**
+     * Method for up product type
+     * @name upProductType
+     * @author Victor Eduardo Barreto
+     * @date Out 7, 2015
+     * @version 1.0
+     */
+    $scope.upProductType = function () {
+
+        $scope.showLoader();
+
+        $param = $scope.configParam($scope.row);
+
+        $http.post($scope.server("/upProductType"), $param).success(function ($return) {
+
+            // verify return data.
+            $scope.checkResponse($return);
+
+            $scope.hideLoader();
+
+            $location.path("/product/listProductType");
+
+            $scope.showFlashmessage("alert-success", $scope.constant.MSG0001);
+        });
+    };
+
+    /**
+     * Method for del product type
+     * @name delProductType
+     * @author Victor Eduardo Barreto
+     * @param {int} $sq_product_type Identifier of product type
+     * @date Out 7, 2015
+     * @version 1.0
+     */
+    $scope.delProductType = function ($sq_product_type) {
+
+        // adjust parameters and add origin data.
+        $param = $scope.configParam({sq_product_type: $sq_product_type});
+
+        $http.post($scope.server("/delProductType"), $param).success(function ($return) {
+
+            // verify return data.
+            $scope.checkResponse($return);
+
+            // remove the row of the list.
+            $('#' + $sq_product_type).fadeOut();
+
+            $scope.showFlashmessage("alert-success", $scope.constant.MSG0001);
+
+        });
     };
 });

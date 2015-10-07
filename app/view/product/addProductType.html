@@ -1,0 +1,60 @@
+<legend>Cadastro de tipos de produto</legend>
+
+<div class="row">
+
+    <div class="col-xs-12 col-sm-offset-2 col-sm-6 col-md-offset-2 col-md-6 col-lg-offset-2 col-lg-6">
+
+        <!--presentation-->
+        <h1 class="hidden-xs hidden-sm"><span class="text-primary text-capitalize" ng-bind="row.ds_product_type"></span></h1>
+
+        <h3 class="hidden-md hidden-lg"><span class="text-primary text-capitalize" ng-bind="row.ds_product_type"></span></h3>
+
+    </div>
+
+</div>
+
+<form name="formProductType" class="form-horizontal">
+
+    <!--field name-->
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Tipo de produto<span class="text-danger">*</span></label>
+
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+
+            <input class="form-control input-sm text-capitalize"
+                   placeholder="Tipo produto"
+                   name="ds_product_type"
+                   type="text"
+                   ng-maxlength="50"
+                   maxlength="50"
+                   ng-model="row.ds_product_type"
+                   required/>
+        </div>
+
+        <div class="help-block-input col-xs-12 col-sm-4 col-md-4">
+            <span class="text-danger" ng-show="formProductType.ds_product.$dirty && formProductType.ds_product.$invalid">
+                <i class="glyphicon glyphicon-remove-sign"></i>
+                <span ng-show="formProductType.ds_product.$error.required">Campo obrigatório</span>
+                <span ng-show="formProductType.ds_product.$error.maxlength">Máximo de cinquenta caracteres</span>
+            </span>
+
+        </div>
+
+    </div>
+
+    <!--buttons-->
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+
+            <button type="submit" class="btn btn-primary btn-sm" ng-click="addProductType()" ng-Disabled="formProductType.$invalid">Salvar
+                <i class="glyphicon glyphicon-save"></i>
+            </button>
+
+            <a class="btn btn-default btn-sm" href="#/product/listProductType">Voltar
+                <i class="glyphicon glyphicon-arrow-left"></i>
+            </a>
+
+        </div>
+    </div>
+
+</form>

@@ -464,4 +464,159 @@ class ProductModel extends MasterModel
         }
     }
 
+    /**
+     * Model for add product type
+     * @name addProductType
+     * @author Victor Eduardo Barreto
+     * @param object $data Data of product
+     * @var $app object Slim instance
+     * @return bool Result of procedure
+     * @date Out 7, 2015
+     * @version 1.0
+     */
+    public function addProductType (& $data)
+    {
+
+        try {
+
+            $this->_conn->beginTransaction();
+
+            $stmtProduct = $this->_conn->prepare("INSERT INTO fulo.product_type "
+                    . "(ds_product_type) "
+                    . "VALUES (?) "
+            );
+
+            $stmtProduct->execute([
+                $data->ds_product_type
+            ]);
+
+            # save log operation.
+            $this->saveLog($data->origin_sq_user, $this->_conn->lastInsertId('fulo.product_type_sq_product_type_seq'));
+
+            return $this->_conn->commit();
+        } catch (Exception $ex) {
+
+            throw $ex;
+        }
+    }
+
+    /**
+     * Method for get product type
+     * @name getProductType
+     * @author Victor Eduardo Barreto
+     * @param Object $data Data of product and user
+     * @return bool Result of procedure
+     * @date Out 7, 2015
+     * @version 1.0
+     */
+    public function getProductType (& $data)
+    {
+
+        try {
+
+            $stmt = $this->_conn->prepare("SELECT * "
+                    . "FROM fulo.product_type "
+                    . "WHERE sq_product_type = ? "
+            );
+
+            $stmt->execute([
+                $data->sq_product_type,
+            ]);
+
+            return $stmt->fetchObject();
+        } catch (Exception $ex) {
+
+            throw $ex;
+        }
+    }
+
+    /**
+     * Model for up product type
+     * @name upProductType
+     * @author Victor Eduardo Barreto
+     * @param object $data Data of product
+     * @var $app object Slim instance
+     * @return bool Result of procedure
+     * @date Out 7, 2015
+     * @version 1.0
+     */
+    public function upProductType (& $data)
+    {
+
+        try {
+
+            $this->_conn->beginTransaction();
+
+            $stmtProduct = $this->_conn->prepare("UPDATE fulo.product_type "
+                    . "SET ds_product_type = ? "
+                    . "WHERE sq_product_type = ?"
+            );
+
+            $stmtProduct->execute([
+                $data->ds_product_type,
+                $data->sq_product_type
+            ]);
+
+            # save log operation.
+            $this->saveLog($data->origin_sq_user, $data->sq_product_type);
+
+            return $this->_conn->commit();
+        } catch (Exception $ex) {
+
+            throw $ex;
+        }
+    }
+
+    /**
+     * Model for del product type
+     * @name delProductType
+     * @author Victor Eduardo Barreto
+     * @param object $data Data of product
+     * @var $app object Slim instance
+     * @return bool Result of procedure
+     * @date Out 7, 2015
+     * @version 1.0
+     */
+    public function delProductType (& $data)
+    {
+
+        try {
+
+            $stmtSelect = $this->_conn->prepare("SELECT sq_product "
+                    . "FROM fulo.product "
+                    . "WHERE sq_product_type = ? "
+            );
+
+            $stmtSelect->execute([
+                $data->sq_product_type
+            ]);
+
+            if (!$stmtSelect->fetch()) {
+
+                $this->_conn->beginTransaction();
+
+                $stmtProduct = $this->_conn->prepare("DELETE FROM fulo.product_type "
+                        . "WHERE sq_product_type = ?"
+                );
+
+                $stmtProduct->execute([
+                    $data->sq_product_type
+                ]);
+
+                # save log operation.
+                $this->saveLog($data->origin_sq_user, $data->sq_product_type);
+
+                $return = $this->_conn->commit();
+            } else {
+
+                $return = PRODUCT_TYPE_BUSY;
+            }
+
+            return $return;
+        } catch (Exception $ex) {
+
+            throw $ex;
+        }
+    }
+
 }

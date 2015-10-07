@@ -282,3 +282,91 @@ $app->post("/delWishList", function () {
         throw $ex;
     }
 });
+
+/**
+ * Method for add product type
+ * @name addProductType
+ * @author Victor Eduardo Barreto
+ * @var $app object Slim instance
+ * @return object Data of product type
+ * @date Out 8, 2015
+ * @version 1.0
+ */
+$app->post("/addProductType", function () {
+
+    try {
+
+        $business = MasterController::getProductBusiness();
+
+        echo json_encode($business->addProductType());
+    } catch (Exception $ex) {
+
+        throw $ex;
+    }
+});
+
+/**
+ * Method for get product type
+ * @name getProductType
+ * @author Victor Eduardo Barreto
+ * @var $app object Slim instance
+ * @return object Data of product type
+ * @date Out 8, 2015
+ * @version 1.0
+ */
+$app->get("/getProductType", function () {
+
+    try {
+
+        $business = MasterController::getProductBusiness();
+
+        echo json_encode($business->getProductType());
+    } catch (Exception $ex) {
+
+        throw $ex;
+    }
+});
+
+/**
+ * Method for up product type
+ * @name upProductType
+ * @author Victor Eduardo Barreto
+ * @var $app object Slim instance
+ * @return object Data of product type
+ * @date Out 8, 2015
+ * @version 1.0
+ */
+$app->post("/upProductType", function () {
+
+    try {
+
+        $business = MasterController::getProductBusiness();
+
+        echo json_encode($business->upProductType());
+    } catch (Exception $ex) {
+
+        throw $ex;
+    }
+});
+
+/**
+ * Method for del product type
+ * @name delProductType
+ * @author Victor Eduardo Barreto
+ * @var $app object Slim instance
+ * @return object Data of product type
+ * @date Out 8, 2015
+ * @version 1.0
+ */
+$app->post("/delProductType", function () {
+
+    try {
+
+        $business = MasterController::getProductBusiness();
+
+        echo json_encode($business->delProductType());
+    } catch (Exception $ex) {
+
+        throw $ex;
+    }
+});
