@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/* global $app */
+/* global $app, angular */
 
 /**
  * Controller of products
@@ -184,12 +184,38 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
 
         $scope.showLoader();
 
+        // remove old image of variable.
+        delete $scope.row.im_product_image;
+
         var input = document.getElementById("file");
-        var fReader = new FileReader();
 
-        fReader.readAsDataURL(input.files[0]);
+        // verify if image was changed.
+        if (!!input.files[0]) {
 
-        fReader.onloadend = function (event) {
+            var fReader = new FileReader();
+
+            fReader.readAsDataURL(input.files[0]);
+
+            fReader.onloadend = function (event) {
+
+                $scope.row.im_image = event.target.result;
+
+                $param = $scope.configParam($scope.row);
+
+                $http.post($scope.server("/upProduct"), $param).success(function ($return) {
+
+                    // verify return data.
+                    $scope.checkResponse($return);
+
+                    $scope.hideLoader();
+
+                    $location.path("/product/listProduct/");
+
+                    $scope.showFlashmessage("alert-success", $scope.constant.MSG0001);
+                });
+
+            };
+        } else {
 
             $scope.row.im_image = event.target.result;
 
@@ -207,7 +233,7 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
                 $scope.showFlashmessage("alert-success", $scope.constant.MSG0001);
             });
 
-        };
+        }
     };
 
     /**
@@ -434,12 +460,16 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
 
         $scope.showLoader();
 
+        var $aux = 0;
+
         angular.forEach($rootScope.cart, function ($key) {
 
             if ($sq_product === $key.sq_product) {
 
-                $rootScope.cart.splice($key, 1);
+                $rootScope.cart.splice($aux, 1);
             }
+
+            $aux++;
         });
 
         // insert cart in session.
@@ -495,18 +525,41 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
      * Method for get fare value
      * @name getFareValue
      * @author Victor Eduardo Barreto
-     * @param {int} $nu_postcode Post code
      * @date Sep 17, 2015
      * @version 1.0
      */
     $scope.getFareValue = function () {
 
-        // @Todo
-        // fazer requisição para o servidor passando todos os produtos do carrinho.
-        // receber o valor do frete para todos os produtos.
+        $scope.showLoader();
+
+        // init variables.
+        $scope.row = {};
+        $scope.row.sq_product = [];
+
+        // get postcode of user data.
+        $scope.row.nu_postcode = $scope.user.nu_postcode;
+
+        angular.forEach($rootScope.cart, function ($key) {
+
+            $scope.row.sq_product.push($key.sq_product);
+        });
+
+        $param = $scope.configParam($scope.row);
+
+        $http.post($scope.server("/getFareValue"), $param).success(function ($return) {
+
+            // verify return data.
+            $scope.checkResponse($return);
+
+            $scope.fare = $return.fare_value.cServico;
+
+            $scope.hideLoader();
+        });
+
+        $scope.hideLoader();
 
     };
-    
+
     /**
      * Method for add product type
      * @name addProductType

@@ -370,3 +370,25 @@ $app->post("/delProductType", function () {
         throw $ex;
     }
 });
+
+/**
+ * Method for get fare value
+ * @name getFareValue
+ * @author Victor Eduardo Barreto
+ * @var $app object Slim instance
+ * @return object Data of product type
+ * @date Oct 10, 2015
+ * @version 1.0
+ */
+$app->post("/getFareValue", function () {
+
+    try {
+
+        $business = MasterController::getProductBusiness();
+
+        echo json_encode($business->getFareValue());
+    } catch (Exception $ex) {
+
+        throw $ex;
+    }
+});

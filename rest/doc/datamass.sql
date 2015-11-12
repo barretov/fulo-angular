@@ -11,7 +11,7 @@ insert into fulo.address (sq_person) values (fulo.person_sq_person_seq);
 insert into fulo.phone (sq_person, nu_phone) values (fulo.person_sq_person_seq, 'null');
 
 -- operation --
-insert into fulo.operation (ds_operation) values ('login'), ('logoff'), ('getUser'), ('getUsers'), ('addUser'), ('upUser'), ('upAccess'), ('inactivateUser'), ('activateUser'), ('upAddress'), ('addAddress'), ('getProfiles'), ('getBasic'), ('getAddressByZip'), ('getProducts'), ('getProduct'), ('addProduct'), ('getProductTypes'), ('getProductDetail'), ('addWishList'), ('getWishList'), ('delWishList'), ('getProductsByFilter'), ('getProductType'), ('upProductType'), ('delProductType'),  ('addProductType');
+insert into fulo.operation (ds_operation) values ('login'), ('logoff'), ('getUser'), ('getUsers'), ('addUser'), ('upUser'), ('upAccess'), ('inactivateUser'), ('activateUser'), ('upAddress'), ('addAddress'), ('getProfiles'), ('getBasic'), ('getAddressByZip'), ('getProducts'), ('getProduct'), ('addProduct'), ('getProductTypes'), ('getProductDetail'), ('addWishList'), ('getWishList'), ('delWishList'), ('getProductsByFilter'), ('getProductType'), ('upProductType'), ('delProductType'),  ('addProductType'),  ('activateProduct'),  ('inactivateProduct'), ('upProduct'), ('getFareValue');
 
 -- acl --
 insert into fulo.acl (sq_operation, sq_profile) values
@@ -96,4 +96,16 @@ insert into fulo.acl (sq_operation, sq_profile) values
 
 --addProductType
 (27,1);
+
+--activateProduct
+(28,1),
+
+--inactivateProduct
+(29,1),
+
+--upProduct
+(30,1),
+
+--getFareValue
+(31,1), (31,2), (31,3);
 

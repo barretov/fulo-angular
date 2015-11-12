@@ -190,12 +190,14 @@ $app.run(['$rootScope', '$location', '$http', function ($rootScope, $location, $
 
                     this.hideLoader();
                     this.showFlashmessage('alert-info', $rootScope.constant.MSG0008);
+                    throw Error("Without Result");
                     break;
-              
+
                 case $rootScope.constant.PRODUCT_TYPE_BUSY:
 
                     this.hideLoader();
                     this.showFlashmessage('alert-info', $rootScope.constant.MSG0009);
+                    throw Error("Product Type Busy");
                     break;
 
                 default :

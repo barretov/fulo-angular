@@ -7,7 +7,7 @@ try_files $uri $uri/ /index.php?$args;
 
 ----
 To active mcrypt in nginx
-1 - apt-get install php5-mcrypt
+1 - apt-get install php5-mcrypt php5-curl
 2 - php5enmod mcrypt
 3 - service php5-fpm restart
 4 - sudo service nginx restart

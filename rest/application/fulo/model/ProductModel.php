@@ -46,7 +46,7 @@ class ProductModel extends MasterModel
         try {
 
             $stmt = $this->_conn->prepare("SELECT "
-                    . "product.sq_product, product.sq_product_type, sq_status_product, ds_product, nu_value, nu_quantity, nu_production, im_product_image "
+                    . "product.sq_product, product.sq_product_type, sq_status_product, ds_product, nu_value, nu_quantity, nu_production, st_foldable, im_product_image "
                     . "FROM fulo.product "
                     . "JOIN fulo.product_type "
                     . "ON (product_type.sq_product_type = product.sq_product_type) "
@@ -78,8 +78,8 @@ class ProductModel extends MasterModel
         try {
 
             $stmt = $this->_conn->prepare("SELECT "
-                    . "product.sq_product, product.sq_product_type, sq_status_product, ds_product, nu_value, nu_quantity, nu_production, product_type.ds_product_type, "
-                    . "im_product_image "
+                    . "product.sq_product, product.sq_product_type, sq_status_product, ds_product, nu_value, nu_quantity, st_foldable, "
+                    . "nu_production, product_type.ds_product_type, nu_height, nu_length, nu_width, nu_weight, im_product_image "
                     . "FROM fulo.product "
                     . "JOIN fulo.product_type "
                     . "ON (product_type.sq_product_type = product.sq_product_type) "
@@ -142,8 +142,9 @@ class ProductModel extends MasterModel
             $this->_conn->beginTransaction();
 
             $stmtProduct = $this->_conn->prepare("INSERT INTO fulo.product "
-                    . "(sq_product_type, ds_product, nu_value, nu_quantity, nu_date_time, nu_production) "
-                    . "VALUES (?,?,?,?,?,?)"
+                    . "(sq_product_type, ds_product, nu_value, nu_quantity, nu_date_time, nu_production, "
+                    . "nu_height, nu_length, nu_width, nu_weight, st_foldable) "
+                    . "VALUES (?,?,?,?,?,?,?,?,?,?,?)"
             );
 
             $stmtProduct->execute([
@@ -152,7 +153,12 @@ class ProductModel extends MasterModel
                 $data->nu_value,
                 $data->nu_quantity,
                 date("Y-m-d H:i:s"),
-                $data->nu_production
+                $data->nu_production,
+                $data->nu_height,
+                $data->nu_length,
+                $data->nu_width,
+                $data->nu_weight,
+                $data->st_foldable
             ]);
 
             $stmtImage = $this->_conn->prepare("INSERT INTO fulo.product_image "
@@ -193,7 +199,8 @@ class ProductModel extends MasterModel
             $this->_conn->beginTransaction();
 
             $stmtProduct = $this->_conn->prepare("UPDATE fulo.product "
-                    . "(SET sq_product_type = ?, ds_product = ?, nu_value = ?, nu_quantity = ?, nu_production = ?) "
+                    . "SET sq_product_type = ?, ds_product = ?, nu_value = ?, nu_quantity = ?, nu_production = ?, "
+                    . "nu_length = ?, nu_width = ?, nu_weight = ?, nu_height = ?, st_foldable = ? "
                     . "WHERE sq_product = ?"
             );
 
@@ -203,13 +210,18 @@ class ProductModel extends MasterModel
                 $data->nu_value,
                 $data->nu_quantity,
                 $data->nu_production,
+                $data->nu_length,
+                $data->nu_width,
+                $data->nu_weight,
+                $data->nu_height,
+                $data->st_foldable,
                 $data->sq_product
             ]);
 
-            if ($data->im_image) {
+            if (!empty($data->im_image)) {
 
                 $stmtImage = $this->_conn->prepare("UPDATE fulo.product_image "
-                        . "(im_product_image = ?) "
+                        . "SET im_product_image = ? "
                         . "WHERE sq_product = ?"
                 );
 
@@ -318,7 +330,8 @@ class ProductModel extends MasterModel
         try {
 
             $stmt = $this->_conn->prepare("SELECT "
-                    . "product.sq_product, product.sq_product_type, sq_status_product, ds_product, nu_value, nu_quantity, nu_production, im_product_image "
+                    . "product.sq_product, product.sq_product_type, sq_status_product, ds_product, nu_value, nu_quantity, "
+                    . "nu_production, im_product_image "
                     . "FROM fulo.product "
                     . "JOIN fulo.product_type "
                     . "ON (product_type.sq_product_type = product.sq_product_type) "
@@ -613,6 +626,44 @@ class ProductModel extends MasterModel
             }
 
             return $return;
+        } catch (Exception $ex) {
+
+            throw $ex;
+        }
+    }
+
+    /**
+     * Method for get data products
+     * @name getDataProducts
+     * @author Victor Eduardo Barreto
+     * @param Array $data->sq_product Identifier of products
+     * @return Array Data products
+     * @date Oct 20, 2015
+     * @version 1.0
+     */
+    public function getDataProducts (& $data)
+    {
+
+        try {
+
+            $query = "SELECT * FROM fulo.product";
+
+            foreach ($data->sq_product as $key => $value) {
+
+                if (!$key) {
+
+                    $query = $query . " WHERE sq_product = " . $value;
+                } else {
+
+                    $query = $query . " OR sq_product = " . $value;
+                }
+            }
+
+            $stmt = $this->_conn->prepare($query);
+
+            $stmt->execute();
+
+            return $stmt->fetchAll(PDO::FETCH_OBJ);
         } catch (Exception $ex) {
 
             throw $ex;

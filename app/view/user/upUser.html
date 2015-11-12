@@ -29,7 +29,7 @@
 
                     <br />
 
-                     <div class="col-xs-12 col-sm-offset-2 col-sm-6 col-md-offset-2 col-md-6 col-lg-offset-2 col-lg-6 well well-sm" ng-show="row.ds_name != null">
+                    <div class="col-xs-12 col-sm-offset-2 col-sm-6 col-md-offset-2 col-md-6 col-lg-offset-2 col-lg-6 well well-sm" ng-show="row.ds_name != null">
 
                         <h1 class="hidden-xs hidden-sm"><span class="text-primary text-capitalize" ng-bind="row.ds_name"></span></h1>
 
@@ -137,14 +137,16 @@
 
                         <div class="radio radio-inline radio-center" ng-repeat="prof in profiles">
 
-                            <label>
+                            <label ng-show="prof.sq_profile != constant.PROFILE_GUEST">
+
                                 <input
                                     type="radio"
                                     name="sq_profile"
                                     value="{{prof.sq_profile}}"
                                     ng-model="row.sq_profile"
-                                    required/>
-                                {{prof.ds_profile}}
+                                    required
+                                    /> {{prof.ds_profile}}
+
                             </label>
 
                         </div>

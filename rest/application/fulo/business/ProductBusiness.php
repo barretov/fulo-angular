@@ -99,7 +99,6 @@ class ProductBusiness extends MasterBusiness
 
             $data = $this->_productModel->getProduct($data);
 
-//            $data->im_product_image = Image::make($data->im_product_image)->resize(640, 510)->encode('data-url');
             $this->makeImageOut($data->im_product_image, 640, 640);
 
             return $data;
@@ -168,6 +167,12 @@ class ProductBusiness extends MasterBusiness
         try {
 
             $data = $this->getRequestData();
+
+            # if foldable field does not arrive, he's false;
+            if (empty($data->st_foldable)) {
+
+                $data->st_foldable = NUMBER_TWO;
+            }
 
             return $this->_productModel->upProduct($data);
         } catch (Exception $ex) {
@@ -431,6 +436,139 @@ class ProductBusiness extends MasterBusiness
             $data = $this->getRequestData();
 
             return $this->_productModel->delProductType($data);
+        } catch (Exception $ex) {
+
+            throw $ex;
+        }
+    }
+
+    /**
+     * Method for get fare value
+     * @name getFareValue
+     * @author Victor Eduardo Barreto
+     * @package fulo\business
+     * @return object Data of product type
+     * @date Oct 10, 2015
+     * @version 1.0
+     */
+    public function getFareValue ()
+    {
+
+        try {
+
+            $data = $this->getRequestData();
+
+            # count the products in cart.
+            $data->nu_quantity_order = count($data->sq_product);
+
+            $products = $this->_productModel->getDataProducts($data);
+
+            # se eu tenho somente um produto.
+            if ($data->nu_quantity_order = 1) {
+
+                # verifica se o produto é menor que os valores minimos.
+                foreach ($products as $key) {
+
+                    if ($key->nu_length < BOX_DELIVERY_MIN_LENGTH) {
+
+                        $data->length = BOX_DELIVERY_MIN_LENGTH;
+                    } else {
+
+                        $data->length = $key->nu_length;
+                    }
+
+                    if ($key->nu_width < BOX_DELIVERY_MIN_WIDTH) {
+
+                        $data->width = BOX_DELIVERY_MIN_WIDTH;
+                    } else {
+
+                        $data->width = $key->nu_width;
+                    }
+
+                    if ($key->nu_weight < BOX_DELIVERY_MIN_WEIGHT) {
+
+                        $data->weight = BOX_DELIVERY_MIN_WEIGHT;
+                    } else {
+
+                        $data->weight = $key->nu_weight;
+                    }
+
+                    if ($key->nu_height < BOX_DELIVERY_MIN_HEIGHT) {
+
+                        $data->height = BOX_DELIVERY_MIN_HEIGHT;
+                    } else {
+
+                        $data->height = $key->nu_height;
+                    }
+                }
+            }
+
+            $this->requestFareValue($data);
+
+            return $data;
+        } catch (Exception $ex) {
+
+            throw $ex;
+        }
+    }
+
+    /*
+     * Method for request fare value
+     * @name requestFareValue
+     * @author Victor Eduardo Barreto
+     * @package fulo\business
+     * @return object Data of product
+     * @date Oct 20, 2015
+     * @version 1.0
+     */
+
+    public function requestFareValue (& $data)
+    {
+
+        try {
+
+            $wsc['nCdEmpresa'] = '';
+            $wsc['sDsSenha'] = '';
+            $wsc['sCepOrigem'] = ORIGIN_POSTCODE;
+            $wsc['sCepDestino'] = $data->nu_postcode;
+            $wsc['nVlPeso'] = $data->weight;
+            $wsc['nCdFormato'] = NUMBER_ONE;
+            $wsc['nVlComprimento'] = $data->length;
+            $wsc['nVlAltura'] = $data->height;
+            $wsc['nVlLargura'] = $data->width;
+            $wsc['nVlDiametro'] = NUMBER_ZERO;
+            $wsc['sCdMaoPropria'] = 'n';
+            $wsc['nVlValorDeclarado'] = NUMBER_ZERO;
+            $wsc['sCdAvisoRecebimento'] = 'n';
+            $wsc['StrRetorno'] = 'xml';
+//            $wsc['nCdServico'] = '40010,40045,40215,40290,41106';
+            $wsc['nCdServico'] = '40010, 41106';
+            $wsc = http_build_query($wsc);
+
+            $url = 'http://ws.correios.com.br/calculador/CalcPrecoPrazo.aspx';
+
+            $curl = curl_init($url . '?' . $wsc);
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+
+            $result = curl_exec($curl);
+            $data->fare_value = simplexml_load_string($result);
+
+//            foreach ($result->cServico as $row) {
+//
+//                //Os dados de cada serviço estará aqui
+//                if ($row->Erro == 0) {
+//                    echo $row->Codigo . '<br>';
+//                    echo $row->Valor . '<br>';
+//                    echo $row->PrazoEntrega . '<br>';
+//                    echo $row->ValorMaoPropria . '<br>';
+//                    echo $row->ValorAvisoRecebimento . '<br>';
+//                    echo $row->ValorValorDeclarado . '<br>';
+//                    echo $row->EntregaDomiciliar . '<br>';
+//                    echo $row->EntregaSabado;
+//                } else {
+//                    echo $row->MsgErro;
+//                }
+//            }
         } catch (Exception $ex) {
 
             throw $ex;

@@ -80,9 +80,19 @@
         <label class="col-xs-2 col-sm-2 col-md-2 col-lg-2 control-label">Perfil<span class="text-danger">*</span></label>
 
         <div class="radio radio-inline radio-center" ng-repeat="prof in profiles">
-            <label>
-                <input type="radio" name="sq_profile" value="{{prof.sq_profile}}" ng-model="row.sq_profile" required/> {{prof.ds_profile}}
+
+            <label ng-show="prof.sq_profile != constant.PROFILE_GUEST">
+
+                <input
+                    type="radio"
+                    name="sq_profile"
+                    value="{{prof.sq_profile}}"
+                    ng-model="row.sq_profile"
+                    required
+                    /> {{prof.ds_profile}}
+
             </label>
+
         </div>
 
     </div>

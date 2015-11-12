@@ -1,49 +1,49 @@
 <legend><i class="glyphicon glyphicon-shopping-cart text-gray"></i> Carrinho de compras</legend>
 
-<!--loop-->
-<div class="row"
-     ng-repeat="row in cart| startFrom: currentPage * pageSize| limitTo: pageSize"
-     id="{{row.sq_product}}">
+<!--form buy-->
+<form name="form">
 
-    <!--image-->
-    <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2">
+    <!--loop-->
+    <div class="row"
+         ng-repeat="row in cart"
+         id="{{row.sq_product}}">
 
         <!--image-->
-        <a href="" ng-click="detailProduct(row)">
+        <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2">
 
-            <div class="thumbnail">
-                <img class="caption img-responsive"
-                     src={{row.im_product_image.encoded}}
-                     height="200"
-                     width="200"
-                     />
-            </div>
+            <!--image-->
+            <a href="" ng-click="detailProduct(row)">
 
-        </a>
+                <div class="thumbnail">
+                    <img class="caption img-responsive"
+                         src={{row.im_product_image.encoded}}
+                         height="200"
+                         width="200"
+                         />
+                </div>
 
-    </div>
+            </a>
 
-    <!--product data-->
-    <div class="col-xs-12 col-sm-10 col-md-10 col-lg-10">
+        </div>
 
-        <!--title-->
-        <legend class="text-success text-capitalize">{{row.ds_product}}</legend>
+        <!--product data-->
+        <div class="col-xs-12 col-sm-10 col-md-10 col-lg-10">
 
-        <dl class="dl-horizontal">
+            <!--title-->
+            <legend class="text-success text-capitalize">{{row.ds_product}}</legend>
 
-            <dt class="text-gray">Preço:</dt>
-            <dd>R$ {{row.nu_value}}</dd>
+            <dl class="dl-horizontal">
 
-            <dt class="text-gray">Em estoque:</dt>
-            <dd>{{row.nu_quantity}} Und</dd>
+                <dt class="text-gray">Preço:</dt>
+                <dd>R$ {{row.nu_value}}</dd>
 
-            <dt class="text-gray">Tempo de produção:</dt>
-            <dd>{{row.nu_production}} Dia(s)</dd>
+                <dt class="text-gray">Em estoque:</dt>
+                <dd>{{row.nu_quantity}} Und</dd>
 
-        </dl>
+                <dt class="text-gray">Tempo de produção:</dt>
+                <dd>{{row.nu_production}} Dia(s)</dd>
 
-        <!--form buy-->
-        <form name="form">
+            </dl>
 
             <dl class="dl-horizontal">
 
@@ -75,10 +75,6 @@
             </span>
 
             <!--buttons-->
-            <button class="btn btn-success btn-sm" ng-click="buy()" ng-disabled="form.$invalid">Comprar
-                <i class="glyphicon glyphicon-ok"></i>
-            </button>
-
             <!--add wish-->
             <span
                 class="btn btn-primary btn-sm"
@@ -104,24 +100,76 @@
                 <i class="glyphicon glyphicon-share" ></i>
             </span>
 
-        </form>
+            <hr />
 
-        <hr />
+        </div>
 
     </div>
 
-</div>
+    <!--fare value-->
+    <div class="row">
 
-<button class="btn btn-sm btn-primary"
-        ng-click="getFareValue()">Calular frete
-</button>
+        <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 form-group"
+             ng-init="getFareValue(user.nu_postcode)">
 
-<!--pagination-->
-<button class="btn btn-default btn-sm" ng-click="currentPage = currentPage - 1" ng-disabled="currentPage == 0" >
-    <i class="text-info glyphicon glyphicon-arrow-left"></i>
-</button>
+            <div class="input-group">
 
-<button class="btn btn-default btn-sm" ng-click="currentPage = currentPage + 1" ng-disabled="currentPage >= rows.length / pageSize - 1">
-    <i class="text-info glyphicon glyphicon-arrow-right"></i>
-</button>
-<!--pagination-->
+                <input
+                    class="form-control input-sm"
+                    placeholder="Calcular Frete"
+                    ng-model="user.nu_postcode"
+                    >
+
+                <span class="input-group-btn">
+
+                    <button class="btn btn-primary btn-sm" ng-click="getFareValue(user.nu_postcode)">
+                        Enviar
+                        <i class="glyphicon glyphicon-send"></i>
+                    </button>
+
+                </span>
+            </div>
+
+        </div>
+
+        <!--result fare value-->
+        <div class="col-xs12 col-sm-3 col-md-3 col-lg-3">
+
+            <div class="radio"
+                 ng-repeat="row_fare in fare">
+
+                <label>
+                    <input
+                        class="checkbox"
+                        id="{{row_fare.Codigo}}"
+                        type="radio"
+                        value="{{row_fare.Codigo}}"
+                        ng-model="row.nu_farevalue"
+                        required
+                        />
+
+                    <b>{{row_fare.Codigo == 40010? "SEDEX": "PAC"}}</b>
+
+                </label>
+
+                <span><b>Valor:</b> {{row_fare.Valor}}</span><br />
+                <span><b>Prazo de entrega:</b> {{row_fare.PrazoEntrega}} dia(s)</span>
+
+            </div>
+
+
+        </div>
+        <!--result fare value-->
+
+        <div class="col-xs12 col-sm-12 col-md-12 col-lg-12">
+
+            <p><b>Valor Total: R$</b>313131,00</p>
+
+            <button class="btn btn-success btn-sm" ng-click="buy()" ng-disabled="form.$invalid">Comprar
+                <i class="glyphicon glyphicon-ok"></i>
+            </button>
+        </div>
+
+    </div>
+
+</form>
