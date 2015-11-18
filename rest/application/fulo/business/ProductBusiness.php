@@ -541,8 +541,7 @@ class ProductBusiness extends MasterBusiness
             $wsc['nVlValorDeclarado'] = NUMBER_ZERO;
             $wsc['sCdAvisoRecebimento'] = 'n';
             $wsc['StrRetorno'] = 'xml';
-//            $wsc['nCdServico'] = '40010,40045,40215,40290,41106';
-            $wsc['nCdServico'] = '40010, 41106';
+            $wsc['nCdServico'] = '41106, 40010';
             $wsc = http_build_query($wsc);
 
             $url = 'http://ws.correios.com.br/calculador/CalcPrecoPrazo.aspx';

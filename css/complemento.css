@@ -240,3 +240,9 @@ input[readonly] {
     cursor:default;
 }
 /*cursor*/
+
+/*font18*/
+.font-18{
+    font-size: 18px;    
+}
+/*font12*/

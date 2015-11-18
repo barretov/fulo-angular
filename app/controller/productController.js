@@ -24,6 +24,8 @@
  * @param {Object} $scope Scope
  * @param {Object} $http  Http
  * @param {Object} $location Locatioin
+ * @param {Object} $rootScope root scope
+ * @param {Object} $routeParams route
  * @date Alg 18, 2015
  * @version 1.0
  */
@@ -430,14 +432,8 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
             // insert product in variable cart.
             $rootScope.cart.push($product);
 
-            // insert cart in session.
-            sessionStorage.setItem('cart', JSON.stringify($scope.cart));
-
-            // update variable through session.
-            $rootScope.cart = JSON.parse(sessionStorage.getItem('cart'));
-
-            // update icon cart value.
-            $rootScope.cart.nu_cart = $scope.cart.length;
+            // Save data cart in session.
+            this.saveCartSession();
 
             // update total value.
             this.updateTotal();
@@ -473,13 +469,7 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
         });
 
         // insert cart in session.
-        sessionStorage.setItem('cart', JSON.stringify($scope.cart));
-
-        // update variable through session.
-        $rootScope.cart = JSON.parse(sessionStorage.getItem('cart'));
-
-        // update icon cart value.
-        $rootScope.cart.nu_cart = $scope.cart.length;
+        this.saveCartSession();
 
         // update total value.
         this.updateTotal();
@@ -499,12 +489,34 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
      */
     $scope.updateTotal = function () {
 
-        // sum all products.
-        angular.forEach($rootScope.cart, function ($key) {
+        $rootScope.cart.nu_total = 0;
 
-            $rootScope.cart.nu_total = parseFloat($rootScope.cart.nu_total + $key.nu_value);
+        // insert cart in session.
+        sessionStorage.setItem('cart', JSON.stringify($rootScope.cart));
+
+        $scope.$watch($rootScope.cart, function () {
+
+            // sum all products.
+            angular.forEach($rootScope.cart, function ($key) {
+
+                // multipli value per quantity.
+                var $value = parseFloat($key.nu_value) * parseFloat($key.nu_quantity_buy);
+
+                // sum all products.
+                $rootScope.cart.nu_total = parseFloat($rootScope.cart.nu_total) + parseFloat($value);
+            });
+
+            if ($rootScope.cart.nu_farevalue) {
+
+                // convert characters.
+                var $farevalue = $rootScope.cart.nu_farevalue.replace(',', '.');
+
+                // add value of fare value.
+                $rootScope.cart.nu_total = parseFloat($rootScope.cart.nu_total) + parseFloat($farevalue);
+            }
+
+            $rootScope.cart.nu_total = $rootScope.cart.nu_total.toFixed(2);
         });
-
     };
 
     /**
@@ -555,6 +567,9 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
 
             $scope.hideLoader();
         });
+
+        // get address.
+        this.getAddressByZip();
 
         $scope.hideLoader();
 
@@ -665,5 +680,52 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
             $scope.showFlashmessage("alert-success", $scope.constant.MSG0001);
 
         });
+    };
+
+    /**
+     * Method for get data address by zip
+     * @name getAddressByZip
+     * @author Victor Eduardo Barreto
+     * @date Nov 13, 2015
+     * @version 1.0
+     */
+    $scope.getAddressByZip = function () {
+
+        $scope.showLoader();
+
+        // adjust parameters and add origin data.
+        $param = $scope.configParam({nu_postcode: $scope.user.nu_postcode});
+
+        $http.get($scope.server("/getAddressByZip"), {params: $param}).success(function ($return) {
+
+            // verify return data.
+            $scope.checkResponse($return);
+
+            $scope.address = {};
+
+            $scope.address = $return;
+
+            $scope.hideLoader();
+
+        });
+    };
+
+    /**
+     * Method for save data cart in session
+     * @name saveCartSession
+     * @author Victor Eduardo Barreto
+     * @date Nov 17, 2015
+     * @version 1.0
+     */
+    $scope.saveCartSession = function () {
+
+        // insert cart in session.
+        sessionStorage.setItem('cart', JSON.stringify($rootScope.cart));
+
+        // update variable through session.
+        $rootScope.cart = JSON.parse(sessionStorage.getItem('cart'));
+
+        // update icon cart value.
+        $rootScope.cart.nu_cart = $scope.cart.length;
     };
 });

@@ -56,7 +56,7 @@ insert into fulo.acl (sq_operation, sq_profile) values
 (13,1), (13,2), (13,3),
 
     --getAaddressByZip
-(14,1), (14,2),
+(14,1), (14,2),(14,3),
 
     --getProducts
 (15,1),
