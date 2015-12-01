@@ -56,8 +56,6 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
      */
     $scope.getUsers = function () {
 
-        $scope.showLoader();
-
         // adjust param.
         $param = $scope.configParam();
 
@@ -67,7 +65,6 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
             $scope.checkResponse($return);
 
             $scope.rows = $return;
-            $scope.hideLoader();
         });
     };
 
@@ -85,8 +82,6 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
             $location.path("/error/systemError/");
         }
 
-        $scope.showLoader();
-
         // adjust parameters and add origin data.
         $param = $scope.configParam({sq_person: $routeParams.id});
 
@@ -96,7 +91,6 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
             $scope.checkResponse($return);
 
             $scope.row = $return;
-            $scope.hideLoader();
         });
     };
 
@@ -109,8 +103,6 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
      */
     $scope.addUser = function () {
 
-        $scope.showLoader();
-
         // adjust parameters and add origin data.
         $param = $scope.configParam($scope.row);
 
@@ -121,8 +113,6 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
 
                 // verify return data.
                 if ($scope.checkResponse($return)) {
-
-                    $scope.hideLoader();
 
                     $location.path("/user/listUser");
 
@@ -143,8 +133,6 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
      */
     $scope.upUser = function () {
 
-        $scope.showLoader();
-
         $param = $scope.configParam($scope.row);
 
         $http.post($scope.server("/upUser"), $param).success(function ($return) {
@@ -152,13 +140,10 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
             // verify return data.
             $scope.checkResponse($return);
 
-            $scope.hideLoader();
-
             $location.path("/user/listUser");
 
             $scope.showFlashmessage("alert-success", $scope.constant.MSG0001);
         });
-
     };
 
     /**
@@ -236,8 +221,6 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
      */
     $scope.upAddress = function () {
 
-        $scope.showLoader();
-
         // adjust parameters and add origin data.
         $param = $scope.configParam($scope.row);
 
@@ -248,10 +231,8 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
 
             // insert current data in session and user variable.
             sessionStorage.setItem('user', JSON.stringify($scope.user));
-            $scope.hideLoader();
             $scope.showFlashmessage('alert-success', $scope.constant.MSG0001);
             $location.path("/user/listUser");
         });
     };
-
 });

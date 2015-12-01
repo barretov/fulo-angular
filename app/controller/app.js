@@ -4,7 +4,7 @@
 SERVER_URL = "http://fulo.rest";
 
 //Criação ao $app que é o modulo que representa toda a aplicação
-var $app = angular.module('app', ['ngRoute']);
+var $app = angular.module('app', ['ngRoute', 'angular-loading-bar']);
 
 $app.config(['$routeProvider', '$httpProvider', function ($routeProvider, $httpProvider) {
 
@@ -81,19 +81,6 @@ $app.run(['$rootScope', '$location', '$http', function ($rootScope, $location, $
 
 //        $rootScope.messages = [];
 
-        //Uma flag que define se o ícone de acesso ao servidor deve estar ativado
-        $rootScope.showLoaderFlag = false;
-
-        //Força que o ícone de acesso ao servidor seja ativado
-        $rootScope.showLoader = function () {
-            $rootScope.showLoaderFlag = true;
-        };
-
-        //Força que o ícone de acesso ao servidor seja desativado
-        $rootScope.hideLoader = function () {
-            $rootScope.showLoaderFlag = false;
-        };
-
         /**
          * Method for compose the flashmessages
          * @name showFlashmessage
@@ -166,7 +153,6 @@ $app.run(['$rootScope', '$location', '$http', function ($rootScope, $location, $
 
                 case $rootScope.constant.ACCESS_DENIED:
 
-                    this.hideLoader();
                     this.showFlashmessage('alert-danger', $rootScope.constant.MSG0004);
                     $location.path("/");
                     throw Error("Access Denied");
@@ -174,28 +160,24 @@ $app.run(['$rootScope', '$location', '$http', function ($rootScope, $location, $
 
                 case $rootScope.constant.EMAIL_ALREADY:
 
-                    this.hideLoader();
                     this.showFlashmessage('alert-warning', $rootScope.constant.MSG0002);
                     throw Error("Email Already");
                     break;
 
                 case $rootScope.constant.WISHLIST_ALREADY:
 
-                    this.hideLoader();
                     this.showFlashmessage('alert-warning', $rootScope.constant.MSG0005);
                     throw Error("Wishlist Already");
                     break;
 
                 case $rootScope.constant.WITHOUT_RESULT:
 
-                    this.hideLoader();
                     this.showFlashmessage('alert-info', $rootScope.constant.MSG0008);
                     throw Error("Without Result");
                     break;
 
                 case $rootScope.constant.PRODUCT_TYPE_BUSY:
 
-                    this.hideLoader();
                     this.showFlashmessage('alert-info', $rootScope.constant.MSG0009);
                     throw Error("Product Type Busy");
                     break;

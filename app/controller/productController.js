@@ -46,8 +46,6 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
      */
     $scope.getProducts = function () {
 
-        $scope.showLoader();
-
         // adjust parameters and add origin data.
         $param = $scope.configParam();
 
@@ -57,7 +55,6 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
             $scope.checkResponse($return);
 
             $scope.rows = $return;
-            $scope.hideLoader();
         });
     };
 
@@ -75,8 +72,6 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
             $location.path("/error/systemError/");
         }
 
-        $scope.showLoader();
-
         // adjust parameters and add origin data.
         $param = $scope.configParam({sq_product: $routeParams.id});
 
@@ -86,7 +81,6 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
             $scope.checkResponse($return);
 
             $scope.row = $return;
-            $scope.hideLoader();
         });
     };
 
@@ -98,8 +92,6 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
      */
     $scope.getProductDetail = function () {
 
-        $scope.showLoader();
-
         // adjust parameters and add origin data.
         $param = $scope.configParam({sq_product: $scope.row.sq_product});
 
@@ -110,7 +102,6 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
 
             $scope.product = $return;
 
-            $scope.hideLoader();
         });
     };
 
@@ -147,8 +138,6 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
      */
     $scope.addProduct = function () {
 
-        $scope.showLoader();
-
         var input = document.getElementById("file");
         var fReader = new FileReader();
 
@@ -164,8 +153,6 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
 
                 // verify return data.
                 $scope.checkResponse($return);
-
-                $scope.hideLoader();
 
                 $location.path("/product/listProduct/");
 
@@ -183,8 +170,6 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
      * @version 1.0
      */
     $scope.upProduct = function () {
-
-        $scope.showLoader();
 
         // remove old image of variable.
         delete $scope.row.im_product_image;
@@ -209,8 +194,6 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
                     // verify return data.
                     $scope.checkResponse($return);
 
-                    $scope.hideLoader();
-
                     $location.path("/product/listProduct/");
 
                     $scope.showFlashmessage("alert-success", $scope.constant.MSG0001);
@@ -227,8 +210,6 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
 
                 // verify return data.
                 $scope.checkResponse($return);
-
-                $scope.hideLoader();
 
                 $location.path("/product/listProduct/");
 
@@ -248,8 +229,6 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
      */
     $scope.activateProduct = function ($sq_product) {
 
-        $scope.showLoader();
-
         $param = $scope.configParam({sq_product: $sq_product});
 
         $http.post($scope.server("/activateProduct"), $param).success(function ($return) {
@@ -257,7 +236,6 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
             // verify return data.
             $scope.checkResponse($return);
 
-            $scope.hideLoader();
         });
     };
 
@@ -271,8 +249,6 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
      */
     $scope.inactivateProduct = function ($sq_product) {
 
-        $scope.showLoader();
-
         $param = $scope.configParam({sq_product: $sq_product});
 
         $http.post($scope.server("/inactivateProduct"), $param).success(function ($return) {
@@ -280,7 +256,6 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
             // verify return data.
             $scope.checkResponse($return);
 
-            $scope.hideLoader();
         });
     };
 
@@ -293,8 +268,6 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
      */
     $scope.getProductsByFilter = function () {
 
-        $scope.showLoader();
-
         // adjust parameters and add origin data.
         $param = $scope.configParam({sq_product_type: $routeParams.id});
 
@@ -304,7 +277,6 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
             $scope.checkResponse($return);
 
             $scope.rows = $return;
-            $scope.hideLoader();
         });
     };
 
@@ -319,13 +291,11 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
     $scope.addWishList = function ($sq_product) {
 
         // verify if user is loged.
-        if (!$scope.user) {
+        if (!$rootScope.user) {
 
             $('#modalLogin').modal('show');
             $scope.showFlashmessage("alert-warning", $scope.constant.MSG0007);
         } else {
-
-            $scope.showLoader();
 
             $param = $scope.configParam({sq_product: $sq_product});
 
@@ -335,10 +305,9 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
                 $scope.checkResponse($return);
 
                 // ajust quantity of itens and session.
-                $scope.user.nu_wishlist++;
-                sessionStorage.setItem('user', JSON.stringify($scope.user));
+                $rootScope.user.nu_wishlist++;
+                sessionStorage.setItem('user', JSON.stringify($rootScope.user));
 
-                $scope.hideLoader();
                 $scope.showFlashmessage("alert-success", $scope.constant.MSG0001);
 
             });
@@ -354,8 +323,6 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
      */
     $scope.getWishList = function () {
 
-        $scope.showLoader();
-
         $param = $scope.configParam();
 
         $http.get($scope.server("/getWishList"), {params: $param}).success(function ($return) {
@@ -364,7 +331,6 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
             $scope.checkResponse($return);
 
             $scope.rows = $return;
-            $scope.hideLoader();
         });
     };
 
@@ -378,8 +344,6 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
      */
     $scope.delWishList = function ($sq_product) {
 
-        $scope.showLoader();
-
         $param = $scope.configParam({sq_product: $sq_product});
 
         $http.post($scope.server("/delWishList"), $param).success(function ($return) {
@@ -388,12 +352,11 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
             $scope.checkResponse($return);
 
             // ajust quantity of itens and session.
-            $scope.user.nu_wishlist--;
-            sessionStorage.setItem('user', JSON.stringify($scope.user));
+            $rootScope.user.nu_wishlist--;
+            sessionStorage.setItem('user', JSON.stringify($rootScope.user));
 
             // remove row in list.
             $('#' + $sq_product).fadeOut();
-            $scope.hideLoader();
         });
     };
 
@@ -407,8 +370,6 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
      */
     $scope.addCart = function ($product) {
 
-        $scope.showLoader();
-
         // variable to use as flag, to continue the flow.
         var $continue = true;
 
@@ -420,7 +381,6 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
 
                 if ($product.sq_product === $key.sq_product) {
 
-                    $scope.hideLoader();
                     $scope.showFlashmessage("alert-warning", $scope.constant.MSG0006);
                     $continue = false;
                 }
@@ -438,7 +398,6 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
             // update total value.
             this.updateTotal();
 
-            $scope.hideLoader();
             $scope.showFlashmessage("alert-success", $scope.constant.MSG0001);
         }
 
@@ -453,8 +412,6 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
      * @version 1.0
      */
     $scope.delCart = function ($sq_product) {
-
-        $scope.showLoader();
 
         var $aux = 0;
 
@@ -474,10 +431,8 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
         // update total value.
         this.updateTotal();
 
-        $scope.hideLoader();
         $scope.showFlashmessage("alert-success", $scope.constant.MSG0001);
 
-        $scope.hideLoader();
     };
 
     /**
@@ -508,11 +463,8 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
 
             if ($rootScope.cart.nu_farevalue) {
 
-                // convert characters.
-                var $farevalue = $rootScope.cart.nu_farevalue.replace(',', '.');
-
                 // add value of fare value.
-                $rootScope.cart.nu_total = parseFloat($rootScope.cart.nu_total) + parseFloat($farevalue);
+                $rootScope.cart.nu_total = parseFloat($rootScope.cart.nu_total) + parseFloat($rootScope.cart.nu_farevalue);
             }
 
             $rootScope.cart.nu_total = $rootScope.cart.nu_total.toFixed(2);
@@ -542,18 +494,25 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
      */
     $scope.getFareValue = function () {
 
-        $scope.showLoader();
+        // verify if user is loged.
+        if ($rootScope.user) {
 
-        // init variables.
-        $scope.row = {};
-        $scope.row.sq_product = [];
+            // set postcode of user data.
+            if ($rootScope.user.nu_postcode) {
 
-        // get postcode of user data.
-        $scope.row.nu_postcode = $scope.user.nu_postcode;
+                // init variables.
+                $scope.row = {};
+                $scope.row.product = [];
+                $scope.row.nu_postcode = $rootScope.user.nu_postcode;
+            }
+        }
+
+        // init variable.
+        $scope.row.product = [];
 
         angular.forEach($rootScope.cart, function ($key) {
 
-            $scope.row.sq_product.push($key.sq_product);
+            $scope.row.product.push({sq_product: $key.sq_product, nu_quantity_buy: $key.nu_quantity_buy});
         });
 
         $param = $scope.configParam($scope.row);
@@ -565,14 +524,14 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
 
             $scope.fare = $return.fare_value.cServico;
 
-            $scope.hideLoader();
+            if ($return.fare_value.error) {
+
+                $scope.fare.error = $return.fare_value.error;
+            }
         });
 
         // get address.
         this.getAddressByZip();
-
-        $scope.hideLoader();
-
     };
 
     /**
@@ -584,16 +543,12 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
      */
     $scope.addProductType = function () {
 
-        $scope.showLoader();
-
         $param = $scope.configParam($scope.row);
 
         $http.post($scope.server("/addProductType"), $param).success(function ($return) {
 
             // verify return data.
             $scope.checkResponse($return);
-
-            $scope.hideLoader();
 
             $location.path("/product/listProductType");
 
@@ -615,8 +570,6 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
             $location.path("/error/systemError/");
         }
 
-        $scope.showLoader();
-
         // adjust parameters and add origin data.
         $param = $scope.configParam({sq_product_type: $routeParams.id});
 
@@ -626,7 +579,6 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
             $scope.checkResponse($return);
 
             $scope.row = $return;
-            $scope.hideLoader();
         });
     };
 
@@ -639,16 +591,12 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
      */
     $scope.upProductType = function () {
 
-        $scope.showLoader();
-
         $param = $scope.configParam($scope.row);
 
         $http.post($scope.server("/upProductType"), $param).success(function ($return) {
 
             // verify return data.
             $scope.checkResponse($return);
-
-            $scope.hideLoader();
 
             $location.path("/product/listProductType");
 
@@ -691,10 +639,8 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
      */
     $scope.getAddressByZip = function () {
 
-        $scope.showLoader();
-
         // adjust parameters and add origin data.
-        $param = $scope.configParam({nu_postcode: $scope.user.nu_postcode});
+        $param = $scope.configParam({nu_postcode: $scope.row.nu_postcode});
 
         $http.get($scope.server("/getAddressByZip"), {params: $param}).success(function ($return) {
 
@@ -704,8 +650,6 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
             $scope.address = {};
 
             $scope.address = $return;
-
-            $scope.hideLoader();
 
         });
     };
@@ -727,5 +671,33 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
 
         // update icon cart value.
         $rootScope.cart.nu_cart = $scope.cart.length;
+    };
+
+    /**
+     * Method for buy itens in cart
+     * @name doBuy
+     * @author Victor Eduardo Barreto
+     * @date Nov 19, 2015
+     * @version 1.0
+     */
+    $scope.doBuy = function () {
+
+        // verify if user is loged.
+        if ($rootScope.user) {
+
+            // verify if user has address.
+            if ($rootScope.user.ds_address) {
+
+                //do buy.
+            } else {
+
+                $('#modalAddress').modal('show');
+                $scope.showFlashmessage("alert-warning", $scope.constant.MSG0011);
+            }
+        } else {
+
+            $('#modalLogin').modal('show');
+            $scope.showFlashmessage("alert-warning", $scope.constant.MSG0010);
+        }
     };
 });

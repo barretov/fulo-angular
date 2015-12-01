@@ -24,10 +24,11 @@
  * @param {Object} $scope Scope
  * @param {Object} $http  Http
  * @param {Object} $location Locatioin
+ * @param {Object} $rootScope rootScope
  * @date Jul 13, 2015
  * @version 1.0
  */
-$app.controller('customerController', function ($scope, $http, $location) {
+$app.controller('customerController', function ($scope, $http, $location, $rootScope) {
 
     /**
      * Method for update user data access
@@ -38,20 +39,16 @@ $app.controller('customerController', function ($scope, $http, $location) {
      */
     $scope.upAccess = function () {
 
-        $scope.showLoader();
-
         // validate passwords
-        if ($scope.user.ds_password === $scope.user.re_password) {
+        if ($rootScope.user.ds_password === $rootScope.user.re_password) {
 
             // adjust parameters and add origin data.
-            $param = $scope.configParam($scope.user);
+            $param = $scope.configParam($rootScope.user);
 
             $http.post($scope.server("/upAccess"), $param).success(function ($return) {
 
                 // verify return data.
                 $scope.checkResponse($return)
-
-                $scope.hideLoader();
 
                 $location.path("/");
 
@@ -73,9 +70,7 @@ $app.controller('customerController', function ($scope, $http, $location) {
      */
     $scope.upCustomer = function () {
 
-        $scope.showLoader();
-
-        $param = $scope.configParam($scope.user);
+        $param = $scope.configParam($rootScope.user);
 
         $http.post($scope.server("/upUser"), $param).success(function ($return) {
 
@@ -83,9 +78,7 @@ $app.controller('customerController', function ($scope, $http, $location) {
             $scope.checkResponse($return);
 
             // update data in session.
-            sessionStorage.setItem('user', JSON.stringify($scope.user));
-
-            $scope.hideLoader();
+            sessionStorage.setItem('user', JSON.stringify($rootScope.user));
 
             $location.path("/");
 
@@ -102,8 +95,6 @@ $app.controller('customerController', function ($scope, $http, $location) {
      */
     $scope.addCustomer = function () {
 
-        $scope.showLoader();
-
         // validate passwords
         if ($scope.row.ds_password === $scope.row.re_password) {
 
@@ -114,8 +105,6 @@ $app.controller('customerController', function ($scope, $http, $location) {
 
                 // verify return data.
                 $scope.checkResponse($return);
-
-                $scope.hideLoader();
 
                 // do the login.
                 $scope.login($scope.row);
@@ -133,15 +122,14 @@ $app.controller('customerController', function ($scope, $http, $location) {
      * Method for up address
      * @name upAddress
      * @author Victor Eduardo Barreto
+     * @param {type} $data Form data
      * @date Jul 29, 2015
      * @version 1.0
      */
-    $scope.upAddress = function () {
-
-        $scope.showLoader();
+    $scope.upAddress = function ($data) {
 
         // adjust parameters and add origin data.
-        $param = $scope.configParam($scope.user);
+        $param = $scope.configParam($rootScope.user);
 
         $http.post($scope.server("/upAddress"), $param).success(function ($return) {
 
@@ -149,10 +137,18 @@ $app.controller('customerController', function ($scope, $http, $location) {
             $scope.checkResponse($return);
 
             // insert current data in session and user variable.
-            sessionStorage.setItem('user', JSON.stringify($scope.user));
-            $scope.hideLoader();
-            $scope.showFlashmessage('alert-success', $scope.constant.MSG0001);
-            $location.path("/");
+            sessionStorage.setItem('user', JSON.stringify($rootScope.user));
+
+            // verify if request arrived of form cart.
+            if ($data) {
+
+                // if modal addres is open. close.
+                $('#modalAddress').modal('hide');
+            } else {
+
+                $scope.showFlashmessage('alert-success', $scope.constant.MSG0001);
+                $location.path("/");
+            }
         });
     };
 
@@ -165,10 +161,8 @@ $app.controller('customerController', function ($scope, $http, $location) {
      */
     $scope.getAddressByZip = function () {
 
-        $scope.showLoader();
-
         // adjust parameters and add origin data.
-        $param = $scope.configParam({nu_postcode: $scope.user.nu_postcode});
+        $param = $scope.configParam({nu_postcode: $rootScope.user.nu_postcode});
 
         $http.get($scope.server("/getAddressByZip"), {params: $param}).success(function ($return) {
 
@@ -176,12 +170,11 @@ $app.controller('customerController', function ($scope, $http, $location) {
             $scope.checkResponse($return);
 
             // update user data.
-            $scope.user.ds_city = $return.cidade;
-            $scope.user.ds_neighborhood = $return.bairro;
-            $scope.user.ds_address = $return.log_tipo_logradouro + " " + $return.logradouro;
-            $scope.user.ac_state = $return.uf;
-
-            $scope.hideLoader();
+            $rootScope.user.ds_city = $return.cidade;
+            $rootScope.user.ds_neighborhood = $return.bairro;
+            $rootScope.user.ds_address = $return.log_tipo_logradouro + " " + $return.logradouro;
+            $rootScope.user.ac_state = $return.uf;
+            console.log($rootScope.user);
 
         });
     };

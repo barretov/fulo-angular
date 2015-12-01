@@ -94,7 +94,7 @@ $app.controller('loginController', function ($scope, $rootScope, $http, $locatio
     $rootScope.logoff = function () {
 
         // adjust parameters and add origin data.
-        $param = $scope.configParam($scope.user);
+        $param = $scope.configParam($rootScope.user);
 
         $http.post($scope.server("/logoff"), $param).success(function ($return) {
 

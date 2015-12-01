@@ -458,52 +458,125 @@ class ProductBusiness extends MasterBusiness
 
             $data = $this->getRequestData();
 
+            # init variables;
+            $data->nu_length = 0;
+            $data->nu_width = 0;
+            $data->nu_height = 0;
+            $data->nu_weight = 0;
+            $data->nu_packages = 0;
+
             # count the products in cart.
-            $data->nu_quantity_order = count($data->sq_product);
+            $data->nu_quantity_order = count($data->product);
 
             $products = $this->_productModel->getDataProducts($data);
 
-            # se eu tenho somente um produto.
-            if ($data->nu_quantity_order = 1) {
+            # verifica se os produtos são menores que os valores minimos.
+            foreach ($products as $key) {
 
-                # verifica se o produto é menor que os valores minimos.
-                foreach ($products as $key) {
+                # verifica se é dobravel?
+                if ($key->st_foldable) {
 
-                    if ($key->nu_length < BOX_DELIVERY_MIN_LENGTH) {
+                    # verifica se é maior que o recomendado.
+                    # comprimento.
+                    while ($key->nu_length > BOX_DELIVERY_BEST_LENGTH) {
 
-                        $data->length = BOX_DELIVERY_MIN_LENGTH;
-                    } else {
+                        # dobra o produto.
+                        $key->nu_length = $key->nu_length / 2;
 
-                        $data->length = $key->nu_length;
+                        # soma a altura do produto.
+                        $key->nu_height = $key->nu_height * 2;
                     }
 
-                    if ($key->nu_width < BOX_DELIVERY_MIN_WIDTH) {
+                    # largura.
+                    while ($key->nu_width > BOX_DELIVERY_BEST_WIDTH) {
 
-                        $data->width = BOX_DELIVERY_MIN_WIDTH;
-                    } else {
+                        # dobra o produto.
+                        $key->nu_width = $key->nu_width / 2;
 
-                        $data->width = $key->nu_width;
+                        # soma a altura do produto.
+                        $key->nu_height = $key->nu_height * 2;
                     }
+                }
 
-                    if ($key->nu_weight < BOX_DELIVERY_MIN_WEIGHT) {
+                # verifica se é menor que os minimos.
+                #comprimento.
+                if ($key->nu_length < BOX_DELIVERY_MIN_LENGTH) {
 
-                        $data->weight = BOX_DELIVERY_MIN_WEIGHT;
-                    } else {
+                    $key->nu_length = BOX_DELIVERY_MIN_LENGTH;
+                }
 
-                        $data->weight = $key->nu_weight;
-                    }
+                #largura.
+                if ($key->nu_width < BOX_DELIVERY_MIN_WIDTH) {
 
-                    if ($key->nu_height < BOX_DELIVERY_MIN_HEIGHT) {
-
-                        $data->height = BOX_DELIVERY_MIN_HEIGHT;
-                    } else {
-
-                        $data->height = $key->nu_height;
-                    }
+                    $key->nu_width = BOX_DELIVERY_MIN_WIDTH;
                 }
             }
 
+            # soma o tamanho de todos os produtos para definir o tamanho do pacote.
+            foreach ($products as $key) {
+
+                # verifica o produto com o maior comprimento.
+                if ($key->nu_length > $data->nu_length) {
+
+                    $data->nu_length = $key->nu_length;
+                }
+
+                # verifica o produto com a maior largura.
+                if ($key->nu_width > $data->nu_width) {
+
+                    $data->nu_width = $key->nu_width;
+                }
+
+                # percorre o array dos produtos do carrinho para multiplicar peso e altura pela quantidade.
+                foreach ($data->product as $key_prod => $value) {
+
+                    if ($key->sq_product == $value->sq_product) {
+
+                        $key->nu_height = $key->nu_height * $value->nu_quantity_buy;
+                        $key->nu_weight = $key->nu_weight * $value->nu_quantity_buy;
+                    }
+                }
+
+                #soma a altura.
+                $data->nu_height = $data->nu_height + $key->nu_height;
+
+                #soma o peso.
+                $data->nu_weight = $data->nu_weight + $key->nu_weight;
+            }
+
+            # verifica os maximos de altura e peso.
+            # se o pacote ultrapassar os maximos de altura ou peso, divide o pacote em dois.
+            while ($data->nu_height > BOX_DELIVERY_MAX_HEIGHT || $data->nu_weight > BOX_DELIVERY_MAX_WEIGHT) {
+
+                $data->nu_height = $data->nu_height / 2;
+                $data->nu_weight = $data->nu_weight / 2;
+
+                # flag para multiplicar o valor do frete pela quantidade de caixas.
+                $data->nu_packages = $data->nu_packages + 2;
+            }
+
+            # verifica os mínimos de altura.
+            if ($data->nu_height < BOX_DELIVERY_MIN_HEIGHT) {
+
+                $data->nu_height = BOX_DELIVERY_MIN_HEIGHT;
+            }
+
+            # verifica os mínimos de peso.
+            if ($data->nu_weight < BOX_DELIVERY_MIN_WEIGHT) {
+
+                $data->nu_weight < BOX_DELIVERY_MIN_WEIGHT;
+            }
+
             $this->requestFareValue($data);
+
+            # multiplica o valor do frete por caixas.
+            if (!empty($data->nu_packages)) {
+
+                foreach ($data->fare_value as $key) {
+
+                    $key->Valor = $key->Valor * $data->nu_packages;
+                }
+            }
 
             return $data;
         } catch (Exception $ex) {
@@ -531,11 +604,11 @@ class ProductBusiness extends MasterBusiness
             $wsc['sDsSenha'] = '';
             $wsc['sCepOrigem'] = ORIGIN_POSTCODE;
             $wsc['sCepDestino'] = $data->nu_postcode;
-            $wsc['nVlPeso'] = $data->weight;
+            $wsc['nVlPeso'] = $data->nu_weight;
             $wsc['nCdFormato'] = NUMBER_ONE;
-            $wsc['nVlComprimento'] = $data->length;
-            $wsc['nVlAltura'] = $data->height;
-            $wsc['nVlLargura'] = $data->width;
+            $wsc['nVlComprimento'] = $data->nu_length;
+            $wsc['nVlAltura'] = $data->nu_height;
+            $wsc['nVlLargura'] = $data->nu_width;
             $wsc['nVlDiametro'] = NUMBER_ZERO;
             $wsc['sCdMaoPropria'] = 'n';
             $wsc['nVlValorDeclarado'] = NUMBER_ZERO;
@@ -552,22 +625,16 @@ class ProductBusiness extends MasterBusiness
             $result = curl_exec($curl);
             $data->fare_value = simplexml_load_string($result);
 
-//            foreach ($result->cServico as $row) {
-//
-//                //Os dados de cada serviço estará aqui
-//                if ($row->Erro == 0) {
-//                    echo $row->Codigo . '<br>';
-//                    echo $row->Valor . '<br>';
-//                    echo $row->PrazoEntrega . '<br>';
-//                    echo $row->ValorMaoPropria . '<br>';
-//                    echo $row->ValorAvisoRecebimento . '<br>';
-//                    echo $row->ValorValorDeclarado . '<br>';
-//                    echo $row->EntregaDomiciliar . '<br>';
-//                    echo $row->EntregaSabado;
-//                } else {
-//                    echo $row->MsgErro;
-//                }
-//            }
+            # change the comma to point.
+            foreach ($data->fare_value as $key) {
+
+                $key->Valor = preg_replace('/,/', '.', $key->Valor);
+
+                if (!empty($key->Erro)) {
+
+                    $data->fare_value->error = $key->MsgErro;
+                }
+            }
         } catch (Exception $ex) {
 
             throw $ex;

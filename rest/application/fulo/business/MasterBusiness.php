@@ -45,9 +45,14 @@ class MasterBusiness
 
             foreach ($data as $key => $value) {
 
+                # verify if arryved an image. 
                 if ($key != "im_image") {
 
-                    $data->$key = \preg_replace("/[^a-zA-Z0-9_@.,áàãâéêíóôõúüçÁÀÃÂÉÊÍÓÔÕÚÜÇ ]/", "", $value);
+                    # if arrive an object inside another, do nothing.
+                    if (is_string($value)) {
+
+                        $data->$key = \preg_replace("/[^a-zA-Z0-9_@.,áàãâéêíóôõúüçÁÀÃÂÉÊÍÓÔÕÚÜÇ ]/", "", $value);
+                    }
                 } else {
 
                     $data->$key = $this->makeImageIn($value);

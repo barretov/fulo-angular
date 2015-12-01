@@ -648,14 +648,14 @@ class ProductModel extends MasterModel
 
             $query = "SELECT * FROM fulo.product";
 
-            foreach ($data->sq_product as $key => $value) {
+            foreach ($data->product as $key => $value) {
 
                 if (!$key) {
 
-                    $query = $query . " WHERE sq_product = " . $value;
+                    $query = $query . " WHERE sq_product = " . $value->sq_product;
                 } else {
 
-                    $query = $query . " OR sq_product = " . $value;
+                    $query = $query . " OR sq_product = " . $value->sq_product;
                 }
             }
 
