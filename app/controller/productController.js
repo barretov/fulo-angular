@@ -439,10 +439,11 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
      * Method for update total value products in cart
      * @name updateTotal
      * @author Victor Eduardo Barreto
+     * @param bool $fare This flag tell if get fare value is necessary
      * @date Sep 1, 2015
      * @version 1.0
      */
-    $scope.updateTotal = function () {
+    $scope.updateTotal = function ($fare) {
 
         $rootScope.cart.nu_total = 0;
 
@@ -469,6 +470,9 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
 
             $rootScope.cart.nu_total = $rootScope.cart.nu_total.toFixed(2);
         });
+
+        // if arrive tru in $flag, update fare value.
+        $fare ? this.getFareValue() : '';
     };
 
     /**
@@ -489,10 +493,11 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
      * Method for get fare value
      * @name getFareValue
      * @author Victor Eduardo Barreto
+     * @param {int} $postcode Postcode number to get fare value
      * @date Sep 17, 2015
      * @version 1.0
      */
-    $scope.getFareValue = function () {
+    $scope.getFareValue = function ($postcode) {
 
         // verify if user is loged.
         if ($rootScope.user) {
@@ -505,6 +510,12 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
                 $scope.row.product = [];
                 $scope.row.nu_postcode = $rootScope.user.nu_postcode;
             }
+        }
+
+        // if arrive a new postcode, send to get fare value;
+        if ($postcode) {
+
+            $scope.row.nu_postcode = $postcode;
         }
 
         // init variable.
@@ -523,12 +534,17 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
             $scope.checkResponse($return);
 
             $scope.fare = $return.fare_value.cServico;
+            
+            console.log($scope.fare[0].Codigo);
 
             if ($return.fare_value.error) {
 
                 $scope.fare.error = $return.fare_value.error;
             }
         });
+
+        // clean variable of fare value in purchase summary.
+        $rootScope.cart.nu_farevalue = '';
 
         // get address.
         this.getAddressByZip();

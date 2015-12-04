@@ -66,7 +66,7 @@
                             ng-minlength="1"
                             ng-maxlength="3"
                             value="{{row.nu_quantity_buy? row.nu_quantity_buy : row.nu_quantity_buy = 1}}"
-                            ng-change="updateTotal()"
+                            ng-change="updateTotal(true)"
                             required
                             />
 
@@ -133,19 +133,19 @@
 
                                         <input
                                             class="form-control"
-                                            name="farevalue"
+                                            name="postcode"
                                             placeholder="72000000"
                                             ng-model="row.nu_postcode"
                                             maxlength="8"
                                             ng-maxlength="8"
-                                            ng-minlength="7"
+                                            ng-minlength="8"
                                             pattern="[0-9 -]+$"
                                             required
                                             />
 
                                         <span class="input-group-btn">
 
-                                            <button class="btn btn-primary btn-sm" ng-click="getFareValue(row.nu_postcode)">
+                                            <button class="btn btn-primary btn-sm" ng-click="row.nu_postcode ? getFareValue(row.nu_postcode) : ''">
                                                 Enviar
                                                 <i class="glyphicon glyphicon-send"></i>
                                             </button>
@@ -157,12 +157,12 @@
 
                                 <div class="help-block-input col-xs-12 col-sm-offset-4 col-sm-12 col-md-offset-4 col-md-12 col-lg-offset-4 col-lg-12">
 
-                                    <span class="text-danger" ng-show="form.farevalue.$dirty && form.farevalue.$invalid">
+                                    <span class="text-danger" ng-show="form.postcode.$dirty && form.postcode.$invalid">
                                         <i class="glyphicon glyphicon-remove-sign"></i>
-                                        <span ng-show="form.farevalue.$error.required">Campo obrigatório.</span>
-                                        <span ng-show="form.farevalue.$error.minlength">Mínimo de sete caracteres.</span>
-                                        <span ng-show="form.farevalue.$error.maxlength">Máximo de oito caracteres.</span>
-                                        <span ng-show="form.farevalue.$error.pattern">Somente números.</span>
+                                        <span ng-show="form.postcode.$error.required">Campo obrigatório.</span>
+                                        <span ng-show="form.postcode.$error.minlength">Mínimo de oito caracteres.</span>
+                                        <span ng-show="form.postcode.$error.maxlength">Máximo de oito caracteres.</span>
+                                        <span ng-show="form.postcode.$error.pattern">Somente números.</span>
                                     </span>
 
                                 </div>
@@ -192,23 +192,39 @@
                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                     <div class="row">
 
-                        <div class="radio" ng-show="!fare.error">
+                        <div class="radio" ng-show="!fare.error && fare">
 
-                            <label ng-repeat="row_fare in fare">
+                            <label>
 
                                 <input
-                                    id="{{row_fare.Codigo}}"
                                     type="radio"
-                                    name="{{row_fare.Codigo}}"
-                                    value="{{row_fare.Valor}}"
+                                    name="farevalue"
+                                    value="{{fare[0].Valor}}"
                                     ng-model="cart.nu_farevalue"
                                     ng-change="updateTotal()"
                                     required="boolean"
                                     />
 
-                                <span class="text-primary"><b>{{row_fare.Codigo == 40010? "SEDEX": "PAC"}}</b></span><br />
-                                <span><b>Valor:</b> {{row_fare.Valor | currency}}</span><br />
-                                <span><b>Entrega:</b> {{row_fare.PrazoEntrega}} dia(s)</span>
+                                <span class="text-primary"><b>PAC</b></span><br />
+                                <span><b>Valor:</b> {{fare[0].Valor| currency}}</span><br />
+                                <span><b>Entrega:</b> {{fare[0].PrazoEntrega}} dia(s)</span>
+
+                            </label>
+
+                            <label>
+
+                                <input
+                                    type="radio"
+                                    name="farevalue"
+                                    value="{{fare[1].Valor}}"
+                                    ng-model="cart.nu_farevalue"
+                                    ng-change="updateTotal()"
+                                    required="boolean"
+                                    />
+
+                                <span class="text-primary"><b>SEDEX</b></span><br />
+                                <span><b>Valor:</b> {{fare[1].Valor| currency}}</span><br />
+                                <span><b>Entrega:</b> {{fare[1].PrazoEntrega}} dia(s)</span>
 
                             </label>
 

@@ -537,17 +537,18 @@ class ProductBusiness extends MasterBusiness
                     }
                 }
 
-                #soma a altura.
+                #soma a altura e peso.
                 $data->nu_height = $data->nu_height + $key->nu_height;
-
-                #soma o peso.
                 $data->nu_weight = $data->nu_weight + $key->nu_weight;
             }
 
             # verifica os maximos de altura e peso.
             # se o pacote ultrapassar os maximos de altura ou peso, divide o pacote em dois.
-            while ($data->nu_height > BOX_DELIVERY_MAX_HEIGHT || $data->nu_weight > BOX_DELIVERY_MAX_WEIGHT) {
+            while ($data->nu_height > BOX_DELIVERY_MAX_HEIGHT ||
+            $data->nu_weight > BOX_DELIVERY_MAX_WEIGHT ||
+            $data->nu_length + $data->nu_width + $data->nu_height > BOX_DELIVERY_MAX_PACKAGE_SIZE) {
 
+                # divide altura e peso.
                 $data->nu_height = $data->nu_height / 2;
                 $data->nu_weight = $data->nu_weight / 2;
 
