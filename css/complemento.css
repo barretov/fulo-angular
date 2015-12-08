@@ -69,9 +69,8 @@ body {
 
 /*ajuste flashmessage*/
 #flashmessage {
-    display: none;
     z-index: 9999;
-    margin-top: 50px;
+    position: fixed;
 }
 
 /*ajuste modal login*/
@@ -291,6 +290,20 @@ input[readonly] {
     box-shadow: #000 0px 0px 10px 0px;
     margin-top: 1px;
 }
+
+/*remove border doted of link and buttons*/
+a{
+    outline: 0 !important;
+}
+
+input {
+    outline: 0 !important;
+}
+
+button {
+    outline: 0 !important;
+}
+/*remove border doted of link and buttons*/
 
 /* Fancy blur effect */
 #loading-bar .peg {

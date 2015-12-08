@@ -465,9 +465,6 @@ class ProductBusiness extends MasterBusiness
             $data->nu_weight = 0;
             $data->nu_packages = 0;
 
-            # count the products in cart.
-            $data->nu_quantity_order = count($data->product);
-
             $products = $this->_productModel->getDataProducts($data);
 
             # verifica se os produtos são menores que os valores minimos.

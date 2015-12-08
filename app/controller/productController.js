@@ -429,10 +429,9 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
         this.saveCartSession();
 
         // update total value.
-        this.updateTotal();
+        this.updateTotal(true);
 
         $scope.showFlashmessage("alert-success", $scope.constant.MSG0001);
-
     };
 
     /**
@@ -523,25 +522,32 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
 
         angular.forEach($rootScope.cart, function ($key) {
 
+            // if don't have quantity set number one.
+            if (!$key.nu_quantity_buy) {
+
+                $key.nu_quantity_buy = 1;
+            }
+
             $scope.row.product.push({sq_product: $key.sq_product, nu_quantity_buy: $key.nu_quantity_buy});
         });
 
         $param = $scope.configParam($scope.row);
 
-        $http.post($scope.server("/getFareValue"), $param).success(function ($return) {
+        // if dont have product in cart, dont send fare value request;
+        if ($scope.row.product.length) {
 
-            // verify return data.
-            $scope.checkResponse($return);
+            $http.post($scope.server("/getFareValue"), $param).success(function ($return) {
 
-            $scope.fare = $return.fare_value.cServico;
-            
-            console.log($scope.fare[0].Codigo);
+                // verify return data.
+                $scope.checkResponse($return);
+                $scope.fare = $return.fare_value.cServico;
 
-            if ($return.fare_value.error) {
+                if ($return.fare_value.error) {
 
-                $scope.fare.error = $return.fare_value.error;
-            }
-        });
+                    $scope.fare.error = $return.fare_value.error;
+                }
+            });
+        }
 
         // clean variable of fare value in purchase summary.
         $rootScope.cart.nu_farevalue = '';
@@ -576,8 +582,7 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
      * Method for get product type
      * @name getProductType
      * @author Victor Eduardo Barreto
-     * @date Out7, 2015
-     * @version 1.0
+     * @date Out7, 2015      * @version 1.0
      */
     $scope.getProductType = function () {
 
@@ -657,7 +662,6 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
 
         // adjust parameters and add origin data.
         $param = $scope.configParam({nu_postcode: $scope.row.nu_postcode});
-
         $http.get($scope.server("/getAddressByZip"), {params: $param}).success(function ($return) {
 
             // verify return data.
@@ -690,13 +694,13 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
     };
 
     /**
-     * Method for buy itens in cart
-     * @name doBuy
+     * Method for prepare the buy of itens in cart
+     * @name prepareBuy
      * @author Victor Eduardo Barreto
      * @date Nov 19, 2015
      * @version 1.0
      */
-    $scope.doBuy = function () {
+    $scope.prepareBuy = function () {
 
         // verify if user is loged.
         if ($rootScope.user) {
@@ -704,7 +708,16 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
             // verify if user has address.
             if ($rootScope.user.ds_address) {
 
-                //do buy.
+                // verify if zip code is the same of zip code registred in profile.
+                if ($rootScope.user.nu_postcode !== $scope.row.nu_postcode) {
+
+                    $scope.showFlashmessage("alert-warning", $scope.constant.MSG0012);
+                } else {
+
+                    // call the confirmation of order.
+                    $('#modalConfirmation').modal('show');
+                }
+
             } else {
 
                 $('#modalAddress').modal('show');

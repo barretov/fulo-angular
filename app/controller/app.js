@@ -121,8 +121,16 @@ $app.run(['$rootScope', '$location', '$http', function ($rootScope, $location, $
                     break;
             }
 
-            $('#flashmessage').fadeIn().delay(1500).fadeOut('fast');
+            // generate a randomic id for flashmessage.
+            var $aux = Math.floor(Math.random() * 2 + 1);
 
+            $('#flashmessage').prepend('<div id="' + $aux + '" class="alert ' + $rootScope.flashType + ' fade in" role="alert"><i class="glyphicon ' + $rootScope.glyphicon + '"></i> ' + $rootScope.flashMsg + '</div>');
+
+            $('#' + $aux).delay(1000);
+
+            $('#' + $aux).fadeOut(function () {
+                $('#' + $aux).remove();
+            });
         };
 
         /**
