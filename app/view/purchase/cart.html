@@ -1,0 +1,650 @@
+<div class="row">
+    <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8">
+
+        <legend class="text-gray font-18">Carrinho de compras</legend>
+
+        <!--form buy-->
+        <form name="form" class="form-group-sm" novalidate>
+
+            <!--loop-->
+            <div class="row"
+                 ng-repeat="row in cart"
+                 id="{{row.sq_product}}">
+
+                <!--image-->
+                <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2">
+
+                    <!--image-->
+                    <a href="" ng-click="detailProduct(row)">
+
+                        <div class="thumbnail">
+                            <img class="caption img-responsive"
+                                 src={{row.im_product_image.encoded}}
+                                 height="200"
+                                 width="200"
+                                 />
+                        </div>
+
+                    </a>
+
+                </div>
+
+                <!--product data-->
+                <div class="col-xs-12 col-sm-10 col-md-10 col-lg-10">
+
+                    <!--title-->
+                    <legend class="text-success text-capitalize">{{row.ds_product}}</legend>
+
+                    <dl class="dl-horizontal">
+
+                        <dt class="text-gray">Preço:</dt>
+                        <dd>{{row.nu_value| currency}}</dd>
+
+                        <dt class="text-gray">Em estoque:</dt>
+                        <dd>{{row.nu_quantity}} Und</dd>
+
+                        <dt class="text-gray">Tempo de produção:</dt>
+                        <dd>{{row.nu_production}} Dia(s)</dd>
+
+                    </dl>
+
+                    <dl class="dl-horizontal">
+
+                        <dt class="text-gray">Quantidade<span class="text-danger">*</span></dt>
+
+                    </dl>
+
+                    <div class="col-xs-4 col-sm-3 col-md-2 col-lg-2">
+
+                        <input
+                            id="{{row.sq_product}}"
+                            class="form-control input-sm"
+                            type="number"
+                            ng-model="row.nu_quantity_buy"
+                            maxlength="3"
+                            ng-minlength="1"
+                            ng-maxlength="3"
+                            value="{{row.nu_quantity_buy? row.nu_quantity_buy : row.nu_quantity_buy = 1}}"
+                            ng-change="updateTotal(true)"
+                            pattern="[0-9]+$"
+                            required
+                            />
+
+                    </div>
+
+                    <span class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-sm-offset-3 col-md-offset-2 col-lg-offset-2 text-danger"
+                          ng-show="form.buy_nu_quantity.$dirty && form.buy_nu_quantity.$invalid">
+
+                        <i class="glyphicon glyphicon-remove-sign"></i>
+                        <span ng-show="form.buy_nu_quantity.$error.required">Campo obrigatório</span>
+                        <span ng-show="form.buy_nu_quantity.$error.minlength">Mínimo de um caracteres</span>
+                        <span ng-show="form.buy_nu_quantity.$error.maxlength">Máximo de três caracteres</span>
+                        <span ng-show="form.buy_nu_quantity.$error.number">Somente Números</span>
+                    </span>
+
+                    <!--buttons-->
+                    <!--add wish-->
+                    <span
+                        class="btn btn-primary btn-sm"
+                        ng-click="addWishList(row.sq_product)"
+                        title="Colocar na lista de desejos">
+
+                        <i class="glyphicon glyphicon-heart" ></i>
+                    </span>
+
+                    <!--remove cart-->
+                    <span
+                        class="btn btn-danger btn-sm"
+                        ng-click="delCart(row.sq_product)"
+                        title="Remove do carrinho">
+
+                        <i class="glyphicon glyphicon-remove"></i>
+                    </span>
+
+                    <span class="btn btn-info btn-sm"
+                          ng-click="share(row.sq_product)"
+                          title="Compatilhar na rede">
+
+                        <i class="glyphicon glyphicon-share" ></i>
+                    </span>
+
+                    <hr />
+
+                </div>
+
+            </div>
+
+            <legend class="text-gray font-18">Entrega</legend>
+
+            <!--fare value-->
+            <fieldset class="well">
+
+                <div class="col-xs-12 col-sm-12 col-md-7 col-lg-6">
+
+                    <div class="row">
+
+                        <div class="form-horizontal" ng-init="user.nu_postcode ? getFareValue(user.nu_postcode) : ''">
+                            <div class ="form-group form-group-sm">
+
+                                <label class="col-xs-12 col-sm-4 col-md-4 col-lg-4 control-label">Pesquisa CEP</label>
+
+                                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-7">
+                                    <div class="input-group">
+
+                                        <input
+                                            class="form-control"
+                                            name="postcode"
+                                            placeholder="72000000"
+                                            ng-model="row.nu_postcode"
+                                            maxlength="8"
+                                            ng-maxlength="8"
+                                            ng-minlength="8"
+                                            pattern="[0-9 -]+$"
+                                            required
+                                            />
+
+                                        <span class="input-group-btn">
+
+                                            <button class="btn btn-primary btn-sm" ng-click="row.nu_postcode ? getFareValue(row.nu_postcode) : ''">
+                                                Enviar
+                                                <i class="glyphicon glyphicon-send"></i>
+                                            </button>
+
+                                        </span>
+
+                                    </div>
+                                </div>
+
+                                <div class="help-block-input col-xs-12 col-sm-offset-4 col-sm-12 col-md-offset-4 col-md-12 col-lg-offset-4 col-lg-12">
+
+                                    <span class="text-danger" ng-show="form.postcode.$dirty && form.postcode.$invalid">
+                                        <i class="glyphicon glyphicon-remove-sign"></i>
+                                        <span ng-show="form.postcode.$error.required">Campo obrigatório.</span>
+                                        <span ng-show="form.postcode.$error.minlength">Mínimo de oito caracteres.</span>
+                                        <span ng-show="form.postcode.$error.maxlength">Máximo de oito caracteres.</span>
+                                        <span ng-show="form.postcode.$error.pattern">Somente números.</span>
+                                    </span>
+
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!--address-->
+                        <div class="row" ng-show="address">
+                            <div class="col-xs-12 col-sm-offset-4 col-sm-8 col-md-8 col-lg-8">
+
+                                <span>{{address.log_tipo_logradouro}} {{address.logradouro}}<br />{{address.bairro}} | {{address.cidade}}-{{address.uf}}</span>
+
+                            </div>
+                        </div>
+                        <!--address-->
+
+                    </div>
+                </div>
+
+                <!--result fare value-->
+                <div class="col-xs12 col-sm-12 col-md-6 col-lg-6 row" ng-show="!fare.error && fare && row.product.length">
+                    <h5><strong>Escolha a forma de entrega</strong></h5>
+                </div>
+
+                <!--field fare-->
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                    <div class="row">
+
+                        <div class="radio" ng-show="!fare.error && fare && row.product.length">
+
+                            <label>
+
+                                <input
+                                    type="radio"
+                                    name="farevalue"
+                                    value="{{fare[0].Valor}}"
+                                    ng-model="cart.nu_farevalue"
+                                    ng-change="updateTotal()"
+                                    required="boolean"
+                                    />
+
+                                <span class="text-primary"><b>PAC</b></span><br />
+                                <span><b>Valor:</b> {{fare[0].Valor| currency}}</span><br />
+                                <span><b>Entrega:</b> {{fare[0].PrazoEntrega}} dia(s)</span>
+
+                            </label>
+
+                            <label>
+
+                                <input
+                                    type="radio"
+                                    name="farevalue"
+                                    value="{{fare[1].Valor}}"
+                                    ng-model="cart.nu_farevalue"
+                                    ng-change="updateTotal()"
+                                    required="boolean"
+                                    />
+
+                                <span class="text-primary"><b>SEDEX</b></span><br />
+                                <span><b>Valor:</b> {{fare[1].Valor| currency}}</span><br />
+                                <span><b>Entrega:</b> {{fare[1].PrazoEntrega}} dia(s)</span>
+
+                            </label>
+
+                        </div>
+
+                        <div class="alert alert-danger" role=alert ng-show="fare.error">
+                            <p>{{fare.error}}</p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </fieldset>
+            <!--result fare value-->
+
+    </div>
+
+    <!--purchase summary-->
+    <div class="col-xs-12 col-sm-offset-8 col-sm-4 col-md-4 col-lg-4 fixed-purchase">
+
+        <legend class="text-gray font-18">Resumo Parcial</legend>
+
+        <!--loop-->
+        <div class="max-height-280 overflow-y-auto overflow-x-hidden">
+
+            <div class="row">
+
+                <!--product data-->
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+                    <table class="table table-condensed table-hover table-striped">
+                        <thead>
+                        <th>Quant.</th>
+                        <th>Produto</th>
+                        <th>Valor</th>
+                        </thead>
+
+                        <tbody>
+                            <tr ng-repeat="row in cart">
+                                <td>
+                                    {{row.nu_quantity_buy? row.nu_quantity_buy : row.nu_quantity_buy = 1}}
+                                </td>
+                                <td>{{row.ds_product}}</td>
+                                <td>{{row.nu_quantity_buy * row.nu_value| currency}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+        <!--loop-->
+
+        <!--selected fare value-->
+        <div ng-show="cart.nu_farevalue">
+            <span><strong>Taxa de entrega:</strong> {{cart.nu_farevalue| currency}}</span>
+            <hr />
+        </div>
+        <!--selected fare value-->
+
+        <fieldset class="well" ng-init="updateTotal()">
+
+            <div class="form-inline">
+
+                <div class="form-group">
+                    <label><strong>Valor Total: </strong><span class="text-success font-18">{{cart.nu_total| currency}}</span></label>
+                </div>
+
+                <button class="btn btn-success" ng-click="prepareBuy()" ng-disabled="form.$invalid">Comprar
+                    <i class="glyphicon glyphicon-ok"></i>
+                </button>
+
+            </div>
+
+        </fieldset>
+
+        </form>
+
+    </div>
+    <!--purchase summary-->
+
+</div>
+
+<!--modal address-->
+<div class="modal fade" id="modalAddress" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+    <div class="modal-dialog modal-lg" ng-controller="customerController">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">x</span></button>
+
+                <h4 class="modal-title" id="myModalLabel">Cadastro de endereço</h4>
+
+            </div>
+
+            <div class="modal-body">
+
+                <form name="addrModal" class="form-horizontal">
+
+                    <!--field postal code-->
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">CEP<span class="text-danger">*</span></label>
+
+                        <div class="col-xs-12 col-sm-6 col-md-6">
+
+                            <input class="form-control input-sm"
+                                   placeholder="Informe o CEP"
+                                   name="zip"
+                                   type="text"
+                                   maxlength="8"
+                                   ng-maxlength="8"
+                                   ng-minlength="8"
+                                   ng-model="user.nu_postcode"
+                                   pattern="[0-9 -]+$"
+                                   ng-blur="getAddressByZip(user.nu_postcode)"
+                                   required/>
+                        </div>
+
+                        <div class="help-block-input col-xs-12 col-sm-4 col-md-4">
+
+                            <span class="text-danger" ng-show="addrModal.zip.$dirty && addrModal.zip.$invalid">
+                                <i class="glyphicon glyphicon-remove-sign"></i>
+                                <span ng-show="addrModal.zip.$error.required">Campo obrigatório.</span>
+                                <span ng-show="addrModal.zip.$error.maxlength">Máximo de oito caracteres.</span>
+                                <span ng-show="addrModal.zip.$error.minlength">Mínimo de oito caracteres.</span>
+                                <span ng-show="addrModal.zip.$error.pattern">Somente números.</span>
+                            </span>
+
+                        </div>
+                    </div>
+                    <!--field postal code-->
+
+                    <!--field state-->
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">UF<span class="text-danger">*</span></label>
+
+                        <div class="col-xs-12 col-sm-6 col-md-6">
+
+                            <input class="form-control input-sm"
+                                   placeholder="Informe a UF"
+                                   name="province"
+                                   type="text"
+                                   maxlength="2"
+                                   ng-maxlength="2"
+                                   ng-minlength="2"
+                                   ng-model="user.ac_state"
+                                   required/>
+                        </div>
+
+                        <div class="help-block-input col-xs-12 col-sm-4 col-md-4">
+
+                            <span class="text-danger" ng-show="addrModal.province.$dirty && addrModal.province.$invalid">
+                                <i class="glyphicon glyphicon-remove-sign"></i>
+                                <span ng-show="addrModal.province.$error.required">Campo obrigatório</span>
+                                <span ng-show="addrModal.province.$error.maxlength">Máximo de dois caracteres</span>
+                                <span ng-show="addrModal.province.$error.minlength">Mínimo de dois caracteres</span>
+                            </span>
+
+                        </div>
+                    </div>
+                    <!--field state-->
+
+                    <!--field city-->
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Cidade<span class="text-danger">*</span></label>
+
+                        <div class="col-xs-12 col-sm-6 col-md-6">
+
+                            <input class="form-control input-sm"
+                                   placeholder="Informe a cidade"
+                                   name="city"
+                                   type="text"
+                                   maxlength="100"
+                                   ng-maxlength="100"
+                                   ng-minlength="2"
+                                   ng-model="user.ds_city"
+                                   required/>
+                        </div>
+
+                        <div class="help-block-input col-xs-12 col-sm-4 col-md-4">
+
+                            <span class="text-danger" ng-show="addrModal.city.$dirty && addrModal.city.$invalid">
+                                <i class="glyphicon glyphicon-remove-sign"></i>
+                                <span ng-show="addrModal.city.$error.required">Campo obrigatório</span>
+                                <span ng-show="addrModal.city.$error.maxlength">Máximo de cem caracteres</span>
+                                <span ng-show="addrModal.city.$error.minlength">Mínimo de dois caracteres</span>
+                            </span>
+
+                        </div>
+                    </div>
+                    <!--field city-->
+
+                    <!--field neighborhood-->
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Bairro<span class="text-danger">*</span></label>
+
+                        <div class="col-xs-12 col-sm-6 col-md-6">
+
+                            <input class="form-control input-sm"
+                                   placeholder="Informe o bairro"
+                                   name="neighborhood"
+                                   type="text"
+                                   maxlength="100"
+                                   ng-maxlength="100"
+                                   ng-minlength="2"
+                                   ng-model="user.ds_neighborhood"
+                                   required/>
+                        </div>
+
+                        <div class="help-block-input col-xs-12 col-sm-4 col-md-4">
+
+                            <span class="text-danger" ng-show="addrModal.neighborhood.$dirty && addrModal.neighborhood.$invalid">
+                                <i class="glyphicon glyphicon-remove-sign"></i>
+                                <span ng-show="addrModal.neighborhood.$error.required">Campo obrigatório</span>
+                                <span ng-show="addrModal.neighborhood.$error.maxlength">Máximo de cem caracteres</span>
+                                <span ng-show="addrModal.neighborhood.$error.minlength">Mínimo de dois caracteres</span>
+                            </span>
+
+                        </div>
+                    </div>
+                    <!--field neighborhood-->
+
+                    <!--field address-->
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Endereço<span class="text-danger">*</span></label>
+
+                        <div class="col-xs-12 col-sm-6 col-md-6">
+
+                            <input class="form-control input-sm"
+                                   placeholder="Informe o endereço"
+                                   name="address"
+                                   type="address"
+                                   maxlength="100"
+                                   ng-maxlength="100"
+                                   ng-minlength="4"
+                                   ng-model="user.ds_address"
+                                   required/>
+                        </div>
+
+                        <div class="help-block-input col-xs-12 col-sm-4 col-md-4">
+
+                            <span class="text-danger" ng-show="addrModal.address.$dirty && addrModal.address.$invalid">
+                                <i class="glyphicon glyphicon-remove-sign"></i>
+                                <span ng-show="addrModal.address.$error.required">Campo obrigatório</span>
+                                <span ng-show="addrModal.address.$error.maxlength">Máximo de cem caracteres</span>
+                                <span ng-show="addrModal.address.$error.minlength">Mínimo de quatro caracteres</span>
+                            </span>
+
+                        </div>
+                    </div>
+                    <!--field address-->
+
+                    <!--field complement-->
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Complemento</label>
+
+                        <div class="col-xs-12 col-sm-6 col-md-6">
+
+                            <input class="form-control input-sm"
+                                   placeholder="Complemento. Ex: Ap 01, casa 01, lote 01."
+                                   name="complement"
+                                   type="text"
+                                   maxlength="100"
+                                   ng-maxlength="100"
+                                   ng-model="user.ds_complement"
+                                   pattern="[A-Z a-z 0-9]+$"
+                                   />
+                        </div>
+
+                        <div class="help-block-input col-xs-12 col-sm-4 col-md-4">
+
+                            <span class="text-danger" ng-show="addrModal.complement.$dirty && addrModal.complement.$invalid">
+                                <i class="glyphicon glyphicon-remove-sign"></i>
+                                <span ng-show="addrModal.complement.$error.pattern">Não é permitido caracteres especiais.</span>
+                            </span>
+
+                        </div>
+
+                    </div>
+                    <!--field complement-->
+
+                    <!--</div>-->
+
+                    <div class="modal-footer">
+
+                        <!--buttons-->
+                        <div class="form-group">
+                            <div class="col-sm-12">
+
+                                <button class="btn btn-default btn-sm" data-dismiss="modal">
+                                    Cancelar
+                                    <i class="glyphicon glyphicon-remove"></i>
+                                </button>
+
+                                <button
+                                    type="submit"
+                                    class="btn btn-primary btn-sm"
+                                    ng-click="upAddress(true)"
+                                    ng-Disabled="addrModal.$invalid">
+                                    Salvar
+                                    <i class="glyphicon glyphicon-save"></i>
+                                </button>
+
+                            </div>
+                        </div>
+                        <!--buttons-->
+
+                    </div>
+
+                </form>
+                <!--form-->
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+<!--modal address-->
+
+<!--modal confirmation order-->
+<div class="modal fade" id="modalConfirmation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+    <div class="modal-dialog">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">x</span></button>
+                <h4 class="modal-title" id="myModalLabel">Confirmar compra</h4>
+            </div>
+
+            <div class="modal-body">
+
+                <!--loop-->
+                <div class="row">
+
+                    <!--product data-->
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+                        <table class="table table-condensed table-hover table-striped">
+                            <thead>
+                            <th>Quantidade</th>
+                            <th>Produto</th>
+                            <th>Valor</th>
+                            </thead>
+
+                            <tbody>
+
+                                <tr ng-repeat="row in cart">
+                                    <td>{{row.nu_quantity_buy? row.nu_quantity_buy : row.nu_quantity_buy = 1}}</td>
+                                    <td>{{row.ds_product}}</td>
+                                    <td>{{row.nu_quantity_buy * row.nu_value| currency}}</td>
+                                </tr>
+
+                                <tr>
+                                    <td>1</td>
+                                    <td>Taxa de entrega</td>
+                                    <td>{{cart.nu_farevalue| currency}}</td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                </div>
+                <!--loop-->
+
+                <!--address-->
+                <p class="pull-left"><strong>Endereço para entrega</strong></p>
+
+                <div class="row" ng-show="address">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+                        <span>{{user.ds_address}} {{user.ds_complement}}<br />{{user.ds_neighborhood}} | {{user.ds_city}}-{{user.ac_state}}</span>
+
+                    </div>
+                </div>
+                <!--address-->
+                <hr />
+
+                <!--total purchase-->
+                <p><strong>Total da compra: </strong><span class="text-success font-18">{{cart.nu_total| currency}}</span></p>
+                <!--total purchase-->
+
+            </div>
+
+            <div class="modal-footer">
+
+                <!--buttons-->
+                <div class="form-group">
+                    <div class="col-sm-12">
+
+                        <div class="hidden-xs pull-left row"><strong>Confirma a compra?</strong></div>
+                        <div class=" hidden-sm hidden-md hidden-lg col-xs-5 pull-left text-left row"><strong>Confirma a compra?</strong></div>
+
+                        <button class="btn btn-default btn-sm" data-dismiss="modal">
+                            Não
+                            <i class="glyphicon glyphicon-remove"></i>
+                        </button>
+
+                        <button class="btn btn-success btn-sm" ng-click="">
+                            Confirmar
+                            <i class="glyphicon glyphicon-ok"></i>
+                        </button>
+
+                    </div>
+                </div>
+                <!--buttons-->
+
+            </div>
+        </div>
+    </div>
+</div>
+<!--modal confirmation order-->

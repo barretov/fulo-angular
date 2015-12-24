@@ -174,8 +174,6 @@ $app.controller('customerController', function ($scope, $http, $location, $rootS
             $rootScope.user.ds_neighborhood = $return.bairro;
             $rootScope.user.ds_address = $return.log_tipo_logradouro + " " + $return.logradouro;
             $rootScope.user.ac_state = $return.uf;
-            console.log($rootScope.user);
-
         });
     };
 });

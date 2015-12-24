@@ -283,19 +283,19 @@ class ProductBusiness extends MasterBusiness
      * @date Alg 28, 2015
      * @version 1.0
      */
-    public function addWishList ()
-    {
-
-        try {
-
-            $data = $this->getRequestData();
-
-            return $this->_productModel->addWishList($data);
-        } catch (Exception $ex) {
-
-            throw $ex;
-        }
-    }
+//    public function addWishList ()
+//    {
+//
+//        try {
+//
+//            $data = $this->getRequestData();
+//
+//            return $this->_productModel->addWishList($data);
+//        } catch (Exception $ex) {
+//
+//            throw $ex;
+//        }
+//    }
 
     /**
      * Method for business get items of wish list
@@ -306,26 +306,26 @@ class ProductBusiness extends MasterBusiness
      * @date Alg 29, 2015
      * @version 1.0
      */
-    public function getWishList ()
-    {
-
-        try {
-
-            $data = $this->getRequestData();
-
-            $results = $this->_productModel->getWishList($data);
-
-            foreach ($results as $key) {
-
-                $this->makeImageOut($key->im_product_image, 300, 300);
-            }
-
-            return $results;
-        } catch (Exception $ex) {
-
-            throw $ex;
-        }
-    }
+//    public function getWishList ()
+//    {
+//
+//        try {
+//
+//            $data = $this->getRequestData();
+//
+//            $results = $this->_productModel->getWishList($data);
+//
+//            foreach ($results as $key) {
+//
+//                $this->makeImageOut($key->im_product_image, 300, 300);
+//            }
+//
+//            return $results;
+//        } catch (Exception $ex) {
+//
+//            throw $ex;
+//        }
+//    }
 
     /**
      * Method for business del item of wish list
@@ -336,19 +336,19 @@ class ProductBusiness extends MasterBusiness
      * @date Alg 31, 2015
      * @version 1.0
      */
-    public function delWishList ()
-    {
-
-        try {
-
-            $data = $this->getRequestData();
-
-            return $this->_productModel->delWishList($data);
-        } catch (Exception $ex) {
-
-            throw $ex;
-        }
-    }
+//    public function delWishList ()
+//    {
+//
+//        try {
+//
+//            $data = $this->getRequestData();
+//
+//            return $this->_productModel->delWishList($data);
+//        } catch (Exception $ex) {
+//
+//            throw $ex;
+//        }
+//    }
 
     /**
      * Method for add product type
@@ -451,192 +451,243 @@ class ProductBusiness extends MasterBusiness
      * @date Oct 10, 2015
      * @version 1.0
      */
-    public function getFareValue ()
-    {
-
-        try {
-
-            $data = $this->getRequestData();
-
-            # init variables;
-            $data->nu_length = 0;
-            $data->nu_width = 0;
-            $data->nu_height = 0;
-            $data->nu_weight = 0;
-            $data->nu_packages = 0;
-
-            $products = $this->_productModel->getDataProducts($data);
-
-            # verifica se os produtos são menores que os valores minimos.
-            foreach ($products as $key) {
-
-                # verifica se é dobravel?
-                if ($key->st_foldable) {
-
-                    # verifica se é maior que o recomendado.
-                    # comprimento.
-                    while ($key->nu_length > BOX_DELIVERY_BEST_LENGTH) {
-
-                        # dobra o produto.
-                        $key->nu_length = $key->nu_length / 2;
-
-                        # soma a altura do produto.
-                        $key->nu_height = $key->nu_height * 2;
-                    }
-
-                    # largura.
-                    while ($key->nu_width > BOX_DELIVERY_BEST_WIDTH) {
-
-                        # dobra o produto.
-                        $key->nu_width = $key->nu_width / 2;
-
-                        # soma a altura do produto.
-                        $key->nu_height = $key->nu_height * 2;
-                    }
-                }
-
-                # verifica se é menor que os minimos.
-                #comprimento.
-                if ($key->nu_length < BOX_DELIVERY_MIN_LENGTH) {
-
-                    $key->nu_length = BOX_DELIVERY_MIN_LENGTH;
-                }
-
-                #largura.
-                if ($key->nu_width < BOX_DELIVERY_MIN_WIDTH) {
-
-                    $key->nu_width = BOX_DELIVERY_MIN_WIDTH;
-                }
-            }
-
-            # soma o tamanho de todos os produtos para definir o tamanho do pacote.
-            foreach ($products as $key) {
-
-                # verifica o produto com o maior comprimento.
-                if ($key->nu_length > $data->nu_length) {
-
-                    $data->nu_length = $key->nu_length;
-                }
-
-                # verifica o produto com a maior largura.
-                if ($key->nu_width > $data->nu_width) {
-
-                    $data->nu_width = $key->nu_width;
-                }
-
-                # percorre o array dos produtos do carrinho para multiplicar peso e altura pela quantidade.
-                foreach ($data->product as $key_prod => $value) {
-
-                    if ($key->sq_product == $value->sq_product) {
-
-                        $key->nu_height = $key->nu_height * $value->nu_quantity_buy;
-                        $key->nu_weight = $key->nu_weight * $value->nu_quantity_buy;
-                    }
-                }
-
-                #soma a altura e peso.
-                $data->nu_height = $data->nu_height + $key->nu_height;
-                $data->nu_weight = $data->nu_weight + $key->nu_weight;
-            }
-
-            # verifica os maximos de altura e peso.
-            # se o pacote ultrapassar os maximos de altura ou peso, divide o pacote em dois.
-            while ($data->nu_height > BOX_DELIVERY_MAX_HEIGHT ||
-            $data->nu_weight > BOX_DELIVERY_MAX_WEIGHT ||
-            $data->nu_length + $data->nu_width + $data->nu_height > BOX_DELIVERY_MAX_PACKAGE_SIZE) {
-
-                # divide altura e peso.
-                $data->nu_height = $data->nu_height / 2;
-                $data->nu_weight = $data->nu_weight / 2;
-
-                # flag para multiplicar o valor do frete pela quantidade de caixas.
-                $data->nu_packages = $data->nu_packages + 2;
-            }
-
-            # verifica os mínimos de altura.
-            if ($data->nu_height < BOX_DELIVERY_MIN_HEIGHT) {
-
-                $data->nu_height = BOX_DELIVERY_MIN_HEIGHT;
-            }
-
-            # verifica os mínimos de peso.
-            if ($data->nu_weight < BOX_DELIVERY_MIN_WEIGHT) {
-
-                $data->nu_weight < BOX_DELIVERY_MIN_WEIGHT;
-            }
-
-            $this->requestFareValue($data);
-
-            # multiplica o valor do frete por caixas.
-            if (!empty($data->nu_packages)) {
-
-                foreach ($data->fare_value as $key) {
-
-                    $key->Valor = $key->Valor * $data->nu_packages;
-                }
-            }
-
-            return $data;
-        } catch (Exception $ex) {
-
-            throw $ex;
-        }
-    }
-
-    /*
-     * Method for request fare value
-     * @name requestFareValue
-     * @author Victor Eduardo Barreto
-     * @package fulo\business
-     * @return object Data of product
-     * @date Oct 20, 2015
-     * @version 1.0
-     */
-
-    public function requestFareValue (& $data)
-    {
-
-        try {
-
-            $wsc['nCdEmpresa'] = '';
-            $wsc['sDsSenha'] = '';
-            $wsc['sCepOrigem'] = ORIGIN_POSTCODE;
-            $wsc['sCepDestino'] = $data->nu_postcode;
-            $wsc['nVlPeso'] = $data->nu_weight;
-            $wsc['nCdFormato'] = NUMBER_ONE;
-            $wsc['nVlComprimento'] = $data->nu_length;
-            $wsc['nVlAltura'] = $data->nu_height;
-            $wsc['nVlLargura'] = $data->nu_width;
-            $wsc['nVlDiametro'] = NUMBER_ZERO;
-            $wsc['sCdMaoPropria'] = 'n';
-            $wsc['nVlValorDeclarado'] = NUMBER_ZERO;
-            $wsc['sCdAvisoRecebimento'] = 'n';
-            $wsc['StrRetorno'] = 'xml';
-            $wsc['nCdServico'] = '41106, 40010';
-            $wsc = http_build_query($wsc);
-
-            $url = 'http://ws.correios.com.br/calculador/CalcPrecoPrazo.aspx';
-
-            $curl = curl_init($url . '?' . $wsc);
-            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-
-            $result = curl_exec($curl);
-            $data->fare_value = simplexml_load_string($result);
-
-            # change the comma to point.
-            foreach ($data->fare_value as $key) {
-
-                $key->Valor = preg_replace('/,/', '.', $key->Valor);
-
-                if (!empty($key->Erro)) {
-
-                    $data->fare_value->error = $key->MsgErro;
-                }
-            }
-        } catch (Exception $ex) {
-
-            throw $ex;
-        }
-    }
-
+//    public function getFareValue ()
+//    {
+//
+//        try {
+//
+//            $data = $this->getRequestData();
+//
+//            # init variables;
+//            $data->nu_length = 0;
+//            $data->nu_width = 0;
+//            $data->nu_height = 0;
+//            $data->nu_weight = 0;
+//            $data->nu_packages = 0;
+//
+//            $products = $this->_productModel->getDataProducts($data);
+//
+//            # verifica se os produtos são menores que os valores minimos.
+//            foreach ($products as $key) {
+//
+//                # verifica se é dobravel?
+//                if ($key->st_foldable) {
+//
+//                    # verifica se é maior que o recomendado.
+//                    # comprimento.
+//                    while ($key->nu_length > BOX_DELIVERY_BEST_LENGTH) {
+//
+//                        # dobra o produto.
+//                        $key->nu_length = $key->nu_length / 2;
+//
+//                        # soma a altura do produto.
+//                        $key->nu_height = $key->nu_height * 2;
+//                    }
+//
+//                    # largura.
+//                    while ($key->nu_width > BOX_DELIVERY_BEST_WIDTH) {
+//
+//                        # dobra o produto.
+//                        $key->nu_width = $key->nu_width / 2;
+//
+//                        # soma a altura do produto.
+//                        $key->nu_height = $key->nu_height * 2;
+//                    }
+//                }
+//
+//                # verifica se é menor que os minimos.
+//                #comprimento.
+//                if ($key->nu_length < BOX_DELIVERY_MIN_LENGTH) {
+//
+//                    $key->nu_length = BOX_DELIVERY_MIN_LENGTH;
+//                }
+//
+//                #largura.
+//                if ($key->nu_width < BOX_DELIVERY_MIN_WIDTH) {
+//
+//                    $key->nu_width = BOX_DELIVERY_MIN_WIDTH;
+//                }
+//            }
+//
+//            # soma o tamanho de todos os produtos para definir o tamanho do pacote.
+//            foreach ($products as $key) {
+//
+//                # verifica o produto com o maior comprimento.
+//                if ($key->nu_length > $data->nu_length) {
+//
+//                    $data->nu_length = $key->nu_length;
+//                }
+//
+//                # verifica o produto com a maior largura.
+//                if ($key->nu_width > $data->nu_width) {
+//
+//                    $data->nu_width = $key->nu_width;
+//                }
+//
+//                # percorre o array dos produtos do carrinho para multiplicar peso e altura pela quantidade.
+//                foreach ($data->product as $key_prod => $value) {
+//
+//                    if ($key->sq_product == $value->sq_product) {
+//
+//                        $key->nu_height = $key->nu_height * $value->nu_quantity_buy;
+//                        $key->nu_weight = $key->nu_weight * $value->nu_quantity_buy;
+//                    }
+//                }
+//
+//                #soma a altura e peso.
+//                $data->nu_height = $data->nu_height + $key->nu_height;
+//                $data->nu_weight = $data->nu_weight + $key->nu_weight;
+//            }
+//
+//            # verifica os maximos de altura e peso.
+//            # se o pacote ultrapassar os maximos de altura ou peso, divide o pacote em dois.
+//            while ($data->nu_height > BOX_DELIVERY_MAX_HEIGHT ||
+//            $data->nu_weight > BOX_DELIVERY_MAX_WEIGHT ||
+//            $data->nu_length + $data->nu_width + $data->nu_height > BOX_DELIVERY_MAX_PACKAGE_SIZE) {
+//
+//                # divide altura e peso.
+//                $data->nu_height = $data->nu_height / 2;
+//                $data->nu_weight = $data->nu_weight / 2;
+//
+//                # flag para multiplicar o valor do frete pela quantidade de caixas.
+//                $data->nu_packages = $data->nu_packages + 2;
+//            }
+//
+//            # verifica os mínimos de altura.
+//            if ($data->nu_height < BOX_DELIVERY_MIN_HEIGHT) {
+//
+//                $data->nu_height = BOX_DELIVERY_MIN_HEIGHT;
+//            }
+//
+//            # verifica os mínimos de peso.
+//            if ($data->nu_weight < BOX_DELIVERY_MIN_WEIGHT) {
+//
+//                $data->nu_weight < BOX_DELIVERY_MIN_WEIGHT;
+//            }
+//
+//            $this->requestFareValue($data);
+//
+//            # multiplica o valor do frete por caixas.
+//            if (!empty($data->nu_packages)) {
+//
+//                foreach ($data->fare_value as $key) {
+//
+//                    $key->Valor = $key->Valor * $data->nu_packages;
+//                }
+//            }
+//
+//            return $data;
+//        } catch (Exception $ex) {
+//
+//            throw $ex;
+//        }
+//    }
+//
+//    /*
+//     * Method for request fare value
+//     * @name requestFareValue
+//     * @author Victor Eduardo Barreto
+//     * @package fulo\business
+//     * @return object Data of product
+//     * @date Oct 20, 2015
+//     * @version 1.0
+//     */
+//
+//    public function requestFareValue (& $data)
+//    {
+//
+//        try {
+//
+//            $wsc['nCdEmpresa'] = '';
+//            $wsc['sDsSenha'] = '';
+//            $wsc['sCepOrigem'] = ORIGIN_POSTCODE;
+//            $wsc['sCepDestino'] = $data->nu_postcode;
+//            $wsc['nVlPeso'] = $data->nu_weight;
+//            $wsc['nCdFormato'] = NUMBER_ONE;
+//            $wsc['nVlComprimento'] = $data->nu_length;
+//            $wsc['nVlAltura'] = $data->nu_height;
+//            $wsc['nVlLargura'] = $data->nu_width;
+//            $wsc['nVlDiametro'] = NUMBER_ZERO;
+//            $wsc['sCdMaoPropria'] = 'n';
+//            $wsc['nVlValorDeclarado'] = NUMBER_ZERO;
+//            $wsc['sCdAvisoRecebimento'] = 'n';
+//            $wsc['StrRetorno'] = 'xml';
+//            $wsc['nCdServico'] = '41106, 40010';
+//            $wsc = http_build_query($wsc);
+//
+//            $url = 'http://ws.correios.com.br/calculador/CalcPrecoPrazo.aspx';
+//
+//            $curl = curl_init($url . '?' . $wsc);
+//            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+//
+//            $result = curl_exec($curl);
+//            $data->fare_value = simplexml_load_string($result);
+//
+//            # change the comma to point.
+//            foreach ($data->fare_value as $key) {
+//
+//                $key->Valor = preg_replace('/,/', '.', $key->Valor);
+//
+//                if (!empty($key->Erro)) {
+//
+//                    $data->fare_value->error = $key->MsgErro;
+//                }
+//            }
+//        } catch (Exception $ex) {
+//
+//            throw $ex;
+//        }
+//    }
+//
+//    /**
+//     * Envia uma requisição NVP para uma API PayPal.
+//     *
+//     * @param array $requestNvp Define os campos da requisição.
+//     * @param boolean $sandbox Define se a requisição será feita no sandbox ou no
+//     *                         ambiente de produção.
+//     *
+//     * @return array Campos retornados pela operação da API. O array de retorno poderá
+//     *               ser vazio, caso a operação não seja bem sucedida. Nesse caso, os
+//     *               logs de erro deverão ser verificados.
+//     */
+//    function sendNvpRequest (array $requestNvp, $sandbox = false)
+//    {
+//        //Endpoint da API
+//        $apiEndpoint = 'https://api-3t.' . ($sandbox ? 'sandbox.' : null);
+//        $apiEndpoint .= 'paypal.com/nvp';
+//
+//        //Executando a operação
+//        $curl = curl_init();
+//
+//        curl_setopt($curl, CURLOPT_URL, $apiEndpoint);
+//        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+//        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+//        curl_setopt($curl, CURLOPT_POST, true);
+//        curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($requestNvp));
+//
+//        $response = urldecode(curl_exec($curl));
+//
+//        curl_close($curl);
+//
+//        //Tratando a resposta
+//        $responseNvp = array();
+//
+//        if (preg_match_all('/(?<name>[^\=]+)\=(?<value>[^&]+)&?/', $response, $matches)) {
+//            foreach ($matches['name'] as $offset => $name) {
+//                $responseNvp[$name] = $matches['value'][$offset];
+//            }
+//        }
+//
+//        //Verificando se deu tudo certo e, caso algum erro tenha ocorrido,
+//        //gravamos um log para depuração.
+//        if (isset($responseNvp['ACK']) && $responseNvp['ACK'] != 'Success') {
+//            for ($i = 0; isset($responseNvp['L_ERRORCODE' . $i]); ++$i) {
+//                $message = sprintf("PayPal NVP %s[%d]: %s\n", $responseNvp['L_SEVERITYCODE' . $i], $responseNvp['L_ERRORCODE' . $i], $responseNvp['L_LONGMESSAGE' . $i]);
+//
+//                error_log($message);
+//            }
+//        }
+//
+//        return $responseNvp;
+//    }
 }

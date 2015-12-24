@@ -226,18 +226,18 @@ $app->get("/getProductDetail", function () {
  * @date Alg 28, 2015
  * @version 1.0
  */
-$app->post("/addWishList", function () {
-
-    try {
-
-        $business = MasterController::getProductBusiness();
-
-        echo json_encode($business->addWishList());
-    } catch (Exception $ex) {
-
-        throw $ex;
-    }
-});
+//$app->post("/addWishList", function () {
+//
+//    try {
+//
+//        $business = MasterController::getProductBusiness();
+//
+//        echo json_encode($business->addWishList());
+//    } catch (Exception $ex) {
+//
+//        throw $ex;
+//    }
+//});
 
 /**
  * Method for get items of wish list
@@ -248,18 +248,18 @@ $app->post("/addWishList", function () {
  * @date Alg 29, 2015
  * @version 1.0
  */
-$app->get("/getWishList", function () {
-
-    try {
-
-        $business = MasterController::getProductBusiness();
-
-        echo json_encode($business->getWishList());
-    } catch (Exception $ex) {
-
-        throw $ex;
-    }
-});
+//$app->get("/getWishList", function () {
+//
+//    try {
+//
+//        $business = MasterController::getProductBusiness();
+//
+//        echo json_encode($business->getWishList());
+//    } catch (Exception $ex) {
+//
+//        throw $ex;
+//    }
+//});
 
 /**
  * Method for del items of wish list
@@ -270,18 +270,18 @@ $app->get("/getWishList", function () {
  * @date Alg 31, 2015
  * @version 1.0
  */
-$app->post("/delWishList", function () {
-
-    try {
-
-        $business = MasterController::getProductBusiness();
-
-        echo json_encode($business->delWishList());
-    } catch (Exception $ex) {
-
-        throw $ex;
-    }
-});
+//$app->post("/delWishList", function () {
+//
+//    try {
+//
+//        $business = MasterController::getProductBusiness();
+//
+//        echo json_encode($business->delWishList());
+//    } catch (Exception $ex) {
+//
+//        throw $ex;
+//    }
+//});
 
 /**
  * Method for add product type
@@ -380,15 +380,15 @@ $app->post("/delProductType", function () {
  * @date Oct 10, 2015
  * @version 1.0
  */
-$app->post("/getFareValue", function () {
-
-    try {
-
-        $business = MasterController::getProductBusiness();
-
-        echo json_encode($business->getFareValue());
-    } catch (Exception $ex) {
-
-        throw $ex;
-    }
-});
+//$app->post("/getFareValue", function () {
+//
+//    try {
+//
+//        $business = MasterController::getProductBusiness();
+//
+//        echo json_encode($business->getFareValue());
+//    } catch (Exception $ex) {
+//
+//        throw $ex;
+//    }
+//});

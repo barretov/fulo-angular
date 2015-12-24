@@ -449,8 +449,10 @@
                                    type="text"
                                    maxlength="100"
                                    ng-maxlength="100"
+                                   ng-minlength="1"
                                    ng-model="user.ds_complement"
                                    pattern="[A-Z a-z 0-9]+$"
+                                   required
                                    />
                         </div>
 
@@ -459,6 +461,9 @@
                             <span class="text-danger" ng-show="formLocal.complement.$dirty && formLocal.complement.$invalid">
                                 <i class="glyphicon glyphicon-remove-sign"></i>
                                 <span ng-show="formLocal.complement.$error.pattern">Não é permitido caracteres especiais.</span>
+                                <span ng-show="formLocal.complement.$error.required">Campo obrigatório</span>
+                                <span ng-show="formLocal.complement.$error.maxlength">Máximo de cem caracteres</span>
+                                <span ng-show="formLocal.complement.$error.minlength">Mínimo de um caractere</span>
                             </span>
 
                         </div>

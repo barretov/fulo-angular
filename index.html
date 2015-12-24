@@ -152,7 +152,7 @@
 
                                 <!--cart-->
                                 <li data-toggle="tooltip" data-placement="left" title="Carrinho de compras">
-                                    <a href="#/product/cart">
+                                    <a href="#/purchase/cart">
                                         <i class="glyphicon glyphicon-shopping-cart btn-primary badge"> {{cart.nu_cart}}</i>
                                     </a>
                                 </li>
@@ -160,7 +160,7 @@
 
                                 <!--wishlist-->
                                 <li data-toggle="tooltip" data-placement="left" title="Lista de desejos" ng-show="user.sq_user">
-                                    <a href="#/product/wishList">
+                                    <a href="#/purchase/wishList">
                                         <i class="glyphicon glyphicon-heart text-danger badge btn-danger"> {{user.nu_wishlist}}</i>
                                     </a>
                                 </li>
@@ -562,6 +562,7 @@
     <script src="app/controller/loginController.js"></script>
     <script src="app/controller/customerController.js"></script>
     <script src="app/controller/productController.js"></script>
+    <script src="app/controller/purchaseController.js"></script>
     <!--Controllers-->
 
     <!--services-->

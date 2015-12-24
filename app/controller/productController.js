@@ -288,31 +288,31 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
      * @date Alg 28, 2015
      * @version 1.0
      */
-    $scope.addWishList = function ($sq_product) {
-
-        // verify if user is loged.
-        if (!$rootScope.user) {
-
-            $('#modalLogin').modal('show');
-            $scope.showFlashmessage("alert-warning", $scope.constant.MSG0007);
-        } else {
-
-            $param = $scope.configParam({sq_product: $sq_product});
-
-            $http.post($scope.server("/addWishList"), $param).success(function ($return) {
-
-                // verify return data.
-                $scope.checkResponse($return);
-
-                // ajust quantity of itens and session.
-                $rootScope.user.nu_wishlist++;
-                sessionStorage.setItem('user', JSON.stringify($rootScope.user));
-
-                $scope.showFlashmessage("alert-success", $scope.constant.MSG0001);
-
-            });
-        }
-    };
+//    $scope.addWishList = function ($sq_product) {
+//
+//        // verify if user is loged.
+//        if (!$rootScope.user) {
+//
+//            $('#modalLogin').modal('show');
+//            $scope.showFlashmessage("alert-warning", $scope.constant.MSG0007);
+//        } else {
+//
+//            $param = $scope.configParam({sq_product: $sq_product});
+//
+//            $http.post($scope.server("/addWishList"), $param).success(function ($return) {
+//
+//                // verify return data.
+//                $scope.checkResponse($return);
+//
+//                // ajust quantity of itens and session.
+//                $rootScope.user.nu_wishlist++;
+//                sessionStorage.setItem('user', JSON.stringify($rootScope.user));
+//
+//                $scope.showFlashmessage("alert-success", $scope.constant.MSG0001);
+//
+//            });
+//        }
+//    };
 
     /**
      * Method for get items of wish list
@@ -321,18 +321,18 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
      * @date Alg 29, 2015
      * @version 1.0
      */
-    $scope.getWishList = function () {
-
-        $param = $scope.configParam();
-
-        $http.get($scope.server("/getWishList"), {params: $param}).success(function ($return) {
-
-            // verify return data.
-            $scope.checkResponse($return);
-
-            $scope.rows = $return;
-        });
-    };
+//    $scope.getWishList = function () {
+//
+//        $param = $scope.configParam();
+//
+//        $http.get($scope.server("/getWishList"), {params: $param}).success(function ($return) {
+//
+//            // verify return data.
+//            $scope.checkResponse($return);
+//
+//            $scope.rows = $return;
+//        });
+//    };
 
     /**
      * Method for del items of wish list
@@ -342,23 +342,23 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
      * @date Alg 31, 2015
      * @version 1.0
      */
-    $scope.delWishList = function ($sq_product) {
-
-        $param = $scope.configParam({sq_product: $sq_product});
-
-        $http.post($scope.server("/delWishList"), $param).success(function ($return) {
-
-            // verify return data.
-            $scope.checkResponse($return);
-
-            // ajust quantity of itens and session.
-            $rootScope.user.nu_wishlist--;
-            sessionStorage.setItem('user', JSON.stringify($rootScope.user));
-
-            // remove row in list.
-            $('#' + $sq_product).fadeOut();
-        });
-    };
+//    $scope.delWishList = function ($sq_product) {
+//
+//        $param = $scope.configParam({sq_product: $sq_product});
+//
+//        $http.post($scope.server("/delWishList"), $param).success(function ($return) {
+//
+//            // verify return data.
+//            $scope.checkResponse($return);
+//
+//            // ajust quantity of itens and session.
+//            $rootScope.user.nu_wishlist--;
+//            sessionStorage.setItem('user', JSON.stringify($rootScope.user));
+//
+//            // remove row in list.
+//            $('#' + $sq_product).fadeOut();
+//        });
+//    };
 
     /**
      * Method for add item in cart
@@ -368,40 +368,39 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
      * @date Alg 31, 2015
      * @version 1.0
      */
-    $scope.addCart = function ($product) {
-
-        // variable to use as flag, to continue the flow.
-        var $continue = true;
-
-        // verify if exists session data.
-        if (sessionStorage.getItem('cart')) {
-
-            // verify if already exists the new product in the cart.
-            angular.forEach($scope.cart, function ($key) {
-
-                if ($product.sq_product === $key.sq_product) {
-
-                    $scope.showFlashmessage("alert-warning", $scope.constant.MSG0006);
-                    $continue = false;
-                }
-            });
-        }
-
-        if ($continue) {
-
-            // insert product in variable cart.
-            $rootScope.cart.push($product);
-
-            // Save data cart in session.
-            this.saveCartSession();
-
-            // update total value.
-            this.updateTotal();
-
-            $scope.showFlashmessage("alert-success", $scope.constant.MSG0001);
-        }
-
-    };
+//    $scope.addCart = function ($product) {
+//
+//        // variable to use as flag, to continue the flow.
+//        var $continue = true;
+//
+//        // verify if exists session data.
+//        if (sessionStorage.getItem('cart')) {
+//
+//            // verify if already exists the new product in the cart.
+//            angular.forEach($scope.cart, function ($key) {
+//
+//                if ($product.sq_product === $key.sq_product) {
+//
+//                    $scope.showFlashmessage("alert-warning", $scope.constant.MSG0006);
+//                    $continue = false;
+//                }
+//            });
+//        }
+//
+//        if ($continue) {
+//
+//            // insert product in variable cart.
+//            $rootScope.cart.push($product);
+//
+//            // Save data cart in session.
+//            this.saveCartSession();
+//
+//            // update total value.
+//            this.updateTotal();
+//
+//            $scope.showFlashmessage("alert-success", $scope.constant.MSG0001);
+//        }
+//    };
 
     /**
      * Method for del items of cart
@@ -411,28 +410,28 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
      * @date Alg 31, 2015
      * @version 1.0
      */
-    $scope.delCart = function ($sq_product) {
-
-        var $aux = 0;
-
-        angular.forEach($rootScope.cart, function ($key) {
-
-            if ($sq_product === $key.sq_product) {
-
-                $rootScope.cart.splice($aux, 1);
-            }
-
-            $aux++;
-        });
-
-        // insert cart in session.
-        this.saveCartSession();
-
-        // update total value.
-        this.updateTotal(true);
-
-        $scope.showFlashmessage("alert-success", $scope.constant.MSG0001);
-    };
+//    $scope.delCart = function ($sq_product) {
+//
+//        var $aux = 0;
+//
+//        angular.forEach($rootScope.cart, function ($key) {
+//
+//            if ($sq_product === $key.sq_product) {
+//
+//                $rootScope.cart.splice($aux, 1);
+//            }
+//
+//            $aux++;
+//        });
+//
+//        // insert cart in session.
+//        this.saveCartSession();
+//
+//        // update total value.
+//        this.updateTotal(true);
+//
+//        $scope.showFlashmessage("alert-success", $scope.constant.MSG0001);
+//    };
 
     /**
      * Method for update total value products in cart
@@ -442,37 +441,37 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
      * @date Sep 1, 2015
      * @version 1.0
      */
-    $scope.updateTotal = function ($fare) {
-
-        $rootScope.cart.nu_total = 0;
-
-        // insert cart in session.
-        sessionStorage.setItem('cart', JSON.stringify($rootScope.cart));
-
-        $scope.$watch($rootScope.cart, function () {
-
-            // sum all products.
-            angular.forEach($rootScope.cart, function ($key) {
-
-                // multipli value per quantity.
-                var $value = parseFloat($key.nu_value) * parseFloat($key.nu_quantity_buy);
-
-                // sum all products.
-                $rootScope.cart.nu_total = parseFloat($rootScope.cart.nu_total) + parseFloat($value);
-            });
-
-            if ($rootScope.cart.nu_farevalue) {
-
-                // add value of fare value.
-                $rootScope.cart.nu_total = parseFloat($rootScope.cart.nu_total) + parseFloat($rootScope.cart.nu_farevalue);
-            }
-
-            $rootScope.cart.nu_total = $rootScope.cart.nu_total.toFixed(2);
-        });
-
-        // if arrive tru in $flag, update fare value.
-        $fare ? this.getFareValue() : '';
-    };
+//    $scope.updateTotal = function ($fare) {
+//
+//        $rootScope.cart.nu_total = 0;
+//
+//        // insert cart in session.
+//        sessionStorage.setItem('cart', JSON.stringify($rootScope.cart));
+//
+//        $scope.$watch($rootScope.cart, function () {
+//
+//            // sum all products.
+//            angular.forEach($rootScope.cart, function ($key) {
+//
+//                // multipli value per quantity.
+//                var $value = parseFloat($key.nu_value) * parseFloat($key.nu_quantity_buy);
+//
+//                // sum all products.
+//                $rootScope.cart.nu_total = parseFloat($rootScope.cart.nu_total) + parseFloat($value);
+//            });
+//
+//            if ($rootScope.cart.nu_farevalue) {
+//
+//                // add value of fare value.
+//                $rootScope.cart.nu_total = parseFloat($rootScope.cart.nu_total) + parseFloat($rootScope.cart.nu_farevalue);
+//            }
+//
+//            $rootScope.cart.nu_total = $rootScope.cart.nu_total.toFixed(2);
+//        });
+//
+//        // if arrive tru in $flag, update fare value.
+//        $fare ? this.getFareValue() : '';
+//    };
 
     /**
      * Method for show details of product
@@ -496,65 +495,65 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
      * @date Sep 17, 2015
      * @version 1.0
      */
-    $scope.getFareValue = function ($postcode) {
-
-        // verify if user is loged.
-        if ($rootScope.user) {
-
-            // set postcode of user data.
-            if ($rootScope.user.nu_postcode) {
-
-                // init variables.
-                $scope.row = {};
-                $scope.row.product = [];
-                $scope.row.nu_postcode = $rootScope.user.nu_postcode;
-            }
-        }
-
-        // if arrive a new postcode, send to get fare value;
-        if ($postcode) {
-
-            $scope.row.nu_postcode = $postcode;
-        }
-
-        // init variable.
-        $scope.row.product = [];
-
-        angular.forEach($rootScope.cart, function ($key) {
-
-            // if don't have quantity set number one.
-            if (!$key.nu_quantity_buy) {
-
-                $key.nu_quantity_buy = 1;
-            }
-
-            $scope.row.product.push({sq_product: $key.sq_product, nu_quantity_buy: $key.nu_quantity_buy});
-        });
-
-        $param = $scope.configParam($scope.row);
-
-        // if dont have product in cart, dont send fare value request;
-        if ($scope.row.product.length) {
-
-            $http.post($scope.server("/getFareValue"), $param).success(function ($return) {
-
-                // verify return data.
-                $scope.checkResponse($return);
-                $scope.fare = $return.fare_value.cServico;
-
-                if ($return.fare_value.error) {
-
-                    $scope.fare.error = $return.fare_value.error;
-                }
-            });
-        }
-
-        // clean variable of fare value in purchase summary.
-        $rootScope.cart.nu_farevalue = '';
-
-        // get address.
-        this.getAddressByZip();
-    };
+//    $scope.getFareValue = function ($postcode) {
+//
+//        // verify if user is loged.
+//        if ($rootScope.user) {
+//
+//            // set postcode of user data.
+//            if ($rootScope.user.nu_postcode) {
+//
+//                // init variables.
+//                $scope.row = {};
+//                $scope.row.product = [];
+//                $scope.row.nu_postcode = $rootScope.user.nu_postcode;
+//            }
+//        }
+//
+//        // if arrive a new postcode, send to get fare value;
+//        if ($postcode) {
+//
+//            $scope.row.nu_postcode = $postcode;
+//        }
+//
+//        // init variable.
+//        $scope.row.product = [];
+//
+//        angular.forEach($rootScope.cart, function ($key) {
+//
+//            // if don't have quantity set number one.
+//            if (!$key.nu_quantity_buy) {
+//
+//                $key.nu_quantity_buy = 1;
+//            }
+//
+//            $scope.row.product.push({sq_product: $key.sq_product, nu_quantity_buy: $key.nu_quantity_buy});
+//        });
+//
+//        $param = $scope.configParam($scope.row);
+//
+//        // if dont have product in cart, dont send fare value request;
+//        if ($scope.row.product.length) {
+//
+//            $http.post($scope.server("/getFareValue"), $param).success(function ($return) {
+//
+//                // verify return data.
+//                $scope.checkResponse($return);
+//                $scope.fare = $return.fare_value.cServico;
+//
+//                if ($return.fare_value.error) {
+//
+//                    $scope.fare.error = $return.fare_value.error;
+//                }
+//            });
+//        }
+//
+//        // clean variable of fare value in purchase summary.
+//        $rootScope.cart.nu_farevalue = '';
+//
+//        // get address.
+//        this.getAddressByZip();
+//    };
 
     /**
      * Method for add product type
@@ -658,21 +657,21 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
      * @date Nov 13, 2015
      * @version 1.0
      */
-    $scope.getAddressByZip = function () {
-
-        // adjust parameters and add origin data.
-        $param = $scope.configParam({nu_postcode: $scope.row.nu_postcode});
-        $http.get($scope.server("/getAddressByZip"), {params: $param}).success(function ($return) {
-
-            // verify return data.
-            $scope.checkResponse($return);
-
-            $scope.address = {};
-
-            $scope.address = $return;
-
-        });
-    };
+//    $scope.getAddressByZip = function () {
+//
+//        // adjust parameters and add origin data.
+//        $param = $scope.configParam({nu_postcode: $scope.row.nu_postcode});
+//        $http.get($scope.server("/getAddressByZip"), {params: $param}).success(function ($return) {
+//
+//            // verify return data.
+//            $scope.checkResponse($return);
+//
+//            $scope.address = {};
+//
+//            $scope.address = $return;
+//
+//        });
+//    };
 
     /**
      * Method for save data cart in session
@@ -681,17 +680,17 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
      * @date Nov 17, 2015
      * @version 1.0
      */
-    $scope.saveCartSession = function () {
-
-        // insert cart in session.
-        sessionStorage.setItem('cart', JSON.stringify($rootScope.cart));
-
-        // update variable through session.
-        $rootScope.cart = JSON.parse(sessionStorage.getItem('cart'));
-
-        // update icon cart value.
-        $rootScope.cart.nu_cart = $scope.cart.length;
-    };
+//    $scope.saveCartSession = function () {
+//
+//        // insert cart in session.
+//        sessionStorage.setItem('cart', JSON.stringify($rootScope.cart));
+//
+//        // update variable through session.
+//        $rootScope.cart = JSON.parse(sessionStorage.getItem('cart'));
+//
+//        // update icon cart value.
+//        $rootScope.cart.nu_cart = $scope.cart.length;
+//    };
 
     /**
      * Method for prepare the buy of itens in cart
@@ -700,33 +699,33 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
      * @date Nov 19, 2015
      * @version 1.0
      */
-    $scope.prepareBuy = function () {
-
-        // verify if user is loged.
-        if ($rootScope.user) {
-
-            // verify if user has address.
-            if ($rootScope.user.ds_address) {
-
-                // verify if zip code is the same of zip code registred in profile.
-                if ($rootScope.user.nu_postcode !== $scope.row.nu_postcode) {
-
-                    $scope.showFlashmessage("alert-warning", $scope.constant.MSG0012);
-                } else {
-
-                    // call the confirmation of order.
-                    $('#modalConfirmation').modal('show');
-                }
-
-            } else {
-
-                $('#modalAddress').modal('show');
-                $scope.showFlashmessage("alert-warning", $scope.constant.MSG0011);
-            }
-        } else {
-
-            $('#modalLogin').modal('show');
-            $scope.showFlashmessage("alert-warning", $scope.constant.MSG0010);
-        }
-    };
+//    $scope.prepareBuy = function () {
+//
+//        // verify if user is loged.
+//        if ($rootScope.user) {
+//
+//            // verify if user has address.
+//            if ($rootScope.user.ds_address) {
+//
+//                // verify if zip code is the same of zip code registred in profile.
+//                if ($rootScope.user.nu_postcode !== $scope.row.nu_postcode) {
+//
+//                    $scope.showFlashmessage("alert-warning", $scope.constant.MSG0012);
+//                } else {
+//
+//                    // call the confirmation of order.
+//                    $('#modalConfirmation').modal('show');
+//                }
+//
+//            } else {
+//
+//                $('#modalAddress').modal('show');
+//                $scope.showFlashmessage("alert-warning", $scope.constant.MSG0011);
+//            }
+//        } else {
+//
+//            $('#modalLogin').modal('show');
+//            $scope.showFlashmessage("alert-warning", $scope.constant.MSG0010);
+//        }
+//    };
 });

@@ -25,6 +25,7 @@ use \fulo\business\DomainBusiness as DomainBusiness;
 use \fulo\business\LoginBusiness as LoginBusiness;
 use \fulo\business\ProductBusiness as ProductBusiness;
 use \fulo\business\UserBusiness as UserBusiness;
+use \fulo\business\PurchaseBusiness as PurchaseBusiness;
 
 /**
  * Master class for controllers
@@ -43,11 +44,13 @@ class MasterController
      * @var object $_domainBusiness Variable to recive instance of LoginBusiness
      * @var object $_loginBusiness Variable to recive instance of ProductBusiness
      * @var object $_loginBusiness Variable to recive instance of UserBusiness
+     * @var object $_loginBusiness Variable to recive instance of PurchaseBusiness
      */
     protected static $_domainBusiness;
     protected static $_loginBusiness;
     protected static $_productBusiness;
     public static $_userBusiness;
+    public static $_purchaseBusiness;
 
     /**
      * Method constructor
@@ -155,6 +158,31 @@ class MasterController
             }
 
             return self::$_productBusiness;
+        } catch (Exception $ex) {
+
+            throw $ex;
+        }
+    }
+
+    /**
+     * Method for get instance of purchase business
+     * @name getCarttBusiness
+     * @author Victor Eduardo Barreto
+     * @return object Cart business
+     * @date Dec 10, 2015
+     * @version 1.0
+     */
+    public static function getPurchaseBusiness ()
+    {
+
+        try {
+
+            if (!isset(self::$_purchaseBusiness)) {
+
+                self::$_purchaseBusiness = new PurchaseBusiness();
+            }
+
+            return self::$_purchaseBusiness;
         } catch (Exception $ex) {
 
             throw $ex;
