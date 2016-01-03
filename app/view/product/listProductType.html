@@ -1,18 +1,17 @@
 <div ng-init="getProductTypes()">
 
-    <legend>Tipos de Produtos</legend>
+    <legend class="text-gray font-18"><i class="glyphicon glyphicon-globe"></i> Tipos de produtos</legend>
 
     <table class="table table-condensed table-hover table-responsive table-striped">
 
         <!--loop-->
-        <tr class="row"
-            ng-repeat="row in rows| startFrom: currentPage * pageSize| limitTo: pageSize"
-            id="{{row.sq_product_type}}">
+        <tr ng-repeat="type in types| startFrom: currentPage * pageSize| limitTo: pageSize"
+            id="{{type.sq_product_type}}">
 
             <!--description-->
             <td>
 
-                <a href="#/product/upProductType/{{row.sq_product_type}}">{{row.ds_product_type}}</a>
+                <a href="#/product/upProductType/{{type.sq_product_type}}">{{type.ds_product_type}}</a>
 
             </td>
 
@@ -21,7 +20,7 @@
 
                 <button
                     class="btn btn-sm btn-danger"
-                    ng-click="delProductType(row.sq_product_type)">
+                    ng-click="delProductType(type.sq_product_type)">
                     <i class="glyphicon glyphicon-remove"></i>
                 </button>
 

@@ -323,4 +323,65 @@ class UserBusiness extends MasterBusiness
         }
     }
 
+    /**
+     * Method for business of get orders by user
+     * @name getOrdersByUser
+     * @author Victor Eduardo Barreto
+     * @return object Orders of user
+     * @date Jul 30, 2015
+     * @version 1.0
+     */
+    public function getOrdersByUser ()
+    {
+        try {
+
+            $data = $this->getRequestData();
+
+            return $this->_userModel->getOrdersByUser($data);
+        } catch (Exception $ex) {
+
+            throw $ex;
+        }
+    }
+
+    /**
+     * Method for business of get orders
+     * @name getOrders
+     * @author Victor Eduardo Barreto
+     * @return object Orders of users
+     * @date Jul 30, 2015
+     * @version 1.0
+     */
+    public function getOrders ()
+    {
+        try {
+
+            return $this->_userModel->getOrders();
+        } catch (Exception $ex) {
+
+            throw $ex;
+        }
+    }
+
+    /**
+     * Method for business of get products of orders
+     * @name getProductsOrder
+     * @author Victor Eduardo Barreto
+     * @return object Products of orders
+     * @date Jan 1, 2016
+     * @version 1.0
+     */
+    public function getProductsOrder ()
+    {
+        try {
+
+            $data = $this->getRequestData();
+
+            return $this->_userModel->getProductsOrder($data);
+        } catch (Exception $ex) {
+
+            throw $ex;
+        }
+    }
+
 }

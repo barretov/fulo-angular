@@ -333,10 +333,8 @@ class ProductModel extends MasterModel
                     . "product.sq_product, product.sq_product_type, sq_status_product, ds_product, nu_value, nu_quantity, "
                     . "nu_production, im_product_image "
                     . "FROM fulo.product "
-                    . "JOIN fulo.product_type "
-                    . "ON (product_type.sq_product_type = product.sq_product_type) "
-                    . "JOIN fulo.product_image "
-                    . "ON (product_image.sq_product = product.sq_product) "
+                    . "JOIN fulo.product_type ON (product_type.sq_product_type = product.sq_product_type) "
+                    . "JOIN fulo.product_image ON (product_image.sq_product = product.sq_product) "
                     . "WHERE sq_status_product <> ? " . $data->filter
             );
 

@@ -15,6 +15,8 @@ $app.config(['$routeProvider', '$httpProvider', function ($routeProvider, $httpP
                 when('/contact', {templateUrl: 'app/view/general/contact.html'}).
                 when('/customer/addCustomer', {templateUrl: 'app/view/customer/addCustomer.html', controller: 'customerController'}).
                 when('/customer/upCustomer', {templateUrl: 'app/view/customer/upCustomer.html', controller: 'customerController'}).
+                when('/customer/mainCustomer', {templateUrl: 'app/view/customer/mainCustomer.html', controller: 'customerController'}).
+                when('/customer/orderCustomer', {templateUrl: 'app/view/customer/orderCustomer.html', controller: 'customerController'}).
                 when('/user/addUser', {templateUrl: 'app/view/user/addUser.html', controller: 'userController'}).
                 when('/user/upUser/:id', {templateUrl: 'app/view/user/upUser.html', controller: 'userController'}).
                 when('/user/listUser', {templateUrl: 'app/view/user/listUser.html', controller: 'userController'}).
@@ -176,12 +178,6 @@ $app.run(['$rootScope', '$location', '$http', function ($rootScope, $location, $
 
                     this.showFlashmessage('alert-warning', $rootScope.constant.MSG0005);
                     throw Error("Wishlist Already");
-                    break;
-
-                case $rootScope.constant.WITHOUT_RESULT:
-
-                    this.showFlashmessage('alert-info', $rootScope.constant.MSG0008);
-                    throw Error("Without Result");
                     break;
 
                 case $rootScope.constant.PRODUCT_TYPE_BUSY:

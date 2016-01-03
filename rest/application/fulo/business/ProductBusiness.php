@@ -260,13 +260,6 @@ class ProductBusiness extends MasterBusiness
                 $this->makeImageOut($key->im_product_image, 300, 300);
             }
 
-            # verify if exist result and send message.
-            if (empty($results)) {
-
-                $results = WITHOUT_RESULT;
-            }
-
-
             return $results;
         } catch (Exception $ex) {
 

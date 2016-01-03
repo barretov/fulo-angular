@@ -106,3 +106,25 @@ $app->post("/getFareValue", function () {
         throw $ex;
     }
 });
+
+/**
+ * Method for buy
+ * @name buy
+ * @author Victor Eduardo Barreto
+ * @var $app object Slim instance
+ * @return object Data of product type
+ * @date Dec 30, 2015
+ * @version 1.0
+ */
+$app->post("/buy", function () {
+
+    try {
+
+        $business = MasterController::getPurchaseBusiness();
+
+        echo json_encode($business->buy());
+    } catch (Exception $ex) {
+
+        throw $ex;
+    }
+});

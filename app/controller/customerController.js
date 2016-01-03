@@ -176,4 +176,84 @@ $app.controller('customerController', function ($scope, $http, $location, $rootS
             $rootScope.user.ac_state = $return.uf;
         });
     };
+
+    /**
+     * Method for apear sigin customer
+     * @name modalSigin
+     * @author Victor Eduardo Barreto
+     * @date Dec 31, 2015
+     * @version 1.0
+     */
+    $scope.modalSigin = function () {
+
+        // close modal.
+        $('#modalLogin').modal('hide');
+        $location.path("/customer/addCustomer");
+    };
+
+    /**
+     * Method for get orders of user
+     * @name getOrders
+     * @author Victor Eduardo Barreto
+     * @date Dec 31, 2015
+     * @version 1.0
+     */
+    $scope.getOrdersByUser = function () {
+
+        $param = $scope.configParam();
+
+        $http.get($scope.server("/getOrdersByUser"), {params: $param}).success(function ($return) {
+
+            $scope.checkResponse($return);
+
+            if ($return) {
+
+                $scope.orders = $return;
+            }
+        });
+    };
+
+    /**
+     * Method for get orders
+     * @name getOrders
+     * @author Victor Eduardo Barreto
+     * @date Jan 1, 2016
+     * @version 1.0
+     */
+    $scope.getOrders = function () {
+
+        $param = $scope.configParam();
+
+        $http.get($scope.server("/getOrders"), {params: $param}).success(function ($return) {
+
+            $scope.checkResponse($return);
+
+            if ($return) {
+
+                $scope.orders = $return;
+            }
+        });
+    };
+
+    /**
+     * Method for get products of order
+     * @name getProductsOrder
+     * @author Victor Eduardo Barreto
+     * @date Jan 1, 2016
+     * @version 1.0
+     */
+    $scope.getProductsOrder = function ($sq_order) {
+
+        $param = $scope.configParam({sq_order: $sq_order});
+
+        $http.get($scope.server("/getProductsOrder"), {params: $param}).success(function ($return) {
+
+            $scope.checkResponse($return);
+
+            if ($return) {
+
+                $scope.products = $return;
+            }
+        });
+    };
 });

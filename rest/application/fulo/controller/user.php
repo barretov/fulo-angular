@@ -198,7 +198,7 @@ $app->post("/upAddress", function () {
  * Method for add address
  * @name addAddress
  * @author Victor Eduardo Barreto
- * @return bool Result of procedure
+ * @return object Products of orders
  * @date Jul 30, 2015
  * @version 1.0
  */
@@ -209,6 +209,69 @@ $app->post("/addAddress", function () {
         $business = MasterController::getUserBusiness();
 
         echo json_encode($business->addAddress());
+    } catch (Exception $ex) {
+
+        throw $ex;
+    }
+});
+
+/**
+ * Method for get orders of user
+ * @name getOrdersByUser
+ * @author Victor Eduardo Barreto
+ * @return object Orders of user
+ * @date Dec 31, 2015
+ * @version 1.0
+ */
+$app->get("/getOrdersByUser", function () {
+
+    try {
+
+        $business = MasterController::getUserBusiness();
+
+        echo json_encode($business->getOrdersByUser());
+    } catch (Exception $ex) {
+
+        throw $ex;
+    }
+});
+
+/**
+ * Method for get orders
+ * @name getOrders
+ * @author Victor Eduardo Barreto
+ * @return object Orders of users
+ * @date Jan 1, 2016
+ * @version 1.0
+ */
+$app->get("/getOrders", function () {
+
+    try {
+
+        $business = MasterController::getUserBusiness();
+
+        echo json_encode($business->getOrders());
+    } catch (Exception $ex) {
+
+        throw $ex;
+    }
+});
+
+/**
+ * Method for get products of order
+ * @name getProductsOrder
+ * @author Victor Eduardo Barreto
+ * @return object Products of orders
+ * @date Jan 1, 2016
+ * @version 1.0
+ */
+$app->get("/getProductsOrder", function () {
+
+    try {
+
+        $business = MasterController::getUserBusiness();
+
+        echo json_encode($business->getProductsOrder());
     } catch (Exception $ex) {
 
         throw $ex;

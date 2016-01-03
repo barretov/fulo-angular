@@ -1,8 +1,22 @@
 -- profile --
-insert into fulo.profile (ds_profile) values ('adminisrator'), ('customer'), ('guest');
+insert into fulo.profile (ds_profile) values ('administrador'), ('cliente'), ('convidado');
 
 -- status --
-insert into fulo.status (ds_status) values ('active'), ('inactive'), ('wait'), ('paid'), ('sent'), ('recivede'), ('returned'), ('canceled');
+insert into fulo.status (ds_status) values
+('ativo'),
+('inativo'),
+('aguardando pagamento'),
+('pagamento verificado'),
+('pagamento estornado'),
+('produto em preparo para envio'),
+('produto em produção'),
+('produto concluído'),
+('pedido aguardando envio'),
+('pedido enviado'),
+('pedido recebido'),
+('pedido perdido'),
+('pedido cancelado'),
+('pedido congelado');
 
 -- user (adminisrator) password = 1234--
 insert into fulo.person (ds_name, ds_email) values ('adminisrator','admin@admin');
@@ -11,7 +25,42 @@ insert into fulo.address (sq_person) values (fulo.person_sq_person_seq);
 insert into fulo.phone (sq_person, nu_phone) values (fulo.person_sq_person_seq, 'null');
 
 -- operation --
-insert into fulo.operation (ds_operation) values ('login'), ('logoff'), ('getUser'), ('getUsers'), ('addUser'), ('upUser'), ('upAccess'), ('inactivateUser'), ('activateUser'), ('upAddress'), ('addAddress'), ('getProfiles'), ('getBasic'), ('getAddressByZip'), ('getProducts'), ('getProduct'), ('addProduct'), ('getProductTypes'), ('getProductDetail'), ('addWishList'), ('getWishList'), ('delWishList'), ('getProductsByFilter'), ('getProductType'), ('upProductType'), ('delProductType'),  ('addProductType'),  ('activateProduct'),  ('inactivateProduct'), ('upProduct'), ('getFareValue');
+insert into fulo.operation (ds_operation) values
+('login'),
+('logoff'),
+('getUser'),
+('getUsers'),
+('addUser'),
+('upUser'),
+('upAccess'),
+('inactivateUser'),
+('activateUser'),
+('upAddress'),
+('addAddress'),
+('getProfiles'),
+('getBasic'),
+('getAddressByZip'),
+('getProducts'),
+('getProduct'),
+('addProduct'),
+('getProductTypes'),
+('getProductDetail'),
+('addWishList'),
+('getWishList'),
+('delWishList'),
+('getProductsByFilter'),
+('getProductType'),
+('upProductType'),
+('delProductType'),
+('addProductType'),
+('activateProduct'),
+('inactivateProduct'),
+('upProduct'),
+('getFareValue'),
+('buy'),
+('getOrdersByUser'),
+('getOrders'),
+('getProductsOrder');
 
 -- acl --
 insert into fulo.acl (sq_operation, sq_profile) values
@@ -95,7 +144,7 @@ insert into fulo.acl (sq_operation, sq_profile) values
 (26,1),
 
 --addProductType
-(27,1);
+(27,1),
 
 --activateProduct
 (28,1),
@@ -107,5 +156,17 @@ insert into fulo.acl (sq_operation, sq_profile) values
 (30,1),
 
 --getFareValue
-(31,1), (31,2), (31,3);
+(31,1), (31,2), (31,3),
+
+--buy
+(32,1), (32,2),
+
+--getOrdersByUser
+(33,1), (33,2),
+
+--getOrders
+(34,1),
+
+--getOrdersProducts
+(35,1), (35,2);
 

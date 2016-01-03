@@ -123,9 +123,6 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
             $scope.checkResponse($return);
 
             $scope.types = $return;
-
-            $scope.rows = $return;
-
         });
     };
 
@@ -276,7 +273,10 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
             // verify return data.
             $scope.checkResponse($return);
 
-            $scope.rows = $return;
+            if ($return) {
+
+                $scope.rows = $return;
+            }
         });
     };
 

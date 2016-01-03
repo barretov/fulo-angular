@@ -366,4 +366,38 @@ $app.controller('purchaseController', function ($scope, $rootScope, $http, $loca
             $scope.showFlashmessage("alert-warning", $scope.constant.MSG0010);
         }
     };
+
+    /**
+     * Method for buy itens in cart
+     * @name buy
+     * @author Victor Eduardo Barreto
+     * @date Dec 30, 2015
+     * @version 1.0
+     */
+    $scope.buy = function () {
+
+        // init variables.
+        $scope.buy = {};
+        $scope.buy.product = [];
+
+        // transfer data for a new variable.
+        angular.forEach($rootScope.cart, function ($key) {
+
+            $scope.buy.product.push({sq_product: $key.sq_product, nu_quantity_buy: $key.nu_quantity_buy});
+        });
+
+        // transfer new data.
+        $scope.row.nu_total = $scope.cart.nu_total;
+        $scope.row.nu_farevalue = $scope.cart.nu_farevalue;
+
+        $param = $scope.configParam($scope.buy);
+
+        $http.post($scope.server("/buy"), $param).success(function ($return) {
+
+            // verify return data.
+            $scope.checkResponse($return);
+
+            console.log($return);
+        });
+    };
 });

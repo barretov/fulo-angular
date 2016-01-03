@@ -99,7 +99,7 @@
                                 </li>
 
                                 <!--drop down administration-->
-                                <li class="dropdown thumb-dropdown" ng-show="user.sq_profile == constant.PROFILE_ADMINISTRATOR">
+                                <li class="dropdown thumb-dropdown" ng-show="user.sq_profile && user.sq_profile == constant.PROFILE_ADMINISTRATOR">
 
                                     <a href="" class="dropdown-toggle" data-toggle="dropdown">
                                         <i class="glyphicon glyphicon-king"></i> Administração<span class="caret"></span>
@@ -107,20 +107,68 @@
 
                                     <ul class="dropdown-menu" role="menu">
 
-                                        <li><a href="#/product/listProduct">Produtos</a></li>
-                                        <li><a href="#/product/listProductType">Tipos de Produtos</a></li>
-                                        <li><a href="#/user/listUser">Usuários</a></li>
+                                        <li>
+                                            <a href="#/product/listProduct">
+                                                <i class="glyphicon glyphicon-wrench"></i>
+                                                Produtos
+                                            </a>
+                                        </li>
+
+                                        <li>
+                                            <a href="#/product/listProductType">
+                                                <i class="glyphicon glyphicon-cog"></i>
+                                                Tipos de Produtos
+                                            </a>
+                                        </li>
+
+                                        <li>
+                                            <a href="#/user/listUser">
+                                                <i class="glyphicon glyphicon-user"></i>
+                                                Usuários
+                                            </a>
+                                        </li>
+
+                                        <li>
+                                            <a href="#/customer/orderCustomer">
+                                                <i class="glyphicon glyphicon-download"></i>
+                                                Pedidos
+                                            </a>
+                                        </li>
 
                                     </ul>
 
                                 </li>
 
                                 <!--identifier of logged user-->
-                                <li>
-                                    <a href="#/customer/upCustomer">
+                                <li class="dropdown thumb-dropdown" ng-show="user.sq_profile">
+
+                                    <a href="" class="dropdown-toggle" data-toggle="dropdown">
                                         <i class="glyphicon glyphicon-user" ng-show="user.ds_name"></i>
-                                        <strong> {{user.ds_name}}</strong>
+                                        <strong> {{user.ds_name}}</strong><span class="caret"></span>
                                     </a>
+
+                                    <ul class="dropdown-menu" role="menu">
+
+                                        <!--data profile-->
+                                        <li>
+                                            <a href="#/customer/upCustomer">
+                                                <i class="glyphicon glyphicon-cog"></i>
+                                                <span>Meus dados</span>
+                                            </a>
+                                        </li>
+                                        <!--data profile-->
+
+                                        <!--customer orders-->
+                                        <li>
+                                            <a href="#/customer/mainCustomer">
+                                                <i class="glyphicon glyphicon-dashboard"></i>
+                                                <span>Meus pedidos</span>
+                                            </a>
+                                        </li>
+                                        <!--customer orders-->
+
+                                    </ul>
+
                                 </li>
                                 <!--identifier of logged user-->
 
@@ -153,7 +201,7 @@
                                 <!--cart-->
                                 <li data-toggle="tooltip" data-placement="left" title="Carrinho de compras">
                                     <a href="#/purchase/cart">
-                                        <i class="glyphicon glyphicon-shopping-cart btn-primary badge"> {{cart.nu_cart}}</i>
+                                        <i class="glyphicon glyphicon-shopping-cart btn-primary badge"> {{cart.nu_cart? cart.nu_cart : 0}}</i>
                                     </a>
                                 </li>
                                 <!--cart-->
@@ -211,7 +259,7 @@
 
                         <!--footer-->
                         <!--first block-->
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 well zindex-back">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 well zindex-back" ng-show="user.sq_profile != constant.PROFILE_ADMINISTRATOR">
 
                             <h2 class="bernhard-font"><strong>Fulô Patchwork</strong></h2>
 
@@ -323,9 +371,9 @@
                                    required/>
 
                             <span class="input-group-btn">
-                                <button class="btn btn-default btn-sm" ng-click="showhidePass()">
+                                <span class="btn btn-default btn-sm" ng-click="showhidePass()">
                                     <i id="switchPass" class="glyphicon glyphicon-eye-close"></i>
-                                </button>
+                                </span>
                             </span>
 
                         </div>
@@ -346,13 +394,22 @@
                 <!--field password-->
 
                 <!--forgot password-->
-                <p
-                    class="text-white cursor-pointer"
-                    data-toggle="collapse"
-                    data-target="#forgotPass"
-                    aria-expanded="false"
-                    aria-controls="collapseExample">
-                    Esqueci minha senha
+                <p>
+                    <span class="text-white cursor-pointer"
+                          data-toggle="collapse"
+                          data-target="#forgotPass"
+                          aria-expanded="false"
+                          aria-controls="collapseExample">
+                        Esqueci minha senha
+                    </span>
+
+                    <span class="text-white"> | </span>
+
+                    <span class="text-white cursor-pointer"
+                          ng-controller="customerController"
+                          ng-click="modalSigin()">
+                        Cadastre-se
+                    </span>
                 </p>
 
                 <div class="collapse" id="forgotPass">

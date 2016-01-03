@@ -1,0 +1,130 @@
+<div ng-init="getOrdersByUser()">
+
+    <!--help-->
+    <span class="pull-right text-info cursor-pointer"
+          data-toggle="collapse"
+          data-target="#help"
+          >
+        <i class="glyphicon glyphicon-question-sign"></i> Ajuda
+    </span>
+
+    <div class="collapse row" id="help">
+        <ul class="text-info">
+            <li>Clicando no número do pedido, você pode ver os produtos referente ao pedido.</li>
+            <li>Clicando no número de rastreio, você pode verificar o andamento da entrega do pedido¹.</li>
+            <li>[¹] Os dados referentes ao rastreio são fornecidos pelos correios.</li>
+        </ul>
+    </div>
+    <!--help-->
+
+    <legend class="text-gray font-18"><i class="glyphicon glyphicon-gift"></i> Meus Pedidos</legend>
+
+    <div ng-show="orders != ''">
+
+        <div ng-repeat="order in orders">
+
+            <legend
+                class="text-success cursor-pointer font-18"
+                data-toggle="collapse"
+                data-target="#prod{{order.sq_order}}"
+                ng-click="getProductsOrder(order.sq_order)"
+                >Pedido Nº: {{order.sq_order}}
+            </legend>
+
+            <!--first-->
+            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+
+                <dl class="dl-horizontal">
+
+                    <dt class="text-gray">Rastreio:</dt>
+                    <dd class="text-success cursor-pointer"
+                        data-toggle="collapse"
+                        data-target="#track{{order.sq_order}}"
+                        >{{order.nu_tracker}}
+                    </dd>
+
+                    <dt class="text-gray">Status:</dt>
+                    <dd class="text-capitalize">{{order.ds_status}}</dd>
+
+                </dl>
+
+            </div>
+            <!--first-->
+
+            <!--second-->
+            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+
+                <dl class="dl-horizontal">
+
+                    <dt class="text-gray">Nº Produtos:</dt>
+                    <dd>{{order.nu_quantity}}</dd>
+
+                    <dt class="text-gray">Valor Total:</dt>
+                    <dd>{{order.nu_total}}</dd>
+
+                </dl>
+
+            </div>
+            <!--second-->
+
+            <!--third-->
+            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+
+                <dl class="dl-horizontal">
+
+                    <dt class="text-gray">Endereço:</dt>
+                    <dd class="text-capitalize">{{order.ds_address}}</dd>
+
+                    <dt class="text-gray">Telefone:</dt>
+                    <dd class="text-capitalize">{{order.nu_phone}}</dd>
+
+                    <dt class="text-gray">Data:</dt>
+                    <dd>{{order.nu_date_time}}</dd>
+                </dl>
+
+            </div>
+            <!--third-->
+
+            <div class="collapse" id="prod{{order.sq_order}}">
+
+                <table class="table table-responsive table-hover table-striped">
+
+                    <thead>
+
+                    <th>Produto</th>
+                    <th>Valor</th>
+                    <th>Quantidade</th>
+
+                    </thead>
+
+                    <tbody>
+
+                        <tr ng-repeat="product in products">
+
+                            <td>{{product.ds_product}}</td>
+                            <td>{{product.nu_value| currency}}</td>
+                            <td>{{product.nu_quantity}} und.</td>
+
+                        </tr>
+
+                    <td>Taxa de entrega</td>
+                    <td>{{order.nu_farevalue| currency}}</td>
+                    <td>1</td>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            <div class="collapse" id="track{{order.sq_order}}">
+                <h1>Tracker</h1>
+            </div>
+
+        </div>
+
+        <div class="alert alert-info col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-show="orders == ''">
+            {{constant.MSG0008}}
+        </div>
+
+    </div>

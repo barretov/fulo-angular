@@ -29,7 +29,7 @@ WITH (OIDS=FALSE);
 -- object: ix_person | type: INDEX -- 
 CREATE INDEX ix_person ON fulo.person
 	USING btree
-	(sq_person ASC NULLS LAST)
+	(sq_person DESC NULLS LAST)
 	WITH (FILLFACTOR = 10)
 ;
 
@@ -51,7 +51,7 @@ WITH (OIDS=FALSE);
 -- object: ix_user | type: INDEX -- 
 CREATE INDEX ix_user ON fulo.user
 	USING btree
-	(sq_user ASC NULLS LAST)
+	(sq_user DESC NULLS LAST)
 	WITH (FILLFACTOR = 10)
 ;
 
@@ -71,7 +71,7 @@ WITH (OIDS=FALSE);
 -- object: ix_profile | type: INDEX -- 
 CREATE INDEX ix_profile ON fulo.profile
 	USING btree
-	(sq_profile ASC NULLS LAST)
+	(sq_profile DESC NULLS LAST)
 	WITH (FILLFACTOR = 10)
 ;
 
@@ -89,7 +89,7 @@ WITH (OIDS=FALSE);
 -- object: ix_status | type: INDEX -- 
 CREATE INDEX ix_status ON fulo.status
 	USING btree
-	(sq_status ASC NULLS LAST)
+	(sq_status DESC NULLS LAST)
 	WITH (FILLFACTOR = 10)
 ;
 
@@ -111,7 +111,7 @@ WITH (OIDS=FALSE);
 -- object: ix_log | type: INDEX -- 
 CREATE INDEX ix_log ON fulo.log
 	USING btree
-	(sq_log ASC NULLS LAST)
+	(sq_log DESC NULLS LAST)
 	WITH (FILLFACTOR = 10)
 ;
 
@@ -139,7 +139,7 @@ WITH (OIDS=FALSE);
 -- object: ix_address | type: INDEX -- 
 CREATE INDEX ix_address ON fulo.address
 	USING btree
-	(sq_address ASC NULLS LAST)
+	(sq_address DESC NULLS LAST)
 	WITH (FILLFACTOR = 10)
 ;
 
@@ -165,7 +165,7 @@ WITH (OIDS=FALSE);
 -- object: ix_phone | type: INDEX -- 
 CREATE INDEX ix_phone ON fulo.phone
 	USING btree
-	(sq_phone ASC NULLS LAST)
+	(sq_phone DESC NULLS LAST)
 	WITH (FILLFACTOR = 10)
 ;
 
@@ -184,6 +184,11 @@ CREATE TABLE fulo.product(
 	nu_quantity numeric(4) NOT NULL,
 	nu_date_time timestamp NOT NULL,
 	nu_production numeric(4) NOT NULL DEFAULT 5,
+	nu_height numeric(8,2) NOT NULL,
+	nu_length numeric(8,2) NOT NULL,
+	nu_width numeric(8,2) NOT NULL,
+	nu_weight numeric(8,2) NOT NULL,
+	st_foldable integer NOT NULL DEFAULT 1,
 	CONSTRAINT pk_product PRIMARY KEY (sq_product)
 )
 WITH (OIDS=FALSE);
@@ -191,7 +196,7 @@ WITH (OIDS=FALSE);
 -- object: ix_product | type: INDEX -- 
 CREATE INDEX ix_product ON fulo.product
 	USING btree
-	(sq_product ASC NULLS LAST)
+	(sq_product DESC NULLS LAST)
 	WITH (FILLFACTOR = 10)
 ;
 
@@ -204,6 +209,11 @@ COMMENT ON COLUMN fulo.product.nu_value IS 'value of product';
 COMMENT ON COLUMN fulo.product.nu_quantity IS 'quantity of product';
 COMMENT ON COLUMN fulo.product.nu_date_time IS 'date of register';
 COMMENT ON COLUMN fulo.product.nu_production IS 'production time for the item';
+COMMENT ON COLUMN fulo.product.nu_height IS 'height of product';
+COMMENT ON COLUMN fulo.product.nu_length IS 'length of product';
+COMMENT ON COLUMN fulo.product.nu_width IS 'width of product';
+COMMENT ON COLUMN fulo.product.nu_weight IS 'weight of product';
+COMMENT ON COLUMN fulo.product.st_foldable IS 'status of foldable';
 COMMENT ON CONSTRAINT pk_product ON fulo.product IS 'primary key of product';
 -- object: fulo.product_type | type: TABLE -- 
 CREATE TABLE fulo.product_type(
@@ -216,7 +226,7 @@ WITH (OIDS=FALSE);
 -- object: ix_product_type | type: INDEX -- 
 CREATE INDEX ix_product_type ON fulo.product_type
 	USING btree
-	(sq_product_type ASC NULLS LAST)
+	(sq_product_type DESC NULLS LAST)
 	WITH (FILLFACTOR = 10)
 ;
 
@@ -236,7 +246,7 @@ WITH (OIDS=FALSE);
 -- object: ix_operation | type: INDEX -- 
 CREATE INDEX ix_operation ON fulo.operation
 	USING btree
-	(sq_operation ASC NULLS LAST)
+	(sq_operation DESC NULLS LAST)
 	WITH (FILLFACTOR = 10)
 ;
 
@@ -256,7 +266,7 @@ WITH (OIDS=FALSE);
 -- object: ix_acl | type: INDEX -- 
 CREATE INDEX ix_acl ON fulo.acl
 	USING btree
-	(sq_acl ASC NULLS LAST)
+	(sq_acl DESC NULLS LAST)
 	WITH (FILLFACTOR = 10)
 ;
 
@@ -277,7 +287,7 @@ WITH (OIDS=FALSE);
 -- object: ix_wishlist | type: INDEX -- 
 CREATE INDEX ix_wishlist ON fulo.wishlist
 	USING btree
-	(sq_wishlist ASC NULLS LAST)
+	(sq_wishlist DESC NULLS LAST)
 	WITH (FILLFACTOR = 10)
 ;
 
@@ -289,8 +299,8 @@ COMMENT ON CONSTRAINT pk_wishlist ON fulo.wishlist IS 'primary key of table';
 -- object: fulo.product_image | type: TABLE -- 
 CREATE TABLE fulo.product_image(
 	sq_product_image serial NOT NULL,
-	im_product_image text NOT NULL,
 	sq_product integer NOT NULL,
+	im_product_image text NOT NULL,
 	CONSTRAINT pk_image PRIMARY KEY (sq_product_image)
 )
 WITH (OIDS=FALSE);
@@ -298,85 +308,89 @@ WITH (OIDS=FALSE);
 -- object: ix_product_image | type: INDEX -- 
 CREATE INDEX ix_product_image ON fulo.product_image
 	USING btree
-	(sq_product_image ASC NULLS LAST)
+	(sq_product_image DESC NULLS LAST)
 	WITH (FILLFACTOR = 10)
 ;
 
 COMMENT ON TABLE fulo.product_image IS 'table of product image';
 COMMENT ON COLUMN fulo.product_image.sq_product_image IS 'identifier of image';
-COMMENT ON COLUMN fulo.product_image.im_product_image IS 'image in base64';
 COMMENT ON COLUMN fulo.product_image.sq_product IS 'identifier of product';
+COMMENT ON COLUMN fulo.product_image.im_product_image IS 'image in base64';
 COMMENT ON CONSTRAINT pk_image ON fulo.product_image IS 'primary key of table';
--- object: fulo.sale | type: TABLE -- 
-CREATE TABLE fulo.sale(
-	sq_sale serial NOT NULL,
+-- object: fulo.order | type: TABLE -- 
+CREATE TABLE fulo.order(
+	sq_order serial NOT NULL,
 	sq_user integer NOT NULL,
-	sq_product integer NOT NULL,
-	sq_status integer NOT NULL,
-	nu_total_value numeric(8,2) NOT NULL,
-	CONSTRAINT pk_sale PRIMARY KEY (sq_sale)
+	ds_address varchar(250) NOT NULL,
+	nu_phone numeric(11),
+	nu_quantity integer NOT NULL,
+	nu_total numeric(8,2) NOT NULL,
+	st_status integer NOT NULL DEFAULT 3,
+	nu_tracker varchar(15),
+	nu_date_time timestamp NOT NULL,
+	CONSTRAINT pk_order PRIMARY KEY (sq_order)
 )
 WITH (OIDS=FALSE);
 
--- object: ix_sale | type: INDEX -- 
-CREATE INDEX ix_sale ON fulo.sale
+-- object: ix_order | type: INDEX -- 
+CREATE INDEX ix_order ON fulo.order
 	USING btree
-	(sq_sale ASC NULLS LAST)
+	(sq_order DESC NULLS LAST)
 	WITH (FILLFACTOR = 10)
 ;
 
-COMMENT ON TABLE fulo.sale IS 'table of sales';
-COMMENT ON COLUMN fulo.sale.sq_sale IS 'identifier of sale';
-COMMENT ON COLUMN fulo.sale.sq_user IS 'idenfier of user';
-COMMENT ON COLUMN fulo.sale.sq_product IS 'identifier of product';
-COMMENT ON COLUMN fulo.sale.sq_status IS 'status of sale';
-COMMENT ON COLUMN fulo.sale.nu_total_value IS 'total value of sale';
-COMMENT ON CONSTRAINT pk_sale ON fulo.sale IS 'primary key of table';
--- object: fulo.cart | type: TABLE -- 
-CREATE TABLE fulo.cart(
-	sq_cart serial NOT NULL,
-	sq_user integer NOT NULL,
+COMMENT ON TABLE fulo.order IS 'table of orders';
+COMMENT ON COLUMN fulo.order.sq_order IS 'identifier of order';
+COMMENT ON COLUMN fulo.order.sq_user IS 'idenfier of user';
+COMMENT ON COLUMN fulo.order.ds_address IS 'address of user';
+COMMENT ON COLUMN fulo.order.nu_phone IS 'phone of user';
+COMMENT ON COLUMN fulo.order.nu_quantity IS 'quantity of product';
+COMMENT ON COLUMN fulo.order.nu_total IS 'total value order';
+COMMENT ON COLUMN fulo.order.st_status IS 'status of order';
+COMMENT ON COLUMN fulo.order.nu_tracker IS 'track number of order';
+COMMENT ON COLUMN fulo.order.nu_date_time IS 'date and time of sale';
+COMMENT ON CONSTRAINT pk_order ON fulo.order IS 'primary key of table';
+-- object: fulo.order_products | type: TABLE -- 
+CREATE TABLE fulo.order_products(
+	sq_order_products serial NOT NULL,
+	sq_order integer NOT NULL,
 	sq_product integer NOT NULL,
-	nu_total_value numeric(8,2) NOT NULL,
-	CONSTRAINT pk_cart PRIMARY KEY (sq_cart)
+	ds_product varchar(100) NOT NULL,
+	nu_value numeric(8,2) NOT NULL,
+	nu_quantity numeric(4) NOT NULL,
+	nu_production numeric(4) NOT NULL,
+	CONSTRAINT pk_order_products PRIMARY KEY (sq_order_products)
 )
 WITH (OIDS=FALSE);
 
--- object: ix_cart | type: INDEX -- 
-CREATE INDEX ix_cart ON fulo.cart
+-- object: ix_order_products | type: INDEX -- 
+CREATE INDEX ix_order_products ON fulo.order_products
 	USING btree
-	(sq_cart ASC NULLS LAST)
+	(sq_order_products DESC NULLS LAST)
 	WITH (FILLFACTOR = 10)
 ;
 
-COMMENT ON TABLE fulo.cart IS 'table of cart';
-COMMENT ON COLUMN fulo.cart.sq_cart IS 'identifier of cart';
-COMMENT ON COLUMN fulo.cart.sq_user IS 'identifier of user';
-COMMENT ON COLUMN fulo.cart.sq_product IS 'identifier of product';
-COMMENT ON COLUMN fulo.cart.nu_total_value IS 'total value of cart';
-COMMENT ON CONSTRAINT pk_cart ON fulo.cart IS 'primary key of table';
--- object: fk_cart_product | type: CONSTRAINT -- 
-ALTER TABLE fulo.cart ADD CONSTRAINT fk_cart_product FOREIGN KEY (sq_product)
+COMMENT ON TABLE fulo.order_products IS 'products of order';
+COMMENT ON COLUMN fulo.order_products.sq_order_products IS 'identifier of order_products';
+COMMENT ON COLUMN fulo.order_products.sq_order IS 'identifier of order';
+COMMENT ON COLUMN fulo.order_products.sq_product IS 'identifier of product';
+COMMENT ON COLUMN fulo.order_products.ds_product IS 'description of product';
+COMMENT ON COLUMN fulo.order_products.nu_value IS 'value of product';
+COMMENT ON COLUMN fulo.order_products.nu_quantity IS 'quantity of product';
+COMMENT ON COLUMN fulo.order_products.nu_production IS 'time of production ';
+COMMENT ON CONSTRAINT pk_order_products ON fulo.order_products IS 'primary key of products';
+-- object: fk_order_products_product | type: CONSTRAINT -- 
+ALTER TABLE fulo.order_products ADD CONSTRAINT fk_order_products_product FOREIGN KEY (sq_product)
 REFERENCES fulo.product (sq_product) MATCH FULL
 ON DELETE CASCADE ON UPDATE CASCADE NOT DEFERRABLE;
 
--- object: fk_cart_user | type: CONSTRAINT -- 
-ALTER TABLE fulo.cart ADD CONSTRAINT fk_cart_user FOREIGN KEY (sq_user)
-REFERENCES fulo.user (sq_user) MATCH FULL
+-- object: fk_order_products_order | type: CONSTRAINT -- 
+ALTER TABLE fulo.order_products ADD CONSTRAINT fk_order_products_order FOREIGN KEY (sq_order)
+REFERENCES fulo.order (sq_order) MATCH FULL
 ON DELETE CASCADE ON UPDATE CASCADE NOT DEFERRABLE;
 
--- object: fk_sale_status | type: CONSTRAINT -- 
-ALTER TABLE fulo.sale ADD CONSTRAINT fk_sale_status FOREIGN KEY (sq_status)
-REFERENCES fulo.status (sq_status) MATCH FULL
-ON DELETE CASCADE ON UPDATE CASCADE NOT DEFERRABLE;
-
--- object: fk_sale_product | type: CONSTRAINT -- 
-ALTER TABLE fulo.sale ADD CONSTRAINT fk_sale_product FOREIGN KEY (sq_product)
-REFERENCES fulo.product (sq_product) MATCH FULL
-ON DELETE CASCADE ON UPDATE CASCADE NOT DEFERRABLE;
-
--- object: fk_sale_user | type: CONSTRAINT -- 
-ALTER TABLE fulo.sale ADD CONSTRAINT fk_sale_user FOREIGN KEY (sq_user)
+-- object: fk_order_user | type: CONSTRAINT -- 
+ALTER TABLE fulo.order ADD CONSTRAINT fk_order_user FOREIGN KEY (sq_user)
 REFERENCES fulo.user (sq_user) MATCH FULL
 ON DELETE CASCADE ON UPDATE CASCADE NOT DEFERRABLE;
 
@@ -403,6 +417,11 @@ ON DELETE CASCADE ON UPDATE CASCADE NOT DEFERRABLE;
 -- object: fk_acl_operation | type: CONSTRAINT -- 
 ALTER TABLE fulo.acl ADD CONSTRAINT fk_acl_operation FOREIGN KEY (sq_operation)
 REFERENCES fulo.operation (sq_operation) MATCH FULL
+ON DELETE CASCADE ON UPDATE CASCADE NOT DEFERRABLE;
+
+-- object: fk_produtct_status_foldable | type: CONSTRAINT -- 
+ALTER TABLE fulo.product ADD CONSTRAINT fk_produtct_status_foldable FOREIGN KEY (st_foldable)
+REFERENCES fulo.status (sq_status) MATCH FULL
 ON DELETE CASCADE ON UPDATE CASCADE NOT DEFERRABLE;
 
 -- object: fk_product_status | type: CONSTRAINT -- 

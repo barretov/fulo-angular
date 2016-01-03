@@ -1,91 +1,86 @@
-<div ng-init="userController">
-    <div ng-init="getUsers()">
+<div ng-init="getUsers()">
 
-        <legend>Usuários</legend>
+    <legend class="text-gray font-18"><i class="glyphicon glyphicon-user"></i> Usuários</legend>
 
-        <!--list-->
-        <table id="tableData" class="table table-hover table-striped table-responsive">
+    <!--list-->
+    <table id="tableData" class="table table-hover table-striped table-responsive">
 
-            <thead>
+        <thead>
 
-                <tr>
-                    <th>Nome</th>
+            <tr>
+                <th>Nome</th>
+                <th>E-mail</th>
+                <th>Perfil</th>
+                <th>Ativo</th>
+            </tr>
 
-                    <th>E-mail</th>
+        </thead>
 
-                    <th>Perfil</th>
+        <tbody>
 
-                    <th>Ativo</th>
-                </tr>
+            <tr ng-repeat="row in rows| startFrom: currentPage * pageSize| limitTo: pageSize" id="{{row.sq_person}}">
 
-            </thead>
+                <!--name-->
+                <td><a class="text-capitalize" href='#/user/upUser/{{row.sq_person}}'>{{row.ds_name}}</a></td>
 
-            <tbody>
+                <!--email-->
+                <td>{{row.ds_email}}</td>
 
-                <tr ng-repeat="row in rows| startFrom: currentPage * pageSize| limitTo: pageSize" id="{{row.sq_person}}">
+                <!--profile-->
+                <td>
 
-                    <!--name-->
-                    <td><a class="text-capitalize" href='#/user/upUser/{{row.sq_person}}'>{{row.ds_name}}</a></td>
+                    <span
+                        title="Administrador"
+                        class="label label-primary"
+                        ng-show="row.sq_profile == constant.PROFILE_ADMINISTRATOR">
+                        AD
+                    </span>
 
-                    <!--email-->
-                    <td>{{row.ds_email}}</td>
+                    <span
+                        title="Cliente"
+                        class="label label-default"
+                        ng-show="row.sq_profile == constant.PROFILE_CUSTOMER">
+                        CL
+                    </span>
 
-                    <!--profile-->
-                    <td>
+                </td>
 
-                        <span
-                            title="Administrador"
-                            class="label label-primary"
-                            ng-show="row.sq_profile == constant.PROFILE_ADMINISTRATOR">
-                            AD
-                        </span>
+                <!--user status-->
+                <td>
 
-                        <span
-                            title="Cliente"
-                            class="label label-default"
-                            ng-show="row.sq_profile == constant.PROFILE_CUSTOMER">
-                            CL
-                        </span>
+                    <label class="switch">
+                        <input
+                            type="checkbox"
+                            class="switch-input"
+                            id="status_{{row.sq_user}}"
+                            ng-checked="row.sq_status_user == constant.STATUS_ACTIVE"
+                            ng-click="row.sq_status_user == constant.STATUS_ACTIVE ? inactivateUser(row.sq_user) : activateUser(row.sq_user)">
+                        <span class="switch-label" data-on="" data-off=""></span>
+                        <span class="switch-handle"></span>
+                    </label>
 
-                    </td>
+                </td>
+                <!--user status-->
 
-                    <!--user status-->
-                    <td>
+            </tr>
 
-                        <label class="switch">
-                            <input
-                                type="checkbox"
-                                class="switch-input"
-                                id="status_{{row.sq_user}}"
-                                ng-checked="row.sq_status_user == constant.STATUS_ACTIVE"
-                                ng-click="row.sq_status_user == constant.STATUS_ACTIVE ? inactivateUser(row.sq_user) : activateUser(row.sq_user)">
-                            <span class="switch-label" data-on="" data-off=""></span>
-                            <span class="switch-handle"></span>
-                        </label>
+        </tbody>
 
-                    </td>
-                    <!--user status-->
+    </table>
+    <!--list-->
 
-                </tr>
+    <!--button new-->
+    <a class="btn btn-primary btn-sm" href="#/user/addUser">Novo <i class="glyphicon glyphicon-plus"></i></a>
+    <!--button new-->
 
-            </tbody>
+    <!--pagination-->
+    <button class="btn btn-default btn-sm" ng-click="currentPage = currentPage - 1" ng-disabled="currentPage == 0" >
+        <i class="text-info glyphicon glyphicon-arrow-left"></i>
+    </button>
 
-        </table>
-        <!--list-->
+    <button class="btn btn-default btn-sm" ng-click="currentPage = currentPage + 1" ng-disabled="currentPage >= rows.length / pageSize - 1">
+        <i class="text-info glyphicon glyphicon-arrow-right"></i>
+    </button>
+    <!--pagination-->
 
-        <!--button new-->
-        <a class="btn btn-primary btn-sm" href="#/user/addUser">Novo <i class="glyphicon glyphicon-plus"></i></a>
-        <!--button new-->
-
-        <!--pagination-->
-        <button class="btn btn-default btn-sm" ng-click="currentPage = currentPage - 1" ng-disabled="currentPage == 0" >
-            <i class="text-info glyphicon glyphicon-arrow-left"></i>
-        </button>
-
-        <button class="btn btn-default btn-sm" ng-click="currentPage = currentPage + 1" ng-disabled="currentPage >= rows.length / pageSize - 1">
-            <i class="text-info glyphicon glyphicon-arrow-right"></i>
-        </button>
-        <!--pagination-->
-
-    </div>
 </div>

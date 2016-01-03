@@ -433,4 +433,97 @@ class UserModel extends MasterModel
         }
     }
 
+    /**
+     * Method for get orders of user
+     * @name getOrdersByUser
+     * @author Victor Eduardo Barreto
+     * @package fulo\model
+     * @param object $data Data user
+     * @return Object Orders of user
+     * @date Dec 31, 2015
+     * @version 1.0
+     */
+    public function getOrdersByUser (& $data)
+    {
+
+        try {
+
+            $stmt = $this->_conn->prepare("SELECT "
+                    . "sq_order, nu_quantity, nu_total, nu_tracker, nu_date_time, ds_status, ds_address, nu_phone, "
+                    . "nu_farevalue "
+                    . "FROM fulo.order "
+                    . "JOIN fulo.status ON (fulo.order.st_status = status.sq_status) "
+                    . "WHERE sq_user = ?");
+
+            $stmt->execute([
+                $data->origin_sq_user
+            ]);
+
+            return $stmt->fetchAll(PDO::FETCH_OBJ);
+        } catch (Exception $ex) {
+
+            throw $ex;
+        }
+    }
+
+    /**
+     * Method for get orders
+     * @name getOrders
+     * @author Victor Eduardo Barreto
+     * @package fulo\model
+     * @param object $data Data user
+     * @return Object Orders of user
+     * @date Dec 31, 2015
+     * @version 1.0
+     */
+    public function getOrders ()
+    {
+
+        try {
+
+            $stmt = $this->_conn->prepare("SELECT "
+                    . "sq_order, nu_quantity, nu_total, nu_tracker, nu_date_time, ds_status, nu_farevalue, st_status "
+                    . "FROM fulo.order "
+                    . "JOIN fulo.status ON (fulo.order.st_status = status.sq_status)");
+
+            $stmt->execute();
+
+            return $stmt->fetchAll(PDO::FETCH_OBJ);
+        } catch (Exception $ex) {
+
+            throw $ex;
+        }
+    }
+
+    /**
+     * Method for get products of order
+     * @name getProductsOrder
+     * @author Victor Eduardo Barreto
+     * @package fulo\model
+     * @param object $data Data user
+     * @return Object Products of orders
+     * @date Jan 1, 2016
+     * @version 1.0
+     */
+    public function getProductsOrder (& $data)
+    {
+
+        try {
+
+            $stmt = $this->_conn->prepare("SELECT "
+                    . "ds_product, nu_value, nu_quantity "
+                    . "FROM fulo.order_products "
+                    . "WHERE sq_order = ?");
+
+            $stmt->execute([
+                $data->sq_order
+            ]);
+
+            return $stmt->fetchAll(PDO::FETCH_OBJ);
+        } catch (Exception $ex) {
+
+            throw $ex;
+        }
+    }
+
 }

@@ -196,4 +196,42 @@ class PurchaseModel extends MasterModel
         }
     }
 
+    /**
+     * Method for buy products
+     * @name buy
+     * @author Victor Eduardo Barreto
+     * @param Object $data All data of products and user
+     * @return bool Result of transaction
+     * @date Dec 31, 2015
+     * @version 1.0
+     */
+    public function buy (& $data)
+    {
+
+        try {
+
+            // @TODO save order data. and products order
+            $this->_conn->beginTransaction();
+
+            $stmt = $this->_conn->prepare("INSERT "
+                    . "INTO fulo.order "
+                    . "(sq_user, nu_quantity, nu_total, st_status, nu_date_time) "
+                    . "VALUES (?,?,?,?,?)"
+            );
+
+            $stmt->execute([
+                $data->origin_sq_user,
+                $data->nu_quantity,
+                $data->nu_total,
+                $data->st_status,
+                date("Y-m-d H:i:s")
+            ]);
+
+            return $this->_conn->commit();
+        } catch (Exception $ex) {
+
+            throw $ex;
+        }
+    }
+
 }
