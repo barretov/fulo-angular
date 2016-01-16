@@ -25,10 +25,11 @@
  * @param {Object} $http  Http
  * @param {Object} $routeParams Route
  * @param {Object} $location Locatioin
+ * @param {Object} $services Services
  * @date Apr 3, 2015
  * @version 1.0
  */
-$app.controller('userController', function ($scope, $http, $routeParams, $location) {
+$app.controller('userController', function ($scope, $http, $routeParams, $location, $services) {
 
     /**
      * variables for pagination.
@@ -62,7 +63,7 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
         $http.get($scope.server("/getUsers"), {params: $param}).success(function ($return) {
 
             // verify return data.
-            $scope.checkResponse($return);
+            $services.checkResponse($return);
 
             $scope.rows = $return;
         });
@@ -88,7 +89,7 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
         $http.get($scope.server("/getUser"), {params: $param}).success(function ($return) {
 
             // verify return data.
-            $scope.checkResponse($return);
+            $services.checkResponse($return);
 
             $scope.row = $return;
         });
@@ -116,11 +117,11 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
 
                     $location.path("/user/listUser");
 
-                    $scope.showFlashmessage("alert-success", $scope.constant.MSG0001);
+                    $services.showFlashmessage("alert-success", $scope.constant.MSG0001);
                 }
             });
         } else {
-            $scope.showFlashmessage("alert-warning", $scope.constant.MSG0003);
+            $services.showFlashmessage("alert-warning", $scope.constant.MSG0003);
         }
     };
 
@@ -138,11 +139,11 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
         $http.post($scope.server("/upUser"), $param).success(function ($return) {
 
             // verify return data.
-            $scope.checkResponse($return);
+            $services.checkResponse($return);
 
             $location.path("/user/listUser");
 
-            $scope.showFlashmessage("alert-success", $scope.constant.MSG0001);
+            $services.showFlashmessage("alert-success", $scope.constant.MSG0001);
         });
     };
 
@@ -162,7 +163,7 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
         $http.post($scope.server("/inactivateUser"), $param).success(function ($return) {
 
             // verify return data.
-            $scope.checkResponse($return);
+            $services.checkResponse($return);
 
             /* if the customer deactivate his account, do logoff */
             if ($sq_user == $scope.user.sq_user) {
@@ -187,7 +188,7 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
         $http.post($scope.server("/activateUser"), $param).success(function ($return) {
 
             // verify return data.
-            $scope.checkResponse($return);
+            $services.checkResponse($return);
         });
     };
 
@@ -206,7 +207,7 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
         $http.get($scope.server("/getProfiles"), {params: $param}).success(function ($return) {
 
             // verify return data.
-            $scope.checkResponse($return);
+            $services.checkResponse($return);
 
             $scope.profiles = $return;
         });
@@ -227,11 +228,11 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
         $http.post($scope.server("/upAddress"), $param).success(function ($return) {
 
             // verify return data.
-            $scope.checkResponse($return);
+            $services.checkResponse($return);
 
             // insert current data in session and user variable.
             sessionStorage.setItem('user', JSON.stringify($scope.user));
-            $scope.showFlashmessage('alert-success', $scope.constant.MSG0001);
+            $services.showFlashmessage('alert-success', $scope.constant.MSG0001);
             $location.path("/user/listUser");
         });
     };

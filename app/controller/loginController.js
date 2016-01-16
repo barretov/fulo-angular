@@ -25,10 +25,11 @@
  * @param {object} $rootScope
  * @param {object} $http
  * @param {string} $location
+ * @param {string} $services
  * @date Apr 14, 2015
  * @version 1.0
  */
-$app.controller('loginController', function ($scope, $rootScope, $http, $location) {
+$app.controller('loginController', function ($scope, $rootScope, $http, $location, $services) {
 
     /**
      * Method for login in the system
@@ -46,7 +47,7 @@ $app.controller('loginController', function ($scope, $rootScope, $http, $locatio
         $http.post($scope.server("/login"), $param).success(function ($return) {
 
             // verify return data.
-            $scope.checkResponse($return);
+            $services.checkResponse($return);
 
             if ($return) {
 
@@ -61,7 +62,7 @@ $app.controller('loginController', function ($scope, $rootScope, $http, $locatio
                 // set user data in the $rootScope variable.
                 $rootScope.user = JSON.parse(sessionStorage.getItem('user'));
 
-                $scope.showFlashmessage("alert-success", "Processo realizado com sucesso.");
+                $services.showFlashmessage("alert-success", "Processo realizado com sucesso.");
 
                 // clear pass field.
                 $('#modalLogin').modal('hide');
@@ -76,7 +77,7 @@ $app.controller('loginController', function ($scope, $rootScope, $http, $locatio
 
             } else {
 
-                $scope.showFlashmessage("alert-danger", "Dados incorretos.");
+                $services.showFlashmessage("alert-danger", "Dados incorretos.");
 
                 // clear pass field.
                 $('#ds_password').val('');
@@ -99,13 +100,13 @@ $app.controller('loginController', function ($scope, $rootScope, $http, $locatio
         $http.post($scope.server("/logoff"), $param).success(function ($return) {
 
             // verify return data.
-            $scope.checkResponse($return);
+            $services.checkResponse($return);
 
             // remove user data of the session.
             $rootScope.user = sessionStorage.removeItem('user');
             $rootScope.origin = sessionStorage.removeItem('origin');
 
-            $scope.showFlashmessage("alert-success", "Processo realizado com sucesso.");
+            $services.showFlashmessage("alert-success", "Processo realizado com sucesso.");
             $('#modalLogoff').modal('hide');
             $location.path("/");
 

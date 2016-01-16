@@ -25,10 +25,11 @@
  * @param {Object} $http  Http
  * @param {Object} $location Locatioin
  * @param {Object} $rootScope rootScope
+ * @param {Object} $services services
  * @date Jul 13, 2015
  * @version 1.0
  */
-$app.controller('customerController', function ($scope, $http, $location, $rootScope) {
+$app.controller('customerController', function ($scope, $http, $location, $rootScope, $services) {
 
     /**
      * Method for update user data access
@@ -48,16 +49,16 @@ $app.controller('customerController', function ($scope, $http, $location, $rootS
             $http.post($scope.server("/upAccess"), $param).success(function ($return) {
 
                 // verify return data.
-                $scope.checkResponse($return)
+                $services.checkResponse($return)
 
                 $location.path("/");
 
-                $scope.showFlashmessage("alert-success", $scope.constant.MSG0001);
+                $services.showFlashmessage("alert-success", $scope.constant.MSG0001);
 
             });
 
         } else {
-            $scope.showFlashmessage("alert-warning", $scope.constant.MSG0003);
+            $services.showFlashmessage("alert-warning", $scope.constant.MSG0003);
         }
     };
 
@@ -75,14 +76,14 @@ $app.controller('customerController', function ($scope, $http, $location, $rootS
         $http.post($scope.server("/upUser"), $param).success(function ($return) {
 
             // verify return data.
-            $scope.checkResponse($return);
+            $services.checkResponse($return);
 
             // update data in session.
             sessionStorage.setItem('user', JSON.stringify($rootScope.user));
 
             $location.path("/");
 
-            $scope.showFlashmessage("alert-success", $scope.constant.MSG0001);
+            $services.showFlashmessage("alert-success", $scope.constant.MSG0001);
         });
     };
 
@@ -104,7 +105,7 @@ $app.controller('customerController', function ($scope, $http, $location, $rootS
             $http.post($scope.server("/addUser"), $param).success(function ($return) {
 
                 // verify return data.
-                $scope.checkResponse($return);
+                $services.checkResponse($return);
 
                 // do the login.
                 $scope.login($scope.row);
@@ -114,7 +115,7 @@ $app.controller('customerController', function ($scope, $http, $location, $rootS
             });
 
         } else {
-            $scope.showFlashmessage("alert-warning", $scope.constant.MSG0003);
+            $services.showFlashmessage("alert-warning", $scope.constant.MSG0003);
         }
     };
 
@@ -134,7 +135,7 @@ $app.controller('customerController', function ($scope, $http, $location, $rootS
         $http.post($scope.server("/upAddress"), $param).success(function ($return) {
 
             // verify return data.
-            $scope.checkResponse($return);
+            $services.checkResponse($return);
 
             // insert current data in session and user variable.
             sessionStorage.setItem('user', JSON.stringify($rootScope.user));
@@ -146,7 +147,7 @@ $app.controller('customerController', function ($scope, $http, $location, $rootS
                 $('#modalAddress').modal('hide');
             } else {
 
-                $scope.showFlashmessage('alert-success', $scope.constant.MSG0001);
+                $services.showFlashmessage('alert-success', $scope.constant.MSG0001);
                 $location.path("/");
             }
         });
@@ -167,7 +168,7 @@ $app.controller('customerController', function ($scope, $http, $location, $rootS
         $http.get($scope.server("/getAddressByZip"), {params: $param}).success(function ($return) {
 
             // verify return data.
-            $scope.checkResponse($return);
+            $services.checkResponse($return);
 
             // update user data.
             $rootScope.user.ds_city = $return.cidade;
@@ -204,7 +205,7 @@ $app.controller('customerController', function ($scope, $http, $location, $rootS
 
         $http.get($scope.server("/getOrdersByUser"), {params: $param}).success(function ($return) {
 
-            $scope.checkResponse($return);
+            $services.checkResponse($return);
 
             if ($return) {
 
@@ -226,7 +227,7 @@ $app.controller('customerController', function ($scope, $http, $location, $rootS
 
         $http.get($scope.server("/getOrders"), {params: $param}).success(function ($return) {
 
-            $scope.checkResponse($return);
+            $services.checkResponse($return);
 
             if ($return) {
 
@@ -248,7 +249,7 @@ $app.controller('customerController', function ($scope, $http, $location, $rootS
 
         $http.get($scope.server("/getProductsOrder"), {params: $param}).success(function ($return) {
 
-            $scope.checkResponse($return);
+            $services.checkResponse($return);
 
             if ($return) {
 

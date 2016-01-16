@@ -1,14 +1,25 @@
-/* global angular */
-
-//URL de acesso ao servidor RESTful
+/**
+ * URL de acesso ao servidor RESTful
+ * @type String
+ */
 SERVER_URL = "http://fulo.rest";
 
-//Criação ao $app que é o modulo que representa toda a aplicação
-var $app = angular.module('app', ['ngRoute', 'angular-loading-bar']);
+/**
+ * Criação ao $app que é o modulo que representa toda a aplicação
+ * @type angular.module.angular-1_3_6_L1749.moduleInstance
+ */
+var $app = angular.module('app', ['ngRoute', 'angular-loading-bar', 'moduleServices']);
 
+/**
+ * Config
+ * @param {object} $routeProvider Routes
+ * @param {object} $httpProvider Providers
+ */
 $app.config(['$routeProvider', '$httpProvider', function ($routeProvider, $httpProvider) {
 
-        //Configura o route provider
+        /**
+         * Config the route provider.
+         */
         $routeProvider.
                 when('/', {templateUrl: 'app/view/general/main.html'}).
                 when('/error/systemError', {templateUrl: 'app/view/error/systemError.html'}).
@@ -79,61 +90,14 @@ $app.config(['$routeProvider', '$httpProvider', function ($routeProvider, $httpP
 //        });
     }]);
 
-$app.run(['$rootScope', '$location', '$http', function ($rootScope, $location, $http) {
+/**
+ * Run
+ * @param {object} $rootScope
+ * @param {object} $http
+ */
+$app.run(['$rootScope', '$http', function ($rootScope, $http) {
 
 //        $rootScope.messages = [];
-
-        /**
-         * Method for compose the flashmessages
-         * @name showFlashmessage
-         * @author Victor Eduardo Barreto
-         * @param {string} $type Type of message
-         * @param {string} $message Message to show
-         * @date Apr 4, 2015
-         * @version 1.0
-         * Type of messages to send in the variable:
-         * alert-success, alert-danger, alert-info, alert-warninfg
-         */
-        $rootScope.showFlashmessage = function ($type, $message) {
-
-            switch ($type) {
-
-                case "alert-success":
-                    $rootScope.flashType = $type;
-                    $rootScope.flashMsg = $message;
-                    $rootScope.glyphicon = "glyphicon-ok-sign";
-                    break;
-
-                case "alert-danger":
-                    $rootScope.flashType = $type;
-                    $rootScope.flashMsg = $message;
-                    $rootScope.glyphicon = "glyphicon-remove-sign";
-                    break;
-
-                case "alert-info":
-                    $rootScope.flashType = $type;
-                    $rootScope.flashMsg = $message;
-                    $rootScope.glyphicon = "glyphicon-info-sign";
-                    break;
-
-                case "alert-warning":
-                    $rootScope.flashType = $type;
-                    $rootScope.flashMsg = $message;
-                    $rootScope.glyphicon = "glyphicon-warning-sign";
-                    break;
-            }
-
-            // generate a randomic id for flashmessage.
-            var $aux = Math.floor(Math.random() * 2 + 1);
-
-            $('#flashmessage').prepend('<div id="' + $aux + '" class="alert ' + $rootScope.flashType + ' fade in" role="alert"><i class="glyphicon ' + $rootScope.glyphicon + '"></i> ' + $rootScope.flashMsg + '</div>');
-
-            $('#' + $aux).delay(1000);
-
-            $('#' + $aux).fadeOut(function () {
-                $('#' + $aux).remove();
-            });
-        };
 
         /**
          * Method for compose the URL of server REST.
@@ -146,53 +110,6 @@ $app.run(['$rootScope', '$location', '$http', function ($rootScope, $location, $
          */
         $rootScope.server = function ($url) {
             return SERVER_URL + $url;
-        };
-
-        /**
-         * Method for verify the response problems
-         * @name checkResponse
-         * @author Victor Eduardo Barreto
-         * @param {obj} $response Data of response
-         * @return Data of response
-         * @date Jun 19, 2015
-         * @version 1.0
-         */
-        $rootScope.checkResponse = function ($response) {
-
-            switch ($response) {
-
-                case $rootScope.constant.ACCESS_DENIED:
-
-                    this.showFlashmessage('alert-danger', $rootScope.constant.MSG0004);
-                    $location.path("/");
-                    throw Error("Access Denied");
-                    break;
-
-                case $rootScope.constant.EMAIL_ALREADY:
-
-                    this.showFlashmessage('alert-warning', $rootScope.constant.MSG0002);
-                    throw Error("Email Already");
-                    break;
-
-                case $rootScope.constant.WISHLIST_ALREADY:
-
-                    this.showFlashmessage('alert-warning', $rootScope.constant.MSG0005);
-                    throw Error("Wishlist Already");
-                    break;
-
-                case $rootScope.constant.PRODUCT_TYPE_BUSY:
-
-                    this.showFlashmessage('alert-info', $rootScope.constant.MSG0009);
-                    throw Error("Product Type Busy");
-                    break;
-
-                default :
-
-                    return $response;
-                    break;
-            }
-
-            return false;
         };
 
         /**

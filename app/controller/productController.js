@@ -26,10 +26,11 @@
  * @param {Object} $location Locatioin
  * @param {Object} $rootScope root scope
  * @param {Object} $routeParams route
+ * @param {Object} $services services
  * @date Alg 18, 2015
  * @version 1.0
  */
-$app.controller('productController', function ($scope, $rootScope, $http, $location, $routeParams) {
+$app.controller('productController', function ($scope, $rootScope, $http, $location, $routeParams, $services) {
 
     /**
      * variables for pagination.
@@ -52,7 +53,7 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
         $http.get($scope.server("/getProducts"), {params: $param}).success(function ($return) {
 
             // verify return data.
-            $scope.checkResponse($return);
+            $services.checkResponse($return);
 
             $scope.rows = $return;
         });
@@ -78,7 +79,7 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
         $http.get($scope.server("/getProduct"), {params: $param}).success(function ($return) {
 
             // verify return data.
-            $scope.checkResponse($return);
+            $services.checkResponse($return);
 
             $scope.row = $return;
         });
@@ -98,7 +99,7 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
         $http.get($scope.server("/getProductDetail"), {params: $param}).success(function ($return) {
 
             // verify return data.
-            $scope.checkResponse($return);
+            $services.checkResponse($return);
 
             $scope.product = $return;
 
@@ -120,7 +121,7 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
         $http.get($scope.server("/getProductTypes"), {params: $param}).success(function ($return) {
 
             // verify return data.
-            $scope.checkResponse($return);
+            $services.checkResponse($return);
 
             $scope.types = $return;
         });
@@ -149,11 +150,11 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
             $http.post($scope.server("/addProduct"), $param).success(function ($return) {
 
                 // verify return data.
-                $scope.checkResponse($return);
+                $services.checkResponse($return);
 
                 $location.path("/product/listProduct/");
 
-                $scope.showFlashmessage("alert-success", $scope.constant.MSG0001);
+                $services.showFlashmessage("alert-success", $scope.constant.MSG0001);
             });
 
         };
@@ -189,11 +190,11 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
                 $http.post($scope.server("/upProduct"), $param).success(function ($return) {
 
                     // verify return data.
-                    $scope.checkResponse($return);
+                    $services.checkResponse($return);
 
                     $location.path("/product/listProduct/");
 
-                    $scope.showFlashmessage("alert-success", $scope.constant.MSG0001);
+                    $services.showFlashmessage("alert-success", $scope.constant.MSG0001);
                 });
 
             };
@@ -206,11 +207,11 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
             $http.post($scope.server("/upProduct"), $param).success(function ($return) {
 
                 // verify return data.
-                $scope.checkResponse($return);
+                $services.checkResponse($return);
 
                 $location.path("/product/listProduct/");
 
-                $scope.showFlashmessage("alert-success", $scope.constant.MSG0001);
+                $services.showFlashmessage("alert-success", $scope.constant.MSG0001);
             });
 
         }
@@ -231,7 +232,7 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
         $http.post($scope.server("/activateProduct"), $param).success(function ($return) {
 
             // verify return data.
-            $scope.checkResponse($return);
+            $services.checkResponse($return);
 
         });
     };
@@ -251,7 +252,7 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
         $http.post($scope.server("/inactivateProduct"), $param).success(function ($return) {
 
             // verify return data.
-            $scope.checkResponse($return);
+            $services.checkResponse($return);
 
         });
     };
@@ -271,7 +272,7 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
         $http.get($scope.server("/getProductsByFilter"), {params: $param}).success(function ($return) {
 
             // verify return data.
-            $scope.checkResponse($return);
+            $services.checkResponse($return);
 
             if ($return) {
 
@@ -294,7 +295,7 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
 //        if (!$rootScope.user) {
 //
 //            $('#modalLogin').modal('show');
-//            $scope.showFlashmessage("alert-warning", $scope.constant.MSG0007);
+//            $services.showFlashmessage("alert-warning", $scope.constant.MSG0007);
 //        } else {
 //
 //            $param = $scope.configParam({sq_product: $sq_product});
@@ -302,13 +303,13 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
 //            $http.post($scope.server("/addWishList"), $param).success(function ($return) {
 //
 //                // verify return data.
-//                $scope.checkResponse($return);
+//                $services.checkResponse($return);
 //
 //                // ajust quantity of itens and session.
 //                $rootScope.user.nu_wishlist++;
 //                sessionStorage.setItem('user', JSON.stringify($rootScope.user));
 //
-//                $scope.showFlashmessage("alert-success", $scope.constant.MSG0001);
+//                $services.showFlashmessage("alert-success", $scope.constant.MSG0001);
 //
 //            });
 //        }
@@ -328,7 +329,7 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
 //        $http.get($scope.server("/getWishList"), {params: $param}).success(function ($return) {
 //
 //            // verify return data.
-//            $scope.checkResponse($return);
+//            $services.checkResponse($return);
 //
 //            $scope.rows = $return;
 //        });
@@ -349,7 +350,7 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
 //        $http.post($scope.server("/delWishList"), $param).success(function ($return) {
 //
 //            // verify return data.
-//            $scope.checkResponse($return);
+//            $services.checkResponse($return);
 //
 //            // ajust quantity of itens and session.
 //            $rootScope.user.nu_wishlist--;
@@ -381,7 +382,7 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
 //
 //                if ($product.sq_product === $key.sq_product) {
 //
-//                    $scope.showFlashmessage("alert-warning", $scope.constant.MSG0006);
+//                    $services.showFlashmessage("alert-warning", $scope.constant.MSG0006);
 //                    $continue = false;
 //                }
 //            });
@@ -398,7 +399,7 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
 //            // update total value.
 //            this.updateTotal();
 //
-//            $scope.showFlashmessage("alert-success", $scope.constant.MSG0001);
+//            $services.showFlashmessage("alert-success", $scope.constant.MSG0001);
 //        }
 //    };
 
@@ -430,7 +431,7 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
 //        // update total value.
 //        this.updateTotal(true);
 //
-//        $scope.showFlashmessage("alert-success", $scope.constant.MSG0001);
+//        $services.showFlashmessage("alert-success", $scope.constant.MSG0001);
 //    };
 
     /**
@@ -538,7 +539,7 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
 //            $http.post($scope.server("/getFareValue"), $param).success(function ($return) {
 //
 //                // verify return data.
-//                $scope.checkResponse($return);
+//                $services.checkResponse($return);
 //                $scope.fare = $return.fare_value.cServico;
 //
 //                if ($return.fare_value.error) {
@@ -569,11 +570,11 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
         $http.post($scope.server("/addProductType"), $param).success(function ($return) {
 
             // verify return data.
-            $scope.checkResponse($return);
+            $services.checkResponse($return);
 
             $location.path("/product/listProductType");
 
-            $scope.showFlashmessage("alert-success", $scope.constant.MSG0001);
+            $services.showFlashmessage("alert-success", $scope.constant.MSG0001);
         });
     };
 
@@ -596,7 +597,7 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
         $http.get($scope.server("/getProductType"), {params: $param}).success(function ($return) {
 
             // verify return data.
-            $scope.checkResponse($return);
+            $services.checkResponse($return);
 
             $scope.row = $return;
         });
@@ -616,11 +617,11 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
         $http.post($scope.server("/upProductType"), $param).success(function ($return) {
 
             // verify return data.
-            $scope.checkResponse($return);
+            $services.checkResponse($return);
 
             $location.path("/product/listProductType");
 
-            $scope.showFlashmessage("alert-success", $scope.constant.MSG0001);
+            $services.showFlashmessage("alert-success", $scope.constant.MSG0001);
         });
     };
 
@@ -640,12 +641,12 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
         $http.post($scope.server("/delProductType"), $param).success(function ($return) {
 
             // verify return data.
-            $scope.checkResponse($return);
+            $services.checkResponse($return);
 
             // remove the row of the list.
             $('#' + $sq_product_type).fadeOut();
 
-            $scope.showFlashmessage("alert-success", $scope.constant.MSG0001);
+            $services.showFlashmessage("alert-success", $scope.constant.MSG0001);
 
         });
     };
@@ -664,7 +665,7 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
 //        $http.get($scope.server("/getAddressByZip"), {params: $param}).success(function ($return) {
 //
 //            // verify return data.
-//            $scope.checkResponse($return);
+//            $services.checkResponse($return);
 //
 //            $scope.address = {};
 //
@@ -710,7 +711,7 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
 //                // verify if zip code is the same of zip code registred in profile.
 //                if ($rootScope.user.nu_postcode !== $scope.row.nu_postcode) {
 //
-//                    $scope.showFlashmessage("alert-warning", $scope.constant.MSG0012);
+//                    $services.showFlashmessage("alert-warning", $scope.constant.MSG0012);
 //                } else {
 //
 //                    // call the confirmation of order.
@@ -720,12 +721,12 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
 //            } else {
 //
 //                $('#modalAddress').modal('show');
-//                $scope.showFlashmessage("alert-warning", $scope.constant.MSG0011);
+//                $services.showFlashmessage("alert-warning", $scope.constant.MSG0011);
 //            }
 //        } else {
 //
 //            $('#modalLogin').modal('show');
-//            $scope.showFlashmessage("alert-warning", $scope.constant.MSG0010);
+//            $services.showFlashmessage("alert-warning", $scope.constant.MSG0010);
 //        }
 //    };
 });

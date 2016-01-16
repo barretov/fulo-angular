@@ -23,13 +23,12 @@
  * @author Victor Eduardo Barreto
  * @param {Object} $scope Scope
  * @param {Object} $http  Http
- * @param {Object} $location Locatioin
  * @param {Object} $rootScope root scope
- * @param {Object} $routeParams route
+ * @param {Object} $services services
  * @date Alg 18, 2015
  * @version 1.0
  */
-$app.controller('purchaseController', function ($scope, $rootScope, $http, $location, $routeParams) {
+$app.controller('purchaseController', function ($scope, $rootScope, $http, $services) {
 
     /**
      * Method for add item in wish list
@@ -45,7 +44,7 @@ $app.controller('purchaseController', function ($scope, $rootScope, $http, $loca
         if (!$rootScope.user) {
 
             $('#modalLogin').modal('show');
-            $scope.showFlashmessage("alert-warning", $scope.constant.MSG0007);
+            $services.showFlashmessage("alert-warning", $scope.constant.MSG0007);
         } else {
 
             $param = $scope.configParam({sq_product: $sq_product});
@@ -53,13 +52,13 @@ $app.controller('purchaseController', function ($scope, $rootScope, $http, $loca
             $http.post($scope.server("/addWishList"), $param).success(function ($return) {
 
                 // verify return data.
-                $scope.checkResponse($return);
+                $services.checkResponse($return);
 
                 // ajust quantity of itens and session.
                 $rootScope.user.nu_wishlist++;
                 sessionStorage.setItem('user', JSON.stringify($rootScope.user));
 
-                $scope.showFlashmessage("alert-success", $scope.constant.MSG0001);
+                $services.showFlashmessage("alert-success", $scope.constant.MSG0001);
             });
         }
     };
@@ -78,7 +77,7 @@ $app.controller('purchaseController', function ($scope, $rootScope, $http, $loca
         $http.get($scope.server("/getWishList"), {params: $param}).success(function ($return) {
 
             // verify return data.
-            $scope.checkResponse($return);
+            $services.checkResponse($return);
 
             $scope.rows = $return;
         });
@@ -99,7 +98,7 @@ $app.controller('purchaseController', function ($scope, $rootScope, $http, $loca
         $http.post($scope.server("/delWishList"), $param).success(function ($return) {
 
             // verify return data.
-            $scope.checkResponse($return);
+            $services.checkResponse($return);
 
             // ajust quantity of itens and session.
             $rootScope.user.nu_wishlist--;
@@ -131,7 +130,7 @@ $app.controller('purchaseController', function ($scope, $rootScope, $http, $loca
 
                 if ($product.sq_product === $key.sq_product) {
 
-                    $scope.showFlashmessage("alert-warning", $scope.constant.MSG0006);
+                    $services.showFlashmessage("alert-warning", $scope.constant.MSG0006);
                     $continue = false;
                 }
             });
@@ -148,7 +147,7 @@ $app.controller('purchaseController', function ($scope, $rootScope, $http, $loca
             // update total value.
             this.updateTotal();
 
-            $scope.showFlashmessage("alert-success", $scope.constant.MSG0001);
+            $services.showFlashmessage("alert-success", $scope.constant.MSG0001);
         }
     };
 
@@ -180,7 +179,7 @@ $app.controller('purchaseController', function ($scope, $rootScope, $http, $loca
         // update total value.
         this.updateTotal(true);
 
-        $scope.showFlashmessage("alert-success", $scope.constant.MSG0001);
+        $services.showFlashmessage("alert-success", $scope.constant.MSG0001);
     };
 
     /**
@@ -274,7 +273,7 @@ $app.controller('purchaseController', function ($scope, $rootScope, $http, $loca
             $http.post($scope.server("/getFareValue"), $param).success(function ($return) {
 
                 // verify return data.
-                $scope.checkResponse($return);
+                $services.checkResponse($return);
                 $scope.fare = $return.fare_value.cServico;
 
                 if ($return.fare_value.error) {
@@ -306,7 +305,7 @@ $app.controller('purchaseController', function ($scope, $rootScope, $http, $loca
         $http.get($scope.server("/getAddressByZip"), {params: $param}).success(function ($return) {
 
             // verify return data.
-            $scope.checkResponse($return);
+            $services.checkResponse($return);
             $scope.address = {};
             $scope.address = $return;
         });
@@ -349,7 +348,7 @@ $app.controller('purchaseController', function ($scope, $rootScope, $http, $loca
                 // verify if zip code is the same of zip code registred in profile.
                 if ($rootScope.user.nu_postcode !== $scope.row.nu_postcode) {
 
-                    $scope.showFlashmessage("alert-warning", $scope.constant.MSG0012);
+                    $services.showFlashmessage("alert-warning", $scope.constant.MSG0012);
                 } else {
 
                     // call the confirmation of order.
@@ -358,12 +357,12 @@ $app.controller('purchaseController', function ($scope, $rootScope, $http, $loca
             } else {
 
                 $('#modalAddress').modal('show');
-                $scope.showFlashmessage("alert-warning", $scope.constant.MSG0011);
+                $services.showFlashmessage("alert-warning", $scope.constant.MSG0011);
             }
         } else {
 
             $('#modalLogin').modal('show');
-            $scope.showFlashmessage("alert-warning", $scope.constant.MSG0010);
+            $services.showFlashmessage("alert-warning", $scope.constant.MSG0010);
         }
     };
 
@@ -395,7 +394,7 @@ $app.controller('purchaseController', function ($scope, $rootScope, $http, $loca
         $http.post($scope.server("/buy"), $param).success(function ($return) {
 
             // verify return data.
-            $scope.checkResponse($return);
+            $services.checkResponse($return);
 
             console.log($return);
         });

@@ -1,12 +1,3 @@
-/*Ajuste para modal*/
-body.modal-open .container-fluid{
-    /*    -webkit-filter: blur(6px);
-        -moz-filter: blur(6px);
-        -o-filter: blur(6px);
-        -ms-filter: blur(6px);
-        filter: blur(6px);*/
-}
-
 .modal-backdrop {
     background: rgba(0, 0, 0, 1);
 }
