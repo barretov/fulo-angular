@@ -1,4 +1,5 @@
 <div class="row">
+
     <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8">
 
         <legend class="text-gray font-18"><i class="glyphicon glyphicon-shopping-cart"></i> Carrinho de compras</legend>
@@ -25,9 +26,7 @@
                                 width="200"
                                 />
                         </div>
-
                     </a>
-
                 </div>
 
                 <!--product data-->
@@ -46,13 +45,11 @@
 
                         <dt class="text-gray">Tempo de produção:</dt>
                         <dd>{{row.nu_production}} Dia(s)</dd>
-
                     </dl>
 
                     <dl class="dl-horizontal">
 
                         <dt class="text-gray">Quantidade<span class="text-danger">*</span></dt>
-
                     </dl>
 
                     <div class="col-xs-4 col-sm-3 col-md-2 col-lg-2">
@@ -70,7 +67,6 @@
                             pattern="[0-9]+$"
                             required
                             />
-
                     </div>
 
                     <span class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-sm-offset-3 col-md-offset-2 col-lg-offset-2 text-danger"
@@ -110,9 +106,7 @@
                     </span>
 
                     <hr />
-
                 </div>
-
             </div>
 
             <legend class="text-gray font-18">Entrega</legend>
@@ -150,9 +144,7 @@
                                                 Enviar
                                                 <i class="glyphicon glyphicon-send"></i>
                                             </button>
-
                                         </span>
-
                                     </div>
                                 </div>
 
@@ -165,9 +157,7 @@
                                         <span ng-show="form.postcode.$error.maxlength">Máximo de oito caracteres.</span>
                                         <span ng-show="form.postcode.$error.pattern">Somente números.</span>
                                     </span>
-
                                 </div>
-
                             </div>
                         </div>
 
@@ -180,7 +170,6 @@
                             </div>
                         </div>
                         <!--address-->
-
                     </div>
                 </div>
 
@@ -226,22 +215,16 @@
                                 <span class="text-primary"><b>SEDEX</b></span><br />
                                 <span><b>Valor:</b> {{fare[1].Valor| currency}}</span><br />
                                 <span><b>Entrega:</b> {{fare[1].PrazoEntrega}} dia(s)</span>
-
                             </label>
-
                         </div>
 
                         <div class="alert alert-danger" role=alert ng-show="fare.error">
                             <p>{{fare.error}}</p>
                         </div>
-
                     </div>
-
                 </div>
-
             </fieldset>
             <!--result fare value-->
-
     </div>
 
     <!--purchase summary-->
@@ -300,13 +283,8 @@
                 <button class="btn btn-success" ng-click="prepareBuy()" ng-disabled="form.$invalid">Comprar
                     <i class="glyphicon glyphicon-ok"></i>
                 </button>
-
             </div>
-
         </fieldset>
-
-        </form>
-
     </div>
     <!--purchase summary-->
 
@@ -534,22 +512,15 @@
                                     Salvar
                                     <i class="glyphicon glyphicon-save"></i>
                                 </button>
-
                             </div>
                         </div>
                         <!--buttons-->
-
                     </div>
-
                 </form>
                 <!--form-->
-
             </div>
-
         </div>
-
     </div>
-
 </div>
 <!--modal address-->
 

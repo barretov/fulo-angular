@@ -60,7 +60,8 @@ insert into fulo.operation (ds_operation) values
 ('buy'),
 ('getOrdersByUser'),
 ('getOrders'),
-('getProductsOrder');
+('getProductsOrder').
+('tracker');
 
 -- acl --
 insert into fulo.acl (sq_operation, sq_profile) values
@@ -168,5 +169,8 @@ insert into fulo.acl (sq_operation, sq_profile) values
 (34,1),
 
 --getOrdersProducts
-(35,1), (35,2);
+(35,1), (35,2),
+
+--tracker
+(36,1), (36,2);
 

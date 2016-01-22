@@ -1,13 +1,4 @@
 /**
- **
- * Variable to init module services
- * @author Victor Eduardo Barreto
- * @type angular.module.angular-1_3_6_L1749.moduleInstance
- * @date Jan 16, 2016
- */
-var $service = angular.module('moduleServices', ['ngResource']);
-
-/**
  * Service for services of program
  * @name services
  * @author Victor Eduardo Barreto
@@ -54,6 +45,12 @@ $service.service('$services', function ($rootScope, $location) {
 
                 this.showFlashmessage('alert-info', $rootScope.constant.MSG0009);
                 throw Error("Product Type Busy");
+                break;
+
+            case $rootScope.constant.ERROR:
+
+                $location.path("/error/systemError");
+                throw Error("Error");
                 break;
 
             default :

@@ -132,17 +132,22 @@ class PurchaseBusiness extends MasterBusiness
      * Method for get fare value
      * @name getFareValue
      * @author Victor Eduardo Barreto
+     * @param object $data Data
      * @package fulo\business
      * @return object Data of product type
      * @date Oct 10, 2015
      * @version 1.0
      */
-    public function getFareValue ()
+    public function getFareValue ($data = null)
     {
 
         try {
 
-            $data = $this->getRequestData();
+            # verify if data came from inside or outside.
+            if (empty($data)) {
+
+                $data = $this->getRequestData();
+            }
 
             # init variables;
             $data->nu_length = 0;
@@ -391,26 +396,62 @@ class PurchaseBusiness extends MasterBusiness
 
         try {
 
+            # instances of models.
+            $modelUser = new \fulo\model\UserModel();
+            $modelProduct = new \fulo\model\ProductModel();
+
+            # get data.
             $data = $this->getRequestData();
 
-            // @TODO testar todos os valores novamente para ver se bate xD
-            // ajustar cep do usuário antes de enviar para o get fare value.
+            # get data user.
+            $data->user = $modelUser->getDataByIdentity($data->origin_sq_person);
 
-            $internData = $this->getFareValue($data);
+            #get product data.
+            $data->products = $modelProduct->getDataProducts($data);
+
+            # adjust data zip code.
+            $data->nu_postcode = $data->user->nu_postcode;
+
+            # get fare value.
+            $dataIntern = $this->getFareValue($data);
+
+            # start variables;
+            $data->nu_total_intern = 0;
+            $data->nu_quantity_buy = 0;
 
             // sum intern data.
-            foreach ($internData as $key => $value) {
-                // soma valores.
+            foreach ($data->products as $key) {
+
+                foreach ($dataIntern->product as $keyIn) {
+
+                    if ($key->sq_product == $keyIn->sq_product) {
+
+                        // multiply products.
+                        $data->nu_total_intern = $data->nu_total_intern + bcmul($key->nu_value, $keyIn->nu_quantity_buy, NUMBER_TWO);
+
+                        # inject nu_quantity_buy in products for save in order_products.
+                        $key->nu_quantity_buy = $keyIn->nu_quantity_buy;
+                    }
+
+                    # sum total of products.
+                    $data->nu_quantity_buy = $data->nu_quantity_buy + $keyIn->nu_quantity_buy;
+                }
             }
 
-            if ($data->nu_total == $inData->nu_total && $data->nu_farevalue == $internData->nu_farevalue) {
+            # sum total intern with fare value.
+            foreach ($dataIntern->fare_value->cServico as $key) {
 
-                // grava o pedido.
-                $this->_purchaseModel->buy($data);
+                if ($key->Valor == $data->nu_farevalue) {
+
+                    $data->nu_total_intern = bcadd($data->nu_total_intern, floatval($key->Valor), NUMBER_TWO);
+                }
             }
 
-            // TODO preparar os dados para enviar para pay pal.
-            $preparado;
+            if ($data->nu_total === $data->nu_total_intern) {
+
+                # save order.
+//                $this->_purchaseModel->buy($data);
+            }
 
             //Vai usar o Sandbox, ou produção?
             $sandbox = true;
@@ -435,40 +476,77 @@ class PurchaseBusiness extends MasterBusiness
                 $paypalURL = 'https://www.paypal.com/cgi-bin/webscr';
             }
 
-            //Campos da requisição da operação SetExpressCheckout, como ilustrado acima.
-            $requestNvp = array(
-                'USER' => $user,
-                'PWD' => $pswd,
-                'SIGNATURE' => $signature,
-                'VERSION' => '108.0',
-                'METHOD' => 'SetExpressCheckout',
-                'PAYMENTREQUEST_0_PAYMENTACTION' => 'SALE',
-                'PAYMENTREQUEST_0_AMT' => '22.00',
-                'PAYMENTREQUEST_0_CURRENCYCODE' => 'BRL',
-                'PAYMENTREQUEST_0_ITEMAMT' => '22.00',
-                'PAYMENTREQUEST_0_INVNUM' => '1234',
-                'L_PAYMENTREQUEST_0_NAME0' => 'Item A',
-                'L_PAYMENTREQUEST_0_DESC0' => 'Produto A – 110V',
-                'L_PAYMENTREQUEST_0_AMT0' => '11.00',
-                'L_PAYMENTREQUEST_0_QTY0' => '1',
-                'L_PAYMENTREQUEST_0_ITEMAMT' => '11.00',
-                'L_PAYMENTREQUEST_0_NAME1' => 'Item B',
-                'L_PAYMENTREQUEST_0_DESC1' => 'Produto B – 220V',
-                'L_PAYMENTREQUEST_0_AMT1' => '11.00',
-                'L_PAYMENTREQUEST_0_QTY1' => '1',
-                'HDRIMG' => 'https://www.paypal-brasil.com.br/desenvolvedores/wp-content/uploads/2014/04/hdr.png',
-                'LOCALECODE' => 'pt_BR',
-                'RETURNURL' => 'http://PayPalPartner.com.br/VendeFrete?return=1',
-                'CANCELURL' => 'http://PayPalPartner.com.br/CancelaFrete',
-                'BUTTONSOURCE' => 'BR_EC_EMPRESA'
-            );
+            # inject data for paypal.
+            $data->nvp['USER'] = $user;
+            $data->nvp['PWD'] = $pswd;
+            $data->nvp['SIGNATURE'] = $signature;
+            $data->nvp['VERSION'] = '108.0';
+            $data->nvp['METHOD'] = 'SetExpressCheckout';
+            $data->nvp['PAYMENTREQUEST_0_PAYMENTACTION'] = 'SALE';
+            $data->nvp['PAYMENTREQUEST_0_AMT'] = $data->nu_total_intern;
+            $data->nvp['PAYMENTREQUEST_0_INVNUM'] = 'dasdas';
+            $data->nvp['PAYMENTREQUEST_0_CURRENCYCODE'] = 'BRL';
+            $data->nvp['HDRIMG'] = 'https://www.paypal-brasil.com.br/desenvolvedores/wp-content/uploads/2014/04/hdr.png';
+            $data->nvp['LOCALECODE'] = 'pt_BR';
+            $data->nvp['RETURNURL'] = 'http://PayPalPartner.com.br/VendeFrete?return=1';
+            $data->nvp['CANCELURL'] = 'http://PayPalPartner.com.br/CancelaFrete';
+            $data->nvp['BUTTONSOURCE'] = 'BR_EC_EMPRESA';
 
+            # add delivery as product for paypal.
+            $data->nvp['L_PAYMENTREQUEST_0_NAME0'] = 'Taxa de entrega';
+            $data->nvp['L_PAYMENTREQUEST_0_AMT0'] = $data->nu_farevalue;
+            $data->nvp['L_PAYMENTREQUEST_0_QTY0'] = '1';
+
+            # adjust product data for send to paypal.
+            $aux = 1;
+
+            foreach ($data->products as $key) {
+
+                $data->nvp['L_PAYMENTREQUEST_0_NAME' . $aux] = $key->ds_product;
+//                $data->nvp[L_PAYMENTREQUEST_0_DESC.$aux] = 'Produto';
+                $data->nvp['L_PAYMENTREQUEST_0_AMT' . $aux] = $key->nu_value;
+                $data->nvp['L_PAYMENTREQUEST_0_QTY' . $aux] = $key->nu_quantity_buy;
+
+                $aux ++;
+            }
+            
+            //Campos da requisição da operação SetExpressCheckout, como ilustrado acima.
+//            $requestNvp = array(
+//                'USER' => $user,
+//                'PWD' => $pswd,
+//                'SIGNATURE' => $signature,
+//                'VERSION' => '108.0',
+//                'METHOD' => 'SetExpressCheckout',
+//                'PAYMENTREQUEST_0_PAYMENTACTION' => 'SALE',
+//                'PAYMENTREQUEST_0_AMT' => '22.00',
+//                'PAYMENTREQUEST_0_CURRENCYCODE' => 'BRL',
+//                'PAYMENTREQUEST_0_ITEMAMT' => '22.00',
+//                'PAYMENTREQUEST_0_INVNUM' => '123454242424422',
+////                produto 0
+//                'L_PAYMENTREQUEST_0_NAME0' => 'Item A',
+//                'L_PAYMENTREQUEST_0_DESC0' => 'Produto A – 110V',
+//                'L_PAYMENTREQUEST_0_AMT0' => '11.00',
+//                'L_PAYMENTREQUEST_0_QTY0' => '50',
+////                'L_PAYMENTREQUEST_0_ITEMAMT' => '11.00',
+////                produto 1
+//                'L_PAYMENTREQUEST_0_NAME1' => 'Item B',
+//                'L_PAYMENTREQUEST_0_DESC1' => 'Produto B – 220V',
+//                'L_PAYMENTREQUEST_0_AMT1' => '11.00',
+//                'L_PAYMENTREQUEST_0_QTY1' => '1',
+////                outros dados
+//                'HDRIMG' => 'https://www.paypal-brasil.com.br/desenvolvedores/wp-content/uploads/2014/04/hdr.png',
+//                'LOCALECODE' => 'pt_BR',
+//                'RETURNURL' => 'http://PayPalPartner.com.br/VendeFrete?return=1',
+//                'CANCELURL' => 'http://PayPalPartner.com.br/CancelaFrete',
+//                'BUTTONSOURCE' => 'BR_EC_EMPRESA'
+//            );
             //Envia a requisição e obtém a resposta da PayPal
-            $responseNvp = $this->sendNvpRequest($requestNvp, $sandbox);
+            $responseNvp = $this->sendNvpRequest($data->nvp, $sandbox);
 
             //Se a operação tiver sido bem sucedida, redirecionamos o cliente para o
             //ambiente de pagamento.
             if (isset($responseNvp['ACK']) && $responseNvp['ACK'] == 'Success') {
+
                 $query = array(
                     'cmd' => '_express-checkout',
                     'token' => $responseNvp['TOKEN']
@@ -476,16 +554,41 @@ class PurchaseBusiness extends MasterBusiness
 
                 $redirectURL = sprintf('%s?%s', $paypalURL, http_build_query($query));
 
-                printf("Location: %s\n", $redirectURL);
+                return $redirectURL;
             } else {
                 //Opz, alguma coisa deu errada.
                 //Verifique os logs de erro para depuração.
-                var_dump("ERRO");
+                return ERROR;
             }
         } catch (Exception $ex) {
 
             throw $ex;
         }
+    }
+
+    /**
+     * Method for track order in correios
+     * autor: Luis Fernando Meireles
+     * @return array Array com tabela html
+     * @version 1.0
+     * */
+    function tracker ()
+    {
+
+        $data = $this->getRequestData();
+        $url = 'http://websro.correios.com.br/sro_bin/txect01$.Inexistente?P_LINGUA=001&P_TIPO=002&P_COD_LIS=' . $data->nu_tracker;
+
+        $retorno = file_get_contents($url);
+
+        $ini = strpos($retorno, '<table');
+        $end = strpos($retorno, '</TABLE>') + 8;
+        $len = $end - $ini;
+        $table = utf8_encode(substr($retorno, $ini, $len));
+        $table = explode('<tr>', str_replace('</TABLE>', '', $table));
+        unset($table[0]);
+        $table = '<table><tr>' . implode('<tr>', $table) . '</table>';
+
+        return array('table' => $table);
     }
 
 }

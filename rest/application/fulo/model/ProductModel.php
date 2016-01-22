@@ -634,7 +634,7 @@ class ProductModel extends MasterModel
      * Method for get data products
      * @name getDataProducts
      * @author Victor Eduardo Barreto
-     * @param Array $data->sq_product Identifier of products
+     * @param Array $data Data of products
      * @return Array Data products
      * @date Oct 20, 2015
      * @version 1.0

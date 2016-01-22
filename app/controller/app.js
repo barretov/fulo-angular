@@ -11,6 +11,15 @@ SERVER_URL = "http://fulo.rest";
 var $app = angular.module('app', ['ngRoute', 'angular-loading-bar', 'moduleServices']);
 
 /**
+ **
+ * Variable to init module services
+ * @author Victor Eduardo Barreto
+ * @type angular.module.angular-1_3_6_L1749.moduleInstance
+ * @date Jan 16, 2016
+ */
+var $service = angular.module('moduleServices', ['ngResource']);
+
+/**
  * Config
  * @param {object} $routeProvider Routes
  * @param {object} $httpProvider Providers

@@ -25,10 +25,11 @@
  * @param {Object} $http  Http
  * @param {Object} $rootScope root scope
  * @param {Object} $services services
+ * @param {Object} $location location
  * @date Alg 18, 2015
  * @version 1.0
  */
-$app.controller('purchaseController', function ($scope, $rootScope, $http, $services) {
+$app.controller('purchaseController', function ($scope, $rootScope, $http, $services, $window) {
 
     /**
      * Method for add item in wish list
@@ -386,8 +387,8 @@ $app.controller('purchaseController', function ($scope, $rootScope, $http, $serv
         });
 
         // transfer new data.
-        $scope.row.nu_total = $scope.cart.nu_total;
-        $scope.row.nu_farevalue = $scope.cart.nu_farevalue;
+        $scope.buy.nu_total = $scope.cart.nu_total;
+        $scope.buy.nu_farevalue = $scope.cart.nu_farevalue;
 
         $param = $scope.configParam($scope.buy);
 
@@ -396,7 +397,142 @@ $app.controller('purchaseController', function ($scope, $rootScope, $http, $serv
             // verify return data.
             $services.checkResponse($return);
 
-            console.log($return);
+            // close modal.
+            $('#modalConfirmation').modal('hide');
+
+            // redirect for payment.
+            $window.location.href = $return;
+        });
+    };
+
+    /**
+     * Method for get orders of user
+     * @name getOrders
+     * @author Victor Eduardo Barreto
+     * @date Dec 31, 2015
+     * @version 1.0
+     */
+    $scope.getOrdersByUser = function () {
+
+        $param = $scope.configParam();
+
+        $http.get($scope.server("/getOrdersByUser"), {params: $param}).success(function ($return) {
+
+            $services.checkResponse($return);
+
+            if ($return) {
+
+                $scope.orders = $return;
+            }
+        });
+    };
+
+    /**
+     * Method for get orders
+     * @name getOrders
+     * @author Victor Eduardo Barreto
+     * @date Jan 1, 2016
+     * @version 1.0
+     */
+    $scope.getOrders = function () {
+
+        $param = $scope.configParam();
+
+        $http.get($scope.server("/getOrders"), {params: $param}).success(function ($return) {
+
+            $services.checkResponse($return);
+
+            if ($return) {
+
+                $scope.orders = $return;
+            }
+        });
+    };
+
+    /**
+     * Method for get products of order
+     * @name getProductsOrder
+     * @author Victor Eduardo Barreto
+     * @param {Integer} $sq_order Order number
+     * @date Jan 1, 2016
+     * @version 1.0
+     */
+    $scope.getProductsOrder = function ($sq_order) {
+
+        $param = $scope.configParam({sq_order: $sq_order});
+
+        $http.get($scope.server("/getProductsOrder"), {params: $param}).success(function ($return) {
+
+            $services.checkResponse($return);
+
+            if ($return) {
+
+                $scope.products = $return;
+
+                // close all collapses.
+                angular.forEach($('[id*=prod]'), function ($key) {
+
+                    if ($('#' + $key.id).hasClass('in')) {
+
+                        $('#' + $key.id).collapse(('hide'));
+                    }
+                });
+
+                //open collapse.
+                $('#prod' + $sq_order).collapse('show');
+            }
+        });
+    };
+
+    /**
+     * Method for tracker order
+     * @name tracker
+     * @author Luis Fernando Meireles
+     * @param {String} $nu_tracker description
+     * @date Jan 21, 2016
+     * @version 1.0
+     */
+    $scope.tracker = function ($nu_tracker) {
+
+        $param = $scope.configParam({nu_tracker: $nu_tracker});
+
+        $http.get($scope.server("/tracker"), {params: $param}).success(function ($return) {
+
+            $services.checkResponse($return);
+
+            $data = [];
+            $($return.table).find('tr:not(:eq(0))').each(function (i) {
+
+                if ($(this).find('td:eq(0)').attr('colspan') == 2) {
+
+                    $data.push({
+                        'data': $data[i - 1].data,
+                        'local': $(this).find('td:eq(0)').text(),
+                        'status': $(this).find('td:eq(1)').text()
+                    });
+
+                } else {
+
+                    $data.push({
+                        'data': $(this).find('td:eq(0)').text(),
+                        'local': $(this).find('td:eq(1)').text(),
+                        'status': $(this).find('td:eq(2)').text()
+                    });
+                }
+            });
+
+            // close all collapses.
+            angular.forEach($('[id*=track]'), function ($key) {
+
+                if ($('#' + $key.id).hasClass('in')) {
+
+                    $('#' + $key.id).collapse(('hide'));
+                }
+            });
+
+            //open collapse.
+            $('#track' + $nu_tracker).collapse('show');
+            $scope.sro = $data;
         });
     };
 });

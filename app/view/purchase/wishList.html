@@ -4,7 +4,7 @@
 
     <!--loop-->
     <div class="row"
-         ng-repeat="row in rows| startFrom: currentPage * pageSize| limitTo: pageSize"
+         ng-repeat="row in rows| startFrom: currentPage * pageSize | limitTo: pageSize"
          id="{{row.sq_product}}">
 
         <!--image-->
@@ -126,25 +126,10 @@
 
                     <i class="glyphicon glyphicon-remove"></i>
                 </span>
-
-
             </div>
             <!--product inactive-->
 
             <hr />
-
         </div>
-
     </div>
-
-    <!--pagination-->
-    <button class="btn btn-default btn-sm" ng-click="currentPage = currentPage - 1" ng-disabled="currentPage == 0" >
-        <i class="text-info glyphicon glyphicon-arrow-left"></i>
-    </button>
-
-    <button class="btn btn-default btn-sm" ng-click="currentPage = currentPage + 1" ng-disabled="currentPage >= rows.length / pageSize - 1">
-        <i class="text-info glyphicon glyphicon-arrow-right"></i>
-    </button>
-    <!--pagination-->
-
 </div>

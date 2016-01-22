@@ -128,3 +128,24 @@ $app->post("/buy", function () {
         throw $ex;
     }
 });
+
+/**
+ * Method for track order delivery
+ * @name tracker
+ * @author Victor Eduardo Barreto
+ * @return object Products of orders
+ * @date Jan 21, 2016
+ * @version 1.0
+ */
+$app->get("/tracker", function () {
+
+    try {
+
+        $business = MasterController::getPurchaseBusiness();
+
+        echo json_encode($business->tracker());
+    } catch (Exception $ex) {
+
+        throw $ex;
+    }
+});

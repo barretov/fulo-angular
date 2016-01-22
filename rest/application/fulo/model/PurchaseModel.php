@@ -210,22 +210,46 @@ class PurchaseModel extends MasterModel
 
         try {
 
-            // @TODO save order data. and products order
             $this->_conn->beginTransaction();
 
-            $stmt = $this->_conn->prepare("INSERT "
-                    . "INTO fulo.order "
+            # save order.
+            $stmtOrder = $this->_conn->prepare("INSERT INTO fulo.order "
                     . "(sq_user, nu_quantity, nu_total, st_status, nu_date_time) "
                     . "VALUES (?,?,?,?,?)"
             );
 
-            $stmt->execute([
+            $stmtOrder->execute([
                 $data->origin_sq_user,
-                $data->nu_quantity,
+                $data->nu_quantity_buy,
                 $data->nu_total,
                 $data->st_status,
                 date("Y-m-d H:i:s")
             ]);
+
+            # save products of order.
+            $stmtOrderProducts = $this->_conn->prepare("INSERT INTO fulo.order_products "
+                    . "(sq_order, sq_product, ds_product, nu_value, nu_quantity, nu_production, nu_quantity_stok) "
+                    . "VALUES (?,?,?,?,?,?,?)");
+
+            # add products.
+            foreach ($data->products as $key) {
+
+                $stmtOrderProducts->execute([
+                    $this->_conn->lastInsertId('fulo.order_sq_order_seq'),
+                    $key->sq_product,
+                    $key->ds_product,
+                    $key->nu_value,
+                    $key->nu_quantity_buy,
+                    $key->nu_production,
+                    $key->nu_quantity_stok // verificar stoque.
+                ]);
+            }
+
+            # inject sq_order in $data for use in paypal.
+            $data->sq_order = $this->_conn->lastInsertId('fulo.order_sq_order_seq');
+
+            # save log operation.
+            $this->saveLog($data->origin_sq_user, $this->_conn->lastInsertId('fulo.order_sq_order_seq'));
 
             return $this->_conn->commit();
         } catch (Exception $ex) {
