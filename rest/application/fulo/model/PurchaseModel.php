@@ -214,25 +214,39 @@ class PurchaseModel extends MasterModel
 
             # save order.
             $stmtOrder = $this->_conn->prepare("INSERT INTO fulo.order "
-                    . "(sq_user, nu_quantity, nu_total, st_status, nu_date_time) "
-                    . "VALUES (?,?,?,?,?)"
+                    . "(sq_user, ds_address, nu_phone, nu_quantity, nu_total, st_status, nu_date_time, nu_farevalue) "
+                    . "VALUES (?,?,?,?,?,?,?,?)"
             );
 
             $stmtOrder->execute([
                 $data->origin_sq_user,
+                $data->user->ds_address,
+                $data->user->nu_phone,
                 $data->nu_quantity_buy,
                 $data->nu_total,
-                $data->st_status,
-                date("Y-m-d H:i:s")
+                NUMBER_THRE,
+                date("Y-m-d H:i:s"),
+                $data->nu_farevalue
             ]);
 
             # save products of order.
             $stmtOrderProducts = $this->_conn->prepare("INSERT INTO fulo.order_products "
-                    . "(sq_order, sq_product, ds_product, nu_value, nu_quantity, nu_production, nu_quantity_stok) "
+                    . "(sq_order, sq_product, ds_product, nu_value, nu_quantity, nu_production, nu_quantity_stock) "
                     . "VALUES (?,?,?,?,?,?,?)");
 
-            # add products.
+            # add order products.
             foreach ($data->products as $key) {
+
+                # verify quantity of product in stock now.
+                $stmtStock = $this->_conn->prepare("SELECT nu_quantity FROM fulo.product WHERE sq_product = ?");
+
+                $stmtStock->execute([
+                    $key->sq_product
+                ]);
+
+                $nu_quantity = $stmtStock->fetchObject();
+                
+                // verificar quantos foram comprados, e diminuir quanto tem no stoque e setar as quantidades que serão produzidas e diminuir a quantidade comprada do estoque.
 
                 $stmtOrderProducts->execute([
                     $this->_conn->lastInsertId('fulo.order_sq_order_seq'),
@@ -241,7 +255,7 @@ class PurchaseModel extends MasterModel
                     $key->nu_value,
                     $key->nu_quantity_buy,
                     $key->nu_production,
-                    $key->nu_quantity_stok // verificar stoque.
+                    $nu_quantity->nu_quantity
                 ]);
             }
 

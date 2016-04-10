@@ -149,3 +149,24 @@ $app->get("/tracker", function () {
         throw $ex;
     }
 });
+
+/**
+ * Method for recive a paypal response
+ * @name paypalResponse
+ * @author Victor Eduardo Barreto
+ * @return object Response of procedure
+ * @date Feb 3, 2016
+ * @version 1.0
+ */
+$app->get("/paypalResponse", function () {
+
+    try {
+
+        $business = MasterController::getPurchaseBusiness();
+
+        echo json_encode($business->paypalResponse());
+    } catch (Exception $ex) {
+
+        throw $ex;
+    }
+});

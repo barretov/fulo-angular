@@ -338,3 +338,7 @@ button {
 .overflow-x-hidden {
     overflow-x: hidden;
 }
+
+.display-none{
+    display:block;
+}

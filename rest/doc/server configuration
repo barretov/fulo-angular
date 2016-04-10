@@ -1,4 +1,10 @@
-Archive to describe nginx configuration.
+Archive of configuration ambience.
+
+intall PHP
+--
+php5-fpm php5-mcrypt php5-curl php5-gd php5-pgsql postgresql nginx
+
+--
 
 ----
 Slim framework in vhost nginx;
@@ -15,7 +21,7 @@ To active mcrypt in nginx
 
 post limit.
 -------------
-aumentar upload PHP.
+aumentar upload no php.ini
 1 - upload_max_filesize = 10M
 
 aumentar o post no nginx. vhost.
@@ -44,8 +50,10 @@ banco cep
 
 psql -U postgres -W db_joker -f cep_postgres.sql
 
-# mudar de peer para md5 no arquivo sudo kate /etc/postgresql/9.3/main/pg_hba.conf
+# parar o banco de dados.
+# mudar de peer para md5 no arquivo sudo nano /etc/postgresql/9.4/main/pg_hba.conf
 local   all             postgres                                md5
+# iniciar o banco de dados.
 
 
 --

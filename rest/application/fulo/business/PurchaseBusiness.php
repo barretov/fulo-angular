@@ -364,6 +364,7 @@ class PurchaseBusiness extends MasterBusiness
         $responseNvp = array();
 
         if (preg_match_all('/(?<name>[^\=]+)\=(?<value>[^&]+)&?/', $response, $matches)) {
+
             foreach ($matches['name'] as $offset => $name) {
                 $responseNvp[$name] = $matches['value'][$offset];
             }
@@ -371,11 +372,17 @@ class PurchaseBusiness extends MasterBusiness
 
         //Verificando se deu tudo certo e, caso algum erro tenha ocorrido,
         //gravamos um log para depuração.
+        #@TODO ARRUMAR DEPURAÇÃO.
         if (isset($responseNvp['ACK']) && $responseNvp['ACK'] != 'Success') {
-            for ($i = 0; isset($responseNvp['L_ERRORCODE' . $i]); ++$i) {
-                $message = sprintf("PayPal NVP %s[%d]: %s\n", $responseNvp['L_SEVERITYCODE' . $i], $responseNvp['L_ERRORCODE' . $i], $responseNvp['L_LONGMESSAGE' . $i]);
 
-                error_log($message);
+            for ($i = 0; isset($responseNvp['L_ERRORCODE' . $i]); ++$i) {
+
+//                $message = sprintf("PayPal NVP %s[%d]: %s\n", $responseNvp['L_SEVERITYCODE' . $i], $responseNvp['L_ERRORCODE' . $i], $responseNvp['L_LONGMESSAGE' . $i]);
+//                # error treatment.
+//                error_log($message);
+//               @TODO CONSTANTE DE ERRO DE PAGAMENTO. E MANDAR COD ERRO.
+                # return error code.
+                return $responseNvp['L_ERRORCODE' . $i];
             }
         }
 
@@ -450,101 +457,54 @@ class PurchaseBusiness extends MasterBusiness
             if ($data->nu_total === $data->nu_total_intern) {
 
                 # save order.
-//                $this->_purchaseModel->buy($data);
-            }
-
-            //Vai usar o Sandbox, ou produção?
-            $sandbox = true;
-
-            //Baseado no ambiente, sandbox ou produção, definimos as credenciais
-            //e URLs da API.
-            if ($sandbox) {
-                //credenciais da API para o Sandbox
-                $user = 'conta-business_api1.test.com';
-                $pswd = '1365001380';
-                $signature = 'AiPC9BjkCyDFQXbSkoZcgqH3hpacA-p.YLGfQjc0EobtODs.fMJNajCx';
-
-                //URL da PayPal para redirecionamento, não deve ser modificada
-                $paypalURL = 'https://www.sandbox.paypal.com/cgi-bin/webscr';
-            } else {
-                //credenciais da API para produção
-                $user = 'usuario';
-                $pswd = 'senha';
-                $signature = 'assinatura';
-
-                //URL da PayPal para redirecionamento, não deve ser modificada
-                $paypalURL = 'https://www.paypal.com/cgi-bin/webscr';
+                $this->_purchaseModel->buy($data);
             }
 
             # inject data for paypal.
-            $data->nvp['USER'] = $user;
-            $data->nvp['PWD'] = $pswd;
-            $data->nvp['SIGNATURE'] = $signature;
-            $data->nvp['VERSION'] = '108.0';
+            $data->nvp['USER'] = PAYPAL_USER;
+            $data->nvp['PWD'] = PAYPAL_PASS;
+            $data->nvp['SIGNATURE'] = PAYPAL_SIGNATURE;
+            $data->nvp['VERSION'] = PAYPAL_VERSION;
             $data->nvp['METHOD'] = 'SetExpressCheckout';
             $data->nvp['PAYMENTREQUEST_0_PAYMENTACTION'] = 'SALE';
             $data->nvp['PAYMENTREQUEST_0_AMT'] = $data->nu_total_intern;
-            $data->nvp['PAYMENTREQUEST_0_INVNUM'] = 'dasdas';
+            $data->nvp['PAYMENTREQUEST_0_ITEMAMT'] = $data->nu_total_intern - $data->nu_farevalue;
+            $data->nvp['PAYMENTREQUEST_0_INVNUM'] = $data->sq_order;
             $data->nvp['PAYMENTREQUEST_0_CURRENCYCODE'] = 'BRL';
             $data->nvp['HDRIMG'] = 'https://www.paypal-brasil.com.br/desenvolvedores/wp-content/uploads/2014/04/hdr.png';
             $data->nvp['LOCALECODE'] = 'pt_BR';
-            $data->nvp['RETURNURL'] = 'http://PayPalPartner.com.br/VendeFrete?return=1';
-            $data->nvp['CANCELURL'] = 'http://PayPalPartner.com.br/CancelaFrete';
+            $data->nvp['RETURNURL'] = 'http://fulo.rest/paypalResponse?secret=' . $data->secret;
+            $data->nvp['CANCELURL'] = 'http://fulo.local/#/purchase/cart';
             $data->nvp['BUTTONSOURCE'] = 'BR_EC_EMPRESA';
-
-            # add delivery as product for paypal.
-            $data->nvp['L_PAYMENTREQUEST_0_NAME0'] = 'Taxa de entrega';
-            $data->nvp['L_PAYMENTREQUEST_0_AMT0'] = $data->nu_farevalue;
-            $data->nvp['L_PAYMENTREQUEST_0_QTY0'] = '1';
+            $data->nvp['NOSHIPPING'] = '1';
+            $data->nvp['ALLOWNOTE'] = 0;
+            $data->nvp['PAYMENTREQUEST_0_SHIPPINGAMT'] = $data->nu_farevalue;
 
             # adjust product data for send to paypal.
-            $aux = 1;
+            $aux = NUMBER_ZERO;
 
             foreach ($data->products as $key) {
 
                 $data->nvp['L_PAYMENTREQUEST_0_NAME' . $aux] = $key->ds_product;
-//                $data->nvp[L_PAYMENTREQUEST_0_DESC.$aux] = 'Produto';
                 $data->nvp['L_PAYMENTREQUEST_0_AMT' . $aux] = $key->nu_value;
                 $data->nvp['L_PAYMENTREQUEST_0_QTY' . $aux] = $key->nu_quantity_buy;
-
                 $aux ++;
             }
-            
-            //Campos da requisição da operação SetExpressCheckout, como ilustrado acima.
-//            $requestNvp = array(
-//                'USER' => $user,
-//                'PWD' => $pswd,
-//                'SIGNATURE' => $signature,
-//                'VERSION' => '108.0',
-//                'METHOD' => 'SetExpressCheckout',
-//                'PAYMENTREQUEST_0_PAYMENTACTION' => 'SALE',
-//                'PAYMENTREQUEST_0_AMT' => '22.00',
-//                'PAYMENTREQUEST_0_CURRENCYCODE' => 'BRL',
-//                'PAYMENTREQUEST_0_ITEMAMT' => '22.00',
-//                'PAYMENTREQUEST_0_INVNUM' => '123454242424422',
-////                produto 0
-//                'L_PAYMENTREQUEST_0_NAME0' => 'Item A',
-//                'L_PAYMENTREQUEST_0_DESC0' => 'Produto A – 110V',
-//                'L_PAYMENTREQUEST_0_AMT0' => '11.00',
-//                'L_PAYMENTREQUEST_0_QTY0' => '50',
-////                'L_PAYMENTREQUEST_0_ITEMAMT' => '11.00',
-////                produto 1
-//                'L_PAYMENTREQUEST_0_NAME1' => 'Item B',
-//                'L_PAYMENTREQUEST_0_DESC1' => 'Produto B – 220V',
-//                'L_PAYMENTREQUEST_0_AMT1' => '11.00',
-//                'L_PAYMENTREQUEST_0_QTY1' => '1',
-////                outros dados
-//                'HDRIMG' => 'https://www.paypal-brasil.com.br/desenvolvedores/wp-content/uploads/2014/04/hdr.png',
-//                'LOCALECODE' => 'pt_BR',
-//                'RETURNURL' => 'http://PayPalPartner.com.br/VendeFrete?return=1',
-//                'CANCELURL' => 'http://PayPalPartner.com.br/CancelaFrete',
-//                'BUTTONSOURCE' => 'BR_EC_EMPRESA'
-//            );
+
             //Envia a requisição e obtém a resposta da PayPal
-            $responseNvp = $this->sendNvpRequest($data->nvp, $sandbox);
+            # send request for paypal and recive a request.
+            $responseNvp = $this->sendNvpRequest($data->nvp, $sandbox = TRUE);
+
+            # verify if exist error in paypal server.
+            if ($responseNvp == 10001) {
+
+                sleep(NUMBER_FIVE);
+                $responseNvp = $this->sendNvpRequest($data->nvp, $sandbox = TRUE);
+            }
 
             //Se a operação tiver sido bem sucedida, redirecionamos o cliente para o
             //ambiente de pagamento.
+            # if paypal request is right, send user for paypal site.
             if (isset($responseNvp['ACK']) && $responseNvp['ACK'] == 'Success') {
 
                 $query = array(
@@ -552,12 +512,10 @@ class PurchaseBusiness extends MasterBusiness
                     'token' => $responseNvp['TOKEN']
                 );
 
-                $redirectURL = sprintf('%s?%s', $paypalURL, http_build_query($query));
-
+                $redirectURL = sprintf('%s?%s', PAYPAL_URL, http_build_query($query));
                 return $redirectURL;
             } else {
-                //Opz, alguma coisa deu errada.
-                //Verifique os logs de erro para depuração.
+
                 return ERROR;
             }
         } catch (Exception $ex) {
@@ -589,6 +547,70 @@ class PurchaseBusiness extends MasterBusiness
         $table = '<table><tr>' . implode('<tr>', $table) . '</table>';
 
         return array('table' => $table);
+    }
+
+    /**
+     * Method for business of paypal response
+     * autor: Victor Eduardo Barreto
+     * @version 1.0
+     * */
+    function paypalResponse ()
+    {
+
+        $data = $this->getRequestData();
+
+        try {
+
+            # inject data for paypal.
+            $data->nvp['USER'] = PAYPAL_USER;
+            $data->nvp['PWD'] = PAYPAL_PASS;
+            $data->nvp['SIGNATURE'] = PAYPAL_SIGNATURE;
+            $data->nvp['VERSION'] = PAYPAL_VERSION;
+            $data->nvp['TOKEN'] = $data->token;
+            $data->nvp['METHOD'] = 'GetExpressCheckoutDetails';
+
+            //Envia a requisição e obtém a resposta da PayPal
+            $responseNvp = $this->sendNvpRequest($data->nvp, $sandbox = TRUE);
+
+            # if the response is success, call DoExpressRequest.
+            if (isset($responseNvp['ACK']) && $responseNvp['ACK'] == 'Success') {
+
+                $data->nvp['PAYMENTREQUEST_0_AMT'] = $responseNvp['PAYMENTREQUEST_0_AMT'];
+                $data->nvp['PAYMENTREQUEST_0_CURRENCYCODE'] = $responseNvp['PAYMENTREQUEST_0_CURRENCYCODE'];
+                $data->nvp['EMAIL'] = $responseNvp['EMAIL'];
+                $data->nvp['PAYMENTREQUEST_0_PAYMENTACTION'] = "Sale";
+                $data->nvp['PAYERID'] = $responseNvp['PAYERID'];
+                $data->nvp['METHOD'] = "DoExpressCheckoutPayment";
+
+                $data->response = $this->sendNvpRequest($data->nvp, $sandbox = TRUE);
+
+                # verify if card was recused. Send user to try again.
+                if ($data->response == 10486) {
+
+                    $query = array(
+                        'cmd' => '_express-checkout',
+                        'token' => $data->nvp['TOKEN']
+                    );
+
+                    $redirectURL = sprintf('%s?%s', PAYPAL_URL, http_build_query($query));
+                    return $redirectURL;
+                }
+
+                # if doexpresscheckout is right, redirect user.
+                if ($data->response['ACK'] == 'Success') {
+
+                    header("location:http://fulo.local/#/customer/mainCustomer");
+                } else {
+
+                    return ERROR;
+                }
+            } else {
+
+                return ERROR;
+            }
+        } catch (Exception $ex) {
+            throw $ex;
+        }
     }
 
 }

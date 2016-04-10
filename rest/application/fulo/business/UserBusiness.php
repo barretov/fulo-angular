@@ -82,7 +82,7 @@ class UserBusiness extends MasterBusiness
             }
 
             #cript password.
-            $data->ds_password = crypt($data->ds_password);
+            $data->ds_password = crypt($data->ds_password, ENCRYPT_SALT);
 
             # send to the model of user for add and return for controller.
             return $this->_userModel->addUser($data);

@@ -45,15 +45,15 @@ class MasterBusiness
 
             foreach ($data as $key => $value) {
 
-                # verify if arryved an image. 
-                if ($key != "im_image") {
+                $allowed = ["token", "origin"];
 
-                    # if arrive an object inside another, do nothing.
+                if (!in_array($key, $allowed) && $key != 'im_image') {
+
                     if (is_string($value)) {
 
                         $data->$key = \preg_replace("/[^a-zA-Z0-9_@.,áàãâéêíóôõúüçÁÀÃÂÉÊÍÓÔÕÚÜÇ ]/", "", $value);
                     }
-                } else {
+                } else if ($key == 'im_image') {
 
                     $data->$key = $this->makeImageIn($value);
                 }
@@ -128,40 +128,8 @@ class MasterBusiness
     }
 
     /**
-     * Method for transform array in object
-     * @name arrayToObject
-     * @author Victor Eduardo Barreto
-     * @param array $data Data of request
-     * @return object Data of request
-     * @date Alg 12, 2015
-     * @version 1.0
-     */
-    public function arrayToObject (& $data)
-    {
-
-        try {
-
-            $object = new \stdClass();
-
-            if (!empty($data)) {
-
-                foreach ($data as $key => $value) {
-
-                    $object->$key = $value;
-                }
-            }
-
-            $data = $object;
-
-            return $data;
-        } catch (Exception $ex) {
-            throw $ex;
-        }
-    }
-
-    /**
      * Method for request data
-     * @name arrayToObject
+     * @name getRequestData
      * @author Victor Eduardo Barreto
      * @return object Data of request
      * @date Alg 13, 2015
@@ -178,7 +146,9 @@ class MasterBusiness
                 case "GET":
 
                     $data = \Slim\Slim::getInstance()->request->params();
-                    $this->arrayToObject($data);
+
+                    # transform array in object.
+                    $data = (object) $data;
                     break;
 
                 case "POST":
@@ -192,7 +162,7 @@ class MasterBusiness
                 # decrypt data secret.
                 $origin = $this->decrypt($data->origin);
 
-                # remove origin hash.
+                # remove hash.
                 unset($data->origin);
 
                 # add decrypted secret in data.
@@ -202,6 +172,7 @@ class MasterBusiness
                 }
             }
 
+            # remove special chars.
             $this->removeSpecialChar($data);
 
             return $data;
