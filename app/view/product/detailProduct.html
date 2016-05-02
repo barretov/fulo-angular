@@ -31,7 +31,7 @@
             <dl class="dl-horizontal">
 
                 <dt class="text-gray">Preço:</dt>
-                <dd>{{row.nu_value | currency}}</dd>
+                <dd>{{row.nu_value| currency}}</dd>
 
                 <dt class="text-gray">Em estoque:</dt>
                 <dd>{{row.nu_quantity}} Und</dd>
@@ -42,66 +42,69 @@
             </dl>
 
             <!--form buy-->
-            <form name="form" ng-show="row.sq_status_product == constant.STATUS_ACTIVE">
+            <!--            <form name="form" ng-show="row.sq_status_product == constant.STATUS_ACTIVE">
+            
+                            <dl class="dl-horizontal">
+            
+                                <dt class="text-gray">Quantidade<span class="text-danger">*</span></dt>
+            
+                            </dl>
+            
+                            <div class="col-xs-4 col-sm-3 col-md-2 col-lg-2">
+            
+                                <input
+                                    class="form-control input-sm"
+                                    type="number"
+                                    name="buy_nu_quantity"
+                                    ng-model="row.buy_nu_quantity"
+                                    maxlength="4"
+                                    ng-minlength="1"
+                                    ng-maxlength="4"
+                                    required
+                                    />
+            
+                            </div>-->
 
-                <dl class="dl-horizontal">
+            <!--                <span class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-sm-offset-3 col-md-offset-2 col-lg-offset-2 text-danger" ng-show="form.buy_nu_quantity.$dirty && form.buy_nu_quantity.$invalid">
+                                <i class="glyphicon glyphicon-remove-sign"></i>
+                                <span ng-show="form.buy_nu_quantity.$error.required">Campo obrigatório</span>
+                                <span ng-show="form.buy_nu_quantity.$error.minlength">Mínimo de um caracteres</span>
+                                <span ng-show="form.buy_nu_quantity.$error.maxlength">Máximo de quatro caracteres</span>
+                                <span ng-show="form.buy_nu_quantity.$error.number">Somente Números</span>
+                            </span>-->
 
-                    <dt class="text-gray">Quantidade<span class="text-danger">*</span></dt>
+            <!--buttons-->
+            <a href="#/purchase/cart"
+                class="btn btn-success btn-sm"
+                    ng-click="addCart(row)"
+                    ng-controller="purchaseController">
+                <i class="glyphicon glyphicon-ok"></i> Comprar Agora
+            </a>
 
-                </dl>
+            <span class="btn btn-primary btn-sm"
+                  ng-click="addCart(row)"
+                  ng-controller="purchaseController"
+                  title="Colocar no carrinho de compras"> 
 
-                <div class="col-xs-4 col-sm-3 col-md-2 col-lg-2">
+                <i class="glyphicon glyphicon-shopping-cart"></i> Adc. Carrinho
+            </span>
 
-                    <input
-                        class="form-control input-sm"
-                        type="number"
-                        name="buy_nu_quantity"
-                        ng-model="row.buy_nu_quantity"
-                        maxlength="4"
-                        ng-minlength="1"
-                        ng-maxlength="4"
-                        required
-                        />
+            <span class="btn btn-danger btn-sm"
+                  ng-click="addWishList(row.sq_product)"
+                  ng-controller="purchaseController"
+                  title="Colocar na lista de desejos"> 
 
-                </div>
+                <i class="glyphicon glyphicon-heart" ></i> Adc. Favorito
+            </span>
 
-                <span class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-sm-offset-3 col-md-offset-2 col-lg-offset-2 text-danger" ng-show="form.buy_nu_quantity.$dirty && form.buy_nu_quantity.$invalid">
-                    <i class="glyphicon glyphicon-remove-sign"></i>
-                    <span ng-show="form.buy_nu_quantity.$error.required">Campo obrigatório</span>
-                    <span ng-show="form.buy_nu_quantity.$error.minlength">Mínimo de um caracteres</span>
-                    <span ng-show="form.buy_nu_quantity.$error.maxlength">Máximo de quatro caracteres</span>
-                    <span ng-show="form.buy_nu_quantity.$error.number">Somente Números</span>
-                </span>
+            <span class="btn btn-info btn-sm"
+                  ng-click="share(row.sq_product)"
+                  title="Compatilhar na rede">
 
-                <!--buttons-->
-                <button class="btn btn-success btn-sm" ng-click="buy()" ng-disabled="form.$invalid">Comprar
-                    <i class="glyphicon glyphicon-ok"></i>
-                </button>
+                <i class="glyphicon glyphicon-share" ></i> Compartilhar
+            </span>
 
-                <span class="btn btn-primary btn-sm"
-                      ng-click="addCart(row)"
-                      ng-controller="purchaseController"
-                      title="Colocar no carrinho de compras">
-
-                    <i class="glyphicon glyphicon-shopping-cart"></i>
-                </span>
-
-                <span class="btn btn-danger btn-sm"
-                      ng-click="addWishList(row.sq_product)"
-                      ng-controller="purchaseController"
-                      title="Colocar na lista de desejos">
-
-                    <i class="glyphicon glyphicon-heart" ></i>
-                </span>
-
-                <span class="btn btn-info btn-sm"
-                      ng-click="share(row.sq_product)"
-                      title="Compatilhar na rede">
-
-                    <i class="glyphicon glyphicon-share" ></i>
-                </span>
-
-            </form>
+            <!--</form>-->
 
             <!--product inactive-->
             <div ng-show="row.sq_status_product == constant.STATUS_INACTIVE">

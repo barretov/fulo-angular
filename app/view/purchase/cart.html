@@ -121,7 +121,9 @@
                         <div class="form-horizontal" ng-init="user.nu_postcode ? getFareValue(user.nu_postcode) : ''">
                             <div class ="form-group form-group-sm">
 
-                                <label class="col-xs-12 col-sm-4 col-md-4 col-lg-4 control-label">Pesquisa CEP</label>
+                                <label class="col-xs-12 col-sm-4 col-md-4 col-lg-4 control-label">Pesquisa CEP 
+                                    <span class="text-danger">*</span>
+                                </label>
 
                                 <div class="col-xs-12 col-sm-6 col-md-6 col-lg-7">
                                     <div class="input-group">
@@ -289,6 +291,8 @@
     <!--purchase summary-->
 
 </div>
+
+<span class="text-danger"><b>* Campos obrigatórios</b></span>
 
 <!--modal address-->
 <div class="modal fade" id="modalAddress" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

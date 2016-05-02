@@ -48,13 +48,12 @@ $ sudo -u postgres psql
 
 banco cep
 
-psql -U postgres -W db_joker -f cep_postgres.sql
-
 # parar o banco de dados.
 # mudar de peer para md5 no arquivo sudo nano /etc/postgresql/9.4/main/pg_hba.conf
 local   all             postgres                                md5
 # iniciar o banco de dados.
 
+psql -U postgres -W db_joker -f cep_postgres.sql
 
 --
 
