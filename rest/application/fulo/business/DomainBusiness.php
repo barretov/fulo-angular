@@ -92,9 +92,9 @@ class DomainBusiness extends MasterBusiness
 
             # return constants and encrypted secret.
             return $array = [
-                'secret' => crypt(\Slim\Slim::getInstance()->request()->getIp() .
-                        \Slim\Slim::getInstance()->request()->getUserAgent(), ENCRYPT_SALT),
-                'constants' => $constants
+            'secret' => crypt(\Slim\Slim::getInstance()->request()->getIp() .
+                              \Slim\Slim::getInstance()->request()->getUserAgent(), ENCRYPT_SALT),
+            'constants' => $constants
             ];
         } catch (Exception $ex) {
 

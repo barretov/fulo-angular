@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/* global $app, angular */
+ /* global $app, angular */
 
 /**
  * Controller of purchase
@@ -29,7 +29,7 @@
  * @date Alg 18, 2015
  * @version 1.0
  */
-$app.controller('purchaseController', function ($scope, $rootScope, $http, $services, $window) {
+ $app.controller('purchaseController', function ($scope, $rootScope, $http, $services, $window) {
 
     /**
      * Method for add item in wish list
@@ -39,7 +39,7 @@ $app.controller('purchaseController', function ($scope, $rootScope, $http, $serv
      * @date Alg 28, 2015
      * @version 1.0
      */
-    $scope.addWishList = function ($sq_product) {
+     $scope.addWishList = function ($sq_product) {
 
         // verify if user is loged.
         if (!$rootScope.user) {
@@ -71,7 +71,7 @@ $app.controller('purchaseController', function ($scope, $rootScope, $http, $serv
      * @date Alg 29, 2015
      * @version 1.0
      */
-    $scope.getWishList = function () {
+     $scope.getWishList = function () {
 
         $param = $scope.configParam();
 
@@ -92,7 +92,7 @@ $app.controller('purchaseController', function ($scope, $rootScope, $http, $serv
      * @date Alg 31, 2015
      * @version 1.0
      */
-    $scope.delWishList = function ($sq_product) {
+     $scope.delWishList = function ($sq_product) {
 
         $param = $scope.configParam({sq_product: $sq_product});
 
@@ -118,7 +118,7 @@ $app.controller('purchaseController', function ($scope, $rootScope, $http, $serv
      * @date Alg 31, 2015
      * @version 1.0
      */
-    $scope.addCart = function ($product) {
+     $scope.addCart = function ($product) {
 
         // variable to use as flag, to continue the flow.
         var $continue = true;
@@ -160,7 +160,7 @@ $app.controller('purchaseController', function ($scope, $rootScope, $http, $serv
      * @date Alg 31, 2015
      * @version 1.0
      */
-    $scope.delCart = function ($sq_product) {
+     $scope.delCart = function ($sq_product) {
 
         var $aux = 0;
 
@@ -191,7 +191,7 @@ $app.controller('purchaseController', function ($scope, $rootScope, $http, $serv
      * @date Sep 1, 2015
      * @version 1.0
      */
-    $scope.updateTotal = function ($fare) {
+     $scope.updateTotal = function ($fare) {
 
         $rootScope.cart.nu_total = 0;
 
@@ -231,7 +231,7 @@ $app.controller('purchaseController', function ($scope, $rootScope, $http, $serv
      * @date Sep 17, 2015
      * @version 1.0
      */
-    $scope.getFareValue = function ($postcode) {
+     $scope.getFareValue = function ($postcode) {
 
         // verify if user is loged.
         if ($rootScope.user) {
@@ -298,7 +298,7 @@ $app.controller('purchaseController', function ($scope, $rootScope, $http, $serv
      * @date Nov 13, 2015
      * @version 1.0
      */
-    $scope.getAddressByZip = function () {
+     $scope.getAddressByZip = function () {
 
         // adjust parameters and add origin data.
         $param = $scope.configParam({nu_postcode: $scope.row.nu_postcode});
@@ -319,7 +319,7 @@ $app.controller('purchaseController', function ($scope, $rootScope, $http, $serv
      * @date Nov 17, 2015
      * @version 1.0
      */
-    $scope.saveCartSession = function () {
+     $scope.saveCartSession = function () {
 
         // insert cart in session.
         sessionStorage.setItem('cart', JSON.stringify($rootScope.cart));
@@ -338,7 +338,7 @@ $app.controller('purchaseController', function ($scope, $rootScope, $http, $serv
      * @date Nov 19, 2015
      * @version 1.0
      */
-    $scope.prepareBuy = function () {
+     $scope.prepareBuy = function () {
 
         // verify if user is loged.
         if ($rootScope.user) {
@@ -374,7 +374,7 @@ $app.controller('purchaseController', function ($scope, $rootScope, $http, $serv
      * @date Dec 30, 2015
      * @version 1.0
      */
-    $scope.buy = function () {
+     $scope.buy = function () {
 
         // init variables.
         $scope.buy = {};
@@ -416,7 +416,7 @@ $app.controller('purchaseController', function ($scope, $rootScope, $http, $serv
      * @date Dec 31, 2015
      * @version 1.0
      */
-    $scope.getOrdersByUser = function () {
+     $scope.getOrdersByUser = function () {
 
         $param = $scope.configParam();
 
@@ -438,7 +438,7 @@ $app.controller('purchaseController', function ($scope, $rootScope, $http, $serv
      * @date Jan 1, 2016
      * @version 1.0
      */
-    $scope.getOrders = function () {
+     $scope.getOrders = function () {
 
         $param = $scope.configParam();
 
@@ -461,7 +461,7 @@ $app.controller('purchaseController', function ($scope, $rootScope, $http, $serv
      * @date Jan 1, 2016
      * @version 1.0
      */
-    $scope.getProductsOrder = function ($sq_order) {
+     $scope.getProductsOrder = function ($sq_order) {
 
         $param = $scope.configParam({sq_order: $sq_order});
 
@@ -496,7 +496,7 @@ $app.controller('purchaseController', function ($scope, $rootScope, $http, $serv
      * @date Jan 21, 2016
      * @version 1.0
      */
-    $scope.tracker = function ($nu_tracker) {
+     $scope.tracker = function ($nu_tracker) {
 
         $param = $scope.configParam({nu_tracker: $nu_tracker});
 
@@ -539,4 +539,30 @@ $app.controller('purchaseController', function ($scope, $rootScope, $http, $serv
             $scope.sro = $data;
         });
     };
+
+    $scope.addTracker = function($nu_tracker, $sq_order) {
+
+        $param = $scope.configParam({sq_order: $sq_order, nu_tracker: $nu_tracker});
+
+
+        $http.post($scope.server("/addTracker"), $param).success(function ($return) {
+
+            $services.checkResponse($return);
+
+            angular.forEach($scope.orders, function ($key) {
+
+                if ($key.sq_order === $sq_order) {
+
+                    $key.nu_tracker = $nu_tracker;
+                    $key.sq_status = $scope.constant.NUMBER_TEN;
+                    $key.ds_status = $scope.constant.ORDER_DISPATCHED;
+                }
+            });
+
+            $('#track' + $sq_order).collapse('hide');
+            $services.showFlashmessage("alert-success", $scope.constant.MSG0001);
+
+        });
+
+    }
 });

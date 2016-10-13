@@ -47,29 +47,29 @@ class PurchaseModel extends MasterModel
         try {
 
             $stmtSelect = $this->_conn->prepare("SELECT sq_user "
-                    . "FROM fulo.wishlist "
-                    . "WHERE sq_user = ? "
-                    . "AND sq_product = ? "
-            );
+                                                . "FROM fulo.wishlist "
+                                                . "WHERE sq_user = ? "
+                                                . "AND sq_product = ? "
+                                            );
 
             $stmtSelect->execute([
-                $data->origin_sq_user,
-                $data->sq_product
-            ]);
+                                 $data->origin_sq_user,
+                                 $data->sq_product
+                                 ]);
 
             if (!$stmtSelect->fetch()) {
 
                 $this->_conn->beginTransaction();
 
                 $stmtAdd = $this->_conn->prepare("INSERT INTO fulo.wishlist "
-                        . "(sq_user, sq_product) "
-                        . "VALUES (?,?)"
-                );
+                                                 . "(sq_user, sq_product) "
+                                                 . "VALUES (?,?)"
+                                             );
 
                 $stmtAdd->execute([
-                    $data->origin_sq_user,
-                    $data->sq_product
-                ]);
+                                  $data->origin_sq_user,
+                                  $data->sq_product
+                                  ]);
 
                 # save log operation.
                 $this->saveLog($data->origin_sq_user, $data->sq_product);
@@ -102,17 +102,17 @@ class PurchaseModel extends MasterModel
         try {
 
             $stmt = $this->_conn->prepare("SELECT * "
-                    . "FROM fulo.wishlist "
-                    . "JOIN fulo.product "
-                    . "ON (product.sq_product = wishlist.sq_product) "
-                    . "JOIN fulo.product_image "
-                    . "ON (product.sq_product = product_image.sq_product) "
-                    . "WHERE sq_user = ? "
-            );
+                                          . "FROM fulo.wishlist "
+                                          . "JOIN fulo.product "
+                                          . "ON (product.sq_product = wishlist.sq_product) "
+                                          . "JOIN fulo.product_image "
+                                          . "ON (product.sq_product = product_image.sq_product) "
+                                          . "WHERE sq_user = ? "
+                                      );
 
             $stmt->execute([
-                $data->origin_sq_user,
-            ]);
+                           $data->origin_sq_user,
+                           ]);
 
             return $stmt->fetchAll(PDO::FETCH_OBJ);
         } catch (Exception $ex) {
@@ -138,15 +138,15 @@ class PurchaseModel extends MasterModel
             $this->_conn->beginTransaction();
 
             $stmt = $this->_conn->prepare("DELETE "
-                    . "FROM fulo.wishlist "
-                    . "WHERE sq_user = ? "
-                    . "AND sq_product = ?"
-            );
+                                          . "FROM fulo.wishlist "
+                                          . "WHERE sq_user = ? "
+                                          . "AND sq_product = ?"
+                                      );
 
             $stmt->execute([
-                $data->origin_sq_user,
-                $data->sq_product
-            ]);
+                           $data->origin_sq_user,
+                           $data->sq_product
+                           ]);
 
             # save log operation.
             $this->saveLog($data->origin_sq_user, $data->sq_product);
@@ -214,25 +214,25 @@ class PurchaseModel extends MasterModel
 
             # save order.
             $stmtOrder = $this->_conn->prepare("INSERT INTO fulo.order "
-                    . "(sq_user, ds_address, nu_phone, nu_quantity, nu_total, st_status, nu_date_time, nu_farevalue) "
-                    . "VALUES (?,?,?,?,?,?,?,?)"
-            );
+                                               . "(sq_user, ds_address, nu_phone, nu_quantity, nu_total, st_status, nu_date_time, nu_farevalue) "
+                                               . "VALUES (?,?,?,?,?,?,?,?)"
+                                           );
 
             $stmtOrder->execute([
-                $data->origin_sq_user,
-                $data->user->ds_address,
-                $data->user->nu_phone,
-                $data->nu_quantity_buy,
-                $data->nu_total,
-                NUMBER_THRE,
-                date("Y-m-d H:i:s"),
-                $data->nu_farevalue
-            ]);
+                                $data->origin_sq_user,
+                                $data->user->ds_address,
+                                $data->user->nu_phone,
+                                $data->nu_quantity_buy,
+                                $data->nu_total,
+                                NUMBER_THRE,
+                                date("Y-m-d H:i:s"),
+                                $data->nu_farevalue
+                                ]);
 
             # save products of order.
             $stmtOrderProducts = $this->_conn->prepare("INSERT INTO fulo.order_products "
-                    . "(sq_order, sq_product, ds_product, nu_value, nu_quantity, nu_production, nu_quantity_stock) "
-                    . "VALUES (?,?,?,?,?,?,?)");
+                                                       . "(sq_order, sq_product, ds_product, nu_value, nu_quantity, nu_production, nu_quantity_stock) "
+                                                       . "VALUES (?,?,?,?,?,?,?)");
 
             # add order products.
             foreach ($data->products as $key) {
@@ -241,22 +241,22 @@ class PurchaseModel extends MasterModel
                 $stmtStock = $this->_conn->prepare("SELECT nu_quantity FROM fulo.product WHERE sq_product = ?");
 
                 $stmtStock->execute([
-                    $key->sq_product
-                ]);
+                                    $key->sq_product
+                                    ]);
 
                 $nu_quantity = $stmtStock->fetchObject();
                 
                 // verificar quantos foram comprados, e diminuir quanto tem no stoque e setar as quantidades que serão produzidas e diminuir a quantidade comprada do estoque.
 
                 $stmtOrderProducts->execute([
-                    $this->_conn->lastInsertId('fulo.order_sq_order_seq'),
-                    $key->sq_product,
-                    $key->ds_product,
-                    $key->nu_value,
-                    $key->nu_quantity_buy,
-                    $key->nu_production,
-                    $nu_quantity->nu_quantity
-                ]);
+                                            $this->_conn->lastInsertId('fulo.order_sq_order_seq'),
+                                            $key->sq_product,
+                                            $key->ds_product,
+                                            $key->nu_value,
+                                            $key->nu_quantity_buy,
+                                            $key->nu_production,
+                                            $nu_quantity->nu_quantity
+                                            ]);
             }
 
             # inject sq_order in $data for use in paypal.
@@ -268,6 +268,36 @@ class PurchaseModel extends MasterModel
             return $this->_conn->commit();
         } catch (Exception $ex) {
 
+            throw $ex;
+        }
+    }
+
+    public function addTracker(&$data) {
+
+        try {
+
+            $this->_conn->beginTransaction();
+
+            $stmt = $this->_conn->prepare("UPDATE  fulo.order SET "
+                                          . "nu_tracker = ?, st_status =  ? "
+                                          . " WHERE sq_order =  ? "
+                                      );
+
+            $stmt->execute([
+                           $data->nu_tracker,
+                           NUMBER_TEN,
+                           $data->sq_order
+                           ]);
+
+                # save log operation.
+            $this->saveLog($data->origin_sq_user, $data->sq_order);
+
+            $return = $this->_conn->commit();
+            return $return;
+
+        } catch (Exception $ex) {
+
+            $this->_conn->rollbrack();
             throw $ex;
         }
     }

@@ -170,3 +170,16 @@ $app->get("/paypalResponse", function () {
         throw $ex;
     }
 });
+
+$app->post("/addTracker", function () {
+
+    try {
+
+        $business = MasterController::getPurchaseBusiness();
+
+        echo json_encode($business->addTracker());
+    } catch (Exception $ex) {
+
+        throw $ex;
+    }
+});

@@ -28,8 +28,7 @@ use PDO;
  * @date Jun 19, 2015
  * @version 1.0
  */
-class DomainModel extends MasterModel
-{
+class DomainModel extends MasterModel {
 
     /**
      * Method for get domain profiles
@@ -39,8 +38,7 @@ class DomainModel extends MasterModel
      * @date Jun 19, 2015
      * @version 1.0
      */
-    public function getProfiles ()
-    {
+    public function getProfiles () {
 
         try {
 
@@ -64,19 +62,18 @@ class DomainModel extends MasterModel
      * @date Jul 31, 2015
      * @version 1.0
      */
-    public function getAddressByZip ($data)
-    {
+    public function getAddressByZip ($data) {
 
         try {
 
             $stmt = $this->_conn->prepare("SELECT "
-                    . "log_logradouro.log_no as logradouro, log_logradouro.log_tipo_logradouro, "
-                    . "log_bairro.bai_no as bairro, log_localidade.loc_no as cidade, log_localidade.ufe_sg as uf, "
-                    . "log_logradouro.cep "
-                    . "FROM cep.log_logradouro,cep.log_localidade, cep.log_bairro "
-                    . "WHERE log_logradouro.loc_nu_sequencial = log_localidade.loc_nu_sequencial "
-                    . "AND log_logradouro.bai_nu_sequencial_ini = log_bairro.bai_nu_sequencial "
-                    . "AND log_logradouro.cep = ?");
+                . "log_logradouro.log_no as logradouro, log_logradouro.log_tipo_logradouro, "
+                . "log_bairro.bai_no as bairro, log_localidade.loc_no as cidade, log_localidade.ufe_sg as uf, "
+                . "log_logradouro.cep "
+                . "FROM cep.log_logradouro,cep.log_localidade, cep.log_bairro "
+                . "WHERE log_logradouro.loc_nu_sequencial = log_localidade.loc_nu_sequencial "
+                . "AND log_logradouro.bai_nu_sequencial_ini = log_bairro.bai_nu_sequencial "
+                . "AND log_logradouro.cep = ?");
 
             $stmt->execute([
                 $data->nu_postcode
@@ -99,16 +96,16 @@ class DomainModel extends MasterModel
      * @date Alg 11, 2015
      * @version 1.0
      */
-    public function validateRuleAcl (& $operation, & $data)
-    {
+    //TODO Melhorar, olhando também se o usuário existe no banco.
+    public function validateRuleAcl (& $operation, & $data) {
 
         try {
 
             $stmt = $this->_conn->prepare("SELECT sq_acl "
-                    . "FROM fulo.acl "
-                    . "JOIN fulo.operation "
-                    . "ON (acl.sq_operation = operation.sq_operation) "
-                    . "WHERE operation.ds_operation = ? AND acl.sq_profile = ?");
+                . "FROM fulo.acl "
+                . "JOIN fulo.operation "
+                . "ON (acl.sq_operation = operation.sq_operation) "
+                . "WHERE operation.ds_operation = ? AND acl.sq_profile = ?");
 
             $stmt->execute([
                 $operation,

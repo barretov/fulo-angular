@@ -29,8 +29,7 @@ use fulo\model\PurchaseModel as PurchaseModel;
  * @date Dec 10, 2015
  * @version 1.0
  */
-class PurchaseBusiness extends MasterBusiness
-{
+class PurchaseBusiness extends MasterBusiness {
 
     /**
      * variable for instance of product model
@@ -47,8 +46,8 @@ class PurchaseBusiness extends MasterBusiness
      * @date Alg 18, 2015
      * @version 1.0
      */
-    public function __construct ()
-    {
+    public function __construct() {
+
         $this->_purchaseModel = new PurchaseModel();
     }
 
@@ -61,8 +60,7 @@ class PurchaseBusiness extends MasterBusiness
      * @date Alg 28, 2015
      * @version 1.0
      */
-    public function addWishList ()
-    {
+    public function addWishList() {
 
         try {
 
@@ -84,8 +82,7 @@ class PurchaseBusiness extends MasterBusiness
      * @date Alg 29, 2015
      * @version 1.0
      */
-    public function getWishList ()
-    {
+    public function getWishList() {
 
         try {
 
@@ -114,8 +111,7 @@ class PurchaseBusiness extends MasterBusiness
      * @date Alg 31, 2015
      * @version 1.0
      */
-    public function delWishList ()
-    {
+    public function delWishList() {
 
         try {
 
@@ -138,8 +134,7 @@ class PurchaseBusiness extends MasterBusiness
      * @date Oct 10, 2015
      * @version 1.0
      */
-    public function getFareValue ($data = null)
-    {
+    public function getFareValue($data = null) {
 
         try {
 
@@ -233,46 +228,46 @@ class PurchaseBusiness extends MasterBusiness
             # verifica os maximos de altura e peso.
             # se o pacote ultrapassar os maximos de altura ou peso, divide o pacote em dois.
             while ($data->nu_height > BOX_DELIVERY_MAX_HEIGHT ||
-            $data->nu_weight > BOX_DELIVERY_MAX_WEIGHT ||
-            $data->nu_length + $data->nu_width + $data->nu_height > BOX_DELIVERY_MAX_PACKAGE_SIZE) {
+                   $data->nu_weight > BOX_DELIVERY_MAX_WEIGHT ||
+                   $data->nu_length + $data->nu_width + $data->nu_height > BOX_DELIVERY_MAX_PACKAGE_SIZE) {
 
                 # divide altura e peso.
                 $data->nu_height = $data->nu_height / 2;
-                $data->nu_weight = $data->nu_weight / 2;
+            $data->nu_weight = $data->nu_weight / 2;
 
                 # flag para multiplicar o valor do frete pela quantidade de caixas.
-                $data->nu_packages = $data->nu_packages + 2;
-            }
+            $data->nu_packages = $data->nu_packages + 2;
+        }
 
             # verifica os mínimos de altura.
-            if ($data->nu_height < BOX_DELIVERY_MIN_HEIGHT) {
+        if ($data->nu_height < BOX_DELIVERY_MIN_HEIGHT) {
 
-                $data->nu_height = BOX_DELIVERY_MIN_HEIGHT;
-            }
+            $data->nu_height = BOX_DELIVERY_MIN_HEIGHT;
+        }
 
             # verifica os mínimos de peso.
-            if ($data->nu_weight < BOX_DELIVERY_MIN_WEIGHT) {
+        if ($data->nu_weight < BOX_DELIVERY_MIN_WEIGHT) {
 
-                $data->nu_weight < BOX_DELIVERY_MIN_WEIGHT;
-            }
-
-            $this->requestFareValue($data);
-
-            # multiplica o valor do frete por caixas.
-            if (!empty($data->nu_packages)) {
-
-                foreach ($data->fare_value as $key) {
-
-                    $key->Valor = $key->Valor * $data->nu_packages;
-                }
-            }
-
-            return $data;
-        } catch (Exception $ex) {
-
-            throw $ex;
+            $data->nu_weight < BOX_DELIVERY_MIN_WEIGHT;
         }
+
+        $this->requestFareValue($data);
+
+            # multiplica o valor do frete por caixas, e verifica se houve erros.
+        if (!empty($data->nu_packages) && !empty($data->fare_value->error)) {
+
+            foreach ($data->fare_value as $key) {
+
+                $key->Valor = $key->Valor * $data->nu_packages;
+            }
+        }
+
+        return $data;
+    } catch (Exception $ex) {
+
+        throw $ex;
     }
+}
 
     /*
      * Method for request fare value
@@ -284,8 +279,7 @@ class PurchaseBusiness extends MasterBusiness
      * @version 1.0
      */
 
-    public function requestFareValue (& $data)
-    {
+    public function requestFareValue(&$data) {
 
         try {
 
@@ -303,7 +297,7 @@ class PurchaseBusiness extends MasterBusiness
             $wsc['nVlValorDeclarado'] = NUMBER_ZERO;
             $wsc['sCdAvisoRecebimento'] = 'n';
             $wsc['StrRetorno'] = 'xml';
-            $wsc['nCdServico'] = '41106, 40010';
+            $wsc['nCdServico'] = '41106,40010'; // don't put space between cod of service.
             $wsc = http_build_query($wsc);
 
             $url = 'http://ws.correios.com.br/calculador/CalcPrecoPrazo.aspx';
@@ -314,14 +308,25 @@ class PurchaseBusiness extends MasterBusiness
             $result = curl_exec($curl);
             $data->fare_value = simplexml_load_string($result);
 
-            # change the comma to point.
-            foreach ($data->fare_value as $key) {
+            # verify if ocurred erros in service of correios.
+            if (!$data->fare_value) {
 
-                $key->Valor = preg_replace('/,/', '.', $key->Valor);
+                # inject a error for falt service.
+                $data->fare_value = new \stdClass();
+                $data->fare_value->cServico = [];
+                $data->fare_value->error = ERROR_FARE_VALUE;
+                json_encode($data->fare_value);
+            } else {
 
-                if (!empty($key->Erro)) {
+                # change the comma to point.
+                foreach ($data->fare_value as $key) {
 
-                    $data->fare_value->error = $key->MsgErro;
+                    $key->Valor = preg_replace('/,/', '.', $key->Valor);
+
+                    if (!empty($key->Erro)) {
+
+                        $data->fare_value->error = MSG0015;
+                    }
                 }
             }
         } catch (Exception $ex) {
@@ -341,8 +346,7 @@ class PurchaseBusiness extends MasterBusiness
      *               ser vazio, caso a operação não seja bem sucedida. Nesse caso, os
      *               logs de erro deverão ser verificados.
      */
-    function sendNvpRequest (array $requestNvp, $sandbox = false)
-    {
+    public function sendNvpRequest(array $requestNvp, $sandbox = false) {
         //Endpoint da API
         $apiEndpoint = 'https://api-3t.' . ($sandbox ? 'sandbox.' : null);
         $apiEndpoint .= 'paypal.com/nvp';
@@ -375,12 +379,12 @@ class PurchaseBusiness extends MasterBusiness
         #@TODO ARRUMAR DEPURAÇÃO.
         if (isset($responseNvp['ACK']) && $responseNvp['ACK'] != 'Success') {
 
-            for ($i = 0; isset($responseNvp['L_ERRORCODE' . $i]); ++$i) {
+            for ($i = 0;isset($responseNvp['L_ERRORCODE' . $i]); ++$i) {
 
 //                $message = sprintf("PayPal NVP %s[%d]: %s\n", $responseNvp['L_SEVERITYCODE' . $i], $responseNvp['L_ERRORCODE' . $i], $responseNvp['L_LONGMESSAGE' . $i]);
-//                # error treatment.
-//                error_log($message);
-//               @TODO CONSTANTE DE ERRO DE PAGAMENTO. E MANDAR COD ERRO.
+                //                # error treatment.
+                //                error_log($message);
+                //               @TODO CONSTANTE DE ERRO DE PAGAMENTO. E MANDAR COD ERRO.
                 # return error code.
                 return $responseNvp['L_ERRORCODE' . $i];
             }
@@ -398,14 +402,14 @@ class PurchaseBusiness extends MasterBusiness
      * @date Dec 30, 2015
      * @version 1.0
      */
-    public function buy ()
-    {
+    public function buy() {
 
         try {
 
             # instances of models.
             $modelUser = new \fulo\model\UserModel();
             $modelProduct = new \fulo\model\ProductModel();
+            $modelPurchase = new \fulo\model\PurchaseModel();
 
             # get data.
             $data = $this->getRequestData();
@@ -426,7 +430,7 @@ class PurchaseBusiness extends MasterBusiness
             $data->nu_total_intern = 0;
             $data->nu_quantity_buy = 0;
 
-            // sum intern data.
+            # sum intern data.
             foreach ($data->products as $key) {
 
                 foreach ($dataIntern->product as $keyIn) {
@@ -439,10 +443,10 @@ class PurchaseBusiness extends MasterBusiness
                         # inject nu_quantity_buy in products for save in order_products.
                         $key->nu_quantity_buy = $keyIn->nu_quantity_buy;
                     }
-
-                    # sum total of products.
-                    $data->nu_quantity_buy = $data->nu_quantity_buy + $keyIn->nu_quantity_buy;
                 }
+
+                # sum total of products.
+                $data->nu_quantity_buy = $data->nu_quantity_buy + $key->nu_quantity_buy;
             }
 
             # sum total intern with fare value.
@@ -454,11 +458,8 @@ class PurchaseBusiness extends MasterBusiness
                 }
             }
 
-            if ($data->nu_total === $data->nu_total_intern) {
-
-                # save order.
-                $this->_purchaseModel->buy($data);
-            }
+            # save order.
+            $modelPurchase->buy($data);
 
             # inject data for paypal.
             $data->nvp['USER'] = PAYPAL_USER;
@@ -469,7 +470,7 @@ class PurchaseBusiness extends MasterBusiness
             $data->nvp['PAYMENTREQUEST_0_PAYMENTACTION'] = 'SALE';
             $data->nvp['PAYMENTREQUEST_0_AMT'] = $data->nu_total_intern;
             $data->nvp['PAYMENTREQUEST_0_ITEMAMT'] = $data->nu_total_intern - $data->nu_farevalue;
-            $data->nvp['PAYMENTREQUEST_0_INVNUM'] = $data->sq_order;
+            $data->nvp['PAYMENTREQUEST_0_INVNUM'] = $data->sq_order . date("Y");
             $data->nvp['PAYMENTREQUEST_0_CURRENCYCODE'] = 'BRL';
             $data->nvp['HDRIMG'] = 'https://www.paypal-brasil.com.br/desenvolvedores/wp-content/uploads/2014/04/hdr.png';
             $data->nvp['LOCALECODE'] = 'pt_BR';
@@ -488,7 +489,7 @@ class PurchaseBusiness extends MasterBusiness
                 $data->nvp['L_PAYMENTREQUEST_0_NAME' . $aux] = $key->ds_product;
                 $data->nvp['L_PAYMENTREQUEST_0_AMT' . $aux] = $key->nu_value;
                 $data->nvp['L_PAYMENTREQUEST_0_QTY' . $aux] = $key->nu_quantity_buy;
-                $aux ++;
+                $aux++;
             }
 
             //Envia a requisição e obtém a resposta da PayPal
@@ -509,7 +510,7 @@ class PurchaseBusiness extends MasterBusiness
 
                 $query = array(
                     'cmd' => '_express-checkout',
-                    'token' => $responseNvp['TOKEN']
+                    'token' => $responseNvp['TOKEN'],
                 );
 
                 $redirectURL = sprintf('%s?%s', PAYPAL_URL, http_build_query($query));
@@ -530,8 +531,7 @@ class PurchaseBusiness extends MasterBusiness
      * @return array Array com tabela html
      * @version 1.0
      * */
-    function tracker ()
-    {
+    public function tracker() {
 
         $data = $this->getRequestData();
         $url = 'http://websro.correios.com.br/sro_bin/txect01$.Inexistente?P_LINGUA=001&P_TIPO=002&P_COD_LIS=' . $data->nu_tracker;
@@ -554,8 +554,7 @@ class PurchaseBusiness extends MasterBusiness
      * autor: Victor Eduardo Barreto
      * @version 1.0
      * */
-    function paypalResponse ()
-    {
+    public function paypalResponse() {
 
         $data = $this->getRequestData();
 
@@ -589,7 +588,7 @@ class PurchaseBusiness extends MasterBusiness
 
                     $query = array(
                         'cmd' => '_express-checkout',
-                        'token' => $data->nvp['TOKEN']
+                        'token' => $data->nvp['TOKEN'],
                     );
 
                     $redirectURL = sprintf('%s?%s', PAYPAL_URL, http_build_query($query));
@@ -599,7 +598,7 @@ class PurchaseBusiness extends MasterBusiness
                 # if doexpresscheckout is right, redirect user.
                 if ($data->response['ACK'] == 'Success') {
 
-                    header("location:http://fulo.local/#/customer/mainCustomer");
+                    header("location:http://fulo.local/#/purchase/confirmOrder");
                 } else {
 
                     return ERROR;
@@ -612,5 +611,18 @@ class PurchaseBusiness extends MasterBusiness
             throw $ex;
         }
     }
+
+    public function addTracker() {
+
+      try {
+
+          $data = $this->getRequestData();
+
+          return $this->_purchaseModel->addTracker($data);
+      } catch (Exception $ex) {
+
+          throw $ex;
+      }
+  }
 
 }

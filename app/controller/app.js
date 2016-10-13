@@ -41,6 +41,7 @@ $app.config(['$routeProvider', '$httpProvider', function ($routeProvider, $httpP
                 when('/product/upProductType/:id', {templateUrl: 'app/view/product/upProductType.html', controller: 'productController'}).
                 when('/purchase/cart', {templateUrl: 'app/view/purchase/cart.html', controller: 'purchaseController'}).
                 when('/purchase/wishList', {templateUrl: 'app/view/purchase/wishList.html', controller: 'purchaseController'}).
+                when('/purchase/confirmOrder', {templateUrl: 'app/view/purchase/confirmOrder.html', controller: 'purchaseController'}).
                 otherwise({redirectTo: '/'});
 
         /*
@@ -121,7 +122,7 @@ $app.run(['$rootScope', '$http', function ($rootScope, $http) {
          * @date Jul 8, 2015
          * @version 1.0
          */
-        $rootScope.configParam = function ($data) {
+        $rootScope.configParam = function ($data, $method = null) {
 
             // if no arrived data, make a new object.
             (!$data) ? $data = {} : '';

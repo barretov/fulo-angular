@@ -9,286 +9,286 @@
 
             <!--loop-->
             <div class="row"
-                 ng-repeat="row in cart"
-                 id="{{row.sq_product}}">
+            ng-repeat="row in cart"
+            id="{{row.sq_product}}">
+
+            <!--image-->
+            <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2">
 
                 <!--image-->
-                <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2">
+                <a href="" ng-click="detailProduct(row)" ng-controller="productController">
 
-                    <!--image-->
-                    <a href="" ng-click="detailProduct(row)" ng-controller="productController">
+                    <div class="thumbnail">
+                        <img
+                        class="caption img-responsive"
+                        src={{row.im_product_image.encoded}}
+                        height="200"
+                        width="200"
+                        />
+                    </div>
+                </a>
+            </div>
 
-                        <div class="thumbnail">
-                            <img
-                                class="caption img-responsive"
-                                src={{row.im_product_image.encoded}}
-                                height="200"
-                                width="200"
-                                />
-                        </div>
-                    </a>
+            <!--product data-->
+            <div class="col-xs-12 col-sm-10 col-md-10 col-lg-10">
+
+                <!--title-->
+                <legend class="text-success text-capitalize">{{row.ds_product}}</legend>
+
+                <dl class="dl-horizontal">
+
+                    <dt class="text-gray">Preço:</dt>
+                    <dd>{{row.nu_value| currency}}</dd>
+
+                    <dt class="text-gray">Em estoque:</dt>
+                    <dd>{{row.nu_quantity}} Und</dd>
+
+                    <dt class="text-gray">Tempo de produção:</dt>
+                    <dd>{{row.nu_production}} Dia(s)</dd>
+                </dl>
+
+                <dl class="dl-horizontal">
+
+                    <dt class="text-gray">Quantidade<span class="text-danger">*</span></dt>
+                </dl>
+
+                <div class="col-xs-4 col-sm-3 col-md-2 col-lg-2">
+
+                    <input
+                    id="{{row.sq_product}}"
+                    class="form-control input-sm"
+                    type="number"
+                    ng-model="row.nu_quantity_buy"
+                    maxlength="3"
+                    ng-minlength="1"
+                    ng-maxlength="3"
+                    value="{{row.nu_quantity_buy? row.nu_quantity_buy : row.nu_quantity_buy = 1}}"
+                    ng-change="updateTotal(true)"
+                    pattern="[0-9]+$"
+                    required
+                    />
                 </div>
 
-                <!--product data-->
-                <div class="col-xs-12 col-sm-10 col-md-10 col-lg-10">
+                <span class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-sm-offset-3 col-md-offset-2 col-lg-offset-2 text-danger"
+                ng-show="form.buy_nu_quantity.$dirty && form.buy_nu_quantity.$invalid">
 
-                    <!--title-->
-                    <legend class="text-success text-capitalize">{{row.ds_product}}</legend>
+                <i class="glyphicon glyphicon-remove-sign"></i>
+                <span ng-show="form.buy_nu_quantity.$error.required">Campo obrigatório</span>
+                <span ng-show="form.buy_nu_quantity.$error.minlength">Mínimo de um caracteres</span>
+                <span ng-show="form.buy_nu_quantity.$error.maxlength">Máximo de três caracteres</span>
+                <span ng-show="form.buy_nu_quantity.$error.number">Somente Números</span>
+            </span>
 
-                    <dl class="dl-horizontal">
+            <!--buttons-->
+            <!--add wish-->
+            <span
+            class="btn btn-primary btn-sm"
+            ng-click="addWishList(row.sq_product)"
+            title="Colocar na lista de desejos">
 
-                        <dt class="text-gray">Preço:</dt>
-                        <dd>{{row.nu_value| currency}}</dd>
+            <i class="glyphicon glyphicon-heart" ></i>
+        </span>
 
-                        <dt class="text-gray">Em estoque:</dt>
-                        <dd>{{row.nu_quantity}} Und</dd>
+        <!--remove cart-->
+        <span
+        class="btn btn-danger btn-sm"
+        ng-click="delCart(row.sq_product)"
+        title="Remove do carrinho">
 
-                        <dt class="text-gray">Tempo de produção:</dt>
-                        <dd>{{row.nu_production}} Dia(s)</dd>
-                    </dl>
+        <i class="glyphicon glyphicon-remove"></i>
+    </span>
 
-                    <dl class="dl-horizontal">
+    <span class="btn btn-info btn-sm"
+    ng-click="share(row.sq_product)"
+    title="Compatilhar na rede">
 
-                        <dt class="text-gray">Quantidade<span class="text-danger">*</span></dt>
-                    </dl>
+    <i class="glyphicon glyphicon-share" ></i>
+</span>
 
-                    <div class="col-xs-4 col-sm-3 col-md-2 col-lg-2">
+<hr />
+</div>
+</div>
 
-                        <input
-                            id="{{row.sq_product}}"
-                            class="form-control input-sm"
-                            type="number"
-                            ng-model="row.nu_quantity_buy"
-                            maxlength="3"
-                            ng-minlength="1"
-                            ng-maxlength="3"
-                            value="{{row.nu_quantity_buy? row.nu_quantity_buy : row.nu_quantity_buy = 1}}"
-                            ng-change="updateTotal(true)"
-                            pattern="[0-9]+$"
+<legend class="text-gray font-18">Entrega</legend>
+
+<!--fare value-->
+<fieldset class="well">
+
+    <div class="col-xs-12 col-sm-12 col-md-7 col-lg-6">
+
+        <div class="row">
+
+            <div class="form-horizontal" ng-init="user.nu_postcode ? getFareValue(user.nu_postcode) : ''">
+                <div class ="form-group form-group-sm">
+
+                    <label class="col-xs-12 col-sm-4 col-md-4 col-lg-4 control-label">Pesquisa CEP 
+                        <span class="text-danger">*</span>
+                    </label>
+
+                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-7">
+                        <div class="input-group">
+
+                            <input
+                            class="form-control"
+                            name="postcode"
+                            placeholder="72000000"
+                            ng-model="row.nu_postcode"
+                            maxlength="8"
+                            ng-maxlength="8"
+                            ng-minlength="8"
+                            pattern="[0-9 -]+$"
                             required
                             />
+
+                            <span class="input-group-btn">
+
+                                <button class="btn btn-primary btn-sm" ng-click="row.nu_postcode ? getFareValue(row.nu_postcode) : ''">
+                                    Enviar
+                                    <i class="glyphicon glyphicon-send"></i>
+                                </button>
+                            </span>
+                        </div>
                     </div>
 
-                    <span class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-sm-offset-3 col-md-offset-2 col-lg-offset-2 text-danger"
-                          ng-show="form.buy_nu_quantity.$dirty && form.buy_nu_quantity.$invalid">
+                    <div class="help-block-input col-xs-12 col-sm-offset-4 col-sm-12 col-md-offset-4 col-md-12 col-lg-offset-4 col-lg-12">
 
-                        <i class="glyphicon glyphicon-remove-sign"></i>
-                        <span ng-show="form.buy_nu_quantity.$error.required">Campo obrigatório</span>
-                        <span ng-show="form.buy_nu_quantity.$error.minlength">Mínimo de um caracteres</span>
-                        <span ng-show="form.buy_nu_quantity.$error.maxlength">Máximo de três caracteres</span>
-                        <span ng-show="form.buy_nu_quantity.$error.number">Somente Números</span>
-                    </span>
-
-                    <!--buttons-->
-                    <!--add wish-->
-                    <span
-                        class="btn btn-primary btn-sm"
-                        ng-click="addWishList(row.sq_product)"
-                        title="Colocar na lista de desejos">
-
-                        <i class="glyphicon glyphicon-heart" ></i>
-                    </span>
-
-                    <!--remove cart-->
-                    <span
-                        class="btn btn-danger btn-sm"
-                        ng-click="delCart(row.sq_product)"
-                        title="Remove do carrinho">
-
-                        <i class="glyphicon glyphicon-remove"></i>
-                    </span>
-
-                    <span class="btn btn-info btn-sm"
-                          ng-click="share(row.sq_product)"
-                          title="Compatilhar na rede">
-
-                        <i class="glyphicon glyphicon-share" ></i>
-                    </span>
-
-                    <hr />
+                        <span class="text-danger" ng-show="form.postcode.$dirty && form.postcode.$invalid">
+                            <i class="glyphicon glyphicon-remove-sign"></i>
+                            <span ng-show="form.postcode.$error.required">Campo obrigatório.</span>
+                            <span ng-show="form.postcode.$error.minlength">Mínimo de oito caracteres.</span>
+                            <span ng-show="form.postcode.$error.maxlength">Máximo de oito caracteres.</span>
+                            <span ng-show="form.postcode.$error.pattern">Somente números.</span>
+                        </span>
+                    </div>
                 </div>
             </div>
 
-            <legend class="text-gray font-18">Entrega</legend>
+            <!--address-->
+            <div class="row" ng-show="address">
+                <div class="col-xs-12 col-sm-offset-4 col-sm-8 col-md-8 col-lg-8">
 
-            <!--fare value-->
-            <fieldset class="well">
+                    <span>{{address.log_tipo_logradouro}} {{address.logradouro}}<br />{{address.bairro}} | {{address.cidade}}-{{address.uf}}</span>
 
-                <div class="col-xs-12 col-sm-12 col-md-7 col-lg-6">
-
-                    <div class="row">
-
-                        <div class="form-horizontal" ng-init="user.nu_postcode ? getFareValue(user.nu_postcode) : ''">
-                            <div class ="form-group form-group-sm">
-
-                                <label class="col-xs-12 col-sm-4 col-md-4 col-lg-4 control-label">Pesquisa CEP 
-                                    <span class="text-danger">*</span>
-                                </label>
-
-                                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-7">
-                                    <div class="input-group">
-
-                                        <input
-                                            class="form-control"
-                                            name="postcode"
-                                            placeholder="72000000"
-                                            ng-model="row.nu_postcode"
-                                            maxlength="8"
-                                            ng-maxlength="8"
-                                            ng-minlength="8"
-                                            pattern="[0-9 -]+$"
-                                            required
-                                            />
-
-                                        <span class="input-group-btn">
-
-                                            <button class="btn btn-primary btn-sm" ng-click="row.nu_postcode ? getFareValue(row.nu_postcode) : ''">
-                                                Enviar
-                                                <i class="glyphicon glyphicon-send"></i>
-                                            </button>
-                                        </span>
-                                    </div>
-                                </div>
-
-                                <div class="help-block-input col-xs-12 col-sm-offset-4 col-sm-12 col-md-offset-4 col-md-12 col-lg-offset-4 col-lg-12">
-
-                                    <span class="text-danger" ng-show="form.postcode.$dirty && form.postcode.$invalid">
-                                        <i class="glyphicon glyphicon-remove-sign"></i>
-                                        <span ng-show="form.postcode.$error.required">Campo obrigatório.</span>
-                                        <span ng-show="form.postcode.$error.minlength">Mínimo de oito caracteres.</span>
-                                        <span ng-show="form.postcode.$error.maxlength">Máximo de oito caracteres.</span>
-                                        <span ng-show="form.postcode.$error.pattern">Somente números.</span>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!--address-->
-                        <div class="row" ng-show="address">
-                            <div class="col-xs-12 col-sm-offset-4 col-sm-8 col-md-8 col-lg-8">
-
-                                <span>{{address.log_tipo_logradouro}} {{address.logradouro}}<br />{{address.bairro}} | {{address.cidade}}-{{address.uf}}</span>
-
-                            </div>
-                        </div>
-                        <!--address-->
-                    </div>
                 </div>
-
-                <!--result fare value-->
-                <div class="col-xs12 col-sm-12 col-md-6 col-lg-6 row" ng-show="!fare.error && fare && row.product.length">
-                    <h5><strong>Escolha a forma de entrega</strong></h5>
-                </div>
-
-                <!--field fare-->
-                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                    <div class="row">
-
-                        <div class="radio" ng-show="!fare.error && fare && row.product.length">
-
-                            <label>
-
-                                <input
-                                    type="radio"
-                                    name="farevalue"
-                                    value="{{fare[0].Valor}}"
-                                    ng-model="cart.nu_farevalue"
-                                    ng-change="updateTotal()"
-                                    required="boolean"
-                                    />
-
-                                <span class="text-primary"><b>PAC</b></span><br />
-                                <span><b>Valor:</b> {{fare[0].Valor| currency}}</span><br />
-                                <span><b>Entrega:</b> {{fare[0].PrazoEntrega}} dia(s)</span>
-
-                            </label>
-
-                            <label>
-
-                                <input
-                                    type="radio"
-                                    name="farevalue"
-                                    value="{{fare[1].Valor}}"
-                                    ng-model="cart.nu_farevalue"
-                                    ng-change="updateTotal()"
-                                    required="boolean"
-                                    />
-
-                                <span class="text-primary"><b>SEDEX</b></span><br />
-                                <span><b>Valor:</b> {{fare[1].Valor| currency}}</span><br />
-                                <span><b>Entrega:</b> {{fare[1].PrazoEntrega}} dia(s)</span>
-                            </label>
-                        </div>
-
-                        <div class="alert alert-danger" role=alert ng-show="fare.error">
-                            <p>{{fare.error}}</p>
-                        </div>
-                    </div>
-                </div>
-            </fieldset>
-            <!--result fare value-->
+            </div>
+            <!--address-->
+        </div>
     </div>
 
-    <!--purchase summary-->
-    <div class="col-xs-12 col-sm-offset-8 col-sm-4 col-md-4 col-lg-4 fixed-purchase">
+    <!--result fare value-->
+    <div class="col-xs12 col-sm-12 col-md-6 col-lg-6 row" ng-show="!fare.error && fare && row.product.length">
+        <h5><strong>Escolha a forma de entrega</strong></h5>
+    </div>
 
-        <legend class="text-gray font-18">Resumo Parcial</legend>
+    <!--field fare-->
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+        <div class="row">
 
-        <!--loop-->
-        <div class="max-height-280 overflow-y-auto overflow-x-hidden">
+            <div class="radio" ng-show="!fare.error && fare && row.product.length">
 
-            <div class="row">
+                <label>
 
-                <!--product data-->
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <input
+                    type="radio"
+                    name="farevalue"
+                    value="{{fare[0].Valor}}"
+                    ng-model="cart.nu_farevalue"
+                    ng-change="updateTotal()"
+                    required="boolean"
+                    />
 
-                    <table class="table table-condensed table-hover table-striped">
-                        <thead>
+                    <span class="text-primary"><b>PAC</b></span><br />
+                    <span><b>Valor:</b> {{fare[0].Valor| currency}}</span><br />
+                    <span><b>Entrega:</b> {{fare[0].PrazoEntrega}} dia(s)</span>
+
+                </label>
+
+                <label>
+
+                    <input
+                    type="radio"
+                    name="farevalue"
+                    value="{{fare[1].Valor}}"
+                    ng-model="cart.nu_farevalue"
+                    ng-change="updateTotal()"
+                    required="boolean"
+                    />
+
+                    <span class="text-primary"><b>SEDEX</b></span><br />
+                    <span><b>Valor:</b> {{fare[1].Valor| currency}}</span><br />
+                    <span><b>Entrega:</b> {{fare[1].PrazoEntrega}} dia(s)</span>
+                </label>
+            </div>
+
+            <div class="alert alert-danger" role=alert ng-show="fare.error">
+                <p>{{fare.error}}</p>
+            </div>
+        </div>
+    </div>
+</fieldset>
+<!--result fare value-->
+</div>
+
+<!--purchase summary-->
+<div class="col-xs-12 col-sm-offset-8 col-sm-4 col-md-4 col-lg-4 fixed-purchase">
+
+    <legend class="text-gray font-18">Resumo Parcial</legend>
+
+    <!--loop-->
+    <div class="max-height-280 overflow-y-auto overflow-x-hidden">
+
+        <div class="row">
+
+            <!--product data-->
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+                <table class="table table-condensed table-hover table-striped">
+                    <thead>
                         <th>Quant.</th>
                         <th>Produto</th>
                         <th>Valor</th>
-                        </thead>
+                    </thead>
 
-                        <tbody>
-                            <tr ng-repeat="row in cart">
-                                <td>
-                                    {{row.nu_quantity_buy? row.nu_quantity_buy : row.nu_quantity_buy = 1}}
-                                </td>
-                                <td>{{row.ds_product}}</td>
-                                <td>{{row.nu_quantity_buy * row.nu_value| currency}}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-
-                </div>
+                    <tbody>
+                        <tr ng-repeat="row in cart">
+                            <td>
+                                {{row.nu_quantity_buy? row.nu_quantity_buy : row.nu_quantity_buy = 1}}
+                            </td>
+                            <td>{{row.ds_product}}</td>
+                            <td>{{row.nu_quantity_buy * row.nu_value| currency}}</td>
+                        </tr>
+                    </tbody>
+                </table>
 
             </div>
 
         </div>
-        <!--loop-->
 
-        <!--selected fare value-->
-        <div ng-show="cart.nu_farevalue">
-            <span><strong>Taxa de entrega:</strong> {{cart.nu_farevalue| currency}}</span>
-            <hr />
-        </div>
-        <!--selected fare value-->
-
-        <fieldset class="well" ng-init="updateTotal()">
-
-            <div class="form-inline">
-
-                <div class="form-group">
-                    <label><strong>Valor Total: </strong><span class="text-success font-18">{{cart.nu_total| currency}}</span></label>
-                </div>
-
-                <button class="btn btn-success" ng-click="prepareBuy()" ng-disabled="form.$invalid">Comprar
-                    <i class="glyphicon glyphicon-ok"></i>
-                </button>
-            </div>
-        </fieldset>
     </div>
-    <!--purchase summary-->
+    <!--loop-->
+
+    <!--selected fare value-->
+    <div ng-show="cart.nu_farevalue">
+        <span><strong>Taxa de entrega:</strong> {{cart.nu_farevalue| currency}}</span>
+        <hr />
+    </div>
+    <!--selected fare value-->
+
+    <fieldset class="well" ng-init="updateTotal()">
+
+        <div class="form-inline">
+
+            <div class="form-group">
+                <label><strong>Valor Total: </strong><span class="text-success font-18">{{cart.nu_total| currency}}</span></label>
+            </div>
+
+            <button class="btn btn-success" ng-click="prepareBuy()" ng-disabled="form.$invalid">Comprar
+                <i class="glyphicon glyphicon-ok"></i>
+            </button>
+        </div>
+    </fieldset>
+</div>
+<!--purchase summary-->
 
 </div>
 
@@ -320,16 +320,16 @@
                         <div class="col-xs-12 col-sm-6 col-md-6">
 
                             <input class="form-control input-sm"
-                                   placeholder="Informe o CEP"
-                                   name="zip"
-                                   type="text"
-                                   maxlength="8"
-                                   ng-maxlength="8"
-                                   ng-minlength="8"
-                                   ng-model="user.nu_postcode"
-                                   pattern="[0-9 -]+$"
-                                   ng-blur="getAddressByZip(user.nu_postcode)"
-                                   required/>
+                            placeholder="Informe o CEP"
+                            name="zip"
+                            type="text"
+                            maxlength="8"
+                            ng-maxlength="8"
+                            ng-minlength="8"
+                            ng-model="user.nu_postcode"
+                            pattern="[0-9 -]+$"
+                            ng-blur="getAddressByZip(user.nu_postcode)"
+                            required/>
                         </div>
 
                         <div class="help-block-input col-xs-12 col-sm-4 col-md-4">
@@ -353,14 +353,14 @@
                         <div class="col-xs-12 col-sm-6 col-md-6">
 
                             <input class="form-control input-sm"
-                                   placeholder="Informe a UF"
-                                   name="province"
-                                   type="text"
-                                   maxlength="2"
-                                   ng-maxlength="2"
-                                   ng-minlength="2"
-                                   ng-model="user.ac_state"
-                                   required/>
+                            placeholder="Informe a UF"
+                            name="province"
+                            type="text"
+                            maxlength="2"
+                            ng-maxlength="2"
+                            ng-minlength="2"
+                            ng-model="user.ac_state"
+                            required/>
                         </div>
 
                         <div class="help-block-input col-xs-12 col-sm-4 col-md-4">
@@ -383,14 +383,14 @@
                         <div class="col-xs-12 col-sm-6 col-md-6">
 
                             <input class="form-control input-sm"
-                                   placeholder="Informe a cidade"
-                                   name="city"
-                                   type="text"
-                                   maxlength="100"
-                                   ng-maxlength="100"
-                                   ng-minlength="2"
-                                   ng-model="user.ds_city"
-                                   required/>
+                            placeholder="Informe a cidade"
+                            name="city"
+                            type="text"
+                            maxlength="100"
+                            ng-maxlength="100"
+                            ng-minlength="2"
+                            ng-model="user.ds_city"
+                            required/>
                         </div>
 
                         <div class="help-block-input col-xs-12 col-sm-4 col-md-4">
@@ -413,14 +413,14 @@
                         <div class="col-xs-12 col-sm-6 col-md-6">
 
                             <input class="form-control input-sm"
-                                   placeholder="Informe o bairro"
-                                   name="neighborhood"
-                                   type="text"
-                                   maxlength="100"
-                                   ng-maxlength="100"
-                                   ng-minlength="2"
-                                   ng-model="user.ds_neighborhood"
-                                   required/>
+                            placeholder="Informe o bairro"
+                            name="neighborhood"
+                            type="text"
+                            maxlength="100"
+                            ng-maxlength="100"
+                            ng-minlength="2"
+                            ng-model="user.ds_neighborhood"
+                            required/>
                         </div>
 
                         <div class="help-block-input col-xs-12 col-sm-4 col-md-4">
@@ -443,14 +443,14 @@
                         <div class="col-xs-12 col-sm-6 col-md-6">
 
                             <input class="form-control input-sm"
-                                   placeholder="Informe o endereço"
-                                   name="address"
-                                   type="address"
-                                   maxlength="100"
-                                   ng-maxlength="100"
-                                   ng-minlength="4"
-                                   ng-model="user.ds_address"
-                                   required/>
+                            placeholder="Informe o endereço"
+                            name="address"
+                            type="address"
+                            maxlength="100"
+                            ng-maxlength="100"
+                            ng-minlength="4"
+                            ng-model="user.ds_address"
+                            required/>
                         </div>
 
                         <div class="help-block-input col-xs-12 col-sm-4 col-md-4">
@@ -473,14 +473,14 @@
                         <div class="col-xs-12 col-sm-6 col-md-6">
 
                             <input class="form-control input-sm"
-                                   placeholder="Complemento. Ex: Ap 01, casa 01, lote 01."
-                                   name="complement"
-                                   type="text"
-                                   maxlength="100"
-                                   ng-maxlength="100"
-                                   ng-model="user.ds_complement"
-                                   pattern="[A-Z a-z 0-9]+$"
-                                   />
+                            placeholder="Complemento. Ex: Ap 01, casa 01, lote 01."
+                            name="complement"
+                            type="text"
+                            maxlength="100"
+                            ng-maxlength="100"
+                            ng-model="user.ds_complement"
+                            pattern="[A-Z a-z 0-9]+$"
+                            />
                         </div>
 
                         <div class="help-block-input col-xs-12 col-sm-4 col-md-4">
@@ -509,22 +509,22 @@
                                 </button>
 
                                 <button
-                                    type="submit"
-                                    class="btn btn-primary btn-sm"
-                                    ng-click="upAddress(true)"
-                                    ng-Disabled="addrModal.$invalid">
-                                    Salvar
-                                    <i class="glyphicon glyphicon-save"></i>
-                                </button>
-                            </div>
+                                type="submit"
+                                class="btn btn-primary btn-sm"
+                                ng-click="upAddress(true)"
+                                ng-Disabled="addrModal.$invalid">
+                                Salvar
+                                <i class="glyphicon glyphicon-save"></i>
+                            </button>
                         </div>
-                        <!--buttons-->
                     </div>
-                </form>
-                <!--form-->
-            </div>
+                    <!--buttons-->
+                </div>
+            </form>
+            <!--form-->
         </div>
     </div>
+</div>
 </div>
 <!--modal address-->
 
@@ -550,9 +550,9 @@
 
                         <table class="table table-condensed table-hover table-striped">
                             <thead>
-                            <th>Quantidade</th>
-                            <th>Produto</th>
-                            <th>Valor</th>
+                                <th>Quantidade</th>
+                                <th>Produto</th>
+                                <th>Valor</th>
                             </thead>
 
                             <tbody>

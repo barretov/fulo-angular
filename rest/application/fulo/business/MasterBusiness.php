@@ -78,7 +78,7 @@ class MasterBusiness
      */
     public function encrypt ($data)
     {
-
+        
         try {
 
             return trim(

@@ -1,119 +1,230 @@
-<div ng-init="getOrders()">
+<div ng-controller="purchaseController" ng-init="getOrdersByUser()">
 
-    <legend class="text-gray font-18"><i class="glyphicon glyphicon-gift"></i> Pedidos</legend>
+    <legend class="text-gray font-18"><i class="glyphicon glyphicon-gift"></i> Pedidos de Clientes</legend>
 
     <div ng-show="orders != ''">
 
         <div ng-repeat="order in orders">
 
-            <!--show-->
-            <div ng-show="order.st_status == 3 || order.st_status == 4">
-
-                <legend
-                    class="text-success cursor-pointer font-18"
-                    data-toggle="collapse"
-                    data-target="#prod{{order.sq_order}}"
-                    ng-click="getProductsOrder(order.sq_order)"
-                    >Pedido Nº: {{order.sq_order}}
-                </legend>
-
-                <!--first-->
-                <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-
-                    <dl class="dl-horizontal">
-
-                        <dt class="text-gray">Rastreio:</dt>
-                        <dd class="text-success cursor-pointer"
-                            data-toggle="collapse"
-                            data-target="#track{{order.sq_order}}"
-                            >{{order.nu_tracker}}
-                        </dd>
-
-                        <dt class="text-gray">Status:</dt>
-                        <dd class="text-capitalize">{{order.ds_status}}</dd>
-
-                    </dl>
-
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="text-success font-18 well well-sm ">
+                    Pedido Nº: {{order.sq_order}}
                 </div>
-                <!--first-->
+            </div>
 
-                <!--second-->
-                <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+            <!--first-->
+            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
 
-                    <dl class="dl-horizontal">
+                <dl class="dl-horizontal">
 
-                        <dt class="text-gray">Nº Produtos:</dt>
-                        <dd>{{order.nu_quantity}}</dd>
+                    <dt class="text-gray"
+                    ng-show="order.nu_tracker"
+                    >Nº Rastreio:</dt>
+                    <dd>
+                        {{order.nu_tracker}}
+                    </dd>
 
-                        <dt class="text-gray">Valor Total:</dt>
-                        <dd>{{order.nu_total}}</dd>
+                    <dt class="text-gray">Status:</dt>
+                    <dd class="text-capitalize">{{order.ds_status}}</dd>
+                </dl>
+            </div>
+            <!--first-->
 
-                    </dl>
+            <!--second-->
+            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
 
-                </div>
-                <!--second-->
+                <dl class="dl-horizontal">
 
-                <!--third-->
-                <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                    <dt class="text-gray">Nº Produtos:</dt>
+                    <dd>{{order.nu_quantity}}</dd>
 
-                    <dl class="dl-horizontal">
+                    <dt class="text-gray">Valor Total:</dt>
+                    <dd>{{order.nu_total}}</dd>
 
-                        <dt class="text-gray">Endereço:</dt>
-                        <dd class="text-capitalize">{{order.ds_address}}</dd>
+                    <dt class="text-gray">Cliente:</dt>
+                    <dd>{{order.ds_name}}</dd>
+                </dl>
+            </div>
+            <!--second-->
 
-                        <dt class="text-gray">Telefone:</dt>
-                        <dd class="text-capitalize">{{order.nu_phone}}</dd>
+            <!--third-->
+            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
 
-                        <dt class="text-gray">Data:</dt>
-                        <dd>{{order.nu_date_time}}</dd>
-                    </dl>
+                <dl class="dl-horizontal">
 
-                </div>
-                <!--third-->
+                    <dt class="text-gray">Endereço:</dt>
+                    <dd class="text-capitalize">{{order.ds_address}}</dd>
 
-                <div class="collapse" id="prod{{order.sq_order}}">
+                    <dt class="text-gray">Telefone:</dt>
+                    <dd class="text-capitalize">{{order.nu_phone}}</dd>
 
-                    <table class="table table-responsive table-hover table-striped">
-
-                        <thead>
-
-                        <th>Produto</th>
-                        <th>Valor</th>
-                        <th>Quantidade</th>
-
-                        </thead>
-
-                        <tbody>
-
-                            <tr ng-repeat="product in products">
-
-                                <td>{{product.ds_product}}</td>
-                                <td>{{product.nu_value| currency}}</td>
-                                <td>{{product.nu_quantity}} und.</td>
-
-                            </tr>
-
-                        <td>Taxa de entrega</td>
-                        <td>{{order.nu_farevalue| currency}}</td>
-                        <td>1</td>
-
-                        </tbody>
-
-                    </table>
-
-                </div>
-
-                <div class="collapse" id="track{{order.sq_order}}">
-                    <h1>Tracker</h1>
-                </div>
+                    <dt class="text-gray">Data:</dt>
+                    <dd>{{order.nu_date_time}}</dd>
+                </dl>
 
             </div>
-            <!--show-->
+            <!--third-->
 
-        </div>
+            <!--buttons-->
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 
-        <div class="alert alert-info col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-show="orders == ''">
-            {{constant.MSG0008}}
-        </div>
+                <div class="form-group form-group-sm">
+
+                    <button  class="btn btn-primary btn-sm"
+                    ng-click="getProductsOrder(order.sq_order)">
+                    Mostrar Produtos
+                </button>
+
+                <button class="btn btn-success btn-sm"
+                ng-click="tracker(order.nu_tracker)"
+                ng-show="order.sq_status == 10"
+                >
+                Rastrear
+            </button>
+
+            <button class="btn btn-default btn-sm" 
+            ng-show="order.sq_status == 9"
+            data-toggle="collapse"
+            data-target="#track{{order.sq_order}}"
+            >
+            Inserir Rastreio
+        </button>
+
+        <button class="btn btn-default btn-sm">
+            Verificar Pagamento
+        </button>
+
+        <button class="btn btn-default btn-sm">
+            Cancelar
+        </button>
+
+        <button class="btn btn-default btn-sm">
+            Congelar
+        </button>
+
+        <button class="btn btn-default btn-sm">
+            Verificar Pagamento
+        </button>
+
+        <button class="btn btn-default btn-sm">
+            Estornar
+        </button>
 
     </div>
+
+</div>
+
+<hr />
+
+<div class="collapse" id="prod{{order.sq_order}}">
+
+    <table class="table table-responsive table-hover table-striped">
+
+        <thead>
+
+            <th>Produto</th>
+            <th>Valor</th>
+            <th>Quantidade</th>
+
+        </thead>
+
+        <tbody>
+
+            <tr ng-repeat="product in products">
+
+                <td>{{product.ds_product}}</td>
+                <td>{{product.nu_value| currency}}</td>
+                <td>{{product.nu_quantity}} und.</td>
+            </tr>
+            <td>Taxa de entrega</td>
+            <td>{{order.nu_farevalue| currency}}</td>
+            <td></td>
+
+        </tbody>
+    </table>
+
+    <hr />
+</div>
+
+<div class="collapse" id="track{{order.nu_tracker}}">
+
+    <table class="table table-hover table-striped"
+    ng-show="order.sq_status == 10"
+    >
+
+    <thead>
+
+        <tr>
+            <th>Data</th>
+            <th>Local</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        <tr ng-repeat="item in sro| orderBy:'-data':true">
+
+            <td>{{item.data}}</td>
+            <td>{{item.local}}</td>
+            <td>{{item.status}}</td>
+        </tr>
+    </tbody>
+</table>
+
+<hr />
+</div>
+
+<div class="collapse" id="track{{order.sq_order}}">
+
+    <!-- Insert tracker -->
+    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+
+        <div class="form-group form-group-sm"
+        ng-show="orders.sq_order != 3"
+        >
+
+        <div class="input-group">
+
+            <input
+            class="form-control"
+            name="nu_tracker"
+            placeholder="RB72000000BR"
+            ng-model="row.nu_tracker"
+            maxlength="13"
+            ng-maxlength="13"
+            ng-minlength="13"
+            required
+            />
+
+            <span class="input-group-btn">
+
+                <button class="btn btn-primary btn-sm" ng-click="addTracker(row.nu_tracker, order.sq_order)">
+                    Inserir
+                    <i class="glyphicon glyphicon-barcode"></i>
+                </button>
+
+            </span>
+        </div>
+    </div>
+
+
+    <div class="help-block-input col-xs-12 col-sm-offset-4 col-sm-12 col-md-offset-4 col-md-12 col-lg-offset-4 col-lg-12">
+
+        <span class="text-danger" ng-show="form.nu_tracker.$dirty && form.nu_tracker.$invalid">
+            <i class="glyphicon glyphicon-remove-sign"></i>
+            <span ng-show="form.nu_tracker.$error.required">Campo obrigatório.</span>
+            <span ng-show="form.nu_tracker.$error.minlength">Mínimo de treze caracteres.</span>
+            <span ng-show="form.nu_tracker.$error.maxlength">Máximo de treze caracteres.</span>
+        </span>
+    </div>
+    <!-- Insert tracker -->
+
+
+    <hr />
+</div>
+<!-- </div> -->
+
+<div class="alert alert-info col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-show="orders == ''">
+    {{constant.MSG0008}}
+</div>

@@ -28,8 +28,7 @@ use PDO;
  * @date Apr 8, 2015
  * @version 1.0
  */
-class UserModel extends MasterModel
-{
+class UserModel extends MasterModel {
 
     /**
      * Method for add user
@@ -40,8 +39,7 @@ class UserModel extends MasterModel
      * @date Apr 8, 2015
      * @version 1.0
      */
-    public function addUser (& $data)
-    {
+    public function addUser(&$data) {
 
         try {
 
@@ -76,7 +74,7 @@ class UserModel extends MasterModel
 
             $stmtPhone->execute([
                 $this->_conn->lastInsertId('fulo.person_sq_person_seq'),
-                null
+                null,
             ]);
 
             # if was sigin of customer set data origin.
@@ -106,22 +104,21 @@ class UserModel extends MasterModel
      * @date Apr 8, 2015
      * @version 1.0
      */
-    public function upUser (& $data)
-    {
+    public function upUser(&$data) {
         try {
 
             $this->_conn->beginTransaction();
 
             # update person.
             $stmtPerson = $this->_conn->prepare("UPDATE fulo.person "
-                    . "SET ds_name = ?, ds_email = ?, sq_status_news = ? "
-                    . "WHERE sq_person = ?");
+                . "SET ds_name = ?, ds_email = ?, sq_status_news = ? "
+                . "WHERE sq_person = ?");
 
             $stmtPerson->execute([
                 $data->ds_name,
                 $data->ds_email,
                 $data->sq_status_news,
-                $data->sq_person
+                $data->sq_person,
             ]);
 
             # set $stmt to update user.
@@ -161,22 +158,21 @@ class UserModel extends MasterModel
      * @date Apr 8, 2015
      * @version 1.0
      */
-    public function getUsers ($sq_user)
-    {
+    public function getUsers($sq_user) {
         try {
 
             $stmt = $this->_conn->prepare("SELECT "
-                    . "person.sq_person, ds_name, ds_email, sq_status_news, sq_user, sq_profile, sq_status_user, "
-                    . "sq_address, nu_postcode, ac_state, ds_address, ds_complement, ds_city, nu_phone "
-                    . "FROM fulo.person "
-                    . "JOIN fulo.user ON (person.sq_person = sq_user) "
-                    . "LEFT JOIN fulo.address ON (person.sq_person = address.sq_person)"
-                    . "JOIN fulo.phone ON (person.sq_person = phone.sq_person)"
-                    . "WHERE sq_user <> ? ORDER BY ds_name ASC"
+                . "person.sq_person, ds_name, ds_email, sq_status_news, sq_user, sq_profile, sq_status_user, "
+                . "sq_address, nu_postcode, ac_state, ds_address, ds_complement, ds_city, nu_phone "
+                . "FROM fulo.person "
+                . "JOIN fulo.user ON (person.sq_person = sq_user) "
+                . "LEFT JOIN fulo.address ON (person.sq_person = address.sq_person)"
+                . "JOIN fulo.phone ON (person.sq_person = phone.sq_person)"
+                . "WHERE sq_user <> ? ORDER BY ds_name ASC"
             );
 
             $stmt->execute([
-                $sq_user
+                $sq_user,
             ]);
 
             return $stmt->fetchAll(PDO::FETCH_OBJ);
@@ -195,22 +191,21 @@ class UserModel extends MasterModel
      * @date Apr 8, 2015
      * @version 1.0
      */
-    public function getDataByIdentity (& $sq_person)
-    {
+    public function getDataByIdentity(&$sq_person) {
         try {
 
             $stmt = $this->_conn->prepare("SELECT "
-                    . "person.sq_person, ds_name, ds_email, sq_status_news, sq_user, sq_profile, sq_status_user, "
-                    . "ds_password, sq_address, nu_postcode, ac_state, ds_address, ds_complement, ds_city, "
-                    . "ds_neighborhood, nu_phone "
-                    . "FROM fulo.person "
-                    . "JOIN fulo.user ON (person.sq_person = sq_user) "
-                    . "LEFT JOIN fulo.address ON (person.sq_person = address.sq_person)"
-                    . "JOIN fulo.phone ON (person.sq_person = phone.sq_person)"
-                    . "WHERE person.sq_person = ?");
+                . "person.sq_person, ds_name, ds_email, sq_status_news, sq_user, sq_profile, sq_status_user, "
+                . "ds_password, sq_address, nu_postcode, ac_state, ds_address, ds_complement, ds_city, "
+                . "ds_neighborhood, nu_phone "
+                . "FROM fulo.person "
+                . "JOIN fulo.user ON (person.sq_person = sq_user) "
+                . "LEFT JOIN fulo.address ON (person.sq_person = address.sq_person)"
+                . "JOIN fulo.phone ON (person.sq_person = phone.sq_person)"
+                . "WHERE person.sq_person = ?");
 
             $stmt->execute([
-                $sq_person
+                $sq_person,
             ]);
 
             return $stmt->fetchObject();
@@ -230,23 +225,22 @@ class UserModel extends MasterModel
      * @date Apr 12, 2015
      * @version 1.0
      */
-    public function getDataByEmail (& $ds_email)
-    {
+    public function getDataByEmail(&$ds_email) {
 
         try {
 
             $stmt = $this->_conn->prepare("SELECT "
-                    . "person.sq_person, ds_name, ds_email, sq_status_news, sq_user, sq_profile, sq_status_user, "
-                    . "ds_password, sq_address, nu_postcode, ac_state, ds_address, ds_complement, ds_city, "
-                    . "ds_neighborhood, nu_phone "
-                    . "FROM fulo.person "
-                    . "JOIN fulo.user ON (person.sq_person = sq_user) "
-                    . "LEFT JOIN fulo.address ON (person.sq_person = address.sq_person) "
-                    . "JOIN fulo.phone ON (person.sq_person = phone.sq_person) "
-                    . "WHERE ds_email = ?");
+                . "person.sq_person, ds_name, ds_email, sq_status_news, sq_user, sq_profile, sq_status_user, "
+                . "ds_password, sq_address, nu_postcode, ac_state, ds_address, ds_complement, ds_city, "
+                . "ds_neighborhood, nu_phone "
+                . "FROM fulo.person "
+                . "JOIN fulo.user ON (person.sq_person = sq_user) "
+                . "LEFT JOIN fulo.address ON (person.sq_person = address.sq_person) "
+                . "JOIN fulo.phone ON (person.sq_person = phone.sq_person) "
+                . "WHERE ds_email = ?");
 
             $stmt->execute([
-                $ds_email
+                $ds_email,
             ]);
 
             return $stmt->fetchObject();
@@ -265,8 +259,7 @@ class UserModel extends MasterModel
      * @date May 19, 2015
      * @version 1.0
      */
-    public function upAccess (& $data)
-    {
+    public function upAccess(&$data) {
 
         try {
 
@@ -300,8 +293,7 @@ class UserModel extends MasterModel
      * @date Jul 23, 2015
      * @version 1.0
      */
-    public function inactivateUser (& $data)
-    {
+    public function inactivateUser(&$data) {
         try {
 
             $this->_conn->beginTransaction();
@@ -310,7 +302,7 @@ class UserModel extends MasterModel
 
             $stmt->execute([
                 STATUS_INACTIVE,
-                $data->sq_user
+                $data->sq_user,
             ]);
 
             # save log operation.
@@ -334,8 +326,7 @@ class UserModel extends MasterModel
      * @date Jul 23, 2015
      * @version 1.0
      */
-    public function activateUser (& $data)
-    {
+    public function activateUser(&$data) {
         try {
 
             $this->_conn->beginTransaction();
@@ -344,7 +335,7 @@ class UserModel extends MasterModel
 
             $stmt->execute([
                 STATUS_ACTIVE,
-                $data->sq_user
+                $data->sq_user,
             ]);
 
             # save log operation.
@@ -368,17 +359,16 @@ class UserModel extends MasterModel
      * @date Jul 29, 2015
      * @version 1.0
      */
-    public function upAddress (& $data)
-    {
+    public function upAddress(&$data) {
 
         try {
 
             $this->_conn->beginTransaction();
 
             $stmt = $this->_conn->prepare("UPDATE fulo.address "
-                    . "SET nu_postcode = ? , ac_state = ?, ds_address = ?, ds_complement = ?, ds_city = ?, "
-                    . "ds_neighborhood = ? "
-                    . "WHERE sq_address = ?");
+                . "SET nu_postcode = ? , ac_state = ?, ds_address = ?, ds_complement = ?, ds_city = ?, "
+                . "ds_neighborhood = ? "
+                . "WHERE sq_address = ?");
 
             $stmt->execute([
                 $data->nu_postcode,
@@ -387,7 +377,7 @@ class UserModel extends MasterModel
                 $data->ds_complement,
                 $data->ds_city,
                 $data->ds_neighborhood,
-                $data->sq_address
+                $data->sq_address,
             ]);
 
             # save log operation.
@@ -412,18 +402,17 @@ class UserModel extends MasterModel
      * @date Alg 29, 2015
      * @version 1.0
      */
-    public function getNuWishList (& $data)
-    {
+    public function getNuWishList(&$data) {
 
         try {
 
             $stmt = $this->_conn->prepare("SELECT "
-                    . "COUNT(sq_user) as nu_wishlist "
-                    . "FROM fulo.wishlist "
-                    . "WHERE sq_user = ?");
+                . "COUNT(sq_user) as nu_wishlist "
+                . "FROM fulo.wishlist "
+                . "WHERE sq_user = ?");
 
             $stmt->execute([
-                $data->sq_user
+                $data->sq_user,
             ]);
 
             return $stmt->fetchObject();
@@ -443,20 +432,22 @@ class UserModel extends MasterModel
      * @date Dec 31, 2015
      * @version 1.0
      */
-    public function getOrdersByUser (& $data)
-    {
+    public function getOrdersByUser(&$data) {
 
         try {
 
             $stmt = $this->_conn->prepare("SELECT "
-                    . "sq_order, nu_quantity, nu_total, nu_tracker, nu_date_time, ds_status, ds_address, nu_phone, "
-                    . "nu_farevalue "
-                    . "FROM fulo.order "
-                    . "JOIN fulo.status ON (fulo.order.st_status = status.sq_status) "
-                    . "WHERE sq_user = ?");
+                . "sq_order, nu_quantity, nu_total, nu_tracker, nu_date_time, ds_status, sq_status, ds_address, nu_phone, "
+                . "nu_farevalue, ds_name "
+                . "FROM fulo.order "
+                . "JOIN fulo.status ON (fulo.order.st_status = status.sq_status) "
+                . "JOIN fulo.person ON (fulo.order.sq_user = person.sq_person) "
+                . "WHERE sq_user = ?"
+                . "ORDER BY sq_order ASC"
+            );
 
             $stmt->execute([
-                $data->origin_sq_user
+                $data->origin_sq_user,
             ]);
 
             return $stmt->fetchAll(PDO::FETCH_OBJ);
@@ -476,15 +467,17 @@ class UserModel extends MasterModel
      * @date Dec 31, 2015
      * @version 1.0
      */
-    public function getOrders ()
-    {
+    public function getOrders() {
 
         try {
 
             $stmt = $this->_conn->prepare("SELECT "
-                    . "sq_order, nu_quantity, nu_total, nu_tracker, nu_date_time, ds_status, nu_farevalue, st_status "
-                    . "FROM fulo.order "
-                    . "JOIN fulo.status ON (fulo.order.st_status = status.sq_status)");
+                . "sq_order, nu_quantity, nu_total, nu_tracker, nu_date_time, ds_status, nu_farevalue, st_status,"
+                . "ds_address "
+                . "FROM fulo.order "
+                . "JOIN fulo.status ON (fulo.order.st_status = status.sq_status) "
+                . "Order By sq_order ASC"
+            );
 
             $stmt->execute();
 
@@ -505,18 +498,17 @@ class UserModel extends MasterModel
      * @date Jan 1, 2016
      * @version 1.0
      */
-    public function getProductsOrder (& $data)
-    {
+    public function getProductsOrder(&$data) {
 
         try {
 
             $stmt = $this->_conn->prepare("SELECT "
-                    . "ds_product, nu_value, nu_quantity "
-                    . "FROM fulo.order_products "
-                    . "WHERE sq_order = ?");
+                . "ds_product, nu_value, nu_quantity "
+                . "FROM fulo.order_products "
+                . "WHERE sq_order = ?");
 
             $stmt->execute([
-                $data->sq_order
+                $data->sq_order,
             ]);
 
             return $stmt->fetchAll(PDO::FETCH_OBJ);
