@@ -90,7 +90,7 @@ body {
     /*background-image: -webkit-linear-gradient(top, #eeeeee, white 25px);*/
     /*    background-image: -moz-linear-gradient(top, #eeeeee, white 25px);
         background-image: -o-linear-gradient(top, #eeeeee, white 25px);*/
-    /*background-image: linear-gradient(to bottom, #eeeeee, white 25px);*/  
+    /*background-image: linear-gradient(to bottom, #eeeeee, white 25px);*/
 }
 
 .switch-input {
@@ -233,7 +233,11 @@ input[readonly] {
 
 /*font18*/
 .font-18{
-    font-size: 18px;    
+    font-size: 18px;
+}
+
+.font-middle {
+	font-size: 22px;
 }
 /*font12*/
 
@@ -320,6 +324,13 @@ button {
     .fixed-purchase{
         position: fixed;
     }
+}
+
+@media (min-width: 700px) and (max-width: 900px){
+
+	.font-middle {
+		font-size: 18px;
+	}
 }
 /*purchase adjusts*/
 

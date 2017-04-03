@@ -8,7 +8,7 @@ SERVER_URL = "http://fulo.rest";
  * Criação ao $app que é o modulo que representa toda a aplicação
  * @type angular.module.angular-1_3_6_L1749.moduleInstance
  */
-var $app = angular.module('app', ['ngRoute', 'angular-loading-bar', 'moduleServices']);
+var $app = angular.module('app', ['ngRoute', 'angular-loading-bar', 'moduleServices', 'ui.utils.masks']);
 
 /**
  * Config
@@ -145,11 +145,10 @@ $app.run(['$rootScope', '$http', function ($rootScope, $http) {
         $http.get($rootScope.server("/getBasic")).success(function ($return) {
 
             // save secret in session.
-            sessionStorage.setItem('secret', $return.secret);
-
             // save constants in variable.
+            sessionStorage.setItem('secret', $return.secret);
             $rootScope.constant = $return.constants;
-
+            $rootScope.types = $return.productTypes;
         });
 
         /**

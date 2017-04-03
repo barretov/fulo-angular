@@ -58,7 +58,7 @@ $service.service('$services', function ($rootScope, $location) {
             case $rootScope.constant.ERROR:
 
                 $location.path("/error/systemError");
-                throw Error("Error");
+                throw Error("Generic Error");
                 break;
 
                 //@TODO
@@ -66,7 +66,8 @@ $service.service('$services', function ($rootScope, $location) {
 
                 //@TODO SWITCH PARA ERRO DE PAGAMENTO.
                 $location.path("/error/systemError");
-                throw Error("Error");
+                this.showFlashmessage('alert-info', $rootScope.constant.MSG0009);
+                throw Error("Payment Error");
                 break;
 
             default :

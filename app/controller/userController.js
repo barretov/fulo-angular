@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/* global $app */
+ /* global $app */
 
 /**
  * Controller of clients
@@ -29,13 +29,13 @@
  * @date Apr 3, 2015
  * @version 1.0
  */
-$app.controller('userController', function ($scope, $http, $routeParams, $location, $services) {
+ $app.controller('userController', function ($scope, $http, $routeParams, $location, $services) {
 
     /**
      * variables for pagination.
      */
-    $scope.currentPage = 0;
-    $scope.pageSize = 10;
+     $scope.currentPage = 0;
+     $scope.pageSize = 10;
 
     /**
      * Method for control the pagination
@@ -44,9 +44,9 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
      * @date Apr 3, 2015
      * @version 1.0
      */
-    $scope.numberOfPages = function () {
-        return Math.ceil($scope.rows.length / $scope.pageSize);
-    };
+     $scope.numberOfPages = function () {
+     	return Math.ceil($scope.rows.length / $scope.pageSize);
+     };
 
     /**
      * Method for load all users
@@ -55,7 +55,7 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
      * @date Apr 3, 2015
      * @version 1.0
      */
-    $scope.getUsers = function () {
+     $scope.getUsers = function () {
 
         // adjust param.
         $param = $scope.configParam();
@@ -76,12 +76,12 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
      * @date Apr 3, 2015
      * @version 1.0
      */
-    $scope.getUser = function () {
+     $scope.getUser = function () {
 
-        if ($routeParams.id === null) {
+     	if ($routeParams.id === null) {
 
-            $location.path("/error/systemError/");
-        }
+     		$location.path("/error/systemError/");
+     	}
 
         // adjust parameters and add origin data.
         $param = $scope.configParam({sq_person: $routeParams.id});
@@ -102,7 +102,7 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
      * @date May 13, 2015
      * @version 1.0
      */
-    $scope.addUser = function () {
+     $scope.addUser = function () {
 
         // adjust parameters and add origin data.
         $param = $scope.configParam($scope.row);
@@ -110,18 +110,16 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
         // validate passwords
         if ($scope.row.ds_password === $scope.row.re_password) {
 
-            $http.post($scope.server("/addUser"), $param).success(function ($return) {
+        	$http.post($scope.server("/addUser"), $param).success(function ($return) {
 
-                // verify return data.
-                if ($scope.checkResponse($return)) {
+        		$services.checkResponse($return);
 
-                    $location.path("/user/listUser");
+        		$location.path("/user/listUser");
 
-                    $services.showFlashmessage("alert-success", $scope.constant.MSG0001);
-                }
-            });
+        		$services.showFlashmessage("alert-success", $scope.constant.MSG0001);
+        	});
         } else {
-            $services.showFlashmessage("alert-warning", $scope.constant.MSG0003);
+        	$services.showFlashmessage("alert-warning", $scope.constant.MSG0003);
         }
     };
 
@@ -132,11 +130,11 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
      * @date May 09, 2015
      * @version 1.0
      */
-    $scope.upUser = function () {
+     $scope.upUser = function () {
 
-        $param = $scope.configParam($scope.row);
+     	$param = $scope.configParam($scope.row);
 
-        $http.post($scope.server("/upUser"), $param).success(function ($return) {
+     	$http.post($scope.server("/upUser"), $param).success(function ($return) {
 
             // verify return data.
             $services.checkResponse($return);
@@ -145,7 +143,7 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
 
             $services.showFlashmessage("alert-success", $scope.constant.MSG0001);
         });
-    };
+     };
 
     /**
      * Method for inactivate user
@@ -155,7 +153,7 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
      * @date Jul 22, 2015
      * @version 1.0
      */
-    $scope.inactivateUser = function ($sq_user) {
+     $scope.inactivateUser = function ($sq_user) {
 
         // adjust parameters and add origin data.
         $param = $scope.configParam({sq_user: $sq_user});
@@ -167,7 +165,7 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
 
             /* if the customer deactivate his account, do logoff */
             if ($sq_user == $scope.user.sq_user) {
-                $scope.logoff();
+            	$scope.logoff();
             }
         });
     };
@@ -180,7 +178,7 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
      * @date Jul 22, 2015
      * @version 1.0
      */
-    $scope.activateUser = function ($sq_user) {
+     $scope.activateUser = function ($sq_user) {
 
         // adjust parameters and add origin data.
         $param = $scope.configParam({sq_user: $sq_user});
@@ -199,7 +197,7 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
      * @date Jun 19, 2015
      * @version 1.0
      */
-    $scope.getProfiles = function () {
+     $scope.getProfiles = function () {
 
         // adjust parameters and add origin data.
         $param = $scope.configParam();
@@ -220,7 +218,7 @@ $app.controller('userController', function ($scope, $http, $routeParams, $locati
      * @date Jul 29, 2015
      * @version 1.0
      */
-    $scope.upAddress = function () {
+     $scope.upAddress = function () {
 
         // adjust parameters and add origin data.
         $param = $scope.configParam($scope.row);

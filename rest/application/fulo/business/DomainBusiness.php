@@ -20,6 +20,7 @@
 namespace fulo\business;
 
 use fulo\model\DomainModel as DomainModel;
+use fulo\model\ProductModel as ProductModel;
 
 /**
  * Class of business for domain
@@ -49,7 +50,7 @@ class DomainBusiness extends MasterBusiness
      */
     public function __construct ()
     {
-        $this->_domainModel = new DomainModel();
+    	$this->_domainModel = new DomainModel();
     }
 
     /**
@@ -62,13 +63,13 @@ class DomainBusiness extends MasterBusiness
      */
     public function getProfiles ()
     {
-        try {
+    	try {
 
-            return $this->_domainModel->getProfiles();
-        } catch (Exception $ex) {
+    		return $this->_domainModel->getProfiles();
+    	} catch (Exception $ex) {
 
-            throw $ex;
-        }
+    		throw $ex;
+    	}
     }
 
     /**
@@ -82,24 +83,33 @@ class DomainBusiness extends MasterBusiness
     public function getBasic ()
     {
 
-        try {
+    	try {
 
             # read constants.
-            $constant = parse_ini_file('./application/config/constants.ini', true);
+    		$constant = parse_ini_file('./application/config/constants.ini', true);
 
             # merge constants.
-            $constants = array_merge($constant['frontend'], $constant['both']);
+    		$constants = array_merge($constant['frontend'], $constant['both']);
+
+    		// @TODO pegar os tipos de produtos e mandar
+    		$productTypes = (new ProductModel())->getProductTypes();
 
             # return constants and encrypted secret.
-            return $array = [
-            'secret' => crypt(\Slim\Slim::getInstance()->request()->getIp() .
-                              \Slim\Slim::getInstance()->request()->getUserAgent(), ENCRYPT_SALT),
-            'constants' => $constants
-            ];
-        } catch (Exception $ex) {
+    		return $array = [
+    		'secret' => crypt(
+    			\Slim\Slim::getInstance()->
+    			request()->
+    			getIp().\Slim\Slim::getInstance()->
+    			request()->
+    			getUserAgent(),
+    			ENCRYPT_SALT),
+    		'constants' => $constants,
+    		'productTypes' => $productTypes
+    		];
+    	} catch (Exception $ex) {
 
-            throw $ex;
-        }
+    		throw $ex;
+    	}
     }
 
     /**
@@ -113,15 +123,15 @@ class DomainBusiness extends MasterBusiness
     public function getAddressByZip ()
     {
 
-        try {
+    	try {
 
-            $data = $this->getRequestData();
+    		$data = $this->getRequestData();
 
-            return $this->_domainModel->getAddressByZip($data);
-        } catch (Exception $ex) {
+    		return $this->_domainModel->getAddressByZip($data);
+    	} catch (Exception $ex) {
 
-            throw $ex;
-        }
+    		throw $ex;
+    	}
     }
 
     /**
@@ -137,26 +147,26 @@ class DomainBusiness extends MasterBusiness
     public function validateRuleAcl ()
     {
 
-        try {
+    	try {
 
             # get current route and remove the '\'.
-            $operation = substr(\Slim\Slim::getInstance()->request()->getPathInfo(), 1);
+    		$operation = substr(\Slim\Slim::getInstance()->request()->getPathInfo(), 1);
 
             # get data.
-            $data = $this->getRequestData();
+    		$data = $this->getRequestData();
 
             # verify if don't have profile.
-            if (empty($data->origin_sq_profile)) {
+    		if (empty($data->origin_sq_profile)) {
 
                 # set guest profile.
-                $data->origin_sq_profile = PROFILE_GUEST;
-            }
+    			$data->origin_sq_profile = PROFILE_GUEST;
+    		}
 
-            return $this->_domainModel->validateRuleAcl($operation, $data);
-        } catch (Exception $ex) {
+    		return $this->_domainModel->validateRuleAcl($operation, $data);
+    	} catch (Exception $ex) {
 
-            throw $ex;
-        }
+    		throw $ex;
+    	}
     }
 
 }

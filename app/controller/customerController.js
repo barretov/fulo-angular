@@ -97,10 +97,10 @@ $app.controller('customerController', function ($scope, $http, $location, $rootS
     $scope.addCustomer = function () {
 
         // validate passwords
-        if ($scope.row.ds_password === $scope.row.re_password) {
+        if ($scope.customer.ds_password === $scope.customer.re_password) {
 
             // adjust parameters and add origin data.
-            $param = $scope.configParam($scope.row);
+            $param = $scope.configParam($scope.customer);
 
             $http.post($scope.server("/addUser"), $param).success(function ($return) {
 
@@ -108,7 +108,7 @@ $app.controller('customerController', function ($scope, $http, $location, $rootS
                 $services.checkResponse($return);
 
                 // do the login.
-                $scope.login($scope.row);
+                $scope.login($scope.customer);
 
                 $location.path("/");
 

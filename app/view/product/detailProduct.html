@@ -1,166 +1,148 @@
 <div class="row">
 
-    <!--image-->
-    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+	<!--image-->
+	<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
 
-        <!--image-->
-        <a class="cursor-pointer"
-           data-toggle="modal"
-           data-target="#modalDetailProduct"
-           ng-click="getProductDetail(row.sq_product)">
+		<!--image-->
+		<a class="cursor-pointer" data-toggle="modal" data-target="#modalDetailProduct" ng-click="getProductDetail(row.sq_product)">
 
-            <img class="img-responsive caption"
-                 src={{row.im_product_image.encoded}}
-                 height="640"
-                 width="640"
-                 />
+			<img class="img-responsive caption thumbnail"
+			src={{row.im_product_image.encoded}}
+			height="640"
+			width="640"
+			/>
 
-        </a>
+		</a>
 
-    </div>
+	</div>
 
-    <!--product data-->
-    <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8">
+	<!--product data-->
+	<div class="col-xs-12 col-sm-8 col-md-8 col-lg-8">
 
-        <!--title-->
-        <legend class="text-success text-capitalize">{{row.ds_product}}</legend>
+		<!--title-->
+		<legend class="text-success text-capitalize">{{row.ds_product}}</legend>
 
-        <!--data-->
-        <div class="well">
+		<!--data-->
+		<div class="well">
 
-            <dl class="dl-horizontal">
+			<dl class="dl-horizontal">
 
-                <dt class="text-gray">Preço:</dt>
-                <dd>{{row.nu_value| currency}}</dd>
+				<dt class="text-gray">Preço:</dt>
+				<dd>{{row.nu_value| currency}}</dd>
 
-                <dt class="text-gray">Em estoque:</dt>
-                <dd>{{row.nu_quantity}} Und</dd>
+				<dt class="text-gray">Em estoque:</dt>
+				<dd>{{row.nu_quantity}} Und</dd>
 
-                <dt class="text-gray">¹Tempo de produção:</dt>
-                <dd>{{row.nu_production}} Dia(s)</dd>
+				<dt class="text-gray">¹Tempo de produção:</dt>
+				<dd>{{row.nu_production}} Dia(s)</dd>
 
-            </dl>
+			</dl>
 
-            <!--form buy-->
-            <!--            <form name="form" ng-show="row.sq_status_product == constant.STATUS_ACTIVE">
-            
-                            <dl class="dl-horizontal">
-            
-                                <dt class="text-gray">Quantidade<span class="text-danger">*</span></dt>
-            
-                            </dl>
-            
-                            <div class="col-xs-4 col-sm-3 col-md-2 col-lg-2">
-            
-                                <input
-                                    class="form-control input-sm"
-                                    type="number"
-                                    name="buy_nu_quantity"
-                                    ng-model="row.buy_nu_quantity"
-                                    maxlength="4"
-                                    ng-minlength="1"
-                                    ng-maxlength="4"
-                                    required
-                                    />
-            
-                            </div>-->
+			<dl class="dl-horizontal">
 
-            <!--                <span class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-sm-offset-3 col-md-offset-2 col-lg-offset-2 text-danger" ng-show="form.buy_nu_quantity.$dirty && form.buy_nu_quantity.$invalid">
-                                <i class="glyphicon glyphicon-remove-sign"></i>
-                                <span ng-show="form.buy_nu_quantity.$error.required">Campo obrigatório</span>
-                                <span ng-show="form.buy_nu_quantity.$error.minlength">Mínimo de um caracteres</span>
-                                <span ng-show="form.buy_nu_quantity.$error.maxlength">Máximo de quatro caracteres</span>
-                                <span ng-show="form.buy_nu_quantity.$error.number">Somente Números</span>
-                            </span>-->
+				<dt class="text-gray">Altura:</dt>
+				<dd>{{row.nu_height}} Cm</dd>
 
-            <!--buttons-->
-            <a href="#/purchase/cart"
-                class="btn btn-success btn-sm"
-                    ng-click="addCart(row)"
-                    ng-controller="purchaseController">
-                <i class="glyphicon glyphicon-ok"></i> Comprar Agora
-            </a>
+				<dt class="text-gray">Largura:</dt>
+				<dd>{{row.nu_length}} Cm</dd>
 
-            <span class="btn btn-primary btn-sm"
-                  ng-click="addCart(row)"
-                  ng-controller="purchaseController"
-                  title="Colocar no carrinho de compras"> 
+				<dt class="text-gray">Comprimpento:</dt>
+				<dd>{{row.nu_width}} Cm</dd>
 
-                <i class="glyphicon glyphicon-shopping-cart"></i> Adc. Carrinho
-            </span>
+				<dt class="text-gray">Peso:</dt>
+				<dd>{{row.nu_weight}} Kg</dd>
 
-            <span class="btn btn-danger btn-sm"
-                  ng-click="addWishList(row.sq_product)"
-                  ng-controller="purchaseController"
-                  title="Colocar na lista de desejos"> 
+			</dl>
 
-                <i class="glyphicon glyphicon-heart" ></i> Adc. Favorito
-            </span>
+			<div class="form-group">
+				<button class="btn btn-primary btn-sm" ng-controller="purchaseController" data-toggle="modal" data-target="#modalCart" title="Colocar no carrinho de compras">
 
-            <span class="btn btn-info btn-sm"
-                  ng-click="share(row.sq_product)"
-                  title="Compatilhar na rede">
+					<i class="glyphicon glyphicon-shopping-cart"></i>Comprar
+				</button>
 
-                <i class="glyphicon glyphicon-share" ></i> Compartilhar
-            </span>
+				<button class="btn btn-danger btn-sm" ng-click="addWishList(row.sq_product)" ng-controller="purchaseController" title="Colocar na lista de desejos">
 
-            <!--</form>-->
+					<i class="glyphicon glyphicon-heart" ></i> Favoritos
+				</button>
 
-            <!--product inactive-->
-            <div ng-show="row.sq_status_product == constant.STATUS_INACTIVE">
+				<button class="btn btn-info btn-sm" ng-click="share(row.sq_product)" title="Compatilhar na rede">
 
-                <!--information-->
-                <button class="btn btn-danger btn-sm cursor-default disabled">Produto Indisponível</button>
+					<i class="glyphicon glyphicon-share" ></i> Compartilhar
+				</button>
 
-            </div>
-            <!--product inactive-->
+				<!--product inactive-->
+				<div ng-show="row.sq_status_product == constant.STATUS_INACTIVE">
 
-        </div>
+					<!--information-->
+					<button class="btn btn-danger btn-sm cursor-default disabled">Produto Indisponível</button>
 
-        <blockquote>
+				</div>
+				<!--product inactive-->
+			</div>
+		</div>
 
-            <footer class="text-justify">
-                [¹] Produtos sem estoque serão produzidos após a confirmação de pagamento de acordo com o tempo de produção informado para cada produto.
-            </footer>
+		<blockquote>
 
-        </blockquote>
+			<footer class="text-justify">
+				[¹] Produtos sem estoque serão produzidos após a confirmação de pagamento de acordo com o tempo de produção informado para cada produto.
+			</footer>
 
-        <blockquote>
+		</blockquote>
 
-            <footer class="text-justify">
-                As fotos são para ilustrar o produto.
-                O produto que você escolheu poderá ser enviado com a padronagem do tecido diferente, mas na mesma tonalidade.
-            </footer>
+		<blockquote>
 
-        </blockquote>
+			<footer class="text-justify">
+				As fotos são para ilustrar o produto.
+				O produto que você escolheu poderá ser enviado com a padronagem do tecido diferente, mas na mesma tonalidade.
+			</footer>
 
-    </div>
-
+		</blockquote>
+	</div>
 </div>
 
 <!--modal detalhe-->
 <div class="modal fade" id="modalDetailProduct" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 
-    <div class="modal-dialog modal-lg">
+	<div class="modal-dialog modal-lg">
 
-        <div class="modal-content">
+		<div class="modal-content">
 
-            <div class="modal-header">
+			<div class="modal-header">
 
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">x</span></button>
-                <h4 class="modal-title" id="myModalLabel">{{row.ds_product}}</h4>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">x</span></button>
+				<h4 class="modal-title" id="myModalLabel">{{row.ds_product}}</h4>
 
-            </div>
+			</div>
 
-            <div class="modal-body thumbnail">
+			<div class="modal-body thumbnail">
 
-                <img width="1000" height="1000" src={{product.im_product_image.encoded}} />
+				<img width="1000" height="1000" src={{product.im_product_image.encoded}} />
 
-            </div>
+			</div>
 
-        </div>
+		</div>
 
-    </div>
+	</div>
 
 </div>
 <!--modal detalhe-->
+
+<!-- modal cart -->
+<div class="modal fade" id="modalCart" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document" ng-controller="purchaseController">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Comprar</h4>
+      </div>
+      <div class="modal-body">
+        Deseja ir para o carrinho de compras?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="addCart(row)">Continuar comprando</button>
+        <a href="#/purchase/cart" type="button" class="btn btn-primary" ng-click="addCart(row) ">Ir para o carrinho</a>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- modal cart -->

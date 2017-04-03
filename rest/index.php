@@ -26,10 +26,7 @@ require_once './vendor/autoload.php';
  * Init the Slim Framework
  * @var $app Variable to recive Slim Framework
  */
-$app = new \Slim\Slim(array(
-    'debug' => true
-        )
-);
+$app = new \Slim\Slim(['debug' => true]);
 
 # Middlewares #
 # Secret.
@@ -50,8 +47,8 @@ $app->response->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, 
 //    $response->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
 //});
 
-$app->error(function ( Exception $e = null) use ($app) {
-    echo '{"error":{"text":"' . $e->getMessage() . '"}}';
+$app->error(function (Exception $e = null) use ($app) {
+	echo '{"error" : {"text" : "' . $e->getMessage() . '"}}';
 });
 
 /*
@@ -59,23 +56,20 @@ $app->error(function ( Exception $e = null) use ($app) {
  * @var $directories array Variable to recive url of files
  */
 $directories = [
-    './application/fulo/controller/',
+'./application/fulo/controller/',
 ];
 
 # include files of directories.
 foreach ($directories as $key => $directory) {
 
-    $dir = \opendir($directory);
+	$dir = \opendir($directory);
 
-    while (($file = readdir($dir)) !== false) {
-
-        if (strpos($file, ".php")) {
-
-            include_once($directory . $file);
-        }
-    }
-
-    closedir($dir);
+	while (($file = readdir($dir)) !== false) {
+		if (strpos($file, ".php")) {
+			include_once($directory . $file);
+		}
+	}
+	closedir($dir);
 }
 
 /*
@@ -89,7 +83,7 @@ $constants = array_merge($constant['backend'], $constant['both']);
 
 # set constants.
 foreach ($constants as $key => $value) {
-    define($key, $value);
+	define($key, $value);
 }
 
 $app->run();

@@ -75,12 +75,10 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
 
         // adjust parameters and add origin data.
         $param = $scope.configParam({sq_product: $routeParams.id});
-
         $http.get($scope.server("/getProduct"), {params: $param}).success(function ($return) {
 
             // verify return data.
             $services.checkResponse($return);
-
             $scope.row = $return;
         });
     };
@@ -115,16 +113,15 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
      */
     $scope.getProductTypes = function () {
 
-        // adjust parameters and add origin data.
-        $param = $scope.configParam();
+		    // adjust parameters and add origin data.
+		    $param = $scope.configParam();
 
-        $http.get($scope.server("/getProductTypes"), {params: $param}).success(function ($return) {
+		    $http.get($scope.server("/getProductTypes"), {params: $param}).success(function ($return) {
 
-            // verify return data.
-            $services.checkResponse($return);
-
-            $scope.types = $return;
-        });
+		        // verify return data.
+		        $services.checkResponse($return);
+		        $scope.types = $return;
+		    });
     };
 
     /**
@@ -200,20 +197,16 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
             };
         } else {
 
-            $scope.row.im_image = event.target.result;
+            // $scope.row.im_image = event.target.result;
 
             $param = $scope.configParam($scope.row);
-
             $http.post($scope.server("/upProduct"), $param).success(function ($return) {
 
                 // verify return data.
                 $services.checkResponse($return);
-
                 $location.path("/product/listProduct/");
-
                 $services.showFlashmessage("alert-success", $scope.constant.MSG0001);
             });
-
         }
     };
 
@@ -271,11 +264,12 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
 
         $http.get($scope.server("/getProductsByFilter"), {params: $param}).success(function ($return) {
 
+        	// TODO remove //
+        	console.log($return);
             // verify return data.
             $services.checkResponse($return);
 
             if ($return) {
-
                 $scope.rows = $return;
             }
         });
@@ -483,7 +477,6 @@ $app.controller('productController', function ($scope, $rootScope, $http, $locat
      * @version 1.0
      */
     $scope.detailProduct = function ($row) {
-
         $rootScope.row = $row;
         $location.path("/product/detailProduct");
     };

@@ -22,406 +22,437 @@ namespace fulo\business;
 use fulo\model\ProductModel as ProductModel;
 
 /**
- * Class of business for Product
+ * Class of business for Product.
+ *
  * @name ProductBusiness
+ *
  * @author Victor Eduardo Barreto
- * @package fulo\business
  * @date Alg 18, 2015
+ *
  * @version 1.0
  */
-class ProductBusiness extends MasterBusiness {
-
+class ProductBusiness extends MasterBusiness
+{
     /**
-     * variable for instance of product model
+     * variable for instance of product model.
+     *
      * @var object
      */
     private $_productModel;
 
     /**
-     * Method constructor of class
+     * Method constructor of class.
+     *
      * @name __construct
+     *
      * @author Victor Eduardo Barreto
-     * @package fulo\business
+     *
      * @return object Model of product
      * @date Alg 18, 2015
+     *
      * @version 1.0
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->_productModel = new ProductModel();
     }
 
     /**
-     * Method for get products
+     * Method for get products.
+     *
      * @name getProducts
+     *
      * @author Victor Eduardo Barreto
-     * @package fulo\business
+     *
      * @return object Data products
      * @date Alg 18, 2015
+     *
      * @version 1.0
      */
-    public function getProducts() {
-
+    public function getProducts()
+    {
         try {
-
             $results = $this->_productModel->getProducts();
 
-            # adjust images.
+            // adjust images.
             foreach ($results as $key) {
-
                 $this->makeImageOut($key->im_product_image, 300, 300);
             }
 
             return $results;
         } catch (Exception $ex) {
-
             throw $ex;
         }
     }
 
     /**
-     * Method for get product
+     * Method for get product.
+     *
      * @name getProduct
+     *
      * @author Victor Eduardo Barreto
-     * @package fulo\business
+     *
      * @return object Data product
      * @date Alg 24, 2015
+     *
      * @version 1.0
      */
-    public function getProduct() {
-
+    public function getProduct()
+    {
         try {
-
             $data = $this->getRequestData();
-
             $data = $this->_productModel->getProduct($data);
-
             $this->makeImageOut($data->im_product_image, 640, 640);
 
             return $data;
         } catch (Exception $ex) {
-
             throw $ex;
         }
     }
 
     /**
-     * Method for get product types
+     * Method for get product types.
+     *
      * @name getProductTypes
+     *
      * @author Victor Eduardo Barreto
-     * @var $app object Slim instance
+     *
+     * @var object Slim instance
+     *
      * @return object Data product types
      * @date Alg 19, 2015
+     *
      * @version 1.0
      */
-    public function getProductTypes() {
-
+    public function getProductTypes()
+    {
         try {
-
             return $this->_productModel->getProductTypes();
         } catch (Exception $ex) {
-
             throw $ex;
         }
     }
 
     /**
-     * Method for business of add product
+     * Method for business of add product.
+     *
      * @name addProduct
+     *
      * @author Victor Eduardo Barreto
-     * @var $app object Slim instance
+     *
+     * @var object Slim instance
+     *
      * @return bool Result of procedure
      * @date Alg 19, 2015
+     *
      * @version 1.0
      */
-    public function addProduct() {
-
+    public function addProduct()
+    {
         try {
-
             $data = $this->getRequestData();
 
             return $this->_productModel->addProduct($data);
         } catch (Exception $ex) {
-
             throw $ex;
         }
     }
 
     /**
-     * Method for business of up product
+     * Method for business of up product.
+     *
      * @name upProduct
+     *
      * @author Victor Eduardo Barreto
-     * @var $app object Slim instance
+     *
+     * @var object Slim instance
+     *
      * @return bool Result of procedure
      * @date Alg 26, 2015
+     *
      * @version 1.0
      */
-    public function upProduct() {
-
+    public function upProduct()
+    {
         try {
-
             $data = $this->getRequestData();
 
-            # if foldable field does not arrive, he's false;
+            // if foldable field does not arrive, he's false;
             if (empty($data->st_foldable)) {
-
                 $data->st_foldable = NUMBER_TWO;
             }
 
             return $this->_productModel->upProduct($data);
         } catch (Exception $ex) {
-
             throw $ex;
         }
     }
 
     /**
-     * Method for business of activate product
+     * Method for business of activate product.
+     *
      * @name activateProduct
+     *
      * @author Victor Eduardo Barreto
-     * @var $app object Slim instance
+     *
+     * @var object Slim instance
+     *
      * @return bool Result of procedure
      * @date Alg 26, 2015
+     *
      * @version 1.0
      */
-    public function activateProduct() {
-
+    public function activateProduct()
+    {
         try {
-
             $data = $this->getRequestData();
 
             return $this->_productModel->activateProduct($data);
         } catch (Exception $ex) {
-
             throw $ex;
         }
     }
 
     /**
-     * Method for business of inactivate product
+     * Method for business of inactivate product.
+     *
      * @name inactivateProduct
+     *
      * @author Victor Eduardo Barreto
-     * @var $app object Slim instance
+     *
+     * @var object Slim instance
+     *
      * @return bool Result of procedure
      * @date Alg 26, 2015
+     *
      * @version 1.0
      */
-    public function inactivateProduct() {
-
+    public function inactivateProduct()
+    {
         try {
-
             $data = $this->getRequestData();
 
             return $this->_productModel->inactivateProduct($data);
         } catch (Exception $ex) {
-
             throw $ex;
         }
     }
 
     /**
-     * Method for business of get products by filter
+     * Method for business of get products by filter.
+     *
      * @name getProductsByFilter
+     *
      * @author Victor Eduardo Barreto
-     * @package fulo\business
+     *
      * @return object Data products
      * @date Alg 27, 2015
+     *
      * @version 1.0
      */
-    public function getProductsByFilter() {
-
+    public function getProductsByFilter()
+    {
         try {
-
             $data = $this->getRequestData();
 
-            # adjust filter in query if products was filtered.
+            // adjust filter in query if products was filtered.
             if (empty($data->sq_product_type)) {
-
-                $data->filter = NULL;
+                $data->filter = null;
             } else {
-
-                $data->filter = "AND product.sq_product_type = " . $data->sq_product_type;
+                $data->filter = 'AND product.sq_product_type = '.$data->sq_product_type;
             }
 
             $results = $this->_productModel->getProductsByFilter($data);
 
-            # adjust images.
+            // adjust images.
             foreach ($results as $key) {
-
                 $this->makeImageOut($key->im_product_image, 300, 300);
             }
 
             return $results;
         } catch (Exception $ex) {
-
             throw $ex;
         }
     }
 
     /**
-     * Method for business add item in wish list
+     * Method for business add item in wish list.
+     *
      * @name addWishList
+     *
      * @author Victor Eduardo Barreto
-     * @package fulo\business
+     *
      * @return bool Result of procedure
      * @date Alg 28, 2015
+     *
      * @version 1.0
      */
 //    public function addWishList ()
     //    {
-    //
+
     //        try {
-    //
+
     //            $data = $this->getRequestData();
-    //
+
     //            return $this->_productModel->addWishList($data);
     //        } catch (Exception $ex) {
-    //
+
     //            throw $ex;
     //        }
     //    }
 
     /**
-     * Method for business get items of wish list
+     * Method for business get items of wish list.
+     *
      * @name getWishList
+     *
      * @author Victor Eduardo Barreto
-     * @package fulo\business
+     *
      * @return object Data of user wishlist
      * @date Alg 29, 2015
+     *
      * @version 1.0
      */
 //    public function getWishList ()
     //    {
-    //
+
     //        try {
-    //
+
     //            $data = $this->getRequestData();
-    //
+
     //            $results = $this->_productModel->getWishList($data);
-    //
+
     //            foreach ($results as $key) {
-    //
+
     //                $this->makeImageOut($key->im_product_image, 300, 300);
     //            }
-    //
+
     //            return $results;
     //        } catch (Exception $ex) {
-    //
+
     //            throw $ex;
     //        }
     //    }
 
     /**
-     * Method for business del item of wish list
+     * Method for business del item of wish list.
+     *
      * @name delWishList
+     *
      * @author Victor Eduardo Barreto
-     * @package fulo\business
+     *
      * @return bool Result of procedure
      * @date Alg 31, 2015
+     *
      * @version 1.0
      */
 //    public function delWishList ()
     //    {
-    //
+
     //        try {
-    //
+
     //            $data = $this->getRequestData();
-    //
+
     //            return $this->_productModel->delWishList($data);
     //        } catch (Exception $ex) {
-    //
+
     //            throw $ex;
     //        }
     //    }
 
     /**
-     * Method for add product type
+     * Method for add product type.
+     *
      * @name addProductType
+     *
      * @author Victor Eduardo Barreto
-     * @package fulo\business
+     *
      * @return object Data of product type
      * @date Out 7, 2015
+     *
      * @version 1.0
      */
-    public function addProductType() {
-
+    public function addProductType()
+    {
         try {
-
             $data = $this->getRequestData();
 
             return $this->_productModel->addProductType($data);
         } catch (Exception $ex) {
-
             throw $ex;
         }
     }
 
     /**
-     * Method for get product type
+     * Method for get product type.
+     *
      * @name getProductType
+     *
      * @author Victor Eduardo Barreto
-     * @package fulo\business
+     *
      * @return object Data of product type
      * @date Out 7, 2015
+     *
      * @version 1.0
      */
-    public function getProductType() {
-
+    public function getProductType()
+    {
         try {
-
             $data = $this->getRequestData();
 
             return $this->_productModel->getProductType($data);
         } catch (Exception $ex) {
-
             throw $ex;
         }
     }
 
     /**
-     * Method for up product type
+     * Method for up product type.
+     *
      * @name upProductType
+     *
      * @author Victor Eduardo Barreto
-     * @package fulo\business
+     *
      * @return object Data of product type
      * @date Out 7, 2015
+     *
      * @version 1.0
      */
-    public function upProductType() {
-
+    public function upProductType()
+    {
         try {
-
             $data = $this->getRequestData();
 
             return $this->_productModel->upProductType($data);
         } catch (Exception $ex) {
-
             throw $ex;
         }
     }
 
     /**
-     * Method for del product type
+     * Method for del product type.
+     *
      * @name delProductType
+     *
      * @author Victor Eduardo Barreto
-     * @package fulo\business
+     *
      * @return object Data of product type
      * @date Out 7, 2015
+     *
      * @version 1.0
      */
-    public function delProductType() {
-
+    public function delProductType()
+    {
         try {
-
             $data = $this->getRequestData();
 
             return $this->_productModel->delProductType($data);
         } catch (Exception $ex) {
-
             throw $ex;
         }
     }
 
-    /**
+    /*
      * Method for get fare value
      * @name getFareValue
      * @author Victor Eduardo Barreto
@@ -432,136 +463,136 @@ class ProductBusiness extends MasterBusiness {
      */
 //    public function getFareValue ()
     //    {
-    //
+
     //        try {
-    //
+
     //            $data = $this->getRequestData();
-    //
+
     //            # init variables;
     //            $data->nu_length = 0;
     //            $data->nu_width = 0;
     //            $data->nu_height = 0;
     //            $data->nu_weight = 0;
     //            $data->nu_packages = 0;
-    //
+
     //            $products = $this->_productModel->getDataProducts($data);
-    //
+
     //            # verifica se os produtos são menores que os valores minimos.
     //            foreach ($products as $key) {
-    //
+
     //                # verifica se é dobravel?
     //                if ($key->st_foldable) {
-    //
+
     //                    # verifica se é maior que o recomendado.
     //                    # comprimento.
     //                    while ($key->nu_length > BOX_DELIVERY_BEST_LENGTH) {
-    //
+
     //                        # dobra o produto.
     //                        $key->nu_length = $key->nu_length / 2;
-    //
+
     //                        # soma a altura do produto.
     //                        $key->nu_height = $key->nu_height * 2;
     //                    }
-    //
+
     //                    # largura.
     //                    while ($key->nu_width > BOX_DELIVERY_BEST_WIDTH) {
-    //
+
     //                        # dobra o produto.
     //                        $key->nu_width = $key->nu_width / 2;
-    //
+
     //                        # soma a altura do produto.
     //                        $key->nu_height = $key->nu_height * 2;
     //                    }
     //                }
-    //
+
     //                # verifica se é menor que os minimos.
     //                #comprimento.
     //                if ($key->nu_length < BOX_DELIVERY_MIN_LENGTH) {
-    //
+
     //                    $key->nu_length = BOX_DELIVERY_MIN_LENGTH;
     //                }
-    //
+
     //                #largura.
     //                if ($key->nu_width < BOX_DELIVERY_MIN_WIDTH) {
-    //
+
     //                    $key->nu_width = BOX_DELIVERY_MIN_WIDTH;
     //                }
     //            }
-    //
+
     //            # soma o tamanho de todos os produtos para definir o tamanho do pacote.
     //            foreach ($products as $key) {
-    //
+
     //                # verifica o produto com o maior comprimento.
     //                if ($key->nu_length > $data->nu_length) {
-    //
+
     //                    $data->nu_length = $key->nu_length;
     //                }
-    //
+
     //                # verifica o produto com a maior largura.
     //                if ($key->nu_width > $data->nu_width) {
-    //
+
     //                    $data->nu_width = $key->nu_width;
     //                }
-    //
+
     //                # percorre o array dos produtos do carrinho para multiplicar peso e altura pela quantidade.
     //                foreach ($data->product as $key_prod => $value) {
-    //
+
     //                    if ($key->sq_product == $value->sq_product) {
-    //
+
     //                        $key->nu_height = $key->nu_height * $value->nu_quantity_buy;
     //                        $key->nu_weight = $key->nu_weight * $value->nu_quantity_buy;
     //                    }
     //                }
-    //
+
     //                #soma a altura e peso.
     //                $data->nu_height = $data->nu_height + $key->nu_height;
     //                $data->nu_weight = $data->nu_weight + $key->nu_weight;
     //            }
-    //
+
     //            # verifica os maximos de altura e peso.
     //            # se o pacote ultrapassar os maximos de altura ou peso, divide o pacote em dois.
     //            while ($data->nu_height > BOX_DELIVERY_MAX_HEIGHT ||
     //            $data->nu_weight > BOX_DELIVERY_MAX_WEIGHT ||
     //            $data->nu_length + $data->nu_width + $data->nu_height > BOX_DELIVERY_MAX_PACKAGE_SIZE) {
-    //
+
     //                # divide altura e peso.
     //                $data->nu_height = $data->nu_height / 2;
     //                $data->nu_weight = $data->nu_weight / 2;
-    //
+
     //                # flag para multiplicar o valor do frete pela quantidade de caixas.
     //                $data->nu_packages = $data->nu_packages + 2;
     //            }
-    //
+
     //            # verifica os mínimos de altura.
     //            if ($data->nu_height < BOX_DELIVERY_MIN_HEIGHT) {
-    //
+
     //                $data->nu_height = BOX_DELIVERY_MIN_HEIGHT;
     //            }
-    //
+
     //            # verifica os mínimos de peso.
     //            if ($data->nu_weight < BOX_DELIVERY_MIN_WEIGHT) {
-    //
+
     //                $data->nu_weight < BOX_DELIVERY_MIN_WEIGHT;
     //            }
-    //
+
     //            $this->requestFareValue($data);
-    //
+
     //            # multiplica o valor do frete por caixas.
     //            if (!empty($data->nu_packages)) {
-    //
+
     //                foreach ($data->fare_value as $key) {
-    //
+
     //                    $key->Valor = $key->Valor * $data->nu_packages;
     //                }
     //            }
-    //
+
     //            return $data;
     //        } catch (Exception $ex) {
-    //
+
     //            throw $ex;
     //        }
     //    }
-    //
+
     //    /*
     //     * Method for request fare value
     //     * @name requestFareValue
@@ -571,12 +602,12 @@ class ProductBusiness extends MasterBusiness {
     //     * @date Oct 20, 2015
     //     * @version 1.0
     //     */
-    //
+
     //    public function requestFareValue (& $data)
     //    {
-    //
+
     //        try {
-    //
+
     //            $wsc['nCdEmpresa'] = '';
     //            $wsc['sDsSenha'] = '';
     //            $wsc['sCepOrigem'] = ORIGIN_POSTCODE;
@@ -593,31 +624,31 @@ class ProductBusiness extends MasterBusiness {
     //            $wsc['StrRetorno'] = 'xml';
     //            $wsc['nCdServico'] = '41106, 40010';
     //            $wsc = http_build_query($wsc);
-    //
+
     //            $url = 'http://ws.correios.com.br/calculador/CalcPrecoPrazo.aspx';
-    //
+
     //            $curl = curl_init($url . '?' . $wsc);
     //            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-    //
+
     //            $result = curl_exec($curl);
     //            $data->fare_value = simplexml_load_string($result);
-    //
+
     //            # change the comma to point.
     //            foreach ($data->fare_value as $key) {
-    //
+
     //                $key->Valor = preg_replace('/,/', '.', $key->Valor);
-    //
+
     //                if (!empty($key->Erro)) {
-    //
+
     //                    $data->fare_value->error = $key->MsgErro;
     //                }
     //            }
     //        } catch (Exception $ex) {
-    //
+
     //            throw $ex;
     //        }
     //    }
-    //
+
     //    /**
     //     * Envia uma requisição NVP para uma API PayPal.
     //     *
@@ -634,39 +665,39 @@ class ProductBusiness extends MasterBusiness {
     //        //Endpoint da API
     //        $apiEndpoint = 'https://api-3t.' . ($sandbox ? 'sandbox.' : null);
     //        $apiEndpoint .= 'paypal.com/nvp';
-    //
+
     //        //Executando a operação
     //        $curl = curl_init();
-    //
+
     //        curl_setopt($curl, CURLOPT_URL, $apiEndpoint);
     //        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
     //        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
     //        curl_setopt($curl, CURLOPT_POST, true);
     //        curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($requestNvp));
-    //
+
     //        $response = urldecode(curl_exec($curl));
-    //
+
     //        curl_close($curl);
-    //
+
     //        //Tratando a resposta
     //        $responseNvp = array();
-    //
+
     //        if (preg_match_all('/(?<name>[^\=]+)\=(?<value>[^&]+)&?/', $response, $matches)) {
     //            foreach ($matches['name'] as $offset => $name) {
     //                $responseNvp[$name] = $matches['value'][$offset];
     //            }
     //        }
-    //
+
     //        //Verificando se deu tudo certo e, caso algum erro tenha ocorrido,
     //        //gravamos um log para depuração.
     //        if (isset($responseNvp['ACK']) && $responseNvp['ACK'] != 'Success') {
     //            for ($i = 0; isset($responseNvp['L_ERRORCODE' . $i]); ++$i) {
     //                $message = sprintf("PayPal NVP %s[%d]: %s\n", $responseNvp['L_SEVERITYCODE' . $i], $responseNvp['L_ERRORCODE' . $i], $responseNvp['L_LONGMESSAGE' . $i]);
-    //
+
     //                error_log($message);
     //            }
     //        }
-    //
+
     //        return $responseNvp;
     //    }
 }

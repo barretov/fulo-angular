@@ -29,7 +29,15 @@
  * @date Alg 18, 2015
  * @version 1.0
  */
- $app.controller('purchaseController', function ($scope, $rootScope, $http, $services, $window) {
+ $app.controller('purchaseController', function ($scope, $rootScope, $http, $services, $window, $routeParams, $location) {
+
+ 	// TODO remove //
+ 	// Mandar o usuario para uma tela explicando o pedido feito.
+ 	// if arrived a paypal token, redirect user to page of confirmation order
+ 	if ($routeParams.token) {
+
+ 		$location.path("/purchase/confirmOrder");
+ 	}
 
     /**
      * Method for add item in wish list
@@ -44,13 +52,13 @@
         // verify if user is loged.
         if (!$rootScope.user) {
 
-            $('#modalLogin').modal('show');
-            $services.showFlashmessage("alert-warning", $scope.constant.MSG0007);
+        	$('#modalLogin').modal('show');
+        	$services.showFlashmessage("alert-warning", $scope.constant.MSG0007);
         } else {
 
-            $param = $scope.configParam({sq_product: $sq_product});
+        	$param = $scope.configParam({sq_product: $sq_product});
 
-            $http.post($scope.server("/addWishList"), $param).success(function ($return) {
+        	$http.post($scope.server("/addWishList"), $param).success(function ($return) {
 
                 // verify return data.
                 $services.checkResponse($return);
@@ -73,16 +81,16 @@
      */
      $scope.getWishList = function () {
 
-        $param = $scope.configParam();
+     	$param = $scope.configParam();
 
-        $http.get($scope.server("/getWishList"), {params: $param}).success(function ($return) {
+     	$http.get($scope.server("/getWishList"), {params: $param}).success(function ($return) {
 
             // verify return data.
             $services.checkResponse($return);
 
             $scope.rows = $return;
         });
-    };
+     };
 
     /**
      * Method for del items of wish list
@@ -94,9 +102,9 @@
      */
      $scope.delWishList = function ($sq_product) {
 
-        $param = $scope.configParam({sq_product: $sq_product});
+     	$param = $scope.configParam({sq_product: $sq_product});
 
-        $http.post($scope.server("/delWishList"), $param).success(function ($return) {
+     	$http.post($scope.server("/delWishList"), $param).success(function ($return) {
 
             // verify return data.
             $services.checkResponse($return);
@@ -108,7 +116,7 @@
             // remove row in list.
             $('#' + $sq_product).fadeOut();
         });
-    };
+     };
 
     /**
      * Method for add item in cart
@@ -129,11 +137,11 @@
             // verify if already exists the new product in the cart.
             angular.forEach($scope.cart, function ($key) {
 
-                if ($product.sq_product === $key.sq_product) {
+            	if ($product.sq_product === $key.sq_product) {
 
-                    $services.showFlashmessage("alert-warning", $scope.constant.MSG0006);
-                    $continue = false;
-                }
+            		$services.showFlashmessage("alert-warning", $scope.constant.MSG0006);
+            		$continue = false;
+            	}
             });
         }
 
@@ -162,17 +170,17 @@
      */
      $scope.delCart = function ($sq_product) {
 
-        var $aux = 0;
+     	var $aux = 0;
 
-        angular.forEach($rootScope.cart, function ($key) {
+     	angular.forEach($rootScope.cart, function ($key) {
 
-            if ($sq_product === $key.sq_product) {
+     		if ($sq_product === $key.sq_product) {
 
-                $rootScope.cart.splice($aux, 1);
-            }
+     			$rootScope.cart.splice($aux, 1);
+     		}
 
-            $aux++;
-        });
+     		$aux++;
+     	});
 
         // insert cart in session.
         this.saveCartSession();
@@ -193,7 +201,7 @@
      */
      $scope.updateTotal = function ($fare) {
 
-        $rootScope.cart.nu_total = 0;
+     	$rootScope.cart.nu_total = 0;
 
         // insert cart in session.
         sessionStorage.setItem('cart', JSON.stringify($rootScope.cart));
@@ -249,7 +257,7 @@
         // if arrive a new postcode, send to get fare value;
         if ($postcode) {
 
-            $scope.row.nu_postcode = $postcode;
+        	$scope.row.nu_postcode = $postcode;
         }
 
         // init variable.
@@ -260,7 +268,7 @@
             // if don't have quantity set number one.
             if (!$key.nu_quantity_buy) {
 
-                $key.nu_quantity_buy = 1;
+            	$key.nu_quantity_buy = 1;
             }
 
             $scope.row.product.push({sq_product: $key.sq_product, nu_quantity_buy: $key.nu_quantity_buy});
@@ -271,7 +279,7 @@
         // if dont have product in cart, dont send fare value request;
         if ($scope.row.product.length) {
 
-            $http.post($scope.server("/getFareValue"), $param).success(function ($return) {
+        	$http.post($scope.server("/getFareValue"), $param).success(function ($return) {
 
                 // verify return data.
                 $services.checkResponse($return);
@@ -279,7 +287,7 @@
 
                 if ($return.fare_value.error) {
 
-                    $scope.fare.error = $return.fare_value.error;
+                	$scope.fare.error = $return.fare_value.error;
                 }
             });
         }
@@ -349,7 +357,7 @@
                 // verify if zip code is the same of zip code registred in profile.
                 if ($rootScope.user.nu_postcode !== $scope.row.nu_postcode) {
 
-                    $services.showFlashmessage("alert-warning", $scope.constant.MSG0012);
+                	$services.showFlashmessage("alert-warning", $scope.constant.MSG0012);
                 } else {
 
                     // call the confirmation of order.
@@ -357,13 +365,13 @@
                 }
             } else {
 
-                $('#modalAddress').modal('show');
-                $services.showFlashmessage("alert-warning", $scope.constant.MSG0011);
+            	$('#modalAddress').modal('show');
+            	$services.showFlashmessage("alert-warning", $scope.constant.MSG0011);
             }
         } else {
 
-            $('#modalLogin').modal('show');
-            $services.showFlashmessage("alert-warning", $scope.constant.MSG0010);
+        	$('#modalLogin').modal('show');
+        	$services.showFlashmessage("alert-warning", $scope.constant.MSG0010);
         }
     };
 
@@ -377,31 +385,34 @@
      $scope.buy = function () {
 
         // init variables.
-        $scope.buy = {};
-        $scope.buy.product = [];
+        $scope.buyed = {};
+        $scope.buyed.product = [];
 
         // transfer data for a new variable.
         angular.forEach($rootScope.cart, function ($key) {
 
-            $scope.buy.product.push({sq_product: $key.sq_product, nu_quantity_buy: $key.nu_quantity_buy});
+        	$scope.buyed.product.push({sq_product: $key.sq_product, nu_quantity_buy: $key.nu_quantity_buy});
         });
 
         // transfer new data.
-        $scope.buy.nu_total = $scope.cart.nu_total;
-        $scope.buy.nu_farevalue = $scope.cart.nu_farevalue;
+        $scope.buyed.nu_total = $scope.cart.nu_total;
+        $scope.buyed.nu_farevalue = $scope.cart.nu_farevalue;
 
-        $param = $scope.configParam($scope.buy);
+        $param = $scope.configParam($scope.buyed);
 
         $http.post($scope.server("/buy"), $param).success(function ($return) {
 
             // verify return data.
             $services.checkResponse($return);
 
+            // clean cart.
+            sessionStorage.removeItem('cart');
+
             // close modal.
             $('#modalConfirmation').modal('hide');
 
             jQuery(document).ready(function () {
-                jQuery('<div class="sa_payPal_overlay" style="visibility:visible;position:fixed; width:100%; height:100%; filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=1, StartColorStr=\'#88ffffff\', EndColorStr=\'#88ffffff\'); background: rgba(255,255,255,0.8); top:0; left:0; z-index: 999999;"><div style=" background: #FFF; background-image: linear-gradient(top, #FFFFFF 45%, #E9ECEF 80%);background-image: -o-linear-gradient(top, #FFFFFF 45%, #E9ECEF 80%);background-image: -moz-linear-gradient(top, #FFFFFF 45%, #E9ECEF 80%);background-image: -webkit-linear-gradient(top, #FFFFFF 45%, #E9ECEF 80%);background-image: -ms-linear-gradient(top, #FFFFFF 45%, #E9ECEF 80%);background-image: -webkit-gradient(linear, left top,left bottom,color-stop(0.45, #FFFFFF),color-stop(0.8, #E9ECEF));display: block;margin: auto;position: fixed; margin-left:-220px; left:45%;top: 40%;text-align: center;color: #2F6395;font-family: Arial;padding: 15px;font-size: 15px;font-weight: bold;width: 530px;-webkit-box-shadow: 3px 2px 13px rgba(50, 50, 49, 0.25);box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 0px 5px;border: 1px solid #CFCFCF;border-radius: 6px;"><img style="display:block;margin:0 auto 10px" src="https://www.paypalobjects.com/en_US/i/icon/icon_animated_prog_dkgy_42wx42h.gif"><h2>Aguarde alguns segundos.</h2> <p style="font-size:13px; color: #003171; font-weight:400">Você está sendo redirecionado para um ambiente seguro do PayPal<br /> para finalizar seu pagamento.</p><div style="margin:30px auto 0;"><img src="https://www.paypal-brasil.com.br/logocenter/util/img/logo_paypal.png"/></div></div></div>').appendTo('body');
+            	jQuery('<div class="sa_payPal_overlay" style="visibility:visible;position:fixed; width:100%; height:100%; filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=1, StartColorStr=\'#88ffffff\', EndColorStr=\'#88ffffff\'); background: rgba(255,255,255,0.8); top:0; left:0; z-index: 999999;"><div style=" background: #FFF; background-image: linear-gradient(top, #FFFFFF 45%, #E9ECEF 80%);background-image: -o-linear-gradient(top, #FFFFFF 45%, #E9ECEF 80%);background-image: -moz-linear-gradient(top, #FFFFFF 45%, #E9ECEF 80%);background-image: -webkit-linear-gradient(top, #FFFFFF 45%, #E9ECEF 80%);background-image: -ms-linear-gradient(top, #FFFFFF 45%, #E9ECEF 80%);background-image: -webkit-gradient(linear, left top,left bottom,color-stop(0.45, #FFFFFF),color-stop(0.8, #E9ECEF));display: block;margin: auto;position: fixed; margin-left:-220px; left:45%;top: 40%;text-align: center;color: #2F6395;font-family: Arial;padding: 15px;font-size: 15px;font-weight: bold;width: 530px;-webkit-box-shadow: 3px 2px 13px rgba(50, 50, 49, 0.25);box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 0px 5px;border: 1px solid #CFCFCF;border-radius: 6px;"><img style="display:block;margin:0 auto 10px" src="https://www.paypalobjects.com/en_US/i/icon/icon_animated_prog_dkgy_42wx42h.gif"><h2>Aguarde alguns segundos.</h2> <p style="font-size:13px; color: #003171; font-weight:400">Você está sendo redirecionado para um ambiente seguro do PayPal<br /> para finalizar seu pagamento.</p><div style="margin:30px auto 0;"><img src="https://www.paypal-brasil.com.br/logocenter/util/img/logo_paypal.png"/></div></div></div>').appendTo('body');
             });
 
             // redirect for payment.
@@ -418,18 +429,18 @@
      */
      $scope.getOrdersByUser = function () {
 
-        $param = $scope.configParam();
+     	$param = $scope.configParam();
 
-        $http.get($scope.server("/getOrdersByUser"), {params: $param}).success(function ($return) {
+     	$http.get($scope.server("/getOrdersByUser"), {params: $param}).success(function ($return) {
 
-            $services.checkResponse($return);
+     		$services.checkResponse($return);
 
-            if ($return) {
+     		if ($return) {
 
-                $scope.orders = $return;
-            }
-        });
-    };
+     			$scope.orders = $return;
+     		}
+     	});
+     };
 
     /**
      * Method for get orders
@@ -440,18 +451,18 @@
      */
      $scope.getOrders = function () {
 
-        $param = $scope.configParam();
+     	$param = $scope.configParam();
 
-        $http.get($scope.server("/getOrders"), {params: $param}).success(function ($return) {
+     	$http.get($scope.server("/getOrders"), {params: $param}).success(function ($return) {
 
-            $services.checkResponse($return);
+     		$services.checkResponse($return);
 
-            if ($return) {
+     		if ($return) {
 
-                $scope.orders = $return;
-            }
-        });
-    };
+     			$scope.orders = $return;
+     		}
+     	});
+     };
 
     /**
      * Method for get products of order
@@ -463,30 +474,30 @@
      */
      $scope.getProductsOrder = function ($sq_order) {
 
-        $param = $scope.configParam({sq_order: $sq_order});
+     	$param = $scope.configParam({sq_order: $sq_order});
 
-        $http.get($scope.server("/getProductsOrder"), {params: $param}).success(function ($return) {
+     	$http.get($scope.server("/getProductsOrder"), {params: $param}).success(function ($return) {
 
-            $services.checkResponse($return);
+     		$services.checkResponse($return);
 
-            if ($return) {
+     		if ($return) {
 
-                $scope.products = $return;
+     			$scope.products = $return;
 
                 // close all collapses.
                 angular.forEach($('[id*=prod]'), function ($key) {
 
-                    if ($('#' + $key.id).hasClass('in')) {
+                	if ($('#' + $key.id).hasClass('in')) {
 
-                        $('#' + $key.id).collapse(('hide'));
-                    }
+                		$('#' + $key.id).collapse(('hide'));
+                	}
                 });
 
                 //open collapse.
                 $('#prod' + $sq_order).collapse('show');
             }
         });
-    };
+     };
 
     /**
      * Method for tracker order
@@ -498,71 +509,71 @@
      */
      $scope.tracker = function ($nu_tracker) {
 
-        $param = $scope.configParam({nu_tracker: $nu_tracker});
+     	$param = $scope.configParam({nu_tracker: $nu_tracker});
 
-        $http.get($scope.server("/tracker"), {params: $param}).success(function ($return) {
+     	$http.get($scope.server("/tracker"), {params: $param}).success(function ($return) {
 
-            $services.checkResponse($return);
+     		$services.checkResponse($return);
 
-            $data = [];
-            $($return.table).find('tr:not(:eq(0))').each(function (i) {
+     		$data = [];
+     		$($return.table).find('tr:not(:eq(0))').each(function (i) {
 
-                if ($(this).find('td:eq(0)').attr('colspan') == 2) {
+     			if ($(this).find('td:eq(0)').attr('colspan') == 2) {
 
-                    $data.push({
-                        'data': $data[i - 1].data,
-                        'local': $(this).find('td:eq(0)').text(),
-                        'status': $(this).find('td:eq(1)').text()
-                    });
+     				$data.push({
+     					// 'data': $data[i - 1].data,
+     					'local': $(this).find('td:eq(0)').text(),
+     					'status': $(this).find('td:eq(1)').text(),
+     				});
 
-                } else {
+     			} else {
 
-                    $data.push({
-                        'data': $(this).find('td:eq(0)').text(),
-                        'local': $(this).find('td:eq(1)').text(),
-                        'status': $(this).find('td:eq(2)').text()
-                    });
-                }
-            });
+     				$data.push({
+     					'data': $(this).find('td:eq(0)').text(),
+     					'local': $(this).find('td:eq(1)').text(),
+     					'status': $(this).find('td:eq(2)').text(),
+     				});
+     			}
+     		});
 
             // close all collapses.
             angular.forEach($('[id*=track]'), function ($key) {
 
-                if ($('#' + $key.id).hasClass('in')) {
+            	if ($('#' + $key.id).hasClass('in')) {
 
-                    $('#' + $key.id).collapse(('hide'));
-                }
+            		$('#' + $key.id).collapse(('hide'));
+            	}
             });
 
             //open collapse.
             $('#track' + $nu_tracker).collapse('show');
             $scope.sro = $data;
         });
-    };
+     };
 
-    $scope.addTracker = function($nu_tracker, $sq_order) {
+     $scope.addTracker = function($nu_tracker, $sq_order) {
 
-        $param = $scope.configParam({sq_order: $sq_order, nu_tracker: $nu_tracker});
+     	$param = $scope.configParam({sq_order: $sq_order, nu_tracker: $nu_tracker});
 
 
-        $http.post($scope.server("/addTracker"), $param).success(function ($return) {
+     	$http.post($scope.server("/addTracker"), $param).success(function ($return) {
 
-            $services.checkResponse($return);
+     		$services.checkResponse($return);
 
-            angular.forEach($scope.orders, function ($key) {
+     		angular.forEach($scope.orders, function ($key) {
 
-                if ($key.sq_order === $sq_order) {
+     			if ($key.sq_order === $sq_order) {
 
-                    $key.nu_tracker = $nu_tracker;
-                    $key.sq_status = $scope.constant.NUMBER_TEN;
-                    $key.ds_status = $scope.constant.ORDER_DISPATCHED;
-                }
-            });
+     				$key.nu_tracker = $nu_tracker;
+     				$key.sq_status = $scope.constant.NUMBER_TEN;
+     				$key.ds_status = $scope.constant.ORDER_DISPATCHED;
+     			}
+     		});
 
-            $('#track' + $sq_order).collapse('hide');
-            $services.showFlashmessage("alert-success", $scope.constant.MSG0001);
+     		$('#track' + $sq_order).collapse('hide');
+     		$services.showFlashmessage("alert-success", $scope.constant.MSG0001);
 
-        });
+     	});
 
-    }
-});
+     }
+ });

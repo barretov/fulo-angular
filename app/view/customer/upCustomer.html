@@ -1,5 +1,5 @@
  <legend class="text-gray font-18"><i class="glyphicon glyphicon-user"></i> Meus dados</legend>
- 
+
  <div ng-init="customerController">
 
   <!--tabs-->
@@ -97,10 +97,11 @@
                 name="phone"
                 type="text"
                 ng-model="user.nu_phone"
-                maxlength="11"
-                ng-maxlength="11"
-                ng-minlength="10"
+                maxlength="15"
+                ng-maxlength="15"
+                ng-minlength="14"
                 pattern="[0-9]+$"
+                ui-br-phone-number
                 />
               </div>
 
@@ -108,9 +109,8 @@
 
                 <span class="text-danger" ng-show="formPessoal.phone.$dirty && formPessoal.phone.$invalid">
                   <i class="glyphicon glyphicon-remove-sign"></i>
-                  <span ng-show="formPessoal.phone.$error.maxlength">Máximo de onze caracteres.</span>
-                  <span ng-show="formPessoal.phone.$error.minlength">Minimo de dez caracteres.</span>
-                  <span ng-show="formPessoal.phone.$error.pattern">Somente números.</span>
+                  <span ng-show="formPessoal.phone.$error.minlength">Minimo de quatorze números.</span>
+                  <span ng-show="formPessoal.phone.$error.maxlength">Máximo de quinze números.</span>
                 </span>
 
               </div>
@@ -287,13 +287,15 @@
               placeholder="Informe o CEP"
               name="zip"
               type="text"
-              maxlength="8"
-              ng-maxlength="8"
-              ng-minlength="8"
+              maxlength="9"
+              ng-maxlength="9"
+              ng-minlength="9"
               ng-model="user.nu_postcode"
-              pattern="[0-9 -]+$"
+              pattern="[0-9]+$"
               ng-blur="getAddressByZip(user.nu_postcode)"
-              required/>
+              ui-br-cep-mask
+              required
+              />
             </div>
 
             <div class="help-block-input col-xs-12 col-sm-4 col-md-4">
@@ -301,9 +303,7 @@
               <span class="text-danger" ng-show="formLocal.zip.$dirty && formLocal.zip.$invalid">
                 <i class="glyphicon glyphicon-remove-sign"></i>
                 <span ng-show="formLocal.zip.$error.required">Campo obrigatório.</span>
-                <span ng-show="formLocal.zip.$error.maxlength">Máximo de oito caracteres.</span>
-                <span ng-show="formLocal.zip.$error.minlength">Mínimo de oito caracteres.</span>
-                <span ng-show="formLocal.zip.$error.pattern">Somente números.</span>
+                <span ng-show="formLocal.zip.$error.minlength">Mínimo de oito números.</span>
               </span>
 
             </div>

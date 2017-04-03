@@ -34,10 +34,10 @@
                 <dl class="dl-horizontal">
 
                     <dt class="text-gray">Nº Produtos:</dt>
-                    <dd>{{order.nu_quantity}}</dd>
+                    <dd>{{order.nu_quantity}} Und</dd>
 
                     <dt class="text-gray">Valor Total:</dt>
-                    <dd>{{order.nu_total}}</dd>
+                    <dd>{{order.nu_total | currency}}</dd>
                 </dl>
             </div>
             <!--second-->
@@ -51,10 +51,10 @@
                     <dd class="text-capitalize">{{order.ds_address}}</dd>
 
                     <dt class="text-gray">Telefone:</dt>
-                    <dd class="text-capitalize">{{order.nu_phone}}</dd>
+                    <dd class="text-capitalize">{{order.nu_phone |tel}}</dd>
 
                     <dt class="text-gray">Data:</dt>
-                    <dd>{{order.nu_date_time}}</dd>
+                    <dd>{{order.nu_date_time | dateBr}}</dd>
                 </dl>
 
             </div>
@@ -125,8 +125,7 @@
 
                     <tbody>
 
-                        <tr ng-repeat="item in sro| orderBy:'-data':true">
-
+                        <tr ng-repeat="item in sro">
                             <td>{{item.data}}</td>
                             <td>{{item.local}}</td>
                             <td>{{item.status}}</td>

@@ -1,31 +1,23 @@
 <legend class="text-gray font-18"><i class="glyphicon glyphicon-user"></i> Cadastre-se</legend>
 
-<!--presentation-->
-<div class="col-xs-offset-2 col-sm-offset-2 col-md-offset-2 col-lg-offset-2">
-
-    <h1><span class="text-primary hidden-xs text-capitalize" ng-bind="row.ds_name"></span></h1>
-    <h2><span class="text-primary hidden-sm hidden-md hidden-lg text-capitalize" ng-bind="row.ds_name"></span></h2>
-
-</div>
-
 <form name="form" class="form-horizontal">
 
     <!--field name-->
     <div class="form-group">
-        <label class="col-sm-2 control-label">Nome<span class="text-danger">*</span></label>
+        <label class="col-sm-4 control-label">Nome<span class="text-danger">*</span></label>
 
-        <div class="col-xs-12 col-sm-6 col-md-6">
+        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
             <input class="form-control input-sm text-capitalize"
                    placeholder="Nome sobrenome"
                    name="ds_name"
                    type="text"
                    ng-maxlength="50"
                    maxlength="50"
-                   ng-model="row.ds_name"
+                   ng-model="customer.ds_name"
                    required/>
         </div>
 
-        <div class="help-block-input col-xs-12 col-sm-4 col-md-4">
+        <div class="help-block-input col-xs-12 col-sm-4 col-md-4 col-lg-4">
             <span class="text-danger" ng-show="form.ds_name.$dirty && form.ds_name.$invalid">
                 <i class="glyphicon glyphicon-remove-sign"></i>
                 <span ng-show="form.ds_name.$error.required">Campo obrigatório</span>
@@ -38,21 +30,21 @@
 
     <!--field email-->
     <div class="form-group">
-        <label class="col-sm-2 control-label">E-mail<span class="text-danger">*</span></label>
+        <label class="col-sm-4 control-label">E-mail<span class="text-danger">*</span></label>
 
-        <div class="col-xs-12 col-sm-6 col-md-6">
+        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
 
             <input class="form-control input-sm text-lowercase"
                    placeholder="E-mail"
                    name="ds_email"
                    type="email"
-                   ng-model="row.ds_email"
+                   ng-model="customer.ds_email"
                    maxlength="50"
                    ng-maxlength="50"
                    required/>
         </div>
 
-        <div class="help-block-input col-xs-12 col-sm-4 col-md-4">
+        <div class="help-block-input col-xs-12 col-sm-4 col-md-4 col-lg-4">
 
             <span class="text-danger" ng-show="form.ds_email.$dirty && form.ds_email.$invalid">
                 <i class="glyphicon glyphicon-remove-sign"></i>
@@ -67,9 +59,9 @@
 
     <!--field password-->
     <div class="form-group">
-        <label class="col-sm-2 control-label">Senha<span class="text-danger">*</span></label>
+        <label class="col-sm-4 control-label">Senha<span class="text-danger">*</span></label>
 
-        <div class="col-xs-12 col-sm-6 col-md-6">
+        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
 
             <input class="form-control input-sm"
                    placeholder="Senha"
@@ -78,11 +70,11 @@
                    maxlength="20"
                    ng-maxlength="20"
                    ng-minlength="4"
-                   ng-model="row.ds_password"
+                   ng-model="customer.ds_password"
                    required/>
         </div>
 
-        <div class="help-block-input col-xs-12 col-sm-4 col-md-4">
+        <div class="help-block-input col-xs-12 col-sm-4 col-md-4 col-lg-4">
 
             <span class="text-danger" ng-show="form.ds_password.$dirty && form.ds_password.$invalid">
                 <i class="glyphicon glyphicon-remove-sign"></i>
@@ -97,23 +89,23 @@
 
     <!--field re password-->
     <div class="form-group">
-        <label class="col-sm-2 control-label">Repita a senha<span class="text-danger">*</span></label>
+        <label class="col-sm-4 control-label">Repita a senha<span class="text-danger">*</span></label>
 
 
-        <div class="col-xs-12 col-sm-6 col-md-6">
+        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
 
             <input class="form-control input-sm"
                    placeholder="Repita a senha"
                    name="re_password"
                    type="password"
                    maxlength="20"
-                   ng-model="row.re_password"
+                   ng-model="customer.re_password"
                    ng-maxlength="20"
                    ng-minlength="4"
                    required/>
         </div>
 
-        <div class="help-block-input col-xs-12 col-sm-4 col-md-4">
+        <div class="help-block-input col-xs-12 col-sm-4 col-md-4 col-lg-4">
 
             <span class="text-danger" ng-show="form.re_password.$dirty && form.re_password.$invalid">
                 <i class="glyphicon glyphicon-remove-sign"></i>
@@ -128,7 +120,7 @@
 
     <!--buttons-->
     <div class="form-group">
-        <div class="col-sm-offset-2 col-sm-10">
+        <div class="col-xs-12 col-sm-offset-4 col-sm-4 col-md-offset-4 col-md-4 col-xs-offset-4 col-lg-4">
 
             <button type="submit" class="btn btn-primary btn-sm" ng-click="addCustomer()" ng-Disabled="form.$invalid">Salvar
                 <i class="glyphicon glyphicon-save"></i>
@@ -140,5 +132,4 @@
 
         </div>
     </div>
-
 </form>

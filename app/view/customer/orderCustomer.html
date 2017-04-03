@@ -36,10 +36,10 @@
                 <dl class="dl-horizontal">
 
                     <dt class="text-gray">Nº Produtos:</dt>
-                    <dd>{{order.nu_quantity}}</dd>
+                    <dd>{{order.nu_quantity}} Und</dd>
 
                     <dt class="text-gray">Valor Total:</dt>
-                    <dd>{{order.nu_total}}</dd>
+                    <dd>{{order.nu_total | currency}}</dd>
 
                     <dt class="text-gray">Cliente:</dt>
                     <dd>{{order.ds_name}}</dd>
@@ -56,10 +56,10 @@
                     <dd class="text-capitalize">{{order.ds_address}}</dd>
 
                     <dt class="text-gray">Telefone:</dt>
-                    <dd class="text-capitalize">{{order.nu_phone}}</dd>
+                    <dd class="text-capitalize">{{order.nu_phone | tel}}</dd>
 
                     <dt class="text-gray">Data:</dt>
-                    <dd>{{order.nu_date_time}}</dd>
+                    <dd>{{order.nu_date_time | dateBr}}</dd>
                 </dl>
 
             </div>
@@ -82,16 +82,12 @@
                 Rastrear
             </button>
 
-            <button class="btn btn-default btn-sm" 
+            <button class="btn btn-default btn-sm"
             ng-show="order.sq_status == 9"
             data-toggle="collapse"
             data-target="#track{{order.sq_order}}"
             >
             Inserir Rastreio
-        </button>
-
-        <button class="btn btn-default btn-sm">
-            Verificar Pagamento
         </button>
 
         <button class="btn btn-default btn-sm">

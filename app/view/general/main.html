@@ -26,7 +26,7 @@
 <div class="row">
 
     <!--news-->
-    <div class=" col-md-6 col-lg-6">
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
 
         <div class="thumbnail">
 
@@ -88,11 +88,11 @@
     </div>
     <!--Novidades-->
 
-    <div class="col-sm-6 col-md-6 col-lg-6" align="center">
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6" align="center">
         <div class="thumbnail">
             <div class="caption">
                 <h3>Ofertas</h3>
-                <img src="img/carousel_novidade/mimos.png" height="270" width="200" class="img-responsive"/>
+                <img src="img/carousel_novidade/mimos.png" height="270" width="193" class="img-responsive"/>
                 <p>Marcador de livros, Chaveiros, Cadernetas</p>
             </div>
         </div>
@@ -118,13 +118,13 @@
                             </p>
                         </a>
 
-                        <p>{{row.ds_product}}</p>
+                        <p class="text-warning text-capitalize"><strong>{{row.ds_product}}</strong></p>
 
-                        <span class="text-gray"><strong>{{row.nu_value | currency}}</strong></span>
+                        <span class="text-success font-middle"><strong>{{row.nu_value | currency}}</strong></span>
 
-                        <div class="pull-right">
+                        <div class="pull-right font-middle">
 
-                            <i class="glyphicon glyphicon-shopping-cart text-warning cursor-pointer"
+                            <i class="glyphicon glyphicon-shopping-cart text-primary cursor-pointer"
                                ng-click="addCart(row)"
                                ng-controller="purchaseController"
                                title="Colocar no carrinho">
@@ -135,11 +135,11 @@
                                ng-controller="purchaseController"
                                title="Colocar na lista de desejos">
                             </i>
-
+<!--
                             <i class="glyphicon glyphicon-share text-info cursor-pointer"
                                ng-click="share(row.sq_product)"
                                title="Compatilhar na rede">
-                            </i>
+                            </i> -->
 
                         </div>
 
@@ -155,6 +155,6 @@
 </div>
 <!--row-->
 
-<script src="app/component/motio.min.js"></script>
-<script src="app/component/banner_index.js"></script>
+<script src="app/component/motio.min.js" DEFFER></script>
+<script src="app/component/banner_index.js" DEFFER></script>
 

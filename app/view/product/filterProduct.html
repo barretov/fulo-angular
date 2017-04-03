@@ -1,47 +1,48 @@
 <div ng-init="getProductsByFilter()">
 
-    <legend>{{types}}</legend>
-    <!--row-->
-    <div class="row">
+	<!-- <legend>{{rows[0].ds_product_type}}</legend> -->
+	<legend ng-show="rows != ''" class="text-gray font-18">
+		<i class="glyphicon glyphicon-filter"></i> {{rows[0].ds_product_type}}
+	</legend>
 
-        <!--thumb-->
-        <div ng-repeat="row in rows" class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+	<!--row-->
+	<div class="row">
 
-            <div class="thumbnail">
+		<!--thumb-->
+		<div ng-repeat="row in rows" class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
 
-                <div class="caption">
+			<div class="thumbnail">
 
-                    <a href="" ng-click="detailProduct(row)">
+				<div class="caption">
 
-                        <p align="center">
-                            <img src="{{row.im_product_image.encoded}}" class="img-responsive"/>
-                        </p>
+					<a href="" ng-click="detailProduct(row)">
+						<p align="center">
+							<img src="{{row.im_product_image.encoded}}" class="img-responsive"/>
+						</p>
+					</a>
 
-                    </a>
+					<p class="text-warning text-capitalize">{{row.ds_product}}</p>
 
-                    <p>{{row.ds_product}}</p>
+					<span class="text-gray">
+						<strong class="text-success font-middle">{{row.nu_value| currency}}</strong>
+					</span>
 
-                    <span class="text-gray"><strong>{{row.nu_value| currency}}</strong></span>
+					<div class="pull-right font-middle" ng-controller="purchaseController">
 
-                    <div class="pull-right" ng-controller="purchaseController">
+						<i class="glyphicon glyphicon-shopping-cart text-primary cursor-pointer" ng-click="addCart(row)" title="Colocar no carrinho">
+						</i>
 
-                        <i class="glyphicon glyphicon-shopping-cart text-warning cursor-pointer" ng-click="addCart(row)"></i>
-                        <i class="glyphicon glyphicon-heart text-danger cursor-pointer" ng-click="addWishList(row.sq_product)"></i>
+						<i class="glyphicon glyphicon-heart text-danger cursor-pointer" ng-click="addWishList(row.sq_product)" title="Colocar na lista de desejos">
+						</i>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-    <div class="alert alert-info col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-show="rows == ''">
-        {{constant.MSG0008}}
-    </div>
-
+	<div class="alert alert-info col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-show="rows == ''">
+		{{constant.MSG0008}}
+	</div>
 </div>
 
 

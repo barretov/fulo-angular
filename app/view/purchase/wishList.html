@@ -48,12 +48,12 @@
             <!--form buy-->
             <form name="form" ng-show="row.sq_status_product == constant.STATUS_ACTIVE">
 
-                <dl class="dl-horizontal">
+                <!-- <dl class="dl-horizontal"> -->
 
-                    <dt class="text-gray">Quantidade<span class="text-danger">*</span></dt>
+                    <!-- <dt class="text-gray">Quantidade<span class="text-danger">*</span></dt> -->
 
-                </dl>
-
+                <!-- </dl> -->
+<!--
                 <div class="col-xs-4 col-sm-3 col-md-2 col-lg-2">
 
                     <input
@@ -67,23 +67,23 @@
                         required
                         />
 
-                </div>
-
+                </div> -->
+<!--
                 <span class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-sm-offset-3 col-md-offset-2 col-lg-offset-2 text-danger" ng-show="form.buy_nu_quantity.$dirty && form.buy_nu_quantity.$invalid">
                     <i class="glyphicon glyphicon-remove-sign"></i>
                     <span ng-show="form.buy_nu_quantity.$error.required">Campo obrigatório</span>
                     <span ng-show="form.buy_nu_quantity.$error.minlength">Mínimo de um caracteres</span>
                     <span ng-show="form.buy_nu_quantity.$error.maxlength">Máximo de quatro caracteres</span>
                     <span ng-show="form.buy_nu_quantity.$error.number">Somente Números</span>
-                </span>
+                </span> -->
 
                 <!--buttons-->
-                <button class="btn btn-success btn-sm"
-                        ng-click="buy()"
-                        ng-disabled="form.$invalid">Comprar
+                <!-- <button class="btn btn-success btn-sm" -->
+                        <!-- ng-click="buy()" -->
+                        <!-- ng-disabled="form.$invalid">Comprar -->
 
-                    <i class="glyphicon glyphicon-ok"></i>
-                </button>
+                    <!-- <i class="glyphicon glyphicon-ok"></i> -->
+                <!-- </button> -->
 
                 <!--add in cart-->
                 <span
@@ -92,6 +92,7 @@
                     title="Colocar no carrinho">
 
                     <i class="glyphicon glyphicon-shopping-cart"></i>
+                    Comprar
                 </span>
 
                 <!--remove cart-->
@@ -101,14 +102,15 @@
                     title="Remove da lista de desejos">
 
                     <i class="glyphicon glyphicon-remove"></i>
+                    Excluir
                 </span>
-
+<!--
                 <span class="btn btn-info btn-sm"
                       ng-click="share(row.sq_product)"
                       title="Compatilhar na rede">
 
                     <i class="glyphicon glyphicon-share" ></i>
-                </span>
+                </span> -->
 
             </form>
 

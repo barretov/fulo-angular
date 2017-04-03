@@ -300,7 +300,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="product" oids="false">
 	<schema name="fulo"/>
 	<comment>table of product</comment>
-	<position x="35" y="323"/>
+	<position x="35" y="321"/>
 	<column name="sq_product" not-null="true">
 		<type name="serial" spatial-type="POINT" variation="0"/>
 		<comment>identifier of product</comment>
@@ -312,6 +312,14 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="sq_status_product" not-null="true" default-value="1">
 		<type name="integer" spatial-type="POINT" variation="0"/>
 		<comment>status of product</comment>
+	</column>
+	<column name="st_foldable" not-null="true" default-value="1">
+		<type name="integer" spatial-type="POINT" variation="0"/>
+		<comment>status of foldable</comment>
+	</column>
+	<column name="nu_date_time" not-null="true">
+		<type name="timestamp" spatial-type="POINT" variation="0"/>
+		<comment>date of register</comment>
 	</column>
 	<column name="ds_product" not-null="true">
 		<type name="varchar" length="100" spatial-type="POINT" variation="0"/>
@@ -325,33 +333,25 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="numeric" length="4" spatial-type="POINT" variation="0"/>
 		<comment>quantity of product</comment>
 	</column>
-	<column name="nu_date_time" not-null="true">
-		<type name="timestamp" spatial-type="POINT" variation="0"/>
-		<comment>date of register</comment>
-	</column>
 	<column name="nu_production" not-null="true" default-value="5">
 		<type name="numeric" length="4" spatial-type="POINT" variation="0"/>
 		<comment>production time for the item</comment>
 	</column>
 	<column name="nu_height" not-null="true">
-		<type name="numeric" length="8" precision="2" spatial-type="POINT" variation="0"/>
+		<type name="numeric" length="4" spatial-type="POINT" variation="0"/>
 		<comment>height of product</comment>
 	</column>
 	<column name="nu_length" not-null="true">
-		<type name="numeric" length="8" precision="2" spatial-type="POINT" variation="0"/>
+		<type name="numeric" length="4" spatial-type="POINT" variation="0"/>
 		<comment>length of product</comment>
 	</column>
 	<column name="nu_width" not-null="true">
-		<type name="numeric" length="8" precision="2" spatial-type="POINT" variation="0"/>
+		<type name="numeric" length="4" spatial-type="POINT" variation="0"/>
 		<comment>width of product</comment>
 	</column>
 	<column name="nu_weight" not-null="true">
-		<type name="numeric" length="8" precision="2" spatial-type="POINT" variation="0"/>
+		<type name="double precision" length="8" spatial-type="POINT" variation="0"/>
 		<comment>weight of product</comment>
-	</column>
-	<column name="st_foldable" not-null="true" default-value="1">
-		<type name="integer" spatial-type="POINT" variation="0"/>
-		<comment>status of foldable</comment>
 	</column>
 	<constraint name="pk_product" type="pk-constr" factor="10" table="fulo.product">
 		<columns names="sq_product" ref-type="src-columns"/>

@@ -1,363 +1,365 @@
-<legend class="text-gray font-18"><i class="glyphicon glyphicon-camera"></i> Novo produto</legend>
+<legend class="text-gray font-18"><i class="glyphicon glyphicon-edit"></i> Novo produto</legend>
 
+<!--presentation-->
 <div class="row">
 
-    <div class="col-xs-12 col-sm-offset-2 col-sm-6 col-md-offset-2 col-md-6 col-lg-offset-2 col-lg-6">
-
-        <!--presentation-->
-        <h1 class="hidden-xs hidden-sm"><span class="text-primary" ng-bind="row.ds_product"></span></h1>
-
-        <h3 class="hidden-md hidden-lg"><span class="text-primary" ng-bind="row.ds_product"></span></h3>
-
-    </div>
+	<div class="col-xs-12 col-sm-offset-4 col-sm-4 col-md-offset-4 col-md-4 col-lg-offset-4 col-lg-4">
+		<!--image-->
+		<img class="img-responsive"
+		src={{row.im_product_image.encoded}}
+		width="150"
+		height="150"
+		/>
+	</div>
 
 </div>
 
-
 <form name="form" class="form-horizontal">
 
-    <!--field name-->
-    <div class="form-group">
-        <label class="col-sm-2 control-label">Nome<span class="text-danger">*</span></label>
-
-        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-
-            <input class="form-control input-sm"
-                   placeholder="Nome do produto"
-                   name="ds_product"
-                   type="text"
-                   ng-maxlength="100"
-                   maxlength="100"
-                   ng-model="row.ds_product"
-                   required/>
-        </div>
-
-        <div class="help-block-input col-xs-12 col-sm-4 col-md-4">
-            <span class="text-danger" ng-show="form.ds_product.$dirty && form.ds_product.$invalid">
-                <i class="glyphicon glyphicon-remove-sign"></i>
-                <span ng-show="form.ds_product.$error.required">Campo obrigatório</span>
-                <span ng-show="form.ds_product.$error.maxlength">Máximo de cem caracteres</span>
-            </span>
-
-        </div>
-    </div>
-    <!--field name-->
-
-    <!--field class-->
-    <div class="form-group" ng-init="getProductTypes()">
-
-        <label class="col-sm-2 control-label">Classe<span class="text-danger">*</span></label>
-
-        <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2">
-
-            <select class="form-control input-sm"
-                    name="sq_product_type"
-                    ng-model="row.sq_product_type"
-                    required
-                    >
-
-                <option
-                    ng-repeat="type in types"
-                    value="{{type.sq_product_type}}">
-                    {{type.ds_product_type}}
-                </option>
-
-            </select>
-
-        </div>
-
-        <div class="help-block-input col-xs-12 col-sm-4 col-md-4">
-
-            <span class="text-danger" ng-show="form.sq_product_type.$dirty && form.sq_product_type.$invalid">
-                <i class="glyphicon glyphicon-remove-sign"></i>
-                <span ng-show="form.sq_product_type.$error.required">Campo obrigatório</span>
-                <span ng-show="form.sq_product_type.$error.email">Email inválido</span>
-                <span ng-show="form.sq_product_type.$error.maxlength">Máximo de cinquenta caracteres</span>
-            </span>
-
-        </div>
-    </div>
-
-    <!--field value-->
-    <div class="form-group">
-        <label class="col-sm-2 control-label">Valor<span class="text-danger">*</span></label>
-
-        <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2">
-
-            <input class="form-control input-sm"
-                   placeholder="Valor do produto"
-                   name="nu_value"
-                   type="text"
-                   maxlength="8"
-                   ng-maxlength="8"
-                   ng-minlength="4"
-                   ng-model="row.nu_value"
-                   pattern="[0-9,]+$"
-                   required />
-        </div>
-
-        <div class="help-block-input col-xs-12 col-sm-4 col-md-4">
-
-            <span class="text-danger" ng-show="form.nu_value.$dirty && form.nu_value.$invalid">
-                <i class="glyphicon glyphicon-remove-sign"></i>
-                <span ng-show="form.nu_value.$error.required">Campo obrigatório.</span>
-                <span ng-show="form.nu_value.$error.minlength">Mínimo de quatro caracteres.</span>
-                <span ng-show="form.nu_value.$error.maxlength">Máximo de oito caracteres.</span>
-                <span ng-show="form.nu_value.$error.pattern">Somente números.</span>
-            </span>
-
-        </div>
-    </div>
-
-    <!--field foldable-->
-    <div class="form-group">
-        <div class="col-xs-12 col-sm-offset-2 col-sm-10 col-md-offset-2 col-md-10 col-lg-offset-2 col-lg-10">
-            <div class="checkbox">
-                <label>
-
-                    <input
-                        type="checkbox"
-                        name="st_foldable"
-                        ng-model="row.st_foldable"
-                        ng-checked="row.st_foldable == constant.STATUS_ACTIVE"
-                        >Produto Dobravel?
-                </label>
-            </div>
-        </div>
-    </div>
-
-    <!--field height-->
-    <div class="form-group">
-        <label class="col-sm-2 control-label">Altura<span class="text-danger">*</span></label>
-
-        <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2">
-
-            <input class="form-control input-sm"
-                   placeholder="Largura do produto"
-                   name="nu_height"
-                   type="text"
-                   maxlength="6"
-                   ng-maxlength="6"
-                   ng-minlength="4"
-                   ng-model="row.nu_height"
-                   pattern="[0-9,]+$"
-                   required />
-        </div>
-
-        <div class="help-block-input col-xs-12 col-sm-4 col-md-4">
-
-            <span class="text-danger" ng-show="form.nu_height.$dirty && form.nu_height.$invalid">
-                <i class="glyphicon glyphicon-remove-sign"></i>
-                <span ng-show="form.nu_height.$error.required">Campo obrigatório.</span>
-                <span ng-show="form.nu_height.$error.minlength">Mínimo de quatro caracteres.</span>
-                <span ng-show="form.nu_height.$error.maxlength">Máximo de cinco caracteres.</span>
-                <span ng-show="form.nu_height.$error.pattern">Somente números.</span>
-            </span>
-
-        </div>
-    </div>
-
-    <!--field width-->
-    <div class="form-group">
-        <label class="col-sm-2 control-label">Largura<span class="text-danger">*</span></label>
-
-        <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2">
-
-            <input class="form-control input-sm"
-                   placeholder="Largura do produto"
-                   name="nu_width"
-                   type="text"
-                   maxlength="6"
-                   ng-maxlength="6"
-                   ng-minlength="4"
-                   ng-model="row.nu_width"
-                   pattern="[0-9,]+$"
-                   required />
-        </div>
-
-        <div class="help-block-input col-xs-12 col-sm-4 col-md-4">
-
-            <span class="text-danger" ng-show="form.nu_width.$dirty && form.nu_width.$invalid">
-                <i class="glyphicon glyphicon-remove-sign"></i>
-                <span ng-show="form.nu_width.$error.required">Campo obrigatório.</span>
-                <span ng-show="form.nu_width.$error.minlength">Mínimo de quatro caracteres.</span>
-                <span ng-show="form.nu_width.$error.maxlength">Máximo de cinco caracteres.</span>
-                <span ng-show="form.nu_width.$error.pattern">Somente números.</span>
-            </span>
-
-        </div>
-    </div>
-
-    <!--field length-->
-    <div class="form-group">
-        <label class="col-sm-2 control-label">Comprimento<span class="text-danger">*</span></label>
-
-        <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2">
-
-            <input class="form-control input-sm"
-                   placeholder="Comprimento do produto"
-                   name="nu_length"
-                   type="text"
-                   maxlength="6"
-                   ng-maxlength="6"
-                   ng-minlength="4"
-                   ng-model="row.nu_length"
-                   pattern="[0-9,]+$"
-                   required />
-        </div>
-
-        <div class="help-block-input col-xs-12 col-sm-4 col-md-4">
-
-            <span class="text-danger" ng-show="form.nu_length.$dirty && form.nu_length.$invalid">
-                <i class="glyphicon glyphicon-remove-sign"></i>
-                <span ng-show="form.nu_length.$error.required">Campo obrigatório.</span>
-                <span ng-show="form.nu_length.$error.minlength">Mínimo de quatro caracteres.</span>
-                <span ng-show="form.nu_length.$error.maxlength">Máximo de cinco caracteres.</span>
-                <span ng-show="form.nu_length.$error.pattern">Somente números.</span>
-            </span>
-
-        </div>
-    </div>
-
-    <!--field weight-->
-    <div class="form-group">
-        <label class="col-sm-2 control-label">Peso<span class="text-danger">*</span></label>
-
-        <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2">
-
-            <input class="form-control input-sm"
-                   placeholder="Peso do produto"
-                   name="nu_weight"
-                   type="text"
-                   maxlength="6"
-                   ng-maxlength="6"
-                   ng-minlength="4"
-                   ng-model="row.nu_weight"
-                   pattern="[0-9,]+$"
-                   required />
-        </div>
-
-        <div class="help-block-input col-xs-12 col-sm-4 col-md-4">
-
-            <span class="text-danger" ng-show="form.nu_weight.$dirty && form.nu_weight.$invalid">
-                <i class="glyphicon glyphicon-remove-sign"></i>
-                <span ng-show="form.nu_weight.$error.required">Campo obrigatório.</span>
-                <span ng-show="form.nu_weight.$error.minlength">Mínimo de quatro caracteres.</span>
-                <span ng-show="form.nu_weight.$error.maxlength">Máximo de cinco caracteres.</span>
-                <span ng-show="form.nu_weight.$error.pattern">Somente números.</span>
-            </span>
-
-        </div>
-    </div>
-
-    <!--field quantity-->
-    <div class="form-group">
-        <label class="col-sm-2 control-label">Quantidade<span class="text-danger">*</span></label>
-
-        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-
-            <input class="form-control input-sm"
-                   placeholder="Quantidade"
-                   name="nu_quantity"
-                   type="text"
-                   maxlength="20"
-                   ng-model="row.nu_quantity"
-                   ng-maxlength="20"
-                   ng-minlength="1"
-                   pattern="[0-9]+$"
-                   required/>
-        </div>
-
-        <div class="help-block-input col-xs-12 col-sm-4 col-md-4">
-
-            <span class="text-danger" ng-show="form.nu_quantity.$dirty && form.nu_quantity.$invalid">
-                <i class="glyphicon glyphicon-remove-sign"></i>
-                <span ng-show="form.nu_quantity.$error.required">Campo obrigatório.</span>
-                <span ng-show="form.nu_quantity.$error.minlength">Mínimo de um caracteres.</span>
-                <span ng-show="form.nu_quantity.$error.maxlength">Máximo de vinte caracteres.</span>
-                <span ng-show="form.nu_quantity.$error.pattern">Somente números.</span>
-            </span>
-
-        </div>
-    </div>
-
-    <!--field production-->
-    <div class="form-group">
-        <label class="col-sm-2 control-label">Tempo de produção<span class="text-danger">*</span></label>
-
-        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-
-            <input class="form-control input-sm"
-                   placeholder="Tempo de produção"
-                   name="nu_production"
-                   type="text"
-                   maxlength="4"
-                   ng-model="row.nu_production"
-                   ng-maxlength="20"
-                   ng-minlength="1"
-                   pattern="[0-9]+$"
-                   required/>
-        </div>
-
-        <div class="help-block-input col-xs-12 col-sm-4 col-md-4">
-
-            <span class="text-danger" ng-show="form.nu_production.$dirty && form.nu_production.$invalid">
-                <i class="glyphicon glyphicon-remove-sign"></i>
-                <span ng-show="form.nu_production.$error.required">Campo obrigatório</span>
-                <span ng-show="form.nu_production.$error.minlength">Mínimo de um caracteres</span>
-                <span ng-show="form.nu_production.$error.maxlength">Máximo de vinte caracteres</span>
-                <span ng-show="form.nu_production.$error.pattern">Somente números.</span>
-            </span>
-
-        </div>
-    </div>
-
-    <!--field image-->
-    <div class="form-group">
-        <label class="col-sm-2 control-label">Imagem<span class="text-danger">*</span></label>
-
-        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-
-            <div class="input-group">
-
-                <span class="input-group-btn">
-
-                    <span class="btn btn-primary btn-file btn-sm">
-                        Arquivo <input id="file" type="file" name="im_image"/>
-
-                        <i class="glyphicon glyphicon-folder-open"></i>
-                    </span>
-
-                </span>
-
-                <input type="text" class="form-control input-sm" readonly  />
-            </div>
-
-        </div>
-
-        <div class="help-block-input col-xs-12 col-sm-4 col-md-4">
-
-            <span class="text-danger" ng-show="form.im_image.$dirty && form.im_image.$invalid">
-                <i class="glyphicon glyphicon-remove-sign"></i>
-                <span ng-show="form.im_image.$error.required">Campo obrigatório</span>
-            </span>
-
-        </div>
-    </div>
-
-    <!--buttons-->
-    <div class="form-group">
-        <div class="col-sm-offset-2 col-sm-10">
-
-            <button type="submit" class="btn btn-primary btn-sm" ng-click="addProduct()" ng-Disabled="form.$invalid">Salvar
-                <i class="glyphicon glyphicon-save"></i>
-            </button>
-
-            <a class="btn btn-default btn-sm" href="#/product/listProduct">Voltar
-                <i class="glyphicon glyphicon-arrow-left"></i>
-            </a>
-
-        </div>
-    </div>
-
+	<!--field name-->
+	<div class="form-group">
+		<label class="col-sm-4 control-label">Nome<span class="text-danger">*</span></label>
+
+		<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+
+			<input class="form-control input-sm"
+			placeholder="Nome do produto"
+			name="ds_product"
+			type="text"
+			ng-maxlength="100"
+			maxlength="100"
+			ng-model="row.ds_product"
+			required/>
+		</div>
+
+		<div class="help-block-input col-xs-12 col-sm-4 col-md-4">
+			<span class="text-danger" ng-show="form.ds_product.$dirty && form.ds_product.$invalid">
+				<i class="glyphicon glyphicon-remove-sign"></i>
+				<span ng-show="form.ds_product.$error.required">Campo obrigatório</span>
+				<span ng-show="form.ds_product.$error.maxlength">Máximo de cem caracteres</span>
+			</span>
+
+		</div>
+	</div>
+	<!--field name-->
+
+	<!--field class-->
+	<div class="form-group" ng-init="getProductTypes()">
+
+		<label class="col-sm-4 control-label">Classe<span class="text-danger">*</span></label>
+
+		<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+
+			<select class="form-control input-sm" name="sq_product_type" ng-model="row.sq_product_type" required>
+
+				<option selected="row.sq_product_type">{{row.ds_product_type}}</option>
+
+				<option ng-repeat="type in types" value="{{type.sq_product_type}}">
+					{{type.ds_product_type}}
+				</option>
+
+			</select>
+
+		</div>
+
+		<div class="help-block-input col-xs-12 col-sm-4 col-md-4">
+
+			<span class="text-danger" ng-show="form.sq_product_type.$dirty && form.sq_product_type.$invalid">
+				<i class="glyphicon glyphicon-remove-sign"></i>
+				<span ng-show="form.sq_product_type.$error.required">Campo obrigatório</span>
+				<span ng-show="form.sq_product_type.$error.email">Email inválido</span>
+				<span ng-show="form.sq_product_type.$error.maxlength">Máximo de cinquenta caracteres</span>
+			</span>
+
+		</div>
+	</div>
+
+	<!--field value-->
+	<div class="form-group">
+		<label class="col-sm-4 control-label">Valor<span class="text-danger">*</span></label>
+
+		<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+
+			<input class="form-control input-sm"
+			placeholder="Valor do produto"
+			name="nu_value"
+			type="text"
+			maxlength="13"
+			ng-maxlength="13"
+			ng-minlength="4"
+			ng-model="row.nu_value"
+			ui-money-mask
+			required />
+		</div>
+
+		<div class="help-block-input col-xs-12 col-sm-4 col-md-4">
+
+			<span class="text-danger" ng-show="form.nu_value.$dirty && form.nu_value.$invalid">
+				<i class="glyphicon glyphicon-remove-sign"></i>
+				<span ng-show="form.nu_value.$error.required">Campo obrigatório.</span>
+				<span ng-show="form.nu_value.$error.minlength">Mínimo de quatro caracteres.</span>
+				<span ng-show="form.nu_value.$error.maxlength">Máximo de oito caracteres.</span>
+			</span>
+
+		</div>
+	</div>
+
+	<!--field foldable-->
+	<div class="form-group">
+		<div class="col-xs-12 col-sm-offset-4 col-sm-4 col-md-offset-4 col-md-4 col-lg-offset-4 col-lg-4">
+
+			<label class="switch">
+				<input
+				type="checkbox"
+				class="switch-input"
+				ng-model="row.st_foldable"
+				ng-checked="row.st_foldable == true"
+				/>
+				<span class="switch-label" data-on="" data-off=""></span>
+				<span class="switch-handle"></span>
+			</label>
+
+			<strong> Produto dobrável?</strong>
+
+			<h5 class="text-justify">Se o produto não for dobrável a soma das dimensões não deve ultrapassar {{constant.BOX_DELIVERY_MAX_PACKAGE_SIZE}} centimetros. Os campos são calibrados
+				automaticamente.
+			</h5>
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label class="col-sm-4 control-label">Altura Cm<span class="text-danger">*</span></label>
+
+		<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+
+			<input class="form-control input-sm"
+			placeholder="Altura do produto"
+			name="nu_height"
+			type="number"
+			value="{{row.nu_height}}"
+			ng-model="row.nu_height"
+			maxlength="4"
+			min="1"
+			max="{{row.st_foldable? 9999 : constant.BOX_DELIVERY_MAX_PACKAGE_SIZE - row.nu_width - row.nu_length}}"
+			pattern="[0-9]+$"
+			required
+			/>
+		</div>
+
+		<div class="help-block-input col-xs-12 col-sm-4 col-md-4">
+
+			<span class="text-danger" ng-show="form.nu_height.$dirty && form.nu_height.$invalid">
+				<i class="glyphicon glyphicon-remove-sign"></i>
+				<span ng-show="form.nu_height.$error.required">Campo obrigatório.</span>
+				<span ng-show="form.nu_height.$error.min">Mínimo de um centimetro.</span>
+				<span ng-show="form.nu_height.$error.maxlength">Máximo de quatro caracteres.</span>
+				<span ng-show="form.nu_height.$error.max">Máximo de {{row.st_foldable? 9999 : constant.BOX_DELIVERY_MAX_PACKAGE_SIZE - row.nu_width - row.nu_length}} centimetros.</span>
+				<span ng-show="form.nu_height.$error.number">Somente números.</span>
+			</span>
+
+		</div>
+	</div>
+
+	<!--field width-->
+	<div class="form-group">
+		<label class="col-sm-4 control-label">Largura Cm<span class="text-danger">*</span></label>
+
+		<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+
+			<input class="form-control input-sm"
+			placeholder="Largura do produto"
+			name="nu_width"
+			type="number"
+			ng-model="row.nu_width"
+			maxlength="4"
+			min="1"
+			max="{{row.st_foldable? 9999 : constant.BOX_DELIVERY_MAX_PACKAGE_SIZE - row.nu_height- row.nu_length}}"
+			pattern="[0-9]+$"
+			required
+			/>
+		</div>
+
+		<div class="help-block-input col-xs-12 col-sm-4 col-md-4">
+
+			<span class="text-danger" ng-show="form.nu_width.$dirty && form.nu_width.$invalid">
+				<i class="glyphicon glyphicon-remove-sign"></i>
+				<span ng-show="form.nu_width.$error.required">Campo obrigatório.</span>
+				<span ng-show="form.nu_width.$error.min">Mínimo de um centimetro.</span>
+				<span ng-show="form.nu_width.$error.maxlength">Máximo de quatro caracteres.</span>
+				<span ng-show="form.nu_width.$error.max">Máximo de {{row.st_foldable? 9999 : constant.BOX_DELIVERY_MAX_PACKAGE_SIZE - row.nu_height- row.nu_length}} centimetros.</span>
+				<span ng-show="form.nu_width.$error.number">Somente números.</span>
+			</span>
+
+		</div>
+	</div>
+
+	<!--field length-->
+	<div class="form-group">
+		<label class="col-sm-4 control-label">Comprimento Cm<span class="text-danger">*</span></label>
+
+		<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+
+			<input class="form-control input-sm"
+			placeholder="Comprimento do produto"
+			name="nu_length"
+			type="number"
+			ng-model="row.nu_length"
+			maxlength="4"
+			min="1"
+			max="{{row.st_foldable? 9999 : constant.BOX_DELIVERY_MAX_PACKAGE_SIZE - row.nu_height - row.nu_width}}"
+			pattern="[0-9]+$"
+			required
+			/>
+		</div>
+
+		<div class="help-block-input col-xs-12 col-sm-4 col-md-4">
+
+			<span class="text-danger" ng-show="form.nu_length.$dirty && form.nu_length.$invalid">
+				<i class="glyphicon glyphicon-remove-sign"></i>
+				<span ng-show="form.nu_length.$error.required">Campo obrigatório.</span>
+				<span ng-show="form.nu_length.$error.min">Mínimo de um centimetro.</span>
+				<span ng-show="form.nu_length.$error.maxlength">Máximo de quatro caracteres.</span>
+				<span ng-show="form.nu_length.$error.max">Máximo de {{row.st_foldable? 9999 : constant.BOX_DELIVERY_MAX_PACKAGE_SIZE - row.nu_height - row.nu_width}} centimetros.</span>
+				<span ng-show="form.nu_length.$error.number">Somente números.</span>
+			</span>
+
+		</div>
+	</div>
+
+	<!--field weight-->
+	<div class="form-group">
+		<label class="col-sm-4 control-label">Peso Kg<span class="text-danger">*</span></label>
+
+		<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+
+			<input class="form-control input-sm"
+			placeholder="Peso do produto"
+			type="text"
+			name="nu_weight"
+			maxlength="6"
+			ng-model="row.nu_weight"
+			ui-number-mask="3"
+			min="0.001"
+			max="constant.BOX_DELIVERY_MAX_WEIGHT"
+			pattern="[0-9]+$"
+			required
+			/>
+		</div>
+
+		<div class="help-block-input col-xs-12 col-sm-4 col-md-4">
+
+			<span class="text-danger" ng-show="form.nu_weight.$dirty && form.nu_weight.$invalid">
+				<i class="glyphicon glyphicon-remove-sign"></i>
+				<span ng-show="form.nu_weight.$error.required">Campo obrigatório.</span>
+				<span ng-show="form.nu_weight.$error.min">Peso mínimo de um grama.</span>
+				<span ng-show="form.nu_weight.$error.max">Peso máximo é de {{constant.BOX_DELIVERY_MAX_WEIGHT}} kilos.</span>
+			</span>
+
+		</div>
+	</div>
+
+	<!--field quantity-->
+	<div class="form-group">
+		<label class="col-sm-4 control-label">Quantidade<span class="text-danger">*</span></label>
+
+		<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+
+			<input class="form-control input-sm"
+			placeholder="Quantidade"
+			name="nu_quantity"
+			type="number"
+			ng-model="row.nu_quantity"
+			min="0"
+			maxlength="4"
+			ng-maxlength="4"
+			ng-minlength="1"
+			pattern="[0-9]+$"
+			required
+			/>
+		</div>
+
+		<div class="help-block-input col-xs-12 col-sm-4 col-md-4">
+
+			<span class="text-danger" ng-show="form.nu_quantity.$dirty && form.nu_quantity.$invalid">
+				<i class="glyphicon glyphicon-remove-sign"></i>
+				<span ng-show="form.nu_quantity.$error.required">Campo obrigatório.</span>
+				<span ng-show="form.nu_quantity.$error.minlength">Mínimo de um caractere.</span>
+				<span ng-show="form.nu_quantity.$error.maxlength">Máximo de quatro caracteres.</span>
+				<span ng-show="form.nu_quantity.$error.number">Somente números.</span>
+			</span>
+
+		</div>
+	</div>
+
+	<!--field production-->
+	<div class="form-group">
+		<label class="col-sm-4 control-label">Tempo de produção (Dia)<span class="text-danger">*</span></label>
+
+		<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+
+			<input class="form-control input-sm"
+			placeholder="Tempo de produção"
+			type="number"
+			name="nu_production"
+			ng-model="row.nu_production"
+			min="0"
+			maxlength="4"
+			pattern="[0-9]+$"
+			required
+			/>
+
+		</div>
+
+		<div class="help-block-input col-xs-12 col-sm-4 col-md-4">
+
+			<span class="text-danger" ng-show="form.nu_production.$dirty && form.nu_production.$invalid">
+				<i class="glyphicon glyphicon-remove-sign"></i>
+				<span ng-show="form.nu_production.$error.required">Campo obrigatório</span>
+				<span ng-show="form.nu_production.$error.minlength">Mínimo de um caractere</span>
+				<span ng-show="form.nu_production.$error.maxlength">Máximo de quatro caracteres</span>
+				<span ng-show="form.nu_production.$error.number">Somente números.</span>
+			</span>
+
+		</div>
+	</div>
+
+	<!--field image-->
+	<div class="form-group">
+		<label class="col-sm-4 control-label">Imagem<span class="text-danger">*</span></label>
+
+		<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+
+			<div class="input-group">
+
+				<span class="input-group-btn">
+
+					<span class="btn btn-primary btn-file btn-sm">
+						Arquivo <input id="file" type="file" name="im_image"/>
+
+						<i class="glyphicon glyphicon-folder-open"></i>
+					</span>
+
+				</span>
+
+				<input type="text" class="form-control input-sm" readonly  />
+			</div>
+
+		</div>
+
+	</div>
+
+	<!--buttons-->
+	<div class="form-group">
+		<div class="col-xs-12 col-sm-offset-4 col-sm-4 col-md-offset-4 col-md-4 col-lg-offset-4 col-lg-4">
+
+			<button type="submit" class="btn btn-primary btn-sm" ng-click="addProduct()" ng-Disabled="form.$invalid">Salvar
+				<i class="glyphicon glyphicon-save"></i>
+			</button>
+
+			<a class="btn btn-default btn-sm" href="#/product/listProduct">Voltar
+				<i class="glyphicon glyphicon-arrow-left"></i>
+			</a>
+
+		</div>
+	</div>
 </form>
