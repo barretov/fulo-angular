@@ -535,6 +535,7 @@ class PurchaseBusiness extends MasterBusiness
             //ambiente de pagamento.
             // if paypal request is right, send user for paypal site.
             if (isset($responseNvp['ACK']) && $responseNvp['ACK'] == 'Success') {
+
                 $query = array(
                     'cmd' => '_express-checkout',
                     'token' => $responseNvp['TOKEN'],
@@ -559,6 +560,10 @@ class PurchaseBusiness extends MasterBusiness
      */
     public function paypalResponse()
     {
+    	// @TODO é necessário chamar o getexpressdetails depois do doExpress para
+    	// verificar se deu tudo certo, caso não dê, é necessário redirecionar o
+    	// usuario novamente para a tela de pagamento do paypal, até dar certo.
+
         try {
             $data = $this->getRequestData();
 
