@@ -491,7 +491,7 @@ class PurchaseBusiness extends MasterBusiness
     {
         try {
 
-            // inject data for paypal.
+            // inject data for irepaypal.
             $data->nvp['USER'] = PAYPAL_USER;
             $data->nvp['PWD'] = PAYPAL_PASS;
             $data->nvp['SIGNATURE'] = PAYPAL_SIGNATURE;
@@ -580,6 +580,7 @@ class PurchaseBusiness extends MasterBusiness
 
             // if the response is success, call DoExpressRequest.
             if (isset($responseNvp['ACK']) && $responseNvp['ACK'] == 'Success') {
+
                 $data->nvp['PAYMENTREQUEST_0_AMT'] = $responseNvp['PAYMENTREQUEST_0_AMT'];
                 $data->nvp['PAYMENTREQUEST_0_CURRENCYCODE'] = $responseNvp['PAYMENTREQUEST_0_CURRENCYCODE'];
                 $data->nvp['EMAIL'] = $responseNvp['EMAIL'];
@@ -601,9 +602,22 @@ class PurchaseBusiness extends MasterBusiness
 
                 // if doexpresscheckout is right, redirect user.
                 // TODO verificar se foi pago, e trocar o status da compra para pago
+                // @TODO veriicar se é success + outra parada lá do paypal
                 if ($data->response['ACK'] == 'Success') {
                     header('location:http://fulo.local/#/purchase/confirmOrder');
-                } else {
+                }
+
+                // @TODO chama novamente o getexpress para ver se deu certo
+                if ($data->response['PARADALA_DO_PAYPAL'] == '') {
+	                $data->response = $this->sendNvpRequest($data->nvp, $sandbox = true);
+
+	                // @TODO verificar a parada do paypal e se precisar aguardar verificar depois de 24 horas se nao manda para pagina de confirmação
+                	if ($data->response['PARADALA_DO_PAYPAL'] == '') {
+                    	header('location:http://fulo.local/#/purchase/confirmOrder');
+                	}
+                }
+
+                if ($data->response['ACK'] == 'ERROR') {
                     return ERROR;
                 }
             } else {
