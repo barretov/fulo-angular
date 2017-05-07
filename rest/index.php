@@ -17,7 +17,7 @@
  */
 
 # start session.
-session_start();
+// session_start();
 
 # Init composer autoload
 require_once './vendor/autoload.php';
@@ -38,7 +38,8 @@ $app->add(new \fulo\middleware\Acl());
 # Options.
 $app->contentType("application/json");
 $app->response->headers->set('Access-Control-Allow-Origin', '*');
-$app->response->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+$app->response->header('Access-Control-Allow-Methods', 'GET, POST');
+// $app->response->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
 
 //$app->options('/(:name+)', function() use($app) {
 //    $response = $app->response();

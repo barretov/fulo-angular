@@ -4,7 +4,7 @@
 
     <div ng-show="orders != ''">
 
-        <div ng-repeat="order in orders">
+        <div ng-repeat="order in orders| orderBy:'+sq_order'">
 
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <div class="text-success font-18 well well-sm ">
@@ -77,32 +77,32 @@
 
                 <button class="btn btn-success btn-sm"
                 ng-click="tracker(order.nu_tracker)"
-                ng-show="order.sq_status == 10"
+                ng-show="order.sq_status == constant.NUMBER_TEN"
                 >
                 Rastrear
             </button>
 
             <button class="btn btn-default btn-sm"
-            ng-show="order.sq_status == 9"
+            ng-show="order.sq_status == constant.NUMBER_FOUR || order.sq_status == constant.NUMBER_NINE"
             data-toggle="collapse"
             data-target="#track{{order.sq_order}}"
             >
             Inserir Rastreio
         </button>
 
-        <button class="btn btn-default btn-sm">
+        <button class="btn btn-default btn-sm" ng-show="order.sq_status != constant.NUMBER_TEN">
             Cancelar
         </button>
 
-        <button class="btn btn-default btn-sm">
+        <button class="btn btn-default btn-sm" ng-show="order.sq_status != constant.NUMBER_TEN">
             Congelar
         </button>
 
-        <button class="btn btn-default btn-sm">
+        <button class="btn btn-default btn-sm" ng-show="order.sq_status != constant.NUMBER_FOUR && order.sq_status != constant.NUMBER_TEN">
             Verificar Pagamento
         </button>
 
-        <button class="btn btn-default btn-sm">
+        <button class="btn btn-default btn-sm" ng-show="order.sq_status == constant.NUMBER_FOUR">
             Estornar
         </button>
 
@@ -145,7 +145,7 @@
 <div class="collapse" id="track{{order.nu_tracker}}">
 
     <table class="table table-hover table-striped"
-    ng-show="order.sq_status == 10"
+    ng-show="order.sq_status == constant.NUMBER_TEN"
     >
 
     <thead>

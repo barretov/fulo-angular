@@ -256,7 +256,6 @@
 
         // if arrive a new postcode, send to get fare value;
         if ($postcode) {
-
         	$scope.row.nu_postcode = $postcode;
         }
 
@@ -267,7 +266,6 @@
 
             // if don't have quantity set number one.
             if (!$key.nu_quantity_buy) {
-
             	$key.nu_quantity_buy = 1;
             }
 
@@ -278,7 +276,6 @@
 
         // if dont have product in cart, dont send fare value request;
         if ($scope.row.product.length) {
-
         	$http.post($scope.server("/getFareValue"), $param).success(function ($return) {
 
                 // verify return data.
@@ -286,7 +283,6 @@
                 $scope.fare = $return.fare_value.cServico;
 
                 if ($return.fare_value.error) {
-
                 	$scope.fare.error = $return.fare_value.error;
                 }
             });

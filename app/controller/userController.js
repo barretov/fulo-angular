@@ -57,14 +57,10 @@
      */
      $scope.getUsers = function () {
 
-        // adjust param.
         $param = $scope.configParam();
 
         $http.get($scope.server("/getUsers"), {params: $param}).success(function ($return) {
-
-            // verify return data.
             $services.checkResponse($return);
-
             $scope.rows = $return;
         });
     };

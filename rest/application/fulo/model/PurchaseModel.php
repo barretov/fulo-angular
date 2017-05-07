@@ -50,43 +50,43 @@ class PurchaseModel extends MasterModel
      */
     public function addWishList($data)
     {
-        try {
-            $stmtSelect = $this->_conn->prepare('SELECT sq_user '
-                .'FROM fulo.wishlist '
-                .'WHERE sq_user = ? '
-                .'AND sq_product = ? '
-            );
+    	try {
+    		$stmtSelect = $this->_conn->prepare('SELECT sq_user '
+    			.'FROM fulo.wishlist '
+    			.'WHERE sq_user = ? '
+    			.'AND sq_product = ? '
+    		);
 
-            $stmtSelect->execute([
-                $data->origin_sq_user,
-                $data->sq_product,
-                ]);
+    		$stmtSelect->execute([
+    			$data->origin_sq_user,
+    			$data->sq_product,
+    			]);
 
-            if (!$stmtSelect->fetch()) {
-                $this->_conn->beginTransaction();
+    		if (!$stmtSelect->fetch()) {
+    			$this->_conn->beginTransaction();
 
-                $stmtAdd = $this->_conn->prepare('INSERT INTO fulo.wishlist '
-                    .'(sq_user, sq_product) '
-                    .'VALUES (?,?)'
-                );
+    			$stmtAdd = $this->_conn->prepare('INSERT INTO fulo.wishlist '
+    				.'(sq_user, sq_product) '
+    				.'VALUES (?,?)'
+    			);
 
-                $stmtAdd->execute([
-                    $data->origin_sq_user,
-                    $data->sq_product,
-                    ]);
+    			$stmtAdd->execute([
+    				$data->origin_sq_user,
+    				$data->sq_product,
+    				]);
 
                 // save log operation.
-                $this->saveLog($data->origin_sq_user, $data->sq_product);
+    			$this->saveLog($data->origin_sq_user, $data->sq_product);
 
-                $return = $this->_conn->commit();
-            } else {
-                $return = WISHLIST_ALREADY;
-            }
+    			$return = $this->_conn->commit();
+    		} else {
+    			$return = WISHLIST_ALREADY;
+    		}
 
-            return $return;
-        } catch (Exception $ex) {
-            throw $ex;
-        }
+    		return $return;
+    	} catch (Exception $ex) {
+    		throw $ex;
+    	}
     }
 
     /**
@@ -105,24 +105,24 @@ class PurchaseModel extends MasterModel
      */
     public function getWishList($data)
     {
-        try {
-            $stmt = $this->_conn->prepare('SELECT * '
-                .'FROM fulo.wishlist '
-                .'JOIN fulo.product '
-                .'ON (product.sq_product = wishlist.sq_product) '
-                .'JOIN fulo.product_image '
-                .'ON (product.sq_product = product_image.sq_product) '
-                .'WHERE sq_user = ? '
-            );
+    	try {
+    		$stmt = $this->_conn->prepare('SELECT * '
+    			.'FROM fulo.wishlist '
+    			.'JOIN fulo.product '
+    			.'ON (product.sq_product = wishlist.sq_product) '
+    			.'JOIN fulo.product_image '
+    			.'ON (product.sq_product = product_image.sq_product) '
+    			.'WHERE sq_user = ? '
+    		);
 
-            $stmt->execute([
-                $data->origin_sq_user,
-                ]);
+    		$stmt->execute([
+    			$data->origin_sq_user,
+    			]);
 
-            return $stmt->fetchAll(PDO::FETCH_OBJ);
-        } catch (Exception $ex) {
-            throw $ex;
-        }
+    		return $stmt->fetchAll(PDO::FETCH_OBJ);
+    	} catch (Exception $ex) {
+    		throw $ex;
+    	}
     }
 
     /**
@@ -141,27 +141,27 @@ class PurchaseModel extends MasterModel
      */
     public function delWishList($data)
     {
-        try {
-            $this->_conn->beginTransaction();
+    	try {
+    		$this->_conn->beginTransaction();
 
-            $stmt = $this->_conn->prepare('DELETE '
-                .'FROM fulo.wishlist '
-                .'WHERE sq_user = ? '
-                .'AND sq_product = ?'
-            );
+    		$stmt = $this->_conn->prepare('DELETE '
+    			.'FROM fulo.wishlist '
+    			.'WHERE sq_user = ? '
+    			.'AND sq_product = ?'
+    		);
 
-            $stmt->execute([
-                $data->origin_sq_user,
-                $data->sq_product,
-                ]);
+    		$stmt->execute([
+    			$data->origin_sq_user,
+    			$data->sq_product,
+    			]);
 
             // save log operation.
-            $this->saveLog($data->origin_sq_user, $data->sq_product);
+    		$this->saveLog($data->origin_sq_user, $data->sq_product);
 
-            return $this->_conn->commit();
-        } catch (Exception $ex) {
-            throw $ex;
-        }
+    		return $this->_conn->commit();
+    	} catch (Exception $ex) {
+    		throw $ex;
+    	}
     }
 
     /**
@@ -180,25 +180,25 @@ class PurchaseModel extends MasterModel
      */
     public function getDataProducts(&$data)
     {
-        try {
-            $query = 'SELECT * FROM fulo.product';
+    	try {
+    		$query = 'SELECT * FROM fulo.product';
 
-            foreach ($data->product as $key => $value) {
-                if (!$key) {
-                    $query = $query.' WHERE sq_product = '.$value->sq_product;
-                } else {
-                    $query = $query.' OR sq_product = '.$value->sq_product;
-                }
-            }
+    		foreach ($data->product as $key => $value) {
+    			if (!$key) {
+    				$query = $query.' WHERE sq_product = '.$value->sq_product;
+    			} else {
+    				$query = $query.' OR sq_product = '.$value->sq_product;
+    			}
+    		}
 
-            $stmt = $this->_conn->prepare($query);
+    		$stmt = $this->_conn->prepare($query);
 
-            $stmt->execute();
+    		$stmt->execute();
 
-            return $stmt->fetchAll(PDO::FETCH_OBJ);
-        } catch (Exception $ex) {
-            throw $ex;
-        }
+    		return $stmt->fetchAll(PDO::FETCH_OBJ);
+    	} catch (Exception $ex) {
+    		throw $ex;
+    	}
     }
 
     /**
@@ -217,116 +217,146 @@ class PurchaseModel extends MasterModel
      */
     public function buy(&$data)
     {
-        try {
-            $this->_conn->beginTransaction();
+    	try {
+
+    		$this->_conn->beginTransaction();
 
             // save order.
-            $stmtOrder = $this->_conn->prepare(
-                'INSERT INTO fulo.order '
-                .'(sq_user, ds_address, nu_phone, nu_quantity, nu_total, st_status, nu_date_time, nu_farevalue) '
-                .'VALUES (?,?,?,?,?,?,?,?)'
-            );
+    		$stmtOrder = $this->_conn->prepare(
+    			'INSERT INTO fulo.order '
+    			.'(sq_user, ds_address, nu_phone, nu_quantity, nu_total, sq_status, nu_date_time, nu_farevalue, sq_payng_company, ds_payment_info) '
+    			.'VALUES (?,?,?,?,?,?,?,?,?,?)'
+    		);
 
-            $stmtOrder->execute([
-                $data->origin_sq_user,
-                $data->user->ds_address,
-                $data->user->nu_phone,
-                $data->nu_quantity_buy,
-                $data->nu_total,
-                NUMBER_THRE,
-                date('Y-m-d H:i:s'),
-                $data->nu_farevalue,
-                ]);
+    		$stmtOrder->execute([
+    			$data->origin_sq_user,
+    			$data->user->ds_address,
+    			$data->user->nu_phone,
+    			$data->nu_quantity_buy,
+    			$data->nu_total,
+    			NUMBER_THRE,
+    			date('Y-m-d H:i:s'),
+    			$data->nu_farevalue,
+    			PAYPAL,
+    			$data->nvp['TOKEN']
+    			]);
 
             // save products of order.
-            $stmtOrderProducts = $this->_conn->prepare(
-                'INSERT INTO fulo.order_products '
-                .'(sq_order, sq_product, ds_product, nu_value, nu_quantity, nu_production, nu_quantity_stock) '
-                .'VALUES (?,?,?,?,?,?,?)'
-            );
+    		$stmtOrderProducts = $this->_conn->prepare(
+    			'INSERT INTO fulo.order_products '
+    			.'(sq_order, sq_product, ds_product, nu_value, nu_quantity, nu_production, nu_quantity_stock) '
+    			.'VALUES (?,?,?,?,?,?,?)'
+    		);
 
             // verify quantity of product in stock now.
-            $stmtStock = $this->_conn->prepare(
-                'SELECT nu_quantity FROM fulo.product WHERE sq_product = ?'
-            );
+    		$stmtStock = $this->_conn->prepare(
+    			'SELECT nu_quantity FROM fulo.product WHERE sq_product = ?'
+    		);
 
             // remove of stock the product buyed
-            $stmtRemoveStock = $this->_conn->prepare(
-                'UPDATE fulo.product SET nu_quantity = ? WHERE sq_product = ?'
-            );
+    		$stmtRemoveStock = $this->_conn->prepare(
+    			'UPDATE fulo.product SET nu_quantity = ? WHERE sq_product = ?'
+    		);
 
             // add order products.
-            foreach ($data->products as $key) {
+    		foreach ($data->products as $key) {
 
                 // verify quantity of product has in stock now.
-                $stmtStock->execute([
-                    $key->sq_product,
-                    ]);
+    			$stmtStock->execute([
+    				$key->sq_product,
+    				]);
 
-                $nu_quantity = $stmtStock->fetchObject();
+    			$nu_quantity = $stmtStock->fetchObject();
 
                 // inset products in order products
-                $stmtOrderProducts->execute(
-                    [
-                    $this->_conn->lastInsertId('fulo.order_sq_order_seq'),
-                    $key->sq_product,
-                    $key->ds_product,
-                    $key->nu_value,
-                    $key->nu_quantity_buy,
-                    $key->nu_production,
-                    $nu_quantity->nu_quantity,
-                    ]
-                );
+    			$stmtOrderProducts->execute(
+    				[
+    				$this->_conn->lastInsertId('fulo.order_sq_order_seq'),
+    				$key->sq_product,
+    				$key->ds_product,
+    				$key->nu_value,
+    				$key->nu_quantity_buy,
+    				$key->nu_production,
+    				$nu_quantity->nu_quantity,
+    				]
+    			);
 
                 // remove from stock.
-                $stock = bcsub($nu_quantity->nu_quantity, $key->nu_quantity_buy);
-                $stock < 0 ? $stock = 0 : '';
+    			$stock = bcsub($nu_quantity->nu_quantity, $key->nu_quantity_buy);
+    			$stock < 0 ? $stock = 0 : '';
 
-                $stmtRemoveStock->execute(
-                    [
-                    $stock,
-                    $key->sq_product,
-                    ]
-                );
-            }
+    			$stmtRemoveStock->execute(
+    				[
+    				$stock,
+    				$key->sq_product,
+    				]
+    			);
+    		}
 
             // inject sq_order in $data for use in paypal.
-            $data->sq_order = $this->_conn->lastInsertId('fulo.order_sq_order_seq');
+    		$data->sq_order = $this->_conn->lastInsertId('fulo.order_sq_order_seq');
 
             // save log operation.
-            $this->saveLog($data->origin_sq_user, $this->_conn->lastInsertId('fulo.order_sq_order_seq'));
+    		$this->saveLog($data->origin_sq_user, $this->_conn->lastInsertId('fulo.order_sq_order_seq'));
 
-            return $this->_conn->commit();
-        } catch (Exception $ex) {
-            throw $ex;
-        }
+    		return $this->_conn->commit();
+    	} catch (Exception $ex) {
+    		throw $ex;
+    	}
     }
 
     public function addTracker(&$data)
     {
-        try {
-            $this->_conn->beginTransaction();
+    	try {
+    		$this->_conn->beginTransaction();
 
-            $stmt = $this->_conn->prepare('UPDATE  fulo.order SET '
-                .'nu_tracker = ?, st_status =  ? '
-                .' WHERE sq_order =  ? '
-            );
+    		$stmt = $this->_conn->prepare('UPDATE  fulo.order SET '
+    			.'nu_tracker = ?, sq_status =  ? '
+    			.' WHERE sq_order =  ? '
+    		);
 
-            $stmt->execute([
-                $data->nu_tracker,
-                NUMBER_TEN,
-                $data->sq_order,
-                ]);
+    		$stmt->execute([
+    			$data->nu_tracker,
+    			NUMBER_TEN,
+    			$data->sq_order,
+    			]
+    		);
 
                 // save log operation.
-            $this->saveLog($data->origin_sq_user, $data->sq_order);
+    		$this->saveLog($data->origin_sq_user, $data->sq_order);
 
-            $return = $this->_conn->commit();
+    		$return = $this->_conn->commit();
 
-            return $return;
-        } catch (Exception $ex) {
-            $this->_conn->rollbrack();
-            throw $ex;
-        }
+    		return $return;
+    	} catch (Exception $ex) {
+    		$this->_conn->rollbrack();
+    		throw $ex;
+    	}
+    }
+
+    public function updateOrder(&$data)
+    {
+
+    	try {
+
+    		$this->_conn->beginTransaction();
+
+    		$stmt = $this->_conn->prepare('UPDATE fulo.order SET '
+    			.'sq_status = ?, ds_payment_info = ? '
+    			.' WHERE ds_payment_info =  ? '
+    		);
+
+    		$stmt->execute([
+    			NUMBER_FOUR,
+    			$data->response['PAYMENTINFO_0_TRANSACTIONID'],
+    			$data->response['TOKEN']
+    			]
+    		);
+
+    		$return = $this->_conn->commit();
+    	} catch (Exception $ex) {
+    		$this->_conn->rollbrack();
+    		throw $ex;
+    	}
     }
 }

@@ -97,12 +97,9 @@ $app->post("/delWishList", function () {
 $app->post("/getFareValue", function () {
 
     try {
-
         $business = MasterController::getPurchaseBusiness();
-
         echo json_encode($business->getFareValue());
     } catch (Exception $ex) {
-
         throw $ex;
     }
 });

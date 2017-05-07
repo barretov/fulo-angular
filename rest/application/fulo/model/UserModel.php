@@ -478,7 +478,7 @@ class UserModel extends MasterModel
                 .'sq_order, nu_quantity, nu_total, nu_tracker, nu_date_time, ds_status, sq_status, ds_address, nu_phone, '
                 .'nu_farevalue, ds_name '
                 .'FROM fulo.order '
-                .'JOIN fulo.status ON (fulo.order.st_status = status.sq_status) '
+                .'JOIN fulo.status USING(sq_status) '
                 .'JOIN fulo.person ON (fulo.order.sq_user = person.sq_person) '
                 .'WHERE sq_user = ?'
                 .'ORDER BY sq_order DESC'
@@ -512,10 +512,9 @@ class UserModel extends MasterModel
     {
         try {
             $stmt = $this->_conn->prepare('SELECT '
-                .'sq_order, nu_quantity, nu_total, nu_tracker, nu_date_time, ds_status, nu_farevalue, st_status,'
-                .'ds_address '
-                .'FROM fulo.order '
-                .'JOIN fulo.status ON (fulo.order.st_status = status.sq_status) '
+                .'sq_order, nu_quantity, nu_total, nu_tracker, nu_date_time, ds_status, nu_farevalue, sq_status,'
+                .'USING(sq_status)ROM fulo.order '
+                .'JOIN fulo.status USING(sq_status) '
                 .'Order By sq_order ASC'
             );
 
