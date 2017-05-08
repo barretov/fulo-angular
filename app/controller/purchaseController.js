@@ -570,6 +570,23 @@
      		$services.showFlashmessage("alert-success", $scope.constant.MSG0001);
 
      	});
-
      }
+
+ 	/**
+ 	 * Method for freeze order
+ 	 * @author Victor Eduardo Barreto
+ 	 * @package [subpackage]
+ 	 * @filesource
+ 	 * @return {bool} Result of request
+ 	 */
+ 	$scope.freezeOrder = function(sq_order) {
+
+ 		$param = $scope.configParam(sq_order);
+
+ 		$http.post($scope.server("/freezeOrder"), $param).success(function ($return) {
+ 		    $services.checkResponse($return);
+ 	        $services.showFlashmessage('alert-success', $scope.constant.MSG0001);
+ 		});
+ 	}
+
  });

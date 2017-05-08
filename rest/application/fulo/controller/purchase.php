@@ -168,6 +168,9 @@ $app->get("/paypalResponse", function () {
     }
 });
 
+/**
+ *
+ */
 $app->post("/addTracker", function () {
 
     try {
@@ -175,6 +178,21 @@ $app->post("/addTracker", function () {
         $business = MasterController::getPurchaseBusiness();
 
         echo json_encode($business->addTracker());
+    } catch (Exception $ex) {
+
+        throw $ex;
+    }
+});
+
+/**
+ *Function for freeze order
+ */
+$app->post("/freezeOrder", function () {
+
+    try {
+
+        $business = MasterController::getPurchaseBusiness();
+        echo json_encode($business->freezeOrder());
     } catch (Exception $ex) {
 
         throw $ex;

@@ -641,4 +641,19 @@ class PurchaseBusiness extends MasterBusiness
     		throw $ex;
     	}
     }
+
+    /**
+     * Method for freeze order
+     * @author Victor Eduardo Barreto
+     * @throw Mensagem de erro
+     */
+    public function freezeOrder()
+    {
+    	try {
+    		$data = $this->getRequestData();
+    		return $this->_purchaseModel->freezeOrder($data);
+    	} catch (Exception $ex) {
+    		throw $ex;
+    	}
+    }
 }

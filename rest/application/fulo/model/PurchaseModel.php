@@ -322,9 +322,7 @@ class PurchaseModel extends MasterModel
     			]
     		);
 
-                // save log operation.
     		$this->saveLog($data->origin_sq_user, $data->sq_order);
-
     		$return = $this->_conn->commit();
 
     		return $return;
@@ -353,6 +351,39 @@ class PurchaseModel extends MasterModel
     			]
     		);
 
+    		$return = $this->_conn->commit();
+    	} catch (Exception $ex) {
+    		$this->_conn->rollbrack();
+    		throw $ex;
+    	}
+    }
+
+    /**
+     * Method for freeze order
+     * @author Victor Eduardo Barreto
+     * @package [subpackage]
+     * @filesource
+     * @throw Mensagem de erro
+     * @param object &$data Data of order
+     * @return bool Result of operation
+     */
+    public function freezeOrder(&$data)
+    {
+
+    	try {
+    		$this->_conn->beginTransaction();
+
+    		$stmt = $this->_conn->prepare('UPDATE fulo.order SET '
+    			.'sq_status = ? WHERE sq_order =  ? '
+    		);
+
+    		$stmt->execute([
+    			NUMBER_FOURTEEN,
+    			$data->sq_order
+    			]
+    		);
+
+    		$this->saveLog($data->origin_sq_user, $data->sq_order);
     		$return = $this->_conn->commit();
     	} catch (Exception $ex) {
     		$this->_conn->rollbrack();

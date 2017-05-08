@@ -178,13 +178,11 @@ class MasterController
         try {
 
             if (!isset(self::$_purchaseBusiness)) {
-
                 self::$_purchaseBusiness = new PurchaseBusiness();
             }
 
             return self::$_purchaseBusiness;
         } catch (Exception $ex) {
-
             throw $ex;
         }
     }
