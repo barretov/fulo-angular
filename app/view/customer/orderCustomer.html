@@ -90,7 +90,8 @@
             Inserir Rastreio
         </button>
 
-        <button class="btn btn-default btn-sm" ng-show="order.sq_status != constant.NUMBER_TEN">
+        <button class="btn btn-default btn-sm" ng-show="order.sq_status != constant.NUMBER_TEN"
+        ng-click="cancelOrder(order.sq_order)">
             Cancelar
         </button>
 

@@ -390,4 +390,31 @@ class PurchaseModel extends MasterModel
     		throw $ex;
     	}
     }
+
+    public function cancelOrder(&$data) {
+    	try {
+    		$this->_conn->beginTransaction();
+
+    		// @verificar se tem estoque para retornar
+    		// select
+    		// retornar o estoque se tiver
+    		// update
+    		// trocar o status para cancelado
+
+    		$stmt = $this->_conn->prepare('UPDATE fulo.order SET '
+    			.'sq_status = ? WHERE sq_order =  ? '
+    		);
+
+    		$stmt->execute([
+    			NUMBER_THRETEEN,
+    			$data->sq_order
+    			]
+    		);
+
+    		$this->saveLog($data->origin_sq_user, $data->sq_order);
+    		$return = $this->_conn->commit();
+    	} catch (Exception $exc) {
+    		throw $exc->getMessage();
+    	}
+    }
 }

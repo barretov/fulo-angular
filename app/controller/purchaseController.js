@@ -40,7 +40,7 @@
  	}
 
     /**
-     * Method for add item in wish list
+     * Function for add item in wish list
      * @name addWishList
      * @author Victor Eduardo Barreto
      * @param {int} $sq_product Product identifier
@@ -73,7 +73,7 @@
     };
 
     /**
-     * Method for get items of wish list
+     * Function for get items of wish list
      * @name getWishList
      * @author Victor Eduardo Barreto
      * @date Alg 29, 2015
@@ -93,7 +93,7 @@
      };
 
     /**
-     * Method for del items of wish list
+     * Function for del items of wish list
      * @name delWishList
      * @author Victor Eduardo Barreto
      * @param {int} $sq_product Product identifier
@@ -119,7 +119,7 @@
      };
 
     /**
-     * Method for add item in cart
+     * Function for add item in cart
      * @name addCart
      * @author Victor Eduardo Barreto
      * @param {object} $product Product data
@@ -161,7 +161,7 @@
     };
 
     /**
-     * Method for del items of cart
+     * Function for del items of cart
      * @name delCart
      * @author Victor Eduardo Barreto
      * @param {int} $sq_product Product identifier
@@ -192,7 +192,7 @@
     };
 
     /**
-     * Method for update total value products in cart
+     * Function for update total value products in cart
      * @name updateTotal
      * @author Victor Eduardo Barreto
      * @param bool $fare This flag tell if get fare value is necessary
@@ -232,7 +232,7 @@
     };
 
     /**
-     * Method for get fare value
+     * Function for get fare value
      * @name getFareValue
      * @author Victor Eduardo Barreto
      * @param {int} $postcode Postcode number to get fare value
@@ -296,7 +296,7 @@
     };
 
     /**
-     * Method for get data address by zip
+     * Function for get data address by zip
      * @name getAddressByZip
      * @author Victor Eduardo Barreto
      * @date Nov 13, 2015
@@ -317,7 +317,7 @@
     };
 
     /**
-     * Method for save data cart in session
+     * Function for save data cart in session
      * @name saveCartSession
      * @author Victor Eduardo Barreto
      * @date Nov 17, 2015
@@ -336,7 +336,7 @@
     };
 
     /**
-     * Method for prepare the buy of itens in cart
+     * Function for prepare the buy of itens in cart
      * @name prepareBuy
      * @author Victor Eduardo Barreto
      * @date Nov 19, 2015
@@ -372,7 +372,7 @@
     };
 
     /**
-     * Method for buy itens in cart
+     * Function for buy itens in cart
      * @name buy
      * @author Victor Eduardo Barreto
      * @date Dec 30, 2015
@@ -417,7 +417,7 @@
     };
 
     /**
-     * Method for get orders of user
+     * Function for get orders of user
      * @name getOrders
      * @author Victor Eduardo Barreto
      * @date Dec 31, 2015
@@ -439,7 +439,7 @@
      };
 
     /**
-     * Method for get orders
+     * Function for get orders
      * @name getOrders
      * @author Victor Eduardo Barreto
      * @date Jan 1, 2016
@@ -461,7 +461,7 @@
      };
 
     /**
-     * Method for get products of order
+     * Function for get products of order
      * @name getProductsOrder
      * @author Victor Eduardo Barreto
      * @param {Integer} $sq_order Order number
@@ -496,7 +496,7 @@
      };
 
     /**
-     * Method for tracker order
+     * Function for tracker order
      * @name tracker
      * @author Luis Fernando Meireles
      * @param {String} $nu_tracker description
@@ -573,10 +573,8 @@
      }
 
  	/**
- 	 * Method for freeze order
+ 	 * Function for freeze order
  	 * @author Victor Eduardo Barreto
- 	 * @package [subpackage]
- 	 * @filesource
  	 * @return {bool} Result of request
  	 */
  	$scope.freezeOrder = function(sq_order) {
@@ -586,6 +584,22 @@
  		$http.post($scope.server("/freezeOrder"), $param).success(function ($return) {
  		    $services.checkResponse($return);
  	        $services.showFlashmessage('alert-success', $scope.constant.MSG0001);
+ 		});
+ 	}
+
+ 	/**
+ 	 * function for cancel order
+ 	 * @author Victor Eduardo Barreto
+ 	 * @param {int} sq_order Identifyer of order
+ 	 * @return {bool} Result of request
+ 	 */
+ 	$scope.cancelOrder = function(sq_order) {
+
+ 		$param = $scope.configParam(sq_order);
+
+ 		$http.post($scope.server("/cancelOrder"), $param).success(function ($return){
+ 			$services.checkResponse($return);
+ 			$services.showFlashmessage('alert-success', $scope.constant.MSG0001);
  		});
  	}
 

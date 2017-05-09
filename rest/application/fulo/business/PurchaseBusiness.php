@@ -656,4 +656,17 @@ class PurchaseBusiness extends MasterBusiness
     		throw $ex;
     	}
     }
+
+    /**
+     * Method for cancel order
+     * @author Victor Eduardo Barreto
+     * @throw Message of error
+     */
+    public function cancelOrder() {
+    	try {
+    		return $this->_purchaseModel->cancelOrder($this->getRequestData());
+    	} catch (Exception $ex) {
+    		throw $ex->getMessage();
+    	}
+    }
 }

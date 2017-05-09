@@ -194,7 +194,20 @@ $app->post("/freezeOrder", function () {
         $business = MasterController::getPurchaseBusiness();
         echo json_encode($business->freezeOrder());
     } catch (Exception $ex) {
-
         throw $ex;
     }
 });
+
+/**
+ * Funcrion for cancel order
+ */
+$app->post("/cancelOrder", function() {
+
+	try {
+		$business = MasterController::getPurchaseBusiness();
+		echo json_encode($business->cancelOrder());
+	} catch (Exception $ex) {
+		throw $ex;
+	}
+});
+
