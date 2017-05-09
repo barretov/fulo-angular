@@ -399,7 +399,6 @@ class PurchaseModel extends MasterModel
     		// select
     		// retornar o estoque se tiver
     		// update
-    		// trocar o status para cancelado
 
     		$stmt = $this->_conn->prepare('UPDATE fulo.order SET '
     			.'sq_status = ? WHERE sq_order =  ? '
