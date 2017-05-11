@@ -211,3 +211,15 @@ $app->post("/cancelOrder", function() {
 	}
 });
 
+/**
+ * Funcrion for refund order
+ */
+$app->post("/refundOrder", function() {
+
+	try {
+		$business = MasterController::getPurchaseBusiness();
+		echo json_encode($business->refundOrder());
+	} catch (Exception $ex) {
+		throw $ex;
+	}
+});

@@ -104,7 +104,8 @@
             Verificar Pagamento
         </button>
 
-        <button class="btn btn-default btn-sm" ng-show="order.sq_status == constant.NUMBER_FOUR">
+        <button class="btn btn-default btn-sm" ng-show="order.sq_status == constant.NUMBER_FOUR"
+        ng-click="refundOrder(order.sq_order)">
             Estornar
         </button>
 

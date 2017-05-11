@@ -669,4 +669,23 @@ class PurchaseBusiness extends MasterBusiness
     		throw $ex->getMessage();
     	}
     }
+
+    /**
+     * Method for refund order
+     * @author Victor Eduardo Barreto
+     * @throw Message of error
+     */
+    public function refundOrder() {
+    	try {
+    		// @TODO
+    		// verificar se tem 30 dias
+    		// verificar se foi pago
+    		// chama a função de candelar
+    		// write the code of refund via paypal
+    		// @TODO change the status
+    		return $this->_purchaseModel->refundOrder($this->getRequestData());
+    	} catch (Exception $ex) {
+    		throw $ex->getMessage();
+    	}
+    }
 }

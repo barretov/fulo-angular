@@ -603,4 +603,20 @@
  		});
  	}
 
+ 	/**
+ 	 * function for refund order
+ 	 * @author Victor Eduardo Barreto
+ 	 * @param {int} sq_order Identifyer of order
+ 	 * @return {bool} Result of request
+ 	 */
+ 	$scope.refundOrder = function(sq_order) {
+
+ 		$param = $scope.configParam(sq_order);
+
+ 		$http.post($scope.server("/refundOrder"), $param).success(function ($return){
+ 			$services.checkResponse($return);
+ 			$services.showFlashmessage('alert-success', $scope.constant.MSG0001);
+ 		});
+ 	}
+
  });

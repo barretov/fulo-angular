@@ -416,4 +416,25 @@ class PurchaseModel extends MasterModel
     		throw $exc->getMessage();
     	}
     }
+
+    public function refundOrder(&$data) {
+    	try {
+    		$this->_conn->beginTransaction();
+
+    		$stmt = $this->_conn->prepare('UPDATE fulo.order SET '
+    			.'sq_status = ? WHERE sq_order =  ? '
+    		);
+
+    		$stmt->execute([
+    			NUMBER_FIVE,
+    			$data->sq_order
+    			]
+    		);
+
+    		$this->saveLog($data->origin_sq_user, $data->sq_order);
+    		$return = $this->_conn->commit();
+    	} catch (Exception $exc) {
+    		throw $exc->getMessage();
+    	}
+    }
 }
