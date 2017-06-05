@@ -179,16 +179,16 @@ CREATE TABLE fulo.product(
 	sq_product serial NOT NULL,
 	sq_product_type integer NOT NULL,
 	sq_status_product integer NOT NULL DEFAULT 1,
+	st_foldable integer NOT NULL DEFAULT 1,
+	nu_date_time timestamp NOT NULL,
 	ds_product varchar(100) NOT NULL,
 	nu_value numeric(8,2) NOT NULL,
 	nu_quantity numeric(4) NOT NULL,
-	nu_date_time timestamp NOT NULL,
 	nu_production numeric(4) NOT NULL DEFAULT 5,
-	nu_height numeric(8,2) NOT NULL,
-	nu_length numeric(8,2) NOT NULL,
-	nu_width numeric(8,2) NOT NULL,
-	nu_weight numeric(8,2) NOT NULL,
-	st_foldable integer NOT NULL DEFAULT 1,
+	nu_height numeric(4) NOT NULL,
+	nu_length numeric(4) NOT NULL,
+	nu_width numeric(4) NOT NULL,
+	nu_weight double precision NOT NULL,
 	CONSTRAINT pk_product PRIMARY KEY (sq_product)
 )
 WITH (OIDS=FALSE);
@@ -204,16 +204,16 @@ COMMENT ON TABLE fulo.product IS 'table of product';
 COMMENT ON COLUMN fulo.product.sq_product IS 'identifier of product';
 COMMENT ON COLUMN fulo.product.sq_product_type IS 'type of product';
 COMMENT ON COLUMN fulo.product.sq_status_product IS 'status of product';
+COMMENT ON COLUMN fulo.product.st_foldable IS 'status of foldable';
+COMMENT ON COLUMN fulo.product.nu_date_time IS 'date of register';
 COMMENT ON COLUMN fulo.product.ds_product IS 'description of product';
 COMMENT ON COLUMN fulo.product.nu_value IS 'value of product';
 COMMENT ON COLUMN fulo.product.nu_quantity IS 'quantity of product';
-COMMENT ON COLUMN fulo.product.nu_date_time IS 'date of register';
 COMMENT ON COLUMN fulo.product.nu_production IS 'production time for the item';
 COMMENT ON COLUMN fulo.product.nu_height IS 'height of product';
 COMMENT ON COLUMN fulo.product.nu_length IS 'length of product';
 COMMENT ON COLUMN fulo.product.nu_width IS 'width of product';
 COMMENT ON COLUMN fulo.product.nu_weight IS 'weight of product';
-COMMENT ON COLUMN fulo.product.st_foldable IS 'status of foldable';
 COMMENT ON CONSTRAINT pk_product ON fulo.product IS 'primary key of product';
 -- object: fulo.product_type | type: TABLE -- 
 CREATE TABLE fulo.product_type(
@@ -321,13 +321,16 @@ COMMENT ON CONSTRAINT pk_image ON fulo.product_image IS 'primary key of table';
 CREATE TABLE fulo.order(
 	sq_order serial NOT NULL,
 	sq_user integer NOT NULL,
+	sq_paying_company integer NOT NULL,
 	ds_address varchar(250) NOT NULL,
-	nu_phone numeric(11),
 	nu_quantity integer NOT NULL,
 	nu_total numeric(8,2) NOT NULL,
-	st_status integer NOT NULL DEFAULT 3,
-	nu_tracker varchar(15),
+	nu_farevalue numeric(8,2) NOT NULL,
+	sq_status integer NOT NULL DEFAULT 3,
 	nu_date_time timestamp NOT NULL,
+	nu_phone numeric(11),
+	nu_tracker varchar(15),
+	ds_payment_info varchar(250),
 	CONSTRAINT pk_order PRIMARY KEY (sq_order)
 )
 WITH (OIDS=FALSE);
@@ -342,13 +345,16 @@ CREATE INDEX ix_order ON fulo.order
 COMMENT ON TABLE fulo.order IS 'table of orders';
 COMMENT ON COLUMN fulo.order.sq_order IS 'identifier of order';
 COMMENT ON COLUMN fulo.order.sq_user IS 'idenfier of user';
+COMMENT ON COLUMN fulo.order.sq_paying_company IS 'fk of paying company';
 COMMENT ON COLUMN fulo.order.ds_address IS 'address of user';
-COMMENT ON COLUMN fulo.order.nu_phone IS 'phone of user';
 COMMENT ON COLUMN fulo.order.nu_quantity IS 'quantity of product';
 COMMENT ON COLUMN fulo.order.nu_total IS 'total value order';
-COMMENT ON COLUMN fulo.order.st_status IS 'status of order';
-COMMENT ON COLUMN fulo.order.nu_tracker IS 'track number of order';
+COMMENT ON COLUMN fulo.order.nu_farevalue IS 'fare value of delivery';
+COMMENT ON COLUMN fulo.order.sq_status IS 'status of order';
 COMMENT ON COLUMN fulo.order.nu_date_time IS 'date and time of sale';
+COMMENT ON COLUMN fulo.order.nu_phone IS 'phone of user';
+COMMENT ON COLUMN fulo.order.nu_tracker IS 'track number of order';
+COMMENT ON COLUMN fulo.order.ds_payment_info IS 'identifier or description of payment company info';
 COMMENT ON CONSTRAINT pk_order ON fulo.order IS 'primary key of table';
 -- object: fulo.order_products | type: TABLE -- 
 CREATE TABLE fulo.order_products(
@@ -359,6 +365,7 @@ CREATE TABLE fulo.order_products(
 	nu_value numeric(8,2) NOT NULL,
 	nu_quantity numeric(4) NOT NULL,
 	nu_production numeric(4) NOT NULL,
+	nu_quantity_stock numeric(4),
 	CONSTRAINT pk_order_products PRIMARY KEY (sq_order_products)
 )
 WITH (OIDS=FALSE);
@@ -378,7 +385,27 @@ COMMENT ON COLUMN fulo.order_products.ds_product IS 'description of product';
 COMMENT ON COLUMN fulo.order_products.nu_value IS 'value of product';
 COMMENT ON COLUMN fulo.order_products.nu_quantity IS 'quantity of product';
 COMMENT ON COLUMN fulo.order_products.nu_production IS 'time of production ';
+COMMENT ON COLUMN fulo.order_products.nu_quantity_stock IS 'quantity of products in stock';
 COMMENT ON CONSTRAINT pk_order_products ON fulo.order_products IS 'primary key of products';
+-- object: fulo.paying_company | type: TABLE -- 
+CREATE TABLE fulo.paying_company(
+	sq_paying_company serial NOT NULL,
+	sq_status integer NOT NULL DEFAULT 1,
+	ds_paying_company varchar(100) NOT NULL,
+	CONSTRAINT pk_paying_company PRIMARY KEY (sq_paying_company)
+)
+WITH (OIDS=FALSE);
+
+COMMENT ON TABLE fulo.paying_company IS 'table to identify the intermediary of payment';
+COMMENT ON COLUMN fulo.paying_company.sq_paying_company IS 'identifier of paying company';
+COMMENT ON COLUMN fulo.paying_company.sq_status IS 'status of company';
+COMMENT ON COLUMN fulo.paying_company.ds_paying_company IS 'description of payment company';
+COMMENT ON CONSTRAINT pk_paying_company ON fulo.paying_company IS 'Primary key of table';
+-- object: fk_paying_company_status | type: CONSTRAINT -- 
+ALTER TABLE fulo.paying_company ADD CONSTRAINT fk_paying_company_status FOREIGN KEY (sq_status)
+REFERENCES fulo.status (sq_status) MATCH FULL
+ON DELETE CASCADE ON UPDATE CASCADE NOT DEFERRABLE;
+
 -- object: fk_order_products_product | type: CONSTRAINT -- 
 ALTER TABLE fulo.order_products ADD CONSTRAINT fk_order_products_product FOREIGN KEY (sq_product)
 REFERENCES fulo.product (sq_product) MATCH FULL
@@ -387,6 +414,16 @@ ON DELETE CASCADE ON UPDATE CASCADE NOT DEFERRABLE;
 -- object: fk_order_products_order | type: CONSTRAINT -- 
 ALTER TABLE fulo.order_products ADD CONSTRAINT fk_order_products_order FOREIGN KEY (sq_order)
 REFERENCES fulo.order (sq_order) MATCH FULL
+ON DELETE CASCADE ON UPDATE CASCADE NOT DEFERRABLE;
+
+-- object: fk_order_status | type: CONSTRAINT -- 
+ALTER TABLE fulo.order ADD CONSTRAINT fk_order_status FOREIGN KEY (sq_order)
+REFERENCES fulo.status (sq_status) MATCH FULL
+ON DELETE CASCADE ON UPDATE CASCADE NOT DEFERRABLE;
+
+-- object: fk_order_paying_company | type: CONSTRAINT -- 
+ALTER TABLE fulo.order ADD CONSTRAINT fk_order_paying_company FOREIGN KEY (sq_paying_company)
+REFERENCES fulo.paying_company (sq_paying_company) MATCH FULL
 ON DELETE CASCADE ON UPDATE CASCADE NOT DEFERRABLE;
 
 -- object: fk_order_user | type: CONSTRAINT -- 

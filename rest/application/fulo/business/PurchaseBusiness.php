@@ -524,7 +524,6 @@ class PurchaseBusiness extends MasterBusiness
     			);
 
 		        // save order.
-		        // @TODO injetar o paying company
     			$data->nvp['TOKEN'] = $responseNvp['TOKEN'];
     			$modelPurchase->buy($data);
 
@@ -588,18 +587,19 @@ class PurchaseBusiness extends MasterBusiness
     				if ($data->response['PAYMENTINFO_0_PAYMENTSTATUS'] == 'Completed'){
     					if ($data->response['PAYMENTINFO_0_PENDINGREASON'] == 'None'){
     						// @TODO colocar o status como pago e colocar o payer id.
-    						$this->_purchaseModel->updateOrder($data);
+    						$this->_purchaseModel->updateStatusOrder($data, NUMBER_FOUR);
     					}
 
     					if ($data->response['PAYMENTINFO_0_PENDINGREASON'] == 'Paymentreview'){
 
-    						// @TODO colocar o status como aguardando aprovação de pagamento
+    						$this->_purchaseModel->updateStatusOrder($data, NUMBER_FIVETEEN);
     						// @TODO fazer rotina para chamar o GETTRANSACTIONDETAILS de tempo em tempo para verificar os pagamentos quando forem PAYMENTREVIEW
     					}
     					header('location:http://fulo.local/#/purchase/confirmOrder');
     				}
     			}
-    			header('location:http://fulo.local/#/error/systemError');
+
+    			// header('location:http://fulo.local/#/error/systemError');
     		} else {
 				header('location:http://fulo.local/#/error/systemError');
     		}

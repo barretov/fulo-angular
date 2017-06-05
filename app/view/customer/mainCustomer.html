@@ -38,6 +38,9 @@
 
                     <dt class="text-gray">Valor Total:</dt>
                     <dd>{{order.nu_total | currency}}</dd>
+
+                    <dt class="text-gray">Data:</dt>
+                    <dd>{{order.nu_date_time | dateBr}}</dd>
                 </dl>
             </div>
             <!--second-->
@@ -47,14 +50,12 @@
 
                 <dl class="dl-horizontal">
 
-                    <dt class="text-gray">Endereço:</dt>
-                    <dd class="text-capitalize">{{order.ds_address}}</dd>
-
                     <dt class="text-gray">Telefone:</dt>
                     <dd class="text-capitalize">{{order.nu_phone |tel}}</dd>
 
-                    <dt class="text-gray">Data:</dt>
-                    <dd>{{order.nu_date_time | dateBr}}</dd>
+                    <dt class="text-gray">Endereço:</dt>
+                    <dd class="text-capitalize">{{order.ds_address}}</dd>
+                    <br>
                 </dl>
 
             </div>

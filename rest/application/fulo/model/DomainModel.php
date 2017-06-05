@@ -40,17 +40,17 @@ class DomainModel extends MasterModel {
      */
     public function getProfiles () {
 
-        try {
+    	try {
 
-            $stmt = $this->_conn->prepare("SELECT * FROM fulo.profile");
+    		$stmt = $this->_conn->prepare("SELECT * FROM fulo.profile");
 
-            $stmt->execute();
+    		$stmt->execute();
 
-            return $stmt->fetchAll(PDO::FETCH_OBJ);
-        } catch (Exception $ex) {
+    		return $stmt->fetchAll(PDO::FETCH_OBJ);
+    	} catch (Exception $ex) {
 
-            throw $ex;
-        }
+    		throw $ex;
+    	}
     }
 
     /**
@@ -64,26 +64,26 @@ class DomainModel extends MasterModel {
      */
     public function getAddressByZip ($data) {
 
-        try {
+    	try {
 
-            $stmt = $this->_conn->prepare("SELECT "
-                . "log_logradouro.log_no as logradouro, log_logradouro.log_tipo_logradouro, "
-                . "log_bairro.bai_no as bairro, log_localidade.loc_no as cidade, log_localidade.ufe_sg as uf, "
-                . "log_logradouro.cep "
-                . "FROM cep.log_logradouro,cep.log_localidade, cep.log_bairro "
-                . "WHERE log_logradouro.loc_nu_sequencial = log_localidade.loc_nu_sequencial "
-                . "AND log_logradouro.bai_nu_sequencial_ini = log_bairro.bai_nu_sequencial "
-                . "AND log_logradouro.cep = ?");
+    		$stmt = $this->_conn->prepare("SELECT "
+    		                              . "log_logradouro.log_no as logradouro, log_logradouro.log_tipo_logradouro, "
+    		                              . "log_bairro.bai_no as bairro, log_localidade.loc_no as cidade, log_localidade.ufe_sg as uf, "
+    		                              . "log_logradouro.cep "
+    		                              . "FROM cep.log_logradouro,cep.log_localidade, cep.log_bairro "
+    		                              . "WHERE log_logradouro.loc_nu_sequencial = log_localidade.loc_nu_sequencial "
+    		                              . "AND log_logradouro.bai_nu_sequencial_ini = log_bairro.bai_nu_sequencial "
+    		                              . "AND log_logradouro.cep = ?");
 
-            $stmt->execute([
-                $data->nu_postcode
-            ]);
+    		$stmt->execute([
+    		               $data->nu_postcode
+    		               ]);
 
-            return $stmt->fetchObject();
-        } catch (Exception $ex) {
+    		return $stmt->fetchObject();
+    	} catch (Exception $ex) {
 
-            throw $ex;
-        }
+    		throw $ex;
+    	}
     }
 
     /**
@@ -99,24 +99,24 @@ class DomainModel extends MasterModel {
     //TODO Melhorar, olhando também se o usuário existe no banco.
     public function validateRuleAcl (& $operation, & $data) {
 
-        try {
+    	try {
 
-            $stmt = $this->_conn->prepare("SELECT sq_acl "
-                . "FROM fulo.acl "
-                . "JOIN fulo.operation "
-                . "ON (acl.sq_operation = operation.sq_operation) "
-                . "WHERE operation.ds_operation = ? AND acl.sq_profile = ?");
+    		$stmt = $this->_conn->prepare("SELECT sq_acl "
+    		                              . "FROM fulo.acl "
+    		                              . "JOIN fulo.operation "
+    		                              . "ON (acl.sq_operation = operation.sq_operation) "
+    		                              . "WHERE operation.ds_operation = ? AND acl.sq_profile = ?");
 
-            $stmt->execute([
-                $operation,
-                $data->origin_sq_profile
-            ]);
+    		$stmt->execute([
+    		               $operation,
+    		               $data->origin_sq_profile
+    		               ]);
 
-            return $stmt->fetchAll(PDO::FETCH_OBJ);
-        } catch (Exception $ex) {
+    		return $stmt->fetchAll(PDO::FETCH_OBJ);
+    	} catch (Exception $ex) {
 
-            throw $ex;
-        }
+    		throw $ex;
+    	}
     }
 
 }

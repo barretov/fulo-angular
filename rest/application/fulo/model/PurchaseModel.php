@@ -224,13 +224,15 @@ class PurchaseModel extends MasterModel
             // save order.
     		$stmtOrder = $this->_conn->prepare(
     			'INSERT INTO fulo.order '
-    			.'(sq_user, ds_address, nu_phone, nu_quantity, nu_total, sq_status, nu_date_time, nu_farevalue, sq_payng_company, ds_payment_info) '
+    			.'(sq_user, ds_address, nu_phone, nu_quantity, nu_total, sq_status, nu_date_time, nu_farevalue, sq_paying_company, ds_payment_info) '
     			.'VALUES (?,?,?,?,?,?,?,?,?,?)'
     		);
 
     		$stmtOrder->execute([
     			$data->origin_sq_user,
-    			$data->user->ds_address,
+    			$data->user->ds_address
+    			.', '.$data->user->ds_complement
+    			.'- '.$data->user->ds_city.'- '.$data->user->nu_postcode,
     			$data->user->nu_phone,
     			$data->nu_quantity_buy,
     			$data->nu_total,
@@ -285,8 +287,7 @@ class PurchaseModel extends MasterModel
     			$stock = bcsub($nu_quantity->nu_quantity, $key->nu_quantity_buy);
     			$stock < 0 ? $stock = 0 : '';
 
-    			$stmtRemoveStock->execute(
-    				[
+    			$stmtRemoveStock->execute([
     				$stock,
     				$key->sq_product,
     				]
@@ -332,7 +333,7 @@ class PurchaseModel extends MasterModel
     	}
     }
 
-    public function updateOrder(&$data)
+    public function updateStatusOrder(&$data, $status)
     {
 
     	try {
@@ -345,7 +346,7 @@ class PurchaseModel extends MasterModel
     		);
 
     		$stmt->execute([
-    			NUMBER_FOUR,
+    			$status,
     			$data->response['PAYMENTINFO_0_TRANSACTIONID'],
     			$data->response['TOKEN']
     			]

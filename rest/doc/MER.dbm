@@ -617,7 +617,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="order" oids="false">
 	<schema name="fulo"/>
 	<comment>table of orders</comment>
-	<position x="948.89" y="662.222"/>
+	<position x="913.89" y="707.222"/>
 	<column name="sq_order" not-null="true">
 		<type name="serial" spatial-type="POINT" variation="0"/>
 		<comment>identifier of order</comment>
@@ -626,7 +626,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="integer" spatial-type="POINT" variation="0"/>
 		<comment>idenfier of user</comment>
 	</column>
-	<column name="sq_paying_company">
+	<column name="sq_paying_company" not-null="true">
 		<type name="integer" spatial-type="POINT" variation="0"/>
 		<comment>fk of paying company</comment>
 	</column>
@@ -646,7 +646,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="numeric" length="8" precision="2" spatial-type="POINT" variation="0"/>
 		<comment>fare value of delivery</comment>
 	</column>
-	<column name="st_status" not-null="true" default-value="3">
+	<column name="sq_status" not-null="true" default-value="3">
 		<type name="integer" spatial-type="POINT" variation="0"/>
 		<comment>status of order</comment>
 	</column>
@@ -662,9 +662,9 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="varchar" length="15" spatial-type="POINT" variation="0"/>
 		<comment>track number of order</comment>
 	</column>
-	<column name="ds_payment_transaction">
+	<column name="ds_payment_info">
 		<type name="varchar" length="250" spatial-type="POINT" variation="0"/>
-		<comment>identifier or description of payment company transaction</comment>
+		<comment>identifier or description of payment company info</comment>
 	</column>
 	<constraint name="pk_order" type="pk-constr" factor="10" table="fulo.order">
 		<columns names="sq_order" ref-type="src-columns"/>
@@ -785,7 +785,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="paying_company" oids="false">
 	<schema name="fulo"/>
 	<comment>table to identify the intermediary of payment</comment>
-	<position x="454.667" y="241.778"/>
+	<position x="402.667" y="147.778"/>
 	<column name="sq_paying_company" not-null="true">
 		<type name="serial" spatial-type="POINT" variation="0"/>
 		<comment>identifier of paying company</comment>
@@ -826,6 +826,18 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	 type="relfk"
 	 src-required="false" dst-required="false"
 	 src-table="fulo.paying_company"
+	 dst-table="fulo.status"/>
+
+<constraint name="fk_order_status" type="fk-constr"	 comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="fulo.status" table="fulo.order">
+	<columns names="sq_order" ref-type="src-columns"/>
+	<columns names="sq_status" ref-type="dst-columns"/>
+		<comment>foreign status</comment>
+</constraint>
+<relationship name="rel_order_status"
+	 type="relfk"
+	 src-required="false" dst-required="false"
+	 src-table="fulo.order"
 	 dst-table="fulo.status"/>
 
 </dbmodel>

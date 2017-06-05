@@ -16,7 +16,8 @@ insert into fulo.status (ds_status) values
 ('pedido recebido'),
 ('pedido perdido'),
 ('pedido cancelado'),
-('pedido congelado');
+('pedido congelado'),
+('aguardando aprovação do pagamento');
 
 -- user (adminisrator) password = 1234--
 insert into fulo.person (ds_name, ds_email) values ('adminisrator','admin@admin');
@@ -182,4 +183,7 @@ insert into fulo.acl (sq_operation, sq_profile) values
 -- addTracker
 (38,1);
 
+-- paying company --
+insert into fulo.paying_company (ds_paying_company) values
+('paypal');
 
