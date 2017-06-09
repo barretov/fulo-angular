@@ -83,28 +83,47 @@
             </button>
 
             <button class="btn btn-default btn-sm"
-            ng-show="order.sq_status == constant.NUMBER_FOUR || order.sq_status == constant.NUMBER_NINE"
+            ng-show="order.sq_status == constant.NUMBER_FOUR ||
+            order.sq_status == constant.NUMBER_NINE"
             data-toggle="collapse"
             data-target="#track{{order.sq_order}}"
             >
             Inserir Rastreio
         </button>
 
-        <button class="btn btn-default btn-sm" ng-show="order.sq_status != constant.NUMBER_TEN"
+        <button class="btn btn-default btn-sm"
+        ng-show="order.sq_status != constant.NUMBER_TEN &&
+        order.sq_status != constant.NUMBER_THRETEEN &&
+        order.sq_status != constant.NUMBER_FIVETEEN"
         ng-click="cancelOrder(order.sq_order)">
             Cancelar
         </button>
 
-        <button class="btn btn-default btn-sm" ng-show="order.sq_status != constant.NUMBER_TEN"
+        <!-- TODO: Congelar tem que ter um campo de justificativa -->
+        <button class="btn btn-default btn-sm"
+        ng-show="order.sq_status != constant.NUMBER_FOURTEEN &&
+        order.sq_status == constant.NUMBER_FOUR ||
+        order.sq_status == constant.NUMBER_SIX ||
+        order.sq_status == constant.NUMBER_SEVEN ||
+        order.sq_status == constant.NUMBER_HEIGHT ||
+        order.sq_status == constant.NUMBER_NINE  ||
+        order.sq_status == constant.NUMBER_NINE
+        "
         ng-click="freezeOrder(order.sq_order)">
             Congelar
         </button>
 
-        <button class="btn btn-default btn-sm" ng-show="order.sq_status != constant.NUMBER_FOUR && order.sq_status != constant.NUMBER_TEN">
+        <button class="btn btn-default btn-sm"
+        ng-show="order.sq_status != constant.NUMBER_FOUR &&
+        order.sq_status == constant.NUMBER_THRE ||
+        order.sq_status == constant.NUMBER_FIVETEEN
+        ">
             Verificar Pagamento
         </button>
 
-        <button class="btn btn-default btn-sm" ng-show="order.sq_status == constant.NUMBER_FOUR"
+        <button class="btn btn-default btn-sm"
+        ng-show="order.sq_status != constant.NUMBER_FIVE &&
+        order.sq_status == constant.NUMBER_FOUR"
         ng-click="refundOrder(order.sq_order)">
             Estornar
         </button>

@@ -12,7 +12,7 @@ insert into fulo.status (ds_status) values
 ('produto em produção'),
 ('produto concluído'),
 ('pedido aguardando envio'),
-('pedido enviado'),
+('pedido enviado'), -- TEN
 ('pedido recebido'),
 ('pedido perdido'),
 ('pedido cancelado'),
