@@ -392,24 +392,15 @@ class PurchaseModel extends MasterModel
     	}
     }
 
+    // @todo: arquivo| documentar os metodos
+
     public function cancelOrder(&$data) {
     	try {
     		$this->_conn->beginTransaction();
 
-    		// @verificar se tem estoque para retornar
-    		// select
-    		// retornar o estoque se tiver
-    		// update
-
-    		$stmt = $this->_conn->prepare('UPDATE fulo.order SET '
-    			.'sq_status = ? WHERE sq_order =  ? '
-    		);
-
-    		$stmt->execute([
-    			NUMBER_THRETEEN,
-    			$data->sq_order
-    			]
-    		);
+    		// @TODO: cancelar venda |fazer um select para verificar se tem estoque para retornar
+    		// @TODO: cancelar venda | retornar o estoque se tiver
+    		// @TODO: cancelar venda | chamar a rotina de update order
 
     		$this->saveLog($data->origin_sq_user, $data->sq_order);
     		$return = $this->_conn->commit();
@@ -421,6 +412,11 @@ class PurchaseModel extends MasterModel
     public function refundOrder(&$data) {
     	try {
     		$this->_conn->beginTransaction();
+
+    		// @todo: refund| chamar a rotina de cancelamento
+    		// @todo: refund| rotina paypal para fazer refund
+    		// @todo: refund| rotina paypal para receber a resposta
+    		// @todo: refund| chamar a rotina de update
 
     		$stmt = $this->_conn->prepare('UPDATE fulo.order SET '
     			.'sq_status = ? WHERE sq_order =  ? '

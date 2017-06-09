@@ -64,7 +64,10 @@ insert into fulo.operation (ds_operation) values
 ('getProductsOrder'),
 ('tracker'),
 ('paypalResponse'),
-('addTracker');
+('addTracker'),
+('freezeOrder'),
+('cancelOrder'),
+('refundOrder');
 
 -- acl --
 insert into fulo.acl (sq_operation, sq_profile) values
@@ -181,7 +184,16 @@ insert into fulo.acl (sq_operation, sq_profile) values
 (37,3),
 
 -- addTracker
-(38,1);
+(38,1),
+
+-- freezeOrder
+(39,1),
+
+-- cancelOrder
+(40,1),
+
+-- refundOrder
+(41,1);
 
 -- paying company --
 insert into fulo.paying_company (ds_paying_company) values

@@ -577,12 +577,15 @@
  	 * @author Victor Eduardo Barreto
  	 * @return {bool} Result of request
  	 */
- 	$scope.freezeOrder = function(sq_order) {
+ 	$scope.freezeOrder = function($sq_order) {
 
- 		$param = $scope.configParam(sq_order);
+ 		$param = $scope.configParam({sq_order: $sq_order});
 
  		$http.post($scope.server("/freezeOrder"), $param).success(function ($return) {
  		    $services.checkResponse($return);
+
+ 		    // @todo: arrumar isso aqui
+ 		    $scope.orders[$sq_order].sq_status = $scope.constant.NUMBER_FOURTEEN;
  	        $services.showFlashmessage('alert-success', $scope.constant.MSG0001);
  		});
  	}
